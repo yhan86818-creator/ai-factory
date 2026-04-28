@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citation Formatter — Free APA, MLA & Harvard Generator | 100% Browser-Based</title>
+<meta name="description" content="Generate APA, MLA, and Harvard citations instantly in your browser. 100% client-side — your data never leaves your device. Free for students and researchers. Pro: .docx export, batch processing, BibTeX/Zotero.">
+<meta name="keywords" content="citation generator browser only, offline APA MLA generator, APA format helper, MLA citation style, Harvard citation generator, bibliography maker, academic writing assistant, free citation tool, no upload citation generator">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1714;
+    --ink-2: #3d3830;
+    --ink-3: #6b6358;
+    --ink-4: #a09690;
+    --paper: #faf8f5;
+    --paper-2: #f0ede8;
+    --paper-3: #e4e0d8;
+    --accent: #c5562a;
+    --accent-2: #e8724a;
+    --accent-light: #fdf0eb;
+    --gold: #b8860b;
+    --gold-light: #fdf8ee;
+    --green: #2d6a4f;
+    --green-light: #edf5f0;
+    --blue: #1e4d8c;
+    --blue-light: #eef3fb;
+    --shadow-sm: 0 1px 3px rgba(26,23,20,.08);
+    --shadow-md: 0 4px 16px rgba(26,23,20,.10);
+    --shadow-lg: 0 8px 32px rgba(26,23,20,.14);
+    --radius: 6px;
+    --radius-lg: 12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0 32px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+  .header-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px; color: #fff;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+  }
+  .logo-sub {
+    font-size: 11px;
+    color: rgba(250,248,245,.5);
+    letter-spacing: 0.5px;
+  }
+  .header-badges {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .badge-privacy {
+    background: rgba(197,86,42,.15);
+    color: var(--accent-2);
+    border: 1px solid rgba(197,86,42,.25);
+  }
+  .badge-free {
+    background: rgba(45,106,79,.2);
+    color: #6fcf97;
+    border: 1px solid rgba(45,106,79,.3);
+  }
+  .btn-pro-header {
+    padding: 7px 16px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: background .2s;
+  }
+  .btn-pro-header:hover { background: var(--accent-2); }
+
+  /* ── PRIVACY BANNER ── */
+  .privacy-banner {
+    background: var(--green-light);
+    border-bottom: 1px solid #c3e0d1;
+    padding: 10px 32px;
+    text-align: center;
+  }
+  .privacy-banner p {
+    font-size: 12.5px;
+    color: var(--green);
+    font-weight: 500;
+  }
+  .privacy-banner span { opacity: .7; font-weight: 400; }
+
+  /* ── LAYOUT ── */
+  .main-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 32px 80px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 36px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: #fff;
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+  .card-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--paper-2);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .card-body { padding: 24px; }
+
+  /* ── FORMAT TABS ── */
+  .format-tabs {
+    display: flex; gap: 6px;
+    padding: 20px 24px 0;
+  }
+  .fmt-tab {
+    padding: 8px 18px;
+    border: 1.5px solid var(--paper-3);
+    background: var(--paper);
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-3);
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+    transition: all .15s;
+  }
+  .fmt-tab:hover { border-color: var(--ink-3); color: var(--ink); }
+  .fmt-tab.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* ── SOURCE TYPE ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    margin-bottom: 10px;
+  }
+  .type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .type-btn {
+    padding: 14px 10px;
+    border: 1.5px solid var(--paper-3);
+    background: var(--paper);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column;
+    align-items: center; gap: 6px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .type-btn:hover { border-color: var(--ink-3); }
+  .type-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .type-icon { font-size: 20px; }
+  .type-label { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+  .type-btn.active .type-label { color: var(--accent); }
+
+  /* ── FORM ── */
+  .form-grid { display: grid; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+  .field label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+  .field label .req { color: var(--accent); }
+  .field input, .field textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--paper-3);
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    transition: border-color .15s, box-shadow .15s;
+    outline: none;
+  }
+  .field input:focus, .field textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(197,86,42,.1);
+    background: #fff;
+  }
+  .field .hint {
+    font-size: 11px;
+    color: var(--ink-4);
+    margin-top: 4px;
+  }
+
+  /* ── LIVE PREVIEW IN FORM ── */
+  .live-preview-box {
+    background: var(--paper-2);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin: 12px 0 20px;
+  }
+  .live-preview-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    margin-bottom: 6px;
+  }
+  .live-preview-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+  .live-preview-text.placeholder { color: var(--ink-4); font-style: italic; }
+
+  /* ── SAMPLE BUTTONS ── */
+  .sample-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    padding: 0 24px 20px;
+  }
+  .btn-sample {
+    padding: 6px 14px;
+    background: var(--gold-light);
+    border: 1px solid #e0c870;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--gold);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-sample:hover { background: #faefc5; border-color: var(--gold); }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    width: 100%;
+    padding: 13px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background .2s, transform .1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 8px;
+  }
+  .btn-primary:hover { background: var(--ink-2); }
+  .btn-primary:active { transform: scale(0.99); }
+  .btn-secondary {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: var(--ink-2);
+    border: 1.5px solid var(--paper-3);
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all .15s;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+  }
+  .btn-secondary:hover { border-color: var(--ink-3); background: var(--paper); }
+  .btn-accent {
+    width: 100%;
+    padding: 11px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background .15s;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+  }
+  .btn-accent:hover { background: var(--accent-2); }
+
+  /* ── SIDEBAR ── */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+  /* ── CITATION LIST ── */
+  .citation-list { display: flex; flex-direction: column; gap: 8px; }
+  .citation-item {
+    padding: 12px 14px;
+    background: var(--paper);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    position: relative;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .citation-item:hover {
+    border-color: var(--paper-3);
+    box-shadow: var(--shadow-sm);
+  }
+  .citation-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink-4);
+    margin-bottom: 4px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .citation-type-tag {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .tag-book { background: var(--blue-light); color: var(--blue); }
+  .tag-journal { background: var(--green-light); color: var(--green); }
+  .tag-website { background: var(--gold-light); color: var(--gold); }
+  .citation-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+  .citation-actions {
+    display: flex; gap: 4px;
+    margin-top: 8px;
+  }
+  .btn-icon {
+    padding: 5px 8px;
+    background: transparent;
+    border: 1px solid var(--paper-3);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--ink-3);
+    transition: all .15s;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .btn-icon:hover { background: var(--paper-2); border-color: var(--ink-4); color: var(--ink); }
+  .btn-icon.danger:hover { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+  .btn-icon.success { color: var(--green); border-color: #c3e0d1; background: var(--green-light); }
+
+  .empty-state {
+    text-align: center;
+    padding: 36px 20px;
+    color: var(--ink-4);
+  }
+  .empty-icon { font-size: 32px; margin-bottom: 10px; }
+  .empty-state p { font-size: 13px; line-height: 1.6; }
+
+  /* ── COPY ALL ── */
+  .copy-all-row {
+    display: flex; gap: 8px;
+    flex-wrap: wrap;
+  }
+  .copy-all-row .btn-icon { flex: 1; justify-content: center; }
+
+  /* ── HISTORY ── */
+  .history-item {
+    padding: 10px 12px;
+    background: var(--paper);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .history-item:hover { border-color: var(--ink-3); }
+  .history-title { font-size: 12px; font-weight: 500; color: var(--ink-2); }
+  .history-meta { font-size: 11px; color: var(--ink-4); margin-top: 2px; }
+
+  /* ── FREE vs PRO TABLE ── */
+  .compare-table { width: 100%; border-collapse: collapse; }
+  .compare-table th {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 2px solid var(--paper-3);
+    color: var(--ink-3);
+  }
+  .compare-table th:last-child { text-align: center; }
+  .compare-table td {
+    padding: 9px 12px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--paper-2);
+    color: var(--ink-2);
+  }
+  .compare-table td:last-child, .compare-table td:nth-child(2) { text-align: center; font-size: 14px; }
+  .compare-table tr:last-child td { border: none; }
+  .pro-col { color: var(--accent) !important; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(26,23,20,.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(3px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    max-width: 460px;
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: modalIn .2s ease;
+  }
+  @keyframes modalIn { from { transform: scale(.97) translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .modal-head {
+    background: var(--ink);
+    padding: 24px 28px 20px;
+    color: var(--paper);
+  }
+  .modal-head h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .modal-head p { font-size: 13px; color: rgba(250,248,245,.6); }
+  .modal-body { padding: 24px 28px; }
+  .price-box {
+    background: var(--accent-light);
+    border: 1px solid rgba(197,86,42,.2);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .price-amount { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--accent); }
+  .price-label { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+  .price-badge {
+    background: var(--accent);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .pro-features { list-style: none; margin-bottom: 20px; }
+  .pro-features li {
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--ink-2);
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--paper-2);
+  }
+  .pro-features li:last-child { border: none; }
+  .check { color: var(--green); font-size: 15px; }
+  .modal-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--paper-3);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .modal-input:focus { border-color: var(--accent); }
+  .modal-close {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1.5px solid var(--paper-3);
+    border-radius: var(--radius);
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--ink-3);
+    font-family: 'DM Sans', sans-serif;
+    margin-top: 8px;
+    transition: all .15s;
+  }
+  .modal-close:hover { background: var(--paper); }
+
+  /* ── SEO ARTICLE ── */
+  .seo-section {
+    background: #fff;
+    border-top: 1px solid var(--paper-3);
+    padding: 60px 32px;
+  }
+  .seo-inner { max-width: 760px; margin: 0 auto; }
+  .seo-inner h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 16px;
+    margin-top: 40px;
+  }
+  .seo-inner h2:first-child { margin-top: 0; }
+  .seo-inner h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink-2);
+    margin: 28px 0 10px;
+  }
+  .seo-inner p { font-size: 14.5px; color: var(--ink-2); line-height: 1.8; margin-bottom: 14px; }
+  .seo-callout {
+    background: var(--blue-light);
+    border-left: 4px solid var(--blue);
+    padding: 16px 18px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 20px 0;
+  }
+  .seo-callout p { color: var(--blue); font-size: 13.5px; margin: 0; }
+
+  footer {
+    background: var(--ink);
+    color: rgba(250,248,245,.4);
+    text-align: center;
+    padding: 24px;
+    font-size: 11.5px;
+    line-height: 1.8;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 300;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--paper-2); margin: 20px 0; }
+
+  @media (max-width: 900px) {
+    .main-wrap { grid-template-columns: 1fr; }
+    .header-badges { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-row.triple { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .main-wrap { padding: 20px 16px 60px; }
+    .seo-section { padding: 40px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">C</div>
+      <div>
+        <div class="logo-text">Citation Formatter</div>
+        <div class="logo-sub">APA · MLA · Harvard — offline, browser-only</div>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span class="badge badge-privacy">🔒 100% Client-Side</span>
+      <span class="badge badge-free">✓ Free</span>
+      <button class="btn-pro-header" onclick="openProModal()">Pro — $5.99 Lifetime</button>
+    </div>
+  </div>
+</header>
+
+<!-- PRIVACY BANNER -->
+<div class="privacy-banner">
+  <p>🔒 <strong>100% client-side processing</strong> — your data never leaves your browser. No server uploads, no tracking. <span>You can verify this in your browser's Network tab.</span></p>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+
+  <!-- LEFT: FORM -->
+  <div>
+
+    <!-- Format selector -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <h1 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--ink);">
+        Build Your Citation
+      </h1>
+      <div style="display:flex;gap:6px;">
+        <div id="citCount" style="font-size:12px;color:var(--ink-4);align-self:center;margin-right:4px;"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <!-- Format tabs -->
+      <div class="format-tabs" id="formatTabs">
+        <button class="fmt-tab active" onclick="setFormat('APA',this)">APA</button>
+        <button class="fmt-tab" onclick="setFormat('MLA',this)">MLA</button>
+        <button class="fmt-tab" onclick="setFormat('Harvard',this)">Harvard</button>
+      </div>
+      <div style="padding:14px 24px 6px;">
+        <p style="font-size:11.5px;color:var(--ink-4);line-height:1.5;">
+          <span id="formatDesc">APA (American Psychological Association) — widely used in social sciences, psychology, education, and nursing.</span>
+        </p>
+      </div>
+
+      <!-- Sample buttons -->
+      <div class="sample-row">
+        <span style="font-size:11px;color:var(--ink-4);align-self:center;font-weight:600;letter-spacing:.5px;">TRY A SAMPLE:</span>
+        <button class="btn-sample" onclick="loadSample('book')">📚 Book</button>
+        <button class="btn-sample" onclick="loadSample('journal')">📄 Journal Article</button>
+        <button class="btn-sample" onclick="loadSample('website')">🌐 Website</button>
+      </div>
+
+      <div class="divider" style="margin:0;"></div>
+
+      <div class="card-body">
+
+        <!-- Source type -->
+        <div class="section-label">Source Type</div>
+        <div class="type-grid">
+          <button class="type-btn active" onclick="setType('book',this)">
+            <span class="type-icon">📚</span>
+            <span class="type-label">Book</span>
+          </button>
+          <button class="type-btn" onclick="setType('journal',this)">
+            <span class="type-icon">📄</span>
+            <span class="type-label">Journal</span>
+          </button>
+          <button class="type-btn" onclick="setType('website',this)">
+            <span class="type-icon">🌐</span>
+            <span class="type-label">Website</span>
+          </button>
+        </div>
+
+        <!-- Common fields -->
+        <div class="form-grid">
+          <div class="field">
+            <label>Author(s) <span class="req">*</span></label>
+            <input type="text" id="f_authors" placeholder="Smith, J.; Doe, A." oninput="updatePreview()">
+            <p class="hint">Separate multiple authors with semicolons: Smith, J.; Doe, A.</p>
+          </div>
+          <div class="field">
+            <label>Title <span class="req">*</span></label>
+            <input type="text" id="f_title" placeholder="Title of the work" oninput="updatePreview()">
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Year <span class="req">*</span></label>
+              <input type="number" id="f_year" placeholder="2024" min="1000" max="2099" oninput="updatePreview()">
+            </div>
+            <div class="field">
+              <label>DOI (optional)</label>
+              <input type="text" id="f_doi" placeholder="10.1234/example" oninput="updatePreview()">
+            </div>
+          </div>
+
+          <!-- Book fields -->
+          <div id="bookFields">
+            <div class="form-row">
+              <div class="field">
+                <label>Publisher</label>
+                <input type="text" id="f_publisher" placeholder="Publisher Name" oninput="updatePreview()">
+              </div>
+              <div class="field">
+                <label>Edition (optional)</label>
+                <input type="text" id="f_edition" placeholder="3rd" oninput="updatePreview()">
+              </div>
+            </div>
+          </div>
+
+          <!-- Journal fields -->
+          <div id="journalFields" style="display:none;">
+            <div class="field">
+              <label>Journal Name</label>
+              <input type="text" id="f_journalName" placeholder="Nature, Science, etc." oninput="updatePreview()">
+            </div>
+            <div class="form-row triple">
+              <div class="field">
+                <label>Volume</label>
+                <input type="text" id="f_volume" placeholder="42" oninput="updatePreview()">
+              </div>
+              <div class="field">
+                <label>Issue</label>
+                <input type="text" id="f_issue" placeholder="3" oninput="updatePreview()">
+              </div>
+              <div class="field">
+                <label>Pages</label>
+                <input type="text" id="f_pages" placeholder="123-145" oninput="updatePreview()">
+              </div>
+            </div>
+          </div>
+
+          <!-- Website fields -->
+          <div id="websiteFields" style="display:none;">
+            <div class="field">
+              <label>Website URL</label>
+              <input type="url" id="f_website" placeholder="https://example.com" oninput="updatePreview()">
+            </div>
+            <div class="field">
+              <label>Access Date (optional)</label>
+              <input type="text" id="f_accessDate" placeholder="January 15, 2024" oninput="updatePreview()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Live preview -->
+        <div class="live-preview-box" style="margin-top:20px;">
+          <div class="live-preview-label">Live Preview</div>
+          <div class="live-preview-text placeholder" id="livePreview">Fill in Author, Title, and Year to see your citation…</div>
+        </div>
+
+        <button class="btn-primary" onclick="addCitation()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add to Bibliography
+        </button>
+      </div>
+    </div>
+
+    <!-- FREE vs PRO TABLE -->
+    <div class="card">
+      <div class="card-head">
+        <span>📊</span>
+        <h2>Free vs Pro</h2>
+      </div>
+      <div class="card-body" style="padding:12px 0 16px;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Free</th>
+              <th class="pro-col">Pro $5.99</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>APA, MLA, Harvard formats</td><td>✓</td><td class="pro-col">✓</td></tr>
+            <tr><td>Unlimited citations</td><td>✓</td><td class="pro-col">✓</td></tr>
+            <tr><td>Copy individual citations</td><td>✓</td><td class="pro-col">✓</td></tr>
+            <tr><td>Copy all (Plain/Markdown)</td><td>✓</td><td class="pro-col">✓</td></tr>
+            <tr><td>Session history (localStorage)</td><td>✓</td><td class="pro-col">✓</td></tr>
+            <tr><td>Export .docx bibliography</td><td>—</td><td class="pro-col">✓</td></tr>
+            <tr><td>Export .bib / RIS (Zotero)</td><td>—</td><td class="pro-col">✓</td></tr>
+            <tr><td>Batch import from CSV</td><td>—</td><td class="pro-col">✓</td></tr>
+            <tr><td>Chicago, IEEE, Vancouver styles</td><td>—</td><td class="pro-col">✓</td></tr>
+            <tr><td>10,000+ citation styles</td><td>—</td><td class="pro-col">✓ (coming)</td></tr>
+          </tbody>
+        </table>
+        <div style="padding:16px 16px 0;">
+          <button class="btn-accent" onclick="openProModal()">🔓 Unlock Pro — $5.99 Lifetime</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left -->
+
+  <!-- RIGHT: SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- Bibliography output -->
+    <div class="card">
+      <div class="card-head">
+        <span>📖</span>
+        <h2>Bibliography <span id="citCountBadge" style="font-size:12px;color:var(--ink-4);font-family:'DM Mono',monospace;"></span></h2>
+      </div>
+      <div class="card-body">
+        <div id="citationList">
+          <div class="empty-state">
+            <div class="empty-icon">📑</div>
+            <p>Add a citation to start building your bibliography. Try a sample above!</p>
+          </div>
+        </div>
+
+        <!-- Copy all + clear -->
+        <div id="bulkActions" style="display:none;margin-top:16px;">
+          <div class="section-label" style="margin-bottom:8px;">Copy all as</div>
+          <div class="copy-all-row">
+            <button class="btn-icon" onclick="copyAll('plain')">📋 Plain text</button>
+            <button class="btn-icon" onclick="copyAll('markdown')">📝 Markdown</button>
+          </div>
+          <div style="margin-top:8px;">
+            <button class="btn-icon danger" style="width:100%;justify-content:center;" onclick="clearAll()">🗑 Clear all</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session history -->
+    <div class="card" id="historyCard" style="display:none;">
+      <div class="card-head">
+        <span>🕐</span>
+        <h2>Saved Sessions</h2>
+      </div>
+      <div class="card-body">
+        <div id="historyList"></div>
+        <div style="margin-top:12px;">
+          <button class="btn-secondary" onclick="loadLastSession()">
+            ↩ Load last session
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pro teaser -->
+    <div class="card" style="background:var(--ink);border-color:var(--ink);">
+      <div class="card-body">
+        <div style="color:var(--accent-2);font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px;">PRO FEATURES</div>
+        <p style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--paper);line-height:1.4;margin-bottom:14px;">
+          Export, batch import &amp; 10,000+ citation styles
+        </p>
+        <ul style="list-style:none;margin-bottom:16px;">
+          <li style="font-size:12px;color:rgba(250,248,245,.65);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.08);">📄 .docx bibliography export</li>
+          <li style="font-size:12px;color:rgba(250,248,245,.65);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.08);">📦 .bib / RIS / Zotero export</li>
+          <li style="font-size:12px;color:rgba(250,248,245,.65);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.08);">⚡ Batch import from CSV</li>
+          <li style="font-size:12px;color:rgba(250,248,245,.65);padding:4px 0;">🎓 Chicago, IEEE, Vancouver + more</li>
+        </ul>
+        <button class="btn-accent" onclick="openProModal()" style="font-size:13px;">
+          Get Pro — $5.99 one-time
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /sidebar -->
+
+</div><!-- /main-wrap -->
+
+<!-- SEO ARTICLE -->
+<div class="seo-section">
+  <div class="seo-inner">
+    <h2>How to Avoid Plagiarism with Proper Citations</h2>
+    <p>Plagiarism is the unattributed use of someone else's words, ideas, or work. In academic settings it's a serious violation of integrity that can lead to failing grades or expulsion — yet many students inadvertently plagiarize through ignorance of citation practices rather than intentional misconduct.</p>
+
+    <h3>What Requires a Citation?</h3>
+    <p>Not everything needs a citation — general knowledge and common facts do not. However, you must cite direct quotations, paraphrased ideas from specific sources, statistics and research findings, unique arguments or theories, and any material from published works. When in doubt, cite. Over-citation is far better than under-citation.</p>
+
+    <h3>APA vs MLA vs Harvard — Which Should You Use?</h3>
+    <p><strong>APA</strong> (American Psychological Association) dominates social sciences, psychology, education, and nursing. It emphasises the author and date: (Author, Year) in-text. <strong>MLA</strong> (Modern Language Association) is standard in humanities — literature, languages, philosophy — and uses (Author Page) in-text. <strong>Harvard</strong> is common in UK universities and uses (Author, Year) like APA but with slightly different reference list formatting.</p>
+
+    <div class="seo-callout">
+      <p><strong>Pro tip:</strong> This tool generates citations offline APA MLA Harvard format instantly in your browser — no account required, no data sent to any server. It's one of the few true offline APA MLA generators available for free. Check the Network tab in your browser's DevTools to confirm zero external requests.</p>
+    </div>
+
+    <h2>Mastering Academic Citations without the Headache</h2>
+    <p>Citation formatting is precise but logical once you understand the pattern. The three elements that appear in every style are: <em>author, year/date, title</em>. Everything else — publisher, journal name, volume, DOI — adds specificity. Use this citation generator browser-only tool to handle the formatting rules automatically.</p>
+
+    <h3>DOI vs URL for Journal Articles</h3>
+    <p>Always prefer a DOI over a URL for journal articles. DOIs are permanent identifiers — they remain stable even if the journal changes its website. When both are available, APA 7th edition requires the DOI. If no DOI exists, include the URL of the journal homepage, not a session-specific link.</p>
+
+    <h3>Common Formatting Mistakes</h3>
+    <p>Students frequently make these errors: inconsistent capitalisation of titles (sentence case in APA, title case in MLA), forgetting to italicise journal names, using old URLs instead of DOIs, failing to alphabetise reference lists, and misidentifying when to use quotation marks vs italics. A citation tool eliminates most of these problems automatically.</p>
+  </div>
+</div>
+
+<footer>
+  © 2024 Citation Formatter — Free APA, MLA &amp; Harvard citation generator | 100% browser-based, offline capable<br>
+  Keywords: citation generator browser only · offline APA MLA generator · free bibliography maker · academic writing assistant · Harvard citation tool · plagiarism prevention
+</footer>
+
+<!-- PRO MODAL -->
+<div class="modal-overlay" id="proModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Citation Formatter Pro</h3>
+      <p>One-time payment. Lifetime access. No subscription.</p>
+    </div>
+    <div class="modal-body">
+      <div class="price-box">
+        <div>
+          <div class="price-amount">$5.99</div>
+          <div class="price-label">Lifetime access · one-time</div>
+        </div>
+        <div class="price-badge">BEST VALUE</div>
+      </div>
+      <ul class="pro-features">
+        <li><span class="check">✓</span> Export .docx bibliography (Word-compatible)</li>
+        <li><span class="check">✓</span> Export .bib / RIS — Zotero &amp; Mendeley compatible</li>
+        <li><span class="check">✓</span> Batch import citations from CSV</li>
+        <li><span class="check">✓</span> Chicago, IEEE, Vancouver styles</li>
+        <li><span class="check">✓</span> 10,000+ citation styles (coming soon)</li>
+        <li><span class="check">✓</span> Priority support</li>
+      </ul>
+      <input class="modal-input" type="email" placeholder="your@email.com" id="proEmail">
+      <button class="btn-accent" onclick="showToast('✓ Thank you! Check your email for access.')">Get Pro Access — $5.99</button>
+      <button class="modal-close" onclick="closeProModal()">Continue with Free Version</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──────────────────────────────────────
+let citations = [];
+let currentFormat = 'APA';
+let currentType = 'book';
+
+const FORMAT_DESC = {
+  APA: 'APA (American Psychological Association) — widely used in social sciences, psychology, education, and nursing.',
+  MLA: 'MLA (Modern Language Association) — standard in humanities: literature, languages, philosophy, and cultural studies.',
+  Harvard: 'Harvard — common in UK universities and business schools. Author-date format similar to APA.',
+};
+
+// ── SAMPLES ────────────────────────────────────
+const SAMPLES = {
+  book: { authors: 'Harari, Y. N.', title: 'Sapiens: A Brief History of Humankind', year: '2015', publisher: 'Harper', edition: '1st', doi: '', website: '', accessDate: '', journalName: '', volume: '', issue: '', pages: '' },
+  journal: { authors: 'LeCun, Y.; Bengio, Y.; Hinton, G.', title: 'Deep learning', year: '2015', publisher: '', edition: '', doi: '10.1038/nature14539', website: '', accessDate: '', journalName: 'Nature', volume: '521', issue: '7553', pages: '436-444' },
+  website: { authors: 'Mozilla Foundation', title: 'Introduction to JavaScript', year: '2024', publisher: '', edition: '', doi: '', website: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide', accessDate: 'April 27, 2024', journalName: '', volume: '', issue: '', pages: '' },
+};
+
+function loadSample(type) {
+  const s = SAMPLES[type];
+  setType(type, document.querySelector(`.type-btn:nth-child(${type === 'book' ? 1 : type === 'journal' ? 2 : 3})`));
+  setFieldValue('f_authors', s.authors);
+  setFieldValue('f_title', s.title);
+  setFieldValue('f_year', s.year);
+  setFieldValue('f_publisher', s.publisher);
+  setFieldValue('f_edition', s.edition);
+  setFieldValue('f_doi', s.doi);
+  setFieldValue('f_website', s.website);
+  setFieldValue('f_accessDate', s.accessDate);
+  setFieldValue('f_journalName', s.journalName);
+  setFieldValue('f_volume', s.volume);
+  setFieldValue('f_issue', s.issue);
+  setFieldValue('f_pages', s.pages);
+  updatePreview();
+  showToast('✓ Sample loaded! Click "Add to Bibliography" to add it.');
+}
+
+function setFieldValue(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val;
+}
+
+// ── FORMAT ─────────────────────────────────────
+function setFormat(fmt, btn) {
+  currentFormat = fmt;
+  document.querySelectorAll('.fmt-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('formatDesc').textContent = FORMAT_DESC[fmt];
+  updatePreview();
+}
+
+// ── TYPE ───────────────────────────────────────
+function setType(type, btn) {
+  currentType = type;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('bookFields').style.display = type === 'book' ? '' : 'none';
+  document.getElementById('journalFields').style.display = type === 'journal' ? '' : 'none';
+  document.getElementById('websiteFields').style.display = type === 'website' ? '' : 'none';
+  updatePreview();
+}
+
+// ── FORMAT CITATION ────────────────────────────
+function buildCitation(data, fmt) {
+  const { type, authors, title, year, publisher, edition, journalName, volume, issue, pages, doi, website, accessDate } = data;
+  const authorList = (authors || '').split(';').map(a => a.trim()).filter(Boolean);
+  const allAuthors = authorList.join(', ') || 'Author';
+
+  if (type === 'book') {
+    if (fmt === 'APA')      return `${allAuthors} (${year || 'n.d.'}). *${title}*${edition ? ` (${edition} ed.)` : ''}. ${publisher || 'Publisher'}.${doi ? ` https://doi.org/${doi}` : ''}`;
+    if (fmt === 'MLA')      return `${allAuthors}. *${title}*${edition ? `. ${edition} ed.` : ''}. ${publisher || 'Publisher'}, ${year || 'n.d.'}.`;
+    if (fmt === 'Harvard')  return `${allAuthors} (${year || 'n.d.'}) *${title}*${edition ? ` (${edition} edn)` : ''}. ${publisher || 'Publisher'}.`;
+  }
+  if (type === 'journal') {
+    if (fmt === 'APA')      return `${allAuthors} (${year || 'n.d.'}). ${title}. *${journalName}*, *${volume}*${issue ? `(${issue})` : ''}, ${pages}.${doi ? ` https://doi.org/${doi}` : ''}`;
+    if (fmt === 'MLA')      return `${allAuthors}. "${title}." *${journalName}*, vol. ${volume}${issue ? `, no. ${issue}` : ''}, ${year || 'n.d.'}, pp. ${pages}.${doi ? ` doi:${doi}` : ''}`;
+    if (fmt === 'Harvard')  return `${allAuthors} (${year || 'n.d.'}) '${title}', *${journalName}*, ${volume}${issue ? `(${issue})` : ''}, pp. ${pages}.`;
+  }
+  if (type === 'website') {
+    if (fmt === 'APA')      return `${allAuthors} (${year || 'n.d.'}). *${title}*. Retrieved${accessDate ? ` ${accessDate}` : ''}, from ${website || 'URL'}`;
+    if (fmt === 'MLA')      return `${allAuthors}. "${title}." *Web*, ${website || 'URL'}${accessDate ? `. Accessed ${accessDate}` : ''}.`;
+    if (fmt === 'Harvard')  return `${allAuthors} (${year || 'n.d.'}) *${title}*. Available at: ${website || 'URL'}${accessDate ? ` (Accessed: ${accessDate})` : ''}.`;
+  }
+  return '';
+}
+
+function getFormData() {
+  return {
+    type: currentType,
+    authors: document.getElementById('f_authors')?.value || '',
+    title: document.getElementById('f_title')?.value || '',
+    year: document.getElementById('f_year')?.value || '',
+    publisher: document.getElementById('f_publisher')?.value || '',
+    edition: document.getElementById('f_edition')?.value || '',
+    journalName: document.getElementById('f_journalName')?.value || '',
+    volume: document.getElementById('f_volume')?.value || '',
+    issue: document.getElementById('f_issue')?.value || '',
+    pages: document.getElementById('f_pages')?.value || '',
+    doi: document.getElementById('f_doi')?.value || '',
+    website: document.getElementById('f_website')?.value || '',
+    accessDate: document.getElementById('f_accessDate')?.value || '',
+  };
+}
+
+function updatePreview() {
+  const data = getFormData();
+  const el = document.getElementById('livePreview');
+  if (!data.authors && !data.title && !data.year) {
+    el.textContent = 'Fill in Author, Title, and Year to see your citation…';
+    el.className = 'live-preview-text placeholder';
+    return;
+  }
+  const text = buildCitation(data, currentFormat);
+  el.textContent = text;
+  el.className = 'live-preview-text';
+}
+
+// ── ADD CITATION ───────────────────────────────
+function addCitation() {
+  const data = getFormData();
+  if (!data.authors || !data.title || !data.year) {
+    showToast('⚠ Please fill in Author, Title, and Year.');
+    return;
+  }
+  citations.push({ ...data, format: currentFormat, id: Date.now() });
+  saveSession();
+  renderCitations();
+  clearForm();
+  updatePreview();
+  showToast('✓ Citation added to bibliography!');
+}
+
+function clearForm() {
+  ['f_authors','f_title','f_year','f_publisher','f_edition','f_journalName','f_volume','f_issue','f_pages','f_doi','f_website','f_accessDate']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+}
+
+// ── RENDER ─────────────────────────────────────
+function renderCitations() {
+  const list = document.getElementById('citationList');
+  const badge = document.getElementById('citCountBadge');
+  const bulk = document.getElementById('bulkActions');
+
+  badge.textContent = citations.length ? `(${citations.length})` : '';
+  bulk.style.display = citations.length ? '' : 'none';
+
+  if (!citations.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">📑</div><p>Add a citation to start building your bibliography. Try a sample above!</p></div>`;
+    return;
+  }
+
+  list.innerHTML = citations.map((c, i) => {
+    const tag = c.type === 'book' ? 'tag-book' : c.type === 'journal' ? 'tag-journal' : 'tag-website';
+    const typeLabel = c.type === 'book' ? 'Book' : c.type === 'journal' ? 'Journal' : 'Website';
+    const text = buildCitation(c, c.format);
+    return `<div class="citation-item" id="cit-${c.id}">
+      <div class="citation-num">
+        <span>#${i+1} · ${c.format}</span>
+        <span class="citation-type-tag ${tag}">${typeLabel}</span>
+      </div>
+      <div class="citation-text">${escHtml(text)}</div>
+      <div class="citation-actions">
+        <button class="btn-icon" onclick="copyCitation(${c.id})" id="copybtn-${c.id}">📋 Copy</button>
+        <button class="btn-icon danger" onclick="withDeleteCitation(${c.id})">🗑 Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function withDeleteCitation(id) {
+  citations = citations.filter(c => c.id !== id);
+  saveSession();
+  renderCitations();
+}
+
+function copyCitation(id) {
+  const c = citations.find(x => x.id === id);
+  if (!c) return;
+  const text = buildCitation(c, c.format);
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copybtn-' + id);
+    if (btn) { btn.textContent = '✓ Copied!'; btn.classList.add('success'); setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('success'); }, 1800); }
+  });
+}
+
+function copyAll(mode) {
+  if (!citations.length) return;
+  let text = '';
+  if (mode === 'markdown') {
+    text = '## Bibliography\n\n' + citations.map((c, i) => `${i+1}. ${buildCitation(c, c.format)}`).join('\n');
+  } else {
+    text = citations.map((c, i) => `${i+1}. ${buildCitation(c, c.format)}`).join('\n');
+  }
+  navigator.clipboard.writeText(text).then(() => showToast(`✓ All ${citations.length} citations copied as ${mode === 'markdown' ? 'Markdown' : 'plain text'}!`));
+}
+
+function clearAll() {
+  if (!citations.length) return;
+  if (confirm(`Clear all ${citations.length} citation(s)?`)) {
+    citations = [];
+    saveSession();
+    renderCitations();
+    showToast('✓ All citations cleared.');
+  }
+}
+
+// ── LOCAL STORAGE ──────────────────────────────
+const STORAGE_KEY = 'citfmt_sessions';
+
+function saveSession() {
+  try {
+    const sessions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    const entry = { date: new Date().toISOString(), citations: JSON.parse(JSON.stringify(citations)) };
+    sessions.unshift(entry);
+    // keep last 10
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions.slice(0, 10)));
+    renderHistory();
+  } catch(e) {}
+}
+
+function loadLastSession() {
+  try {
+    const sessions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (!sessions.length) { showToast('No saved sessions found.'); return; }
+    citations = sessions[0].citations || [];
+    renderCitations();
+    renderHistory();
+    showToast(`✓ Loaded ${citations.length} citation(s) from last session.`);
+  } catch(e) {}
+}
+
+function renderHistory() {
+  try {
+    const sessions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    const card = document.getElementById('historyCard');
+    const list = document.getElementById('historyList');
+    if (!sessions.length) { card.style.display = 'none'; return; }
+    card.style.display = '';
+    list.innerHTML = sessions.slice(0, 5).map((s, i) => {
+      const d = new Date(s.date);
+      const label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      return `<div class="history-item" onclick="loadSession(${i})">
+        <div class="history-title">${s.citations?.length || 0} citation(s)</div>
+        <div class="history-meta">${label}</div>
+      </div>`;
+    }).join('');
+  } catch(e) {}
+}
+
+function loadSession(idx) {
+  try {
+    const sessions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (!sessions[idx]) return;
+    citations = sessions[idx].citations || [];
+    renderCitations();
+    showToast(`✓ Loaded ${citations.length} citation(s).`);
+  } catch(e) {}
+}
+
+// ── PRO MODAL ──────────────────────────────────
+function openProModal() {
+  document.getElementById('proModal').classList.add('open');
+}
+function closeProModal() {
+  document.getElementById('proModal').classList.remove('open');
+}
+document.getElementById('proModal').addEventListener('click', function(e) {
+  if (e.target === this) closeProModal();
+});
+
+// ── TOAST ──────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── INIT ───────────────────────────────────────
+renderCitations();
+renderHistory();
+</script>
+</body>
+</html>

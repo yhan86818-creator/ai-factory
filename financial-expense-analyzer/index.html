@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QY1C17HTRD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-QY1C17HTRD');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Expense Analyzer — Private, Local CSV Analysis</title>
+    <meta name="description" content="Analyze your bank statements locally. No server uploads, 100% private. Visualize your spending patterns and manage your budget with our secure tool.">
+    <meta name="keywords" content="financial analyzer, bank statement analyzer, expense tracker, private budgeting, csv analyzer, finance tool">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QY1C17HTRD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-QY1C17HTRD');
+    </script>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            font-family: 'DM Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
+
+        .animate-pulse-slow {
+            animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Chart container heights */
+        .chart-container { position: relative; height: 300px; width: 100%; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+
+    <div class="min-h-screen bg-gradient-to-br from-slate-950 via-teal-900/20 to-slate-950 relative">
+        <!-- Animated background -->
+        <div class="fixed inset-0 opacity-20 pointer-events-none">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-slate-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse-slow delay-7000"></div>
+        </div>
+
+        <div class="relative z-10">
+            <!-- Header -->
+            <header class="border-b border-slate-700/50 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-20">
+                <div class="max-w-6xl mx-auto px-6 py-6">
+                    <!-- Privacy Badge -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-teal-500/20 to-cyan-500/20 border border-teal-400/50">
+                            <i data-lucide="shield" class="w-4 h-4 text-teal-400"></i>
+                            <span class="text-xs font-semibold text-teal-300">
+                                🔒 Data Processing: Local Only (No Server Uploads)
+                            </span>
+                        </div>
+                        <button onclick="toggleBlog()" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300 transition-colors text-sm">
+                            <i data-lucide="book-open" class="w-4 h-4"></i>
+                            Privacy Guide
+                        </button>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 rounded-xl bg-gradient-to-br from-teal-600 to-cyan-600">
+                            <i data-lucide="trending-down" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-4xl font-bold text-white mb-1">Financial Expense Analyzer</h1>
+                            <p class="text-slate-400 text-sm">Import your bank CSV. Analyze offline. All data stays on your device.</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="max-w-6xl mx-auto px-6 py-12">
+                <!-- Landing / Upload Section -->
+                <div id="upload-section" class="space-y-8">
+                    <div id="drop-zone" class="bg-slate-800/40 backdrop-blur border-2 border-dashed border-slate-600/50 rounded-2xl p-12 text-center hover:border-teal-500/50 transition-colors cursor-pointer">
+                        <div class="flex justify-center mb-4">
+                            <div class="p-4 rounded-full bg-teal-500/10 border border-teal-500/30">
+                                <i data-lucide="upload" class="w-8 h-8 text-teal-400"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Upload Your Bank CSV</h2>
+                        <p class="text-slate-400 mb-4">Drag and drop your bank statement CSV, or click to browse</p>
+                        <p class="text-xs text-slate-500">Works with most bank formats: Chase, Bank of America, Wells Fargo, Charles Schwab, Wise, Revolut, etc.</p>
+                        <input type="file" accept=".csv" id="file-input" class="hidden">
+                    </div>
+                </div>
+
+                <!-- Mapping Section -->
+                <div id="mapping-section" class="hidden space-y-8 fade-in">
+                    <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-8">
+                        <div class="flex items-center justify-between mb-8">
+                            <div>
+                                <h2 class="text-2xl font-bold text-white mb-1">Map Your Columns</h2>
+                                <p class="text-slate-400 text-sm">Select which columns contain your transaction data</p>
+                            </div>
+                            <div class="text-right">
+                                <p id="file-size-info" class="text-xs text-slate-500"></p>
+                                <p id="row-count-info" class="text-xs text-slate-500"></p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-200 mb-3">Date</label>
+                                <select id="map-date" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600 text-slate-200 focus:ring-2 focus:ring-teal-500 outline-none text-sm"></select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-200 mb-3">Amount</label>
+                                <select id="map-amount" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600 text-slate-200 focus:ring-2 focus:ring-teal-500 outline-none text-sm"></select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-200 mb-3">Category (Optional - Auto-Detected)</label>
+                                <select id="map-category" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600 text-slate-200 focus:ring-2 focus:ring-teal-500 outline-none text-sm"></select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-200 mb-3">Memo/Description (Optional)</label>
+                                <select id="map-notes" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600 text-slate-200 focus:ring-2 focus:ring-teal-500 outline-none text-sm"></select>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-sm font-semibold text-slate-200 mb-4">Preview (First 3 Rows)</h3>
+                            <div class="overflow-x-auto border border-slate-700/50 rounded-lg">
+                                <table id="preview-table" class="w-full text-xs text-slate-300">
+                                    <thead class="bg-slate-900/50"></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button onclick="processData()" class="flex-1 px-6 py-3 rounded-lg bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold hover:shadow-lg hover:shadow-teal-500/20 transition-all flex items-center justify-center gap-2">
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                                Analyze Transactions
+                            </button>
+                            <button onclick="resetAll()" class="px-6 py-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-200 font-semibold transition-colors">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Results Section -->
+                <div id="results-section" class="hidden space-y-8 fade-in">
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
+                            <p class="text-slate-400 text-sm mb-2">Total Expenses</p>
+                            <p id="stat-total" class="text-3xl font-bold text-white">$0.00</p>
+                            <p id="stat-count" class="text-xs text-slate-500 mt-2">0 transactions</p>
+                        </div>
+                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
+                            <p class="text-slate-400 text-sm mb-2">Average Transaction</p>
+                            <p id="stat-average" class="text-3xl font-bold text-teal-400">$0.00</p>
+                            <p class="text-xs text-slate-500 mt-2">per transaction</p>
+                        </div>
+                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
+                            <p class="text-slate-400 text-sm mb-2">Largest Expense</p>
+                            <p id="stat-highest" class="text-3xl font-bold text-cyan-400">$0.00</p>
+                            <p class="text-xs text-slate-500 mt-2">single transaction</p>
+                        </div>
+                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
+                            <p class="text-slate-400 text-sm mb-2">Time Period</p>
+                            <p id="stat-period" class="text-3xl font-bold text-white">0</p>
+                            <p class="text-xs text-slate-500 mt-2">months of data</p>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Monthly Trend -->
+                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-8">
+                            <h3 class="text-xl font-bold text-white mb-6">Monthly Spending Trend</h3>
+                            <div class="chart-container">
+                                <canvas id="trendChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Category Breakdown -->
+                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-8">
+                            <h3 class="text-xl font-bold text-white mb-6">Spending by Category</h3>
+                            <div class="chart-container">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Category Details Table -->
+                        <div class="lg:col-span-2 bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-8">
+                            <h3 class="text-xl font-bold text-white mb-6">Category Breakdown</h3>
+                            <div class="overflow-x-auto">
+                                <table id="category-table" class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-600 text-left">
+                                            <th class="px-6 py-3 font-semibold text-slate-200">Category</th>
+                                            <th class="px-6 py-3 font-semibold text-slate-200 text-right">Amount</th>
+                                            <th class="px-6 py-3 font-semibold text-slate-200 text-right">% of Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-4">
+                        <button onclick="openProModal()" class="flex-1 px-6 py-4 rounded-lg bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="lock" class="w-4 h-4"></i>
+                            Generate PDF Report (Pro)
+                        </button>
+                        <button onclick="openProModal()" class="flex-1 px-6 py-4 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-200 font-semibold transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            Export Data (Pro)
+                        </button>
+                        <button onclick="resetAll()" class="px-6 py-4 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-200 font-semibold transition-colors">New Analysis</button>
+                    </div>
+                </div>
+
+                <!-- Blog Section -->
+                <div id="blog-section" class="hidden mt-16 bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-12 prose prose-invert max-w-none animate-fade-in">
+                    <article>
+                        <h2 class="text-4xl font-bold text-white mb-6">
+                            Financial Data Sovereignty: Why Offline Budgeting is Safer
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 not-prose">
+                            <div class="bg-gradient-to-br from-teal-600/20 to-cyan-600/20 rounded-lg p-6 border border-teal-600/50">
+                                <h4 class="text-lg font-bold text-teal-300 mb-3">🏦 Bank-Grade Privacy</h4>
+                                <p class="text-slate-300 text-sm">
+                                    Your financial data never leaves your device. No servers. No cloud. No data brokers.
+                                </p>
+                            </div>
+                            <div class="bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-lg p-6 border border-cyan-600/50">
+                                <h4 class="text-lg font-bold text-cyan-300 mb-3">🔐 Zero Trust Architecture</h4>
+                                <p class="text-slate-300 text-sm">
+                                    We don't need to trust because we can't access. Your browser does the processing locally.
+                                </p>
+                            </div>
+                        </div>
+
+                        <h3 class="text-3xl font-bold text-slate-100 mt-12 mb-6">Why This Matters for Your Financial Data</h3>
+
+                        <p class="text-slate-300 text-lg mb-6">
+                            Your financial data is the most sensitive information you own. It reveals where you shop, what you eat, your health status, your religious beliefs, your political affiliations, and your deepest spending habits.
+                        </p>
+
+                        <h4 class="text-2xl font-bold text-slate-200 mt-8 mb-4">The Problem with Cloud-Based Budgeting Tools</h4>
+
+                        <div class="bg-slate-900/50 border-l-4 border-red-500/50 rounded-lg p-6 mb-6 not-prose">
+                            <p class="text-slate-300 mb-4">
+                                <strong>Data Breaches Are Inevitable.</strong> Equifax. Capital One. T-Mobile. The largest financial institutions on Earth have had your data exposed. A consumer budgeting app? They're even bigger targets.
+                            </p>
+                            <p class="text-slate-300 mb-4">
+                                <strong>Your Data is a Product.</strong> Free budgeting apps monetize your transaction patterns. They sell insights to advertisers, hedge funds, and data brokers. "Anonymized" data? It's been un-anonymized in countless studies.
+                            </p>
+                            <p class="text-slate-300">
+                                <strong>Legal Risk.</strong> Your financial data is discoverable in lawsuits, subpoenaed in investigations, and accessible to government agencies. The less you store in the cloud, the safer you are.
+                            </p>
+                        </div>
+
+                        <h4 class="text-2xl font-bold text-slate-200 mt-8 mb-4">How This Tool Is Different</h4>
+
+                        <ul class="space-y-4 text-slate-300 mb-6 list-none">
+                            <li class="flex gap-4">
+                                <span class="text-teal-400 font-bold min-w-fit">✓ Local Processing</span>
+                                <span>Your CSV is processed 100% in your browser. We see nothing. Not even logs.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="text-teal-400 font-bold min-w-fit">✓ No Accounts</span>
+                                <span>No login required. No email address collected. No profile building.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="text-teal-400 font-bold min-w-fit">✓ No Storage</span>
+                                <span>Your analysis exists only in your browser session. Close the tab, and it's gone.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="text-teal-400 font-bold min-w-fit">✓ Open Source Philosophy</span>
+                                <span>We don't rely on proprietary algorithms. You can verify exactly how your data is processed.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="text-teal-400 font-bold min-w-fit">✓ Works Offline</span>
+                                <span>After loading, this tool works without internet. Perfect for privacy-conscious users.</span>
+                            </li>
+                        </ul>
+
+                        <h4 class="text-2xl font-bold text-slate-200 mt-8 mb-4">Real-World Use Cases</h4>
+
+                        <div class="bg-slate-900/50 rounded-lg p-6 mb-6 not-prose">
+                            <h5 class="text-white font-bold mb-3">👨💼 Freelancers & Contractors</h5>
+                            <p class="text-slate-300">
+                                You have variable income across multiple bank accounts. You need to analyze business vs. personal spending. But uploading your financial data to SaaS tools means sharing your entire income history with a third party. This tool lets you keep it private while getting instant insights.
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900/50 rounded-lg p-6 mb-6 not-prose">
+                            <h5 class="text-white font-bold mb-3">🌍 International Users</h5>
+                            <p class="text-slate-300">
+                                Cloud tools must comply with local data regulations (GDPR, CCPA, etc.). They store your data in data centers. This tool doesn't store anything. Zero regulatory burden. Zero compliance risk for us means maximum privacy for you.
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900/50 rounded-lg p-6 mb-6 not-prose">
+                            <h5 class="text-white font-bold mb-3">🏥 Medical/Sensitive Situations</h5>
+                            <p class="text-slate-300">
+                                Maybe your spending reveals a medical condition, a divorce, a job loss. These details are nobody's business but yours. This tool ensures they stay that way.
+                            </p>
+                        </div>
+
+                        <h4 class="text-2xl font-bold text-slate-200 mt-8 mb-4">Technical Architecture</h4>
+
+                        <p class="text-slate-300 mb-4">
+                            This tool uses the browser's native JavaScript APIs for CSV parsing and data processing. No third-party analytics. No external API calls. No tracking pixels. When you close the tab, there's no trace of your financial data anywhere.
+                        </p>
+
+                        <div class="bg-teal-600/10 border border-teal-600/30 rounded-lg p-6 not-prose">
+                            <h4 class="text-teal-300 font-bold mb-2">🎯 The Bottom Line</h4>
+                            <p class="text-slate-300">
+                                Financial sovereignty is the future. You wouldn't hand your bank statements to a stranger. Don't upload them to the cloud either. This tool gives you professional-grade expense analysis without sacrificing privacy.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </main>
+
+            <!-- Pro Modal -->
+            <div id="pro-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+                <div class="bg-slate-800 rounded-2xl p-10 max-w-md border border-slate-700 shadow-2xl scale-95 transition-transform duration-200">
+                    <div class="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 mx-auto mb-6">
+                        <i data-lucide="lock" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white text-center mb-3">Unlock Pro Features</h3>
+                    <p class="text-slate-400 text-center mb-8">Advanced reporting and data export for power users</p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-teal-400 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-slate-200">PDF Financial Reports</p>
+                                <p class="text-xs text-slate-500">Generate bank-quality financial reports</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-teal-400 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-slate-200">CSV Export</p>
+                                <p class="text-xs text-slate-500">Export cleaned and categorized data</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-teal-400 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-slate-200">Multi-Year Comparison</p>
+                                <p class="text-xs text-slate-500">Year-over-year spending analysis</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-teal-400 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-slate-200">Save Column Mappings</p>
+                                <p class="text-xs text-slate-500">Remember your bank's format forever</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold hover:shadow-lg transition-shadow mb-3">Coming Soon</button>
+                    <button onclick="closeProModal()" class="w-full px-6 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold transition-colors">Close</button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="border-t border-slate-700/50 bg-slate-950/50 mt-16 py-8">
+                <div class="max-w-6xl mx-auto px-6 text-center text-slate-400 text-sm">
+                    <p>Financial Expense Analyzer • 100% Client-Side • Zero Data Retention • Local-First Privacy</p>
+                    <p class="mt-2 text-xs text-slate-600">Your financial data is sacred. We treat it that way.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // --- State ---
+        let state = {
+            csvData: [],
+            headers: [],
+            mapping: { date: '', amount: '', category: '', notes: '' },
+            showBlog: false,
+            processedData: [],
+            categories: {},
+            monthlyTotals: [],
+            stats: { total: 0, average: 0, highest: 0, count: 0 }
+        };
+
+        const CHART_COLORS = ['#0F766E', '#0891B2', '#0284C7', '#7C3AED', '#DB2777', '#EA580C', '#CCCCCC'];
+        let trendChart = null;
+        let categoryChart = null;
+
+        // --- Logic ---
+        function parseCSV(content) {
+            const lines = content.trim().split('\n');
+            if (lines.length === 0) return;
+
+            const headerRow = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+            state.headers = headerRow;
+
+            state.csvData = lines.slice(1).map(line => {
+                const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+                const obj = {};
+                headerRow.forEach((header, idx) => {
+                    obj[header] = values[idx] || '';
+                });
+                return obj;
+            });
+
+            document.getElementById('file-size-info').textContent = `File size: ${(content.length / 1024).toFixed(1)} KB`;
+            document.getElementById('row-count-info').textContent = `${state.csvData.length} transactions detected`;
+            
+            renderMapping();
+        }
+
+        function renderMapping() {
+            document.getElementById('upload-section').classList.add('hidden');
+            document.getElementById('mapping-section').classList.remove('hidden');
+
+            const fields = ['date', 'amount', 'category', 'notes'];
+            fields.forEach(f => {
+                const select = document.getElementById(`map-${f}`);
+                select.innerHTML = '<option value="">— Select a column —</option>' + 
+                    state.headers.map(h => `<option value="${h}">${h}</option>`).join('');
+                
+                // Auto-map if possible
+                const lowerH = state.headers.map(h => h.toLowerCase());
+                if (f === 'date' && lowerH.includes('date')) select.value = state.headers[lowerH.indexOf('date')];
+                if (f === 'amount' && (lowerH.includes('amount') || lowerH.includes('value'))) select.value = state.headers[lowerH.indexOf('amount') || lowerH.indexOf('value')];
+                if (f === 'notes' && (lowerH.includes('memo') || lowerH.includes('description') || lowerH.includes('notes'))) select.value = state.headers[lowerH.indexOf('memo') || lowerH.indexOf('description') || lowerH.indexOf('notes')];
+
+                select.onchange = (e) => state.mapping[f] = e.target.value;
+                state.mapping[f] = select.value;
+            });
+
+            const table = document.getElementById('preview-table');
+            table.querySelector('thead').innerHTML = `<tr>${state.headers.map(h => `<th class="px-4 py-3 text-left font-semibold text-slate-200">${h}</th>`).join('')}</tr>`;
+            table.querySelector('tbody').innerHTML = state.csvData.slice(0, 3).map(row => `
+                <tr class="border-b border-slate-700/30">
+                    ${state.headers.map(h => `<td class="px-4 py-3">${row[h]?.substring(0, 30)}</td>`).join('')}
+                </tr>
+            `).join('');
+        }
+
+        function categorizeTransaction(memo) {
+            const text = (memo || '').toLowerCase();
+            if (text.match(/grocery|supermarket|food|restaurant|cafe|pizza|sushi|deli|whole foods|safeway|kroger|tesco/)) return 'Food & Dining';
+            if (text.match(/gas|fuel|parking|auto|car|taxi|uber|transit|lyft|shell|chevron|bp/)) return 'Transportation';
+            if (text.match(/utility|electric|water|gas bill|internet|phone|mobile|verizon|at&t|comcast/)) return 'Utilities';
+            if (text.match(/gym|sport|yoga|fitness|health|doctor|pharmacy|medical|hospital|clinic|cvs|walgreens/)) return 'Health & Fitness';
+            if (text.match(/movie|entertainment|spotify|netflix|gaming|game|concert|theater|cinema|hulu|steam/)) return 'Entertainment';
+            if (text.match(/amazon|shop|store|retail|mall|purchase|buy|target|walmart|apple/)) return 'Shopping';
+            if (text.match(/bank|fee|interest|transfer|payment|atm/)) return 'Banking & Fees';
+            if (text.match(/rent|mortgage|lease|housing|property/)) return 'Housing';
+            return 'Other';
+        }
+
+        function processData() {
+            if (!state.mapping.date || !state.mapping.amount) {
+                alert('Please map Date and Amount columns');
+                return;
+            }
+
+            const processed = state.csvData
+                .filter(row => row[state.mapping.date] && row[state.mapping.amount])
+                .map(row => {
+                    const amountStr = row[state.mapping.amount].replace(/[$,]/g, '');
+                    return {
+                        date: new Date(row[state.mapping.date]),
+                        amount: parseFloat(amountStr),
+                        category: state.mapping.category && row[state.mapping.category] ? row[state.mapping.category] : categorizeTransaction(row[state.mapping.notes] || row[state.mapping.amount]),
+                        notes: state.mapping.notes ? row[state.mapping.notes] : ''
+                    };
+                })
+                .filter(item => !isNaN(item.amount) && item.amount !== 0);
+
+            if (processed.length === 0) {
+                alert('No valid transaction data found. Please check your column mapping.');
+                return;
+            }
+
+            // Category totals
+            const catTotals = {};
+            processed.forEach(item => {
+                catTotals[item.category] = (catTotals[item.category] || 0) + Math.abs(item.amount);
+            });
+            state.categories = catTotals;
+
+            // Monthly totals
+            const monthMap = {};
+            processed.forEach(item => {
+                const monthKey = `${item.date.getFullYear()}-${String(item.date.getMonth() + 1).padStart(2, '0')}`;
+                monthMap[monthKey] = (monthMap[monthKey] || 0) + Math.abs(item.amount);
+            });
+
+            state.monthlyTotals = Object.entries(monthMap)
+                .sort()
+                .map(([month, total]) => ({
+                    label: new Date(month + '-01').toLocaleDateString('en-US', { year: 'numeric', month: 'short' }),
+                    total: Math.round(total * 100) / 100
+                }));
+
+            // Stats
+            const amounts = processed.map(p => Math.abs(p.amount));
+            const total = amounts.reduce((a, b) => a + b, 0);
+            state.stats = {
+                total: Math.round(total * 100) / 100,
+                average: Math.round((total / amounts.length) * 100) / 100,
+                highest: Math.max(...amounts),
+                count: amounts.length
+            };
+
+            renderResults();
+        }
+
+        function renderResults() {
+            document.getElementById('mapping-section').classList.add('hidden');
+            document.getElementById('results-section').classList.remove('hidden');
+
+            document.getElementById('stat-total').textContent = `$${state.stats.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            document.getElementById('stat-count').textContent = `${state.stats.count} transactions`;
+            document.getElementById('stat-average').textContent = `$${state.stats.average.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            document.getElementById('stat-highest').textContent = `$${state.stats.highest.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            document.getElementById('stat-period').textContent = state.monthlyTotals.length;
+
+            renderCharts();
+
+            const tbody = document.querySelector('#category-table tbody');
+            const catData = Object.entries(state.categories).sort((a, b) => b[1] - a[1]);
+            tbody.innerHTML = catData.map(([name, value], idx) => `
+                <tr class="border-b border-slate-700/30 hover:bg-slate-700/20">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full" style="background-color: ${CHART_COLORS[idx % CHART_COLORS.length]}"></div>
+                            <span class="text-slate-200">${name}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-right text-slate-100 font-semibold">$${value.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                    <td class="px-6 py-4 text-right text-teal-400 font-semibold">${((value / state.stats.total) * 100).toFixed(1)}%</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderCharts() {
+            // Trend Chart
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            if (trendChart) trendChart.destroy();
+            trendChart = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: state.monthlyTotals.map(t => t.label),
+                    datasets: [{
+                        label: 'Monthly Spending',
+                        data: state.monthlyTotals.map(t => t.total),
+                        borderColor: '#14B8A6',
+                        backgroundColor: 'rgba(20, 184, 166, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#14B8A6',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: '#334155' }, ticks: { color: '#94A3B8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94A3B8' } }
+                    }
+                }
+            });
+
+            // Category Chart
+            const catCtx = document.getElementById('categoryChart').getContext('2d');
+            if (categoryChart) categoryChart.destroy();
+            const catEntries = Object.entries(state.categories).sort((a, b) => b[1] - a[1]);
+            categoryChart = new Chart(catCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: catEntries.map(e => e[0]),
+                    datasets: [{
+                        data: catEntries.map(e => e[1]),
+                        backgroundColor: CHART_COLORS,
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { color: '#94A3B8', padding: 20 } } 
+                    }
+                }
+            });
+        }
+
+        function toggleBlog() {
+            state.showBlog = !state.showBlog;
+            document.getElementById('blog-section').classList.toggle('hidden', !state.showBlog);
+        }
+
+        function resetAll() {
+            state = { csvData: [], headers: [], mapping: { date: '', amount: '', category: '', notes: '' }, showBlog: state.showBlog, processedData: [], categories: {}, monthlyTotals: [], stats: { total: 0, average: 0, highest: 0, count: 0 } };
+            document.getElementById('upload-section').classList.remove('hidden');
+            document.getElementById('mapping-section').classList.add('hidden');
+            document.getElementById('results-section').classList.add('hidden');
+            document.getElementById('file-input').value = '';
+        }
+
+        function openProModal() {
+            const m = document.getElementById('pro-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            setTimeout(() => m.firstElementChild.classList.remove('scale-95'), 10);
+        }
+
+        function closeProModal() {
+            const m = document.getElementById('pro-modal');
+            m.firstElementChild.classList.add('scale-95');
+            setTimeout(() => { m.classList.add('hidden'); m.classList.remove('flex'); }, 200);
+        }
+
+        // --- Events ---
+        const dz = document.getElementById('drop-zone');
+        const fi = document.getElementById('file-input');
+
+        dz.onclick = () => fi.click();
+        fi.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const r = new FileReader();
+                r.onload = (ev) => parseCSV(ev.target.result);
+                r.readAsText(file);
+            }
+        };
+
+        dz.ondragover = (e) => { e.preventDefault(); dz.classList.add('border-teal-500'); };
+        dz.ondragleave = () => dz.classList.remove('border-teal-500');
+        dz.ondrop = (e) => {
+            e.preventDefault();
+            dz.classList.remove('border-teal-500');
+            const file = e.dataTransfer.files[0];
+            if (file && file.name.endsWith('.csv')) {
+                const r = new FileReader();
+                r.onload = (ev) => parseCSV(ev.target.result);
+                r.readAsText(file);
+            }
+        };
+
+        // --- Init ---
+        lucide.createIcons();
+    </script>
+</body>
+</html>

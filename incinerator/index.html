@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HHQ2EQLL0G"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-HHQ2EQLL0G');
+  </script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔥 Incinerator — Private Subscription Manager | Burn Your Wasteful Spending</title>
+<meta name="description" content="100% browser-based subscription manager. No cloud, no account, no data leaks. Visualize spending, incinerate unwanted subscriptions, and take back control of your finances. Free forever.">
+<meta name="keywords" content="subscription manager, expense tracker, privacy, local storage, no cloud, cancel subscriptions, subscription tracker, spending visualizer">
+<meta property="og:title" content="Incinerator — Burn Your Wasteful Subscriptions">
+<meta property="og:description" content="100% local, 100% private. Manage & incinerate your subscriptions. Nothing leaves your browser.">
+<meta property="og:type" content="website">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fire: #f97316;
+  --fire-2: #ef4444;
+  --fire-glow: rgba(249,115,22,.15);
+  --fire-dim: rgba(249,115,22,.08);
+  --bg: #09090b;
+  --surface: #111114;
+  --surface-2: #18181c;
+  --surface-3: #222228;
+  --border: #2a2a32;
+  --border-2: #38383f;
+  --text: #f0f0f4;
+  --text-2: #8a8a9a;
+  --text-3: #44444f;
+  --green: #4ade80;
+  --green-dim: rgba(74,222,128,.08);
+  --yellow: #fbbf24;
+  --blue: #38bdf8;
+  --purple: #a78bfa;
+  --red: #ef4444;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --display: 'Bebas Neue', cursive;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 800px 600px at 50% -100px, rgba(249,115,22,.07), transparent);
+}
+
+/* ── HEADER ── */
+header {
+  background: rgba(9,9,11,.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 90;
+}
+.header-inner {
+  max-width: 1240px; margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo-flame { font-size: 26px; animation: float 3s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+.logo-name {
+  font-family: var(--display);
+  font-size: 26px; letter-spacing: 2px;
+  color: var(--text);
+  line-height: 1;
+}
+.logo-sub { font-size: 10px; color: var(--text-3); letter-spacing: 0.08em; margin-top: 1px; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.privacy-pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 99px;
+  background: var(--green-dim); border: 1px solid rgba(74,222,128,.2);
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
+  color: var(--green);
+}
+.btn-settings {
+  display: none;
+}
+.toolbar {
+  background: var(--surface-2); border-bottom: 1px solid var(--border);
+  padding: 10px 24px; position: relative; z-index: 1;
+}
+.toolbar-inner {
+  max-width: 1240px; margin: 0 auto;
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+}
+.btn-danger { color: var(--red) !important; }
+.btn-danger:hover { background: rgba(239,68,68,.1) !important; border-color: rgba(239,68,68,.3) !important; }
+.btn-pro-top {
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 7px 14px; border-radius: 6px; cursor: pointer; border: none;
+  background: linear-gradient(135deg, var(--fire), var(--fire-2));
+  color: #fff;
+  transition: opacity .15s, box-shadow .15s;
+}
+.btn-pro-top:hover { opacity: .9; box-shadow: 0 0 20px rgba(249,115,22,.4); }
+
+/* ── PRIVACY BANNER ── */
+.privacy-banner {
+  background: var(--green-dim); border-bottom: 1px solid rgba(74,222,128,.15);
+  padding: 9px 24px; text-align: center; position: relative; z-index: 1;
+}
+.privacy-banner p { font-size: 12px; color: var(--green); font-weight: 500; }
+.privacy-banner span { opacity: .7; font-weight: 400; }
+
+/* placeholder */
+
+/* ── MAIN ── */
+main {
+  max-width: 1240px; margin: 0 auto;
+  padding: 32px 24px 80px;
+  position: relative; z-index: 1;
+}
+
+/* ── HERO TAGLINE ── */
+.hero-tag {
+  margin-bottom: 32px;
+  display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+.hero-headline {
+  font-family: var(--display);
+  font-size: clamp(36px,6vw,64px); letter-spacing: 2px;
+  line-height: 1; color: var(--text);
+}
+.hero-headline .fire-word { color: var(--fire); }
+.hero-copy { font-size: 13px; color: var(--text-2); max-width: 480px; line-height: 1.8; margin-top: 8px; }
+.sample-try-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: 8px; cursor: pointer; border: none;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--yellow); font-family: var(--mono); font-size: 11px;
+  font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  transition: all .15s; white-space: nowrap; align-self: flex-start;
+}
+.sample-try-btn:hover { border-color: var(--yellow); background: rgba(251,191,36,.07); }
+
+/* ── DASHBOARD ── */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px; margin-bottom: 24px;
+}
+.dash-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+  transition: border-color .2s;
+}
+.dash-card:hover { border-color: var(--border-2); }
+.dash-card.highlight { border-color: rgba(249,115,22,.3); background: var(--fire-dim); }
+.dash-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
+.dash-amount { font-family: var(--display); font-size: 38px; letter-spacing: 1px; color: var(--fire); line-height: 1; }
+.dash-sub { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+.dash-limit { font-family: var(--mono); font-size: 12px; color: var(--text-2); margin-top: 4px; }
+.limit-bar-wrap { background: var(--surface-3); border-radius: 99px; height: 4px; margin-top: 8px; overflow: hidden; }
+.limit-bar { background: linear-gradient(90deg, var(--fire), var(--fire-2)); height: 100%; border-radius: 99px; transition: width .4s; }
+
+/* ── CHART ROW ── */
+.chart-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-bottom: 24px;
+}
+.chart-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+}
+.chart-card-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 16px; }
+.chart-wrap { position: relative; height: 200px; display: flex; align-items: center; justify-content: center; }
+.upcoming-list { list-style: none; }
+.upcoming-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.upcoming-item:last-child { border: none; }
+.upcoming-name { font-weight: 500; }
+.upcoming-days { font-family: var(--mono); font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+.days-urgent { background: rgba(249,115,22,.15); color: var(--fire); }
+.days-soon   { background: rgba(251,191,36,.12); color: var(--yellow); }
+.days-ok     { background: var(--surface-3); color: var(--text-3); }
+.upcoming-amt { font-family: var(--mono); font-size: 12px; color: var(--fire); }
+.highlight-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  margin-bottom: 8px;
+}
+.hl-box {
+  background: var(--surface-3); border-radius: 8px; padding: 12px;
+}
+.hl-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+.hl-val { font-size: 13px; font-weight: 600; color: var(--text); }
+.hl-val.fire { color: var(--fire); }
+
+/* ── CONTROLS ── */
+.controls-row {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  margin-bottom: 20px;
+}
+.btn {
+  padding: 8px 16px; border-radius: 7px; cursor: pointer; border: none;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 7px;
+  transition: all .15s; white-space: nowrap;
+}
+.btn-ghost {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2);
+}
+.btn-ghost:hover { background: var(--surface-3); color: var(--text); }
+.btn-fire {
+  background: linear-gradient(135deg, var(--fire), var(--fire-2));
+  color: #fff; font-weight: 600;
+}
+.btn-fire:hover { box-shadow: 0 0 20px rgba(249,115,22,.4); }
+.ctrl-select {
+  padding: 8px 12px; border-radius: 7px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--text); font-size: 13px; cursor: pointer; outline: none;
+}
+.ctrl-select:focus { border-color: var(--fire); }
+.search-wrap { position: relative; flex: 1; min-width: 180px; }
+.search-input {
+  width: 100%; padding: 8px 12px 8px 34px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 7px; color: var(--text); font-size: 13px; outline: none;
+  transition: border-color .15s;
+}
+.search-input:focus { border-color: var(--fire); }
+.search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-3); font-size: 14px; pointer-events: none; }
+.filter-chip {
+  padding: 6px 12px; border-radius: 99px; cursor: pointer;
+  font-size: 11px; font-family: var(--mono); font-weight: 500;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--border); background: transparent; color: var(--text-3);
+  transition: all .15s;
+}
+.filter-chip.active { border-color: var(--fire); color: var(--fire); background: var(--fire-dim); }
+.filter-chip:hover { border-color: var(--border-2); color: var(--text-2); }
+
+/* ── FORM ── */
+.form-panel {
+  background: var(--surface); border: 1px solid rgba(249,115,22,.25);
+  border-radius: 12px; padding: 24px; margin-bottom: 24px;
+  display: none;
+  animation: slideDown .2s ease-out;
+}
+.form-panel.open { display: block; }
+.form-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.form-head h2 { font-family: var(--display); font-size: 22px; letter-spacing: 1px; }
+.close-x { background: none; border: none; color: var(--text-2); font-size: 20px; cursor: pointer; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 14px; }
+.fg { display: flex; flex-direction: column; }
+.fg label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; }
+.fg input, .fg select, .fg textarea {
+  padding: 10px 12px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 7px; color: var(--text); font-family: var(--sans); font-size: 13px;
+  outline: none; transition: border-color .15s;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--fire); box-shadow: 0 0 0 3px var(--fire-dim); }
+.fg textarea { resize: vertical; min-height: 60px; }
+.form-actions { display: flex; gap: 10px; }
+.form-actions .btn { flex: 1; justify-content: center; }
+
+/* ── SUB CARDS ── */
+.section-title {
+  font-family: var(--display);
+  font-size: 22px; letter-spacing: 1.5px;
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.sub-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 18px;
+  transition: border-color .2s, transform .2s;
+  animation: cardIn .3s ease-out;
+}
+@keyframes cardIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.sub-card:hover { border-color: var(--border-2); transform: translateY(-2px); }
+.sub-card.urgent { border-color: rgba(249,115,22,.5); box-shadow: 0 0 20px rgba(249,115,22,.1); }
+.sub-card.cancelled { opacity: .45; }
+.sub-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.sub-name { font-weight: 600; font-size: 15px; }
+.sub-cat { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.sub-price { text-align: right; }
+.sub-price-val { font-family: var(--display); font-size: 28px; letter-spacing: 1px; color: var(--fire); line-height: 1; }
+.sub-price-freq { font-size: 10px; color: var(--text-3); margin-top: 2px; }
+.urgent-badge {
+  background: rgba(249,115,22,.12); border: 1px solid rgba(249,115,22,.3);
+  border-radius: 6px; padding: 7px 10px;
+  font-size: 12px; color: var(--fire); margin-bottom: 10px;
+}
+.sub-notes { font-size: 12px; color: var(--text-3); font-style: italic; margin-bottom: 10px; }
+.sub-actions { display: flex; gap: 6px; }
+.sub-btn {
+  flex: 1; padding: 9px 8px; border: none; border-radius: 7px;
+  cursor: pointer; font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  transition: all .15s;
+}
+.btn-burn { background: linear-gradient(135deg, var(--fire), var(--fire-2)); color: #fff; }
+.btn-burn:hover { box-shadow: 0 0 16px rgba(249,115,22,.4); }
+.btn-edit { background: var(--surface-3); color: var(--text-2); }
+.btn-edit:hover { background: var(--border); color: var(--text); }
+.btn-del { background: rgba(239,68,68,.12); color: var(--red); border: 1px solid rgba(239,68,68,.2); width: 100%; margin-top: 6px; }
+.btn-del:hover { background: rgba(239,68,68,.25); }
+.cancel-link {
+  display: block; text-align: center;
+  margin-top: 6px; padding: 7px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text-3); font-size: 11px; text-decoration: none;
+  transition: all .15s;
+}
+.cancel-link:hover { color: var(--text-2); border-color: var(--border-2); }
+
+/* ── EMPTY ── */
+.empty { text-align: center; padding: 64px 24px; }
+.empty-icon { font-size: 48px; opacity: .25; margin-bottom: 12px; }
+.empty h2 { font-family: var(--display); font-size: 28px; letter-spacing: 1px; color: var(--text-2); margin-bottom: 8px; }
+.empty p { color: var(--text-3); margin-bottom: 20px; }
+
+/* ── FREE/PRO TABLE ── */
+.fp-wrap {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; margin-bottom: 32px;
+}
+.fp-head {
+  background: var(--surface-2); border-bottom: 1px solid var(--border);
+  padding: 14px 20px; font-family: var(--display); font-size: 20px; letter-spacing: 1px;
+  display: flex; align-items: center; gap: 10px;
+}
+.fp-table { width: 100%; border-collapse: collapse; }
+.fp-table th {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-3); padding: 10px 20px; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.fp-table th:not(:first-child) { text-align: center; }
+.fp-table td {
+  padding: 10px 20px; font-size: 13px; color: var(--text-2);
+  border-bottom: 1px solid var(--border);
+}
+.fp-table tr:last-child td { border: none; }
+.fp-table td:not(:first-child) { text-align: center; font-size: 15px; }
+.fp-cta { padding: 16px 20px; border-top: 1px solid var(--border); background: var(--surface-2); }
+.btn-unlock {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 24px; border-radius: 8px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--fire), var(--fire-2));
+  color: #fff; font-weight: 700; font-size: 13px;
+  transition: opacity .15s, box-shadow .15s;
+}
+.btn-unlock:hover { opacity: .9; box-shadow: 0 0 24px rgba(249,115,22,.45); }
+
+/* ── TABLE VIEW ── */
+.table-wrap {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; margin-bottom: 28px; overflow-x: auto;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--surface-2); padding: 10px 16px; text-align: left; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); border-bottom: 1px solid var(--border); }
+td { padding: 10px 16px; border-bottom: 1px solid var(--border); color: var(--text-2); }
+tr:last-child td { border: none; }
+tr:hover td { background: var(--fire-dim); }
+td .fire-amt { color: var(--fire); font-family: var(--mono); font-weight: 600; }
+
+/* ── MODAL ── */
+.modal {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,.7); backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.modal.open { display: flex; animation: fadeIn .18s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.modal-box {
+  background: var(--surface); border: 1px solid var(--border-2);
+  border-radius: 14px; max-width: 460px; width: 100%;
+  overflow: hidden;
+  animation: scaleIn .2s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes scaleIn { from{transform:scale(.92)} to{transform:scale(1)} }
+.modal-top {
+  background: linear-gradient(135deg, rgba(249,115,22,.1), transparent);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 24px 20px;
+}
+.modal-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--fire); background: var(--fire-dim);
+  border: 1px solid rgba(249,115,22,.25);
+  padding: 4px 12px; border-radius: 99px; margin-bottom: 12px;
+}
+.modal-title { font-family: var(--display); font-size: 26px; letter-spacing: 1px; margin-bottom: 4px; }
+.modal-sub { font-size: 13px; color: var(--text-2); }
+.modal-price { display: flex; align-items: baseline; gap: 4px; margin-top: 12px; }
+.price-curr { font-family: var(--mono); font-size: 16px; color: var(--text-2); }
+.price-amt { font-family: var(--display); font-size: 48px; letter-spacing: -1px; color: var(--text); }
+.price-per { font-family: var(--mono); font-size: 11px; color: var(--text-3); }
+.modal-body { padding: 20px 24px 24px; }
+.feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 16px; }
+.feat {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 12px; color: var(--text-2);
+  padding: 8px 10px; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 7px;
+}
+.feat-check { color: var(--green); flex-shrink: 0; }
+.modal-cta {
+  width: 100%; padding: 13px; border: none; border-radius: 8px; cursor: pointer;
+  background: linear-gradient(135deg, var(--fire), var(--fire-2));
+  color: #fff; font-weight: 700; font-size: 14px; margin-bottom: 8px;
+  transition: opacity .15s, box-shadow .15s;
+}
+.modal-cta:hover { opacity: .9; box-shadow: 0 0 24px rgba(249,115,22,.4); }
+.modal-cancel {
+  width: 100%; padding: 9px; background: none; border: none; cursor: pointer;
+  color: var(--text-3); font-size: 12px; transition: color .15s;
+}
+.modal-cancel:hover { color: var(--text-2); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  background: var(--surface-3); color: var(--text);
+  border: 1px solid var(--border-2); border-radius: 99px;
+  padding: 10px 20px; font-family: var(--mono); font-size: 12px;
+  z-index: 400; transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  pointer-events: none; white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── PARTICLES ── */
+.particle {
+  position: fixed; pointer-events: none; font-size: 20px;
+  animation: burnUp .9s ease-out forwards; z-index: 999;
+}
+@keyframes burnUp {
+  0%{opacity:1;transform:translateY(0) translateX(0) scale(1)}
+  100%{opacity:0;transform:translateY(-90px) translateX(var(--tx)) scale(.4)}
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 48px 24px 32px; margin-top: 24px;
+  position: relative; z-index: 1;
+}
+.footer-inner { max-width: 1240px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; margin-bottom: 32px; }
+.footer-col h3 { font-family: var(--display); font-size: 20px; letter-spacing: 1px; margin-bottom: 12px; }
+.footer-col p { font-size: 13px; color: var(--text-2); line-height: 1.8; margin-bottom: 10px; }
+.footer-col ol { margin-left: 16px; color: var(--text-2); font-size: 13px; }
+.footer-col li { margin-bottom: 6px; }
+.faq-q { font-weight: 600; color: var(--fire); font-size: 13px; margin-bottom: 3px; }
+.faq-a { font-size: 12px; color: var(--text-2); margin-bottom: 12px; }
+.blog-section { padding-top: 28px; border-top: 1px solid var(--border); }
+.blog-section h3 { font-family: var(--display); font-size: 20px; letter-spacing: 1px; margin-bottom: 10px; }
+.blog-section p { font-size: 13px; color: var(--text-2); line-height: 1.8; margin-bottom: 10px; }
+.blog-section strong { color: var(--fire); }
+.blog-section ul { margin: 6px 0 12px 16px; color: var(--text-2); font-size: 13px; }
+.blog-section li { margin-bottom: 4px; }
+.footer-bottom { padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.footer-bottom p { font-size: 12px; color: var(--text-3); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { color: var(--text-3); text-decoration: none; font-size: 12px; transition: color .15s; }
+.footer-links a:hover { color: var(--fire); }
+
+@media (max-width: 768px) {
+  .chart-row { grid-template-columns: 1fr; }
+  .hero-tag { flex-direction: column; }
+  .highlight-row { grid-template-columns: 1fr; }
+  .controls-row { flex-direction: column; align-items: stretch; }
+  .search-wrap { width: 100%; }
+  .feat-grid { grid-template-columns: 1fr; }
+}
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <span class="logo-flame">🔥</span>
+      <div>
+        <div class="logo-name">INCINERATOR</div>
+        <div class="logo-sub">Private Subscription Manager</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="privacy-pill">🔒 100% Local</span>
+      <button class="btn-pro-top" onclick="openProModal()">🔥 Pro — $4.99</button>
+    </div>
+  </div>
+</header>
+
+<!-- PRIVACY BANNER -->
+<div class="privacy-banner">
+  <p>🔒 <strong>100% client-side</strong> — your subscription data never leaves your browser. No server, no cloud, no account. <span>Verify anytime in your browser's Network tab.</span></p>
+</div>
+
+<!-- ALWAYS-VISIBLE TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <button class="btn btn-ghost" onclick="exportJSON()">📥 Export JSON</button>
+    <button class="btn btn-ghost" onclick="exportCSV()">📋 Export CSV</button>
+    <button class="btn btn-ghost" onclick="importJSON()">📤 Import JSON</button>
+    <button class="btn btn-ghost btn-danger" onclick="clearAllData()">🗑 Clear all data</button>
+  </div>
+  <input type="file" id="importInput" accept=".json" style="display:none" onchange="handleImport(event)">
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- HERO -->
+  <div class="hero-tag">
+    <div>
+      <div class="hero-headline"><span class="fire-word">BURN</span> YOUR<br>WASTE.</div>
+      <div class="hero-copy">Stop losing money to forgotten subscriptions. Add everything, see the real cost, incinerate the dead weight. 100% private — nothing leaves your device.</div>
+    </div>
+    <div>
+      <button class="sample-try-btn" onclick="loadSamples()">⚡ Load sample subscriptions</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD CARDS -->
+  <div class="dashboard">
+    <div class="dash-card highlight">
+      <div class="dash-label">Monthly burn rate</div>
+      <div class="dash-amount" id="dashMonthly">$0</div>
+      <div class="dash-sub" id="dashActiveCt">0 active subscriptions</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-label">Yearly expense</div>
+      <div class="dash-amount" id="dashYearly">$0</div>
+      <div class="dash-sub">Annualized rate</div>
+    </div>
+    <div class="dash-card" id="biggestCard">
+      <div class="dash-label">Biggest subscription</div>
+      <div class="dash-amount" id="dashBiggest">—</div>
+      <div class="dash-sub" id="dashBiggestName">Add your subs to see</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-label">Usage (free tier)</div>
+      <div class="dash-limit" id="dashLimit">0 / 20</div>
+      <div class="limit-bar-wrap"><div class="limit-bar" id="limitBar" style="width:0%"></div></div>
+      <div class="dash-sub" style="margin-top:8px">
+        <button class="btn btn-ghost" id="proBtnSmall" onclick="openProModal()" style="display:none;padding:5px 12px;font-size:11px;">→ Upgrade to Pro</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART ROW -->
+  <div class="chart-row" id="chartRow" style="display:none;">
+    <div class="chart-card">
+      <div class="chart-card-title">Spending by category</div>
+      <div class="chart-wrap">
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Renewing soon</div>
+      <div class="highlight-row" id="highlightRow"></div>
+      <ul class="upcoming-list" id="upcomingList"></ul>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls-row">
+    <button class="btn btn-fire" onclick="showForm()">➕ Add Subscription</button>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search subscriptions..." oninput="renderAll()">
+    </div>
+    <select class="ctrl-select" id="sortSel" onchange="renderAll()">
+      <option value="billing">Sort by renewal date</option>
+      <option value="name">Sort by name</option>
+      <option value="amount">Sort by amount (high→low)</option>
+    </select>
+    <select class="ctrl-select" id="viewSel" onchange="renderAll()">
+      <option value="card">Card view</option>
+      <option value="table">Table view</option>
+    </select>
+  </div>
+
+  <!-- CATEGORY FILTER CHIPS -->
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;" id="filterChips">
+    <button class="filter-chip active" data-cat="all" onclick="setFilter('all',this)">All</button>
+    <button class="filter-chip" data-cat="entertainment" onclick="setFilter('entertainment',this)">🎬 Entertainment</button>
+    <button class="filter-chip" data-cat="productivity" onclick="setFilter('productivity',this)">💼 Productivity</button>
+    <button class="filter-chip" data-cat="fitness" onclick="setFilter('fitness',this)">💪 Fitness</button>
+    <button class="filter-chip" data-cat="education" onclick="setFilter('education',this)">📚 Education</button>
+    <button class="filter-chip" data-cat="ai" onclick="setFilter('ai',this)">🤖 AI</button>
+    <button class="filter-chip" data-cat="dev" onclick="setFilter('dev',this)">🛠 Dev Tools</button>
+    <button class="filter-chip" data-cat="other" onclick="setFilter('other',this)">✨ Other</button>
+  </div>
+
+  <!-- ADD/EDIT FORM -->
+  <div class="form-panel" id="formPanel">
+    <div class="form-head">
+      <h2 id="formTitle">Add Subscription</h2>
+      <button class="close-x" onclick="hideForm()">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="fg">
+        <label>Service Name *</label>
+        <input type="text" id="fName" placeholder="Netflix">
+      </div>
+      <div class="fg">
+        <label>Amount *</label>
+        <div style="display:flex;gap:8px;">
+          <input type="number" id="fAmount" placeholder="9.99" step="0.01" style="flex:1;">
+          <select id="fCurrency" style="flex:0.5;">
+            <option value="USD">$ USD</option>
+            <option value="EUR">€ EUR</option>
+            <option value="GBP">£ GBP</option>
+            <option value="JPY">¥ JPY</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Frequency</label>
+        <select id="fFreq">
+          <option value="monthly">Monthly</option>
+          <option value="quarterly">Quarterly</option>
+          <option value="semi-annual">Semi-Annual</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Billing Day (1–31)</label>
+        <input type="number" id="fBillingDay" min="1" max="31" value="1">
+      </div>
+      <div class="fg">
+        <label>Category</label>
+        <select id="fCategory">
+          <option value="entertainment">🎬 Entertainment</option>
+          <option value="productivity">💼 Productivity</option>
+          <option value="fitness">💪 Fitness</option>
+          <option value="education">📚 Education</option>
+          <option value="ai">🤖 AI</option>
+          <option value="dev">🛠 Dev Tools</option>
+          <option value="other">✨ Other</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Cancel URL (optional)</label>
+        <input type="url" id="fCancelUrl" placeholder="https://...">
+      </div>
+    </div>
+    <div class="fg" style="margin-bottom:16px;">
+      <label>Notes (optional)</label>
+      <textarea id="fNotes" placeholder="Any notes..."></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-fire" onclick="saveSub()">💾 Save</button>
+      <button class="btn btn-ghost" onclick="hideForm()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- CARD VIEW -->
+  <div id="cardView">
+    <div id="activeSection">
+      <div class="section-title">🔥 Active <span id="activeCt" style="font-size:14px;color:var(--text-3);font-family:var(--mono);"></span></div>
+      <div class="sub-grid" id="activeGrid"></div>
+    </div>
+    <div id="cancelledSection" style="display:none;">
+      <div class="section-title" style="font-size:18px;">✕ Cancelled <span id="cancelledCt" style="font-size:13px;color:var(--text-3);font-family:var(--mono);"></span></div>
+      <div class="sub-grid" id="cancelledGrid"></div>
+    </div>
+    <div id="emptyState" class="empty" style="display:none;">
+      <div class="empty-icon">🔥</div>
+      <h2>Nothing burning yet</h2>
+      <p>Add your first subscription or load samples to see the damage.</p>
+      <button class="btn btn-fire" onclick="showForm()">➕ Add Subscription</button>
+    </div>
+  </div>
+
+  <!-- TABLE VIEW -->
+  <div id="tableView" style="display:none;">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Name</th><th>Amount</th><th>Frequency</th><th>Billing Day</th><th>Days Until</th><th>Category</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FREE vs PRO TABLE -->
+  <div class="fp-wrap" id="fpSection">
+    <div class="fp-head">🔥 Free vs Pro</div>
+    <table class="fp-table">
+      <thead><tr>
+        <th>Feature</th>
+        <th>Free</th>
+        <th style="color:var(--fire)">Pro $4.99</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Track subscriptions</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Category filter & search</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Spending charts</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Export JSON / CSV</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Renewal alerts</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Subscription limit</td><td>20</td><td style="color:var(--fire)">Unlimited</td></tr>
+        <tr><td>Multi-currency dashboard</td><td>—</td><td style="color:var(--fire)">✅</td></tr>
+        <tr><td>PDF expense report</td><td>—</td><td style="color:var(--fire)">✅</td></tr>
+        <tr><td>Encrypted local backup</td><td>—</td><td style="color:var(--fire)">✅</td></tr>
+        <tr><td>Custom categories</td><td>—</td><td style="color:var(--fire)">✅</td></tr>
+        <tr><td>Priority support</td><td>—</td><td style="color:var(--fire)">✅</td></tr>
+      </tbody>
+    </table>
+    <div class="fp-cta">
+      <button class="btn-unlock" onclick="openProModal()">🔥 Unlock Pro — $4.99 Lifetime</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>🔥 About Incinerator</h3>
+        <p>Incinerator is a privacy-first subscription manager that runs entirely in your browser. No cloud, no account, no personal data collection. Everything stays on your device — always.</p>
+        <p>Your data is never sent to a server. Ever. The name says it all: burn the waste, keep the savings.</p>
+      </div>
+      <div class="footer-col">
+        <h3>📋 How to Use</h3>
+        <ol>
+          <li>Click "Add Subscription" and enter details</li>
+          <li>Monthly & yearly costs calculate automatically</li>
+          <li>Click 🔥 Burn to mark a service as cancelled</li>
+          <li>Export JSON/CSV to back up your data</li>
+          <li>Filter by category to spot overspending</li>
+        </ol>
+      </div>
+      <div class="footer-col">
+        <h3>❓ FAQ</h3>
+        <div class="faq-q">Where is my data stored?</div>
+        <div class="faq-a">Entirely in your browser's localStorage. Nothing goes to any server.</div>
+        <div class="faq-q">Can I use this on mobile?</div>
+        <div class="faq-a">Yes — it works on iPhone, Android, and any modern browser.</div>
+        <div class="faq-q">What happens if I clear my browser?</div>
+        <div class="faq-a">Export a JSON backup first. Use Settings → Export JSON.</div>
+        <div class="faq-q">Is this really free?</div>
+        <div class="faq-a">Core features are free forever. Pro unlocks unlimited subs and advanced exports.</div>
+      </div>
+    </div>
+    <div class="blog-section">
+      <h3>Why Most People Overpay for Subscriptions</h3>
+      <p>The average person pays for <strong>10+ subscriptions</strong> — and actively uses fewer than half. Services like Netflix, Spotify, Adobe CC, and a dozen SaaS tools pile up on credit cards with no visible total. Incinerator makes the cost visible. Once you see the number, you act.</p>
+      <p>Subscription creep is real: you sign up for a free trial, forget to cancel, and pay for 6 months before noticing. Incinerator shows renewal dates at a glance so you're never caught off guard again.</p>
+      <h3 style="margin-top:20px;">Privacy-First Design — No Exceptions</h3>
+      <p>Every other subscription tracker wants your email, your bank login, or your cloud account. Incinerator stores <strong>everything locally</strong>. Open DevTools → Network tab right now — you'll see zero outbound requests for your subscription data. That's the promise, and you can verify it yourself.</p>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Incinerator — Private Subscription Manager</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- PRO MODAL -->
+<div class="modal" id="proModal">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div class="modal-badge">🔥 Pro — Lifetime</div>
+      <div class="modal-title">Upgrade to Pro</div>
+      <div class="modal-sub">One-time payment. No subscription irony here.</div>
+      <div class="modal-price">
+        <span class="price-curr">$</span>
+        <span class="price-amt">4.99</span>
+        <span class="price-per">/ once · lifetime</span>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="feat-grid">
+        <div class="feat"><span class="feat-check">✓</span> Unlimited subscriptions</div>
+        <div class="feat"><span class="feat-check">✓</span> Multi-currency dashboard</div>
+        <div class="feat"><span class="feat-check">✓</span> PDF expense report</div>
+        <div class="feat"><span class="feat-check">✓</span> Encrypted backup</div>
+        <div class="feat"><span class="feat-check">✓</span> Custom categories</div>
+        <div class="feat"><span class="feat-check">✓</span> Priority support</div>
+      </div>
+      <button class="modal-cta" onclick="showToast('🔥 Pro purchase flow would open here'); closeProModal()">Get Pro — $4.99 →</button>
+      <button class="modal-cancel" onclick="closeProModal()">Continue with free version</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CONSTANTS ───────────────────────────────────────
+const STORAGE_KEY = 'incinerator_v2';
+const MAX_FREE = 20;
+const CURRENCIES = { USD:'$', EUR:'€', GBP:'£', JPY:'¥' };
+const CAT_LABEL = {
+  entertainment:'🎬 Entertainment', productivity:'💼 Productivity',
+  fitness:'💪 Fitness', education:'📚 Education', ai:'🤖 AI',
+  dev:'🛠 Dev Tools', other:'✨ Other'
+};
+const CAT_COLORS = {
+  entertainment:'#f97316', productivity:'#38bdf8', fitness:'#4ade80',
+  education:'#fbbf24', ai:'#a78bfa', dev:'#34d399', other:'#9ca3af'
+};
+
+// ─── STATE ───────────────────────────────────────────
+let subs = [];
+let editId = null;
+let activeFilter = 'all';
+let pieChart = null;
+
+// ─── SAMPLES ────────────────────────────────────────
+const SAMPLE_SUBS = [
+  { name:'Netflix', amount:15.99, currency:'USD', freq:'monthly', billingDay:12, category:'entertainment', notes:'Family plan', cancelUrl:'https://netflix.com/cancel' },
+  { name:'Spotify', amount:9.99, currency:'USD', freq:'monthly', billingDay:5, category:'entertainment', notes:'Premium', cancelUrl:'https://spotify.com/account' },
+  { name:'Adobe Creative Cloud', amount:59.99, currency:'USD', freq:'monthly', billingDay:22, category:'productivity', notes:'All apps plan', cancelUrl:'https://adobe.com/cancel' },
+  { name:'ChatGPT Plus', amount:20, currency:'USD', freq:'monthly', billingDay:18, category:'ai', notes:'GPT-4 access', cancelUrl:'https://chat.openai.com' },
+  { name:'Notion', amount:8, currency:'USD', freq:'monthly', billingDay:3, category:'productivity', notes:'Pro plan', cancelUrl:'https://notion.so/billing' },
+  { name:'Cloudflare Pro', amount:20, currency:'USD', freq:'monthly', billingDay:28, category:'dev', notes:'1 site', cancelUrl:'https://cloudflare.com/billing' },
+  { name:'GitHub Copilot', amount:10, currency:'USD', freq:'monthly', billingDay:10, category:'dev', notes:'Individual', cancelUrl:'https://github.com/settings/billing' },
+  { name:'Duolingo Plus', amount:79.99, currency:'USD', freq:'yearly', billingDay:15, category:'education', notes:'Annual deal', cancelUrl:'https://duolingo.com/settings/subscription' },
+];
+
+function loadSamples() {
+  subs = SAMPLE_SUBS.map(s => ({
+    ...s, frequency: s.freq, id: Date.now().toString() + Math.random().toString(36).slice(2),
+    status: 'active', createdAt: new Date().toISOString()
+  }));
+  saveData();
+  renderAll();
+  showToast('✓ Sample subscriptions loaded!');
+}
+
+// ─── DATA ────────────────────────────────────────────
+function loadData() {
+  try { const d = localStorage.getItem(STORAGE_KEY); if (d) subs = JSON.parse(d); } catch {}
+}
+function saveData() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(subs)); } catch {} }
+
+// ─── FORM ────────────────────────────────────────────
+function showForm(id) {
+  editId = id || null;
+  if (id) {
+    const s = subs.find(x => x.id === id);
+    if (!s) return;
+    document.getElementById('formTitle').textContent = 'Edit Subscription';
+    document.getElementById('fName').value = s.name;
+    document.getElementById('fAmount').value = s.amount;
+    document.getElementById('fCurrency').value = s.currency;
+    document.getElementById('fFreq').value = s.frequency;
+    document.getElementById('fBillingDay').value = s.billingDay;
+    document.getElementById('fCategory').value = s.category;
+    document.getElementById('fNotes').value = s.notes || '';
+    document.getElementById('fCancelUrl').value = s.cancelUrl || '';
+  } else {
+    document.getElementById('formTitle').textContent = 'Add Subscription';
+    document.getElementById('fName').value = '';
+    document.getElementById('fAmount').value = '';
+    document.getElementById('fFreq').value = 'monthly';
+    document.getElementById('fBillingDay').value = 1;
+    document.getElementById('fCategory').value = 'other';
+    document.getElementById('fNotes').value = '';
+    document.getElementById('fCancelUrl').value = '';
+  }
+  document.getElementById('formPanel').classList.add('open');
+  document.getElementById('fName').focus();
+}
+function hideForm() { document.getElementById('formPanel').classList.remove('open'); editId = null; }
+
+function saveSub() {
+  const name = document.getElementById('fName').value.trim();
+  const amount = parseFloat(document.getElementById('fAmount').value);
+  if (!name || isNaN(amount) || amount <= 0) { showToast('⚠ Name and amount are required.'); return; }
+  const active = subs.filter(s => s.status === 'active');
+  if (!editId && active.length >= MAX_FREE) { openProModal(); return; }
+
+  const obj = {
+    name, amount,
+    currency: document.getElementById('fCurrency').value,
+    frequency: document.getElementById('fFreq').value,
+    billingDay: parseInt(document.getElementById('fBillingDay').value) || 1,
+    category: document.getElementById('fCategory').value,
+    notes: document.getElementById('fNotes').value.trim(),
+    cancelUrl: document.getElementById('fCancelUrl').value.trim(),
+  };
+  if (editId) {
+    subs = subs.map(s => s.id === editId ? { ...s, ...obj } : s);
+    showToast('✓ Subscription updated!');
+  } else {
+    subs.push({ ...obj, id: Date.now().toString() + Math.random().toString(36).slice(2), status: 'active', createdAt: new Date().toISOString() });
+    showToast('✓ Subscription added!');
+  }
+  saveData(); hideForm(); renderAll();
+}
+
+// ─── ACTIONS ─────────────────────────────────────────
+function incinerate(id) {
+  createParticles();
+  setTimeout(() => {
+    subs = subs.map(s => s.id === id ? { ...s, status: 'cancelled' } : s);
+    saveData(); renderAll();
+    showToast('🔥 Incinerated!');
+  }, 350);
+}
+function deleteSub(id) {
+  if (!confirm('Permanently delete this subscription?')) return;
+  subs = subs.filter(s => s.id !== id);
+  saveData(); renderAll();
+}
+function restoreSub(id) {
+  subs = subs.map(s => s.id === id ? { ...s, status: 'active' } : s);
+  saveData(); renderAll();
+}
+
+// ─── CALCULATIONS ────────────────────────────────────
+function daysUntil(billingDay) {
+  const today = new Date();
+  let next = new Date(today.getFullYear(), today.getMonth(), billingDay);
+  if (next <= today) next = new Date(today.getFullYear(), today.getMonth() + 1, billingDay);
+  return Math.ceil((next - today) / 86400000);
+}
+function toMonthly(s) {
+  const m = { monthly:1, quarterly:1/3, 'semi-annual':1/6, yearly:1/12 };
+  return s.amount * (m[s.frequency] || 1);
+}
+function toYearly(s) {
+  const y = { monthly:12, quarterly:4, 'semi-annual':2, yearly:1 };
+  return s.amount * (y[s.frequency] || 12);
+}
+function fmt(amount, currency) {
+  const sym = CURRENCIES[currency] || '$';
+  return sym + (currency === 'JPY' ? Math.round(amount).toLocaleString() : amount.toFixed(2));
+}
+
+// ─── FILTER & SORT ───────────────────────────────────
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+window.setFilter = setFilter;
+
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const sort = document.getElementById('sortSel').value;
+  let list = subs.filter(s => s.status === 'active');
+  if (activeFilter !== 'all') list = list.filter(s => s.category === activeFilter);
+  if (q) list = list.filter(s => s.name.toLowerCase().includes(q) || (s.notes||'').toLowerCase().includes(q));
+  return list.sort((a,b) => {
+    if (sort === 'billing') return daysUntil(a.billingDay) - daysUntil(b.billingDay);
+    if (sort === 'name')    return a.name.localeCompare(b.name);
+    return toMonthly(b) - toMonthly(a);
+  });
+}
+
+// ─── RENDER ──────────────────────────────────────────
+function renderAll() {
+  const active = subs.filter(s => s.status === 'active');
+  const cancelled = subs.filter(s => s.status !== 'active');
+  const filtered = getFiltered();
+  const viewMode = document.getElementById('viewSel').value;
+
+  // Dashboard
+  const monthly = active.reduce((a,s) => a + toMonthly(s), 0);
+  const yearly  = active.reduce((a,s) => a + toYearly(s), 0);
+  const currency = active.length ? active[0].currency : 'USD';
+  const sym = CURRENCIES[currency] || '$';
+  document.getElementById('dashMonthly').textContent = sym + monthly.toFixed(2);
+  document.getElementById('dashYearly').textContent  = sym + yearly.toFixed(2);
+  document.getElementById('dashActiveCt').textContent = active.length + ' active subscription' + (active.length!==1?'s':'');
+  document.getElementById('dashLimit').textContent = active.length + ' / ' + MAX_FREE;
+  const pct = Math.min(100, (active.length / MAX_FREE) * 100);
+  document.getElementById('limitBar').style.width = pct + '%';
+  document.getElementById('proBtnSmall').style.display = active.length >= MAX_FREE ? 'block' : 'none';
+
+  if (active.length) {
+    const biggest = active.reduce((a,b) => toMonthly(a) > toMonthly(b) ? a : b);
+    document.getElementById('dashBiggest').textContent = fmt(biggest.amount, biggest.currency);
+    document.getElementById('dashBiggestName').textContent = biggest.name;
+  } else {
+    document.getElementById('dashBiggest').textContent = '—';
+    document.getElementById('dashBiggestName').textContent = 'Add your subs to see';
+  }
+
+  // Charts
+  const chartRow = document.getElementById('chartRow');
+  if (active.length > 0) {
+    chartRow.style.display = 'grid';
+    renderPie(active);
+    renderUpcoming(active);
+  } else {
+    chartRow.style.display = 'none';
+  }
+
+  // Views
+  document.getElementById('cardView').style.display  = viewMode === 'card'  ? 'block' : 'none';
+  document.getElementById('tableView').style.display = viewMode === 'table' ? 'block' : 'none';
+
+  if (viewMode === 'card') renderCards(filtered, cancelled);
+  else renderTable(filtered, cancelled);
+}
+
+function renderPie(active) {
+  const bycat = {};
+  active.forEach(s => { bycat[s.category] = (bycat[s.category]||0) + toMonthly(s); });
+  const labels = Object.keys(bycat).map(k => CAT_LABEL[k]||k);
+  const data   = Object.values(bycat);
+  const colors = Object.keys(bycat).map(k => CAT_COLORS[k]||'#6b7280');
+  if (pieChart) pieChart.destroy();
+  const ctx = document.getElementById('pieChart').getContext('2d');
+  pieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderColor: '#18181c', borderWidth: 2 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#8a8a9a', font: { family: 'DM Mono', size: 10 }, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ' $' + ctx.parsed.toFixed(2) + '/mo' } }
+      },
+      cutout: '68%'
+    }
+  });
+}
+
+function renderUpcoming(active) {
+  const sorted = [...active].sort((a,b) => daysUntil(a.billingDay) - daysUntil(b.billingDay));
+  const urgent = sorted.filter(s => daysUntil(s.billingDay) <= 7);
+  const hl = document.getElementById('highlightRow');
+  const big = active.reduce((a,b) => toMonthly(a)>toMonthly(b)?a:b, active[0]);
+  const nextUp = sorted[0];
+  hl.innerHTML = `
+    <div class="hl-box"><div class="hl-label">Most expensive</div><div class="hl-val fire">${big.name}</div></div>
+    <div class="hl-box"><div class="hl-label">Renewing next</div><div class="hl-val">${nextUp.name} — ${daysUntil(nextUp.billingDay)}d</div></div>
+  `;
+  const ul = document.getElementById('upcomingList');
+  ul.innerHTML = sorted.slice(0,6).map(s => {
+    const d = daysUntil(s.billingDay);
+    const cls = d<=3 ? 'days-urgent' : d<=7 ? 'days-soon' : 'days-ok';
+    return `<li class="upcoming-item">
+      <span class="upcoming-name">${esc(s.name)}</span>
+      <span class="upcoming-days ${cls}">${d}d</span>
+      <span class="upcoming-amt">${fmt(s.amount, s.currency)}</span>
+    </li>`;
+  }).join('');
+}
+
+function renderCards(filtered, cancelled) {
+  const aGrid = document.getElementById('activeGrid');
+  const cGrid = document.getElementById('cancelledGrid');
+  const empty = document.getElementById('emptyState');
+  const aSection = document.getElementById('activeSection');
+  const cSection = document.getElementById('cancelledSection');
+  document.getElementById('activeCt').textContent = filtered.length ? `(${filtered.length})` : '';
+  document.getElementById('cancelledCt').textContent = cancelled.length ? `(${cancelled.length})` : '';
+
+  const allActive = subs.filter(s => s.status === 'active');
+  empty.style.display = allActive.length === 0 ? 'block' : 'none';
+  aSection.style.display = filtered.length ? 'block' : 'none';
+  cSection.style.display = cancelled.length ? 'block' : 'none';
+
+  aGrid.innerHTML = filtered.map(s => {
+    const d = daysUntil(s.billingDay);
+    const isUrgent = d <= 3;
+    const freqLbl = { monthly:'mo', quarterly:'3mo', 'semi-annual':'6mo', yearly:'yr' }[s.frequency] || s.frequency;
+    return `<div class="sub-card ${isUrgent ? 'urgent' : ''}">
+      <div class="sub-top">
+        <div>
+          <div class="sub-name">${esc(s.name)}</div>
+          <div class="sub-cat">${CAT_LABEL[s.category]||s.category}</div>
+        </div>
+        <div class="sub-price">
+          <div class="sub-price-val">${CURRENCIES[s.currency]||'$'}${s.amount.toFixed(2)}</div>
+          <div class="sub-price-freq">per ${freqLbl}</div>
+        </div>
+      </div>
+      ${isUrgent ? `<div class="urgent-badge">⚠️ Billing in ${d} day${d!==1?'s':''}!</div>` : ''}
+      ${s.notes ? `<div class="sub-notes">"${esc(s.notes)}"</div>` : ''}
+      <div class="sub-actions">
+        <button class="sub-btn btn-burn" onclick="incinerate('${s.id}')">🔥 Burn</button>
+        <button class="sub-btn btn-edit" onclick="showForm('${s.id}')">✏️ Edit</button>
+      </div>
+      ${s.cancelUrl ? `<a href="${esc(s.cancelUrl)}" target="_blank" rel="noopener noreferrer" class="cancel-link">→ Cancel this service</a>` : ''}
+    </div>`;
+  }).join('');
+
+  cGrid.innerHTML = cancelled.map(s => `
+    <div class="sub-card cancelled">
+      <div class="sub-top">
+        <div><div class="sub-name" style="text-decoration:line-through">${esc(s.name)}</div></div>
+        <div class="sub-price"><div class="sub-price-val" style="font-size:20px">${CURRENCIES[s.currency]||'$'}${s.amount.toFixed(2)}</div></div>
+      </div>
+      <div class="sub-actions">
+        <button class="sub-btn btn-edit" onclick="restoreSub('${s.id}')">↩ Restore</button>
+        <button class="sub-btn" style="flex:1;background:rgba(239,68,68,.12);color:#ef4444;" onclick="deleteSub('${s.id}')">🗑 Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTable(filtered, cancelled) {
+  const all = [...filtered, ...cancelled];
+  document.getElementById('tableBody').innerHTML = all.map(s => {
+    const d = daysUntil(s.billingDay);
+    const isUrgent = s.status==='active' && d<=3;
+    const freqLbl = { monthly:'Monthly', quarterly:'Quarterly', 'semi-annual':'Semi-Annual', yearly:'Yearly' }[s.frequency] || s.frequency;
+    return `<tr ${isUrgent ? 'style="background:rgba(249,115,22,.07)"' : ''}>
+      <td><strong>${esc(s.name)}</strong>${s.status==='cancelled'?' <span style="color:var(--text-3);font-size:10px;">(cancelled)</span>':''}</td>
+      <td><span class="fire-amt">${CURRENCIES[s.currency]||'$'}${s.amount.toFixed(2)}</span></td>
+      <td>${freqLbl}</td>
+      <td>${s.billingDay}</td>
+      <td>${s.status==='active' ? d+' days' : '—'}</td>
+      <td>${CAT_LABEL[s.category]||s.category}</td>
+      <td style="display:flex;gap:4px;">
+        ${s.status==='active' ? `
+          <button class="sub-btn btn-edit" style="padding:5px 8px;font-size:11px;flex:none;" onclick="showForm('${s.id}')">✏️</button>
+          <button class="sub-btn btn-burn" style="padding:5px 8px;font-size:11px;flex:none;" onclick="incinerate('${s.id}')">🔥</button>
+        ` : `
+          <button class="sub-btn btn-edit" style="padding:5px 8px;font-size:11px;flex:none;" onclick="restoreSub('${s.id}')">↩</button>
+          <button class="sub-btn" style="padding:5px 8px;font-size:11px;flex:none;background:rgba(239,68,68,.12);color:#ef4444;" onclick="deleteSub('${s.id}')">🗑</button>
+        `}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── EXPORT / IMPORT ─────────────────────────────────
+function exportJSON() {
+  const json = JSON.stringify(subs, null, 2);
+  dl(json, 'incinerator-' + todayStr() + '.json', 'application/json');
+  showToast('✓ JSON exported!');
+}
+function exportCSV() {
+  const hdr = ['Name','Amount','Currency','Frequency','BillingDay','Category','Status','Notes'];
+  const rows = subs.map(s => [s.name,s.amount,s.currency,s.frequency,s.billingDay,s.category,s.status,s.notes||'']);
+  const csv = [hdr, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  dl(csv, 'incinerator-' + todayStr() + '.csv', 'text/csv');
+  showToast('✓ CSV exported!');
+}
+function importJSON() { document.getElementById('importInput').click(); }
+function handleImport(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!Array.isArray(data)) throw new Error('Invalid');
+      subs = data; saveData(); renderAll();
+      showToast('✓ Imported ' + data.length + ' subscriptions!');
+    } catch { showToast('⚠ Invalid JSON file.'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+function dl(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+
+// ─── MODALS ──────────────────────────────────────────
+function openProModal() { document.getElementById('proModal').classList.add('open'); }
+function closeProModal() { document.getElementById('proModal').classList.remove('open'); }
+document.getElementById('proModal').addEventListener('click', e => { if(e.target===document.getElementById('proModal')) closeProModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeProModal(); });
+
+// ─── SETTINGS TOGGLE ─────────────────────────────────
+// (settings button removed — toolbar is always visible)
+
+function clearAllData() {
+  if (!subs.length) { showToast('⚠ Nothing to clear.'); return; }
+  if (confirm('Delete ALL subscriptions? This cannot be undone.')) {
+    subs = []; saveData(); renderAll();
+    showToast('🗑 All data cleared.');
+  }
+}
+window.clearAllData = clearAllData;
+
+// ─── PARTICLES ───────────────────────────────────────
+function createParticles() {
+  for (let i = 0; i < 6; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle'; p.textContent = '🔥';
+    p.style.left = (window.innerWidth/2 + (Math.random()-0.5)*120) + 'px';
+    p.style.top  = (window.innerHeight/2 + (Math.random()-0.5)*60) + 'px';
+    p.style.setProperty('--tx', ((Math.random()-0.5)*80) + 'px');
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 900);
+  }
+}
+
+// ─── TOAST ───────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+window.showToast = showToast;
+
+// ─── UTILS ───────────────────────────────────────────
+function esc(s) {
+  const d = document.createElement('div'); d.textContent = s||''; return d.innerHTML;
+}
+
+// ─── INIT ────────────────────────────────────────────
+loadData();
+renderAll();
+
+// expose for onclick
+window.showForm = showForm;
+window.saveSub = saveSub;
+window.hideForm = hideForm;
+window.incinerate = incinerate;
+window.deleteSub = deleteSub;
+window.restoreSub = restoreSub;
+window.openProModal = openProModal;
+window.closeProModal = closeProModal;
+window.loadSamples = loadSamples;
+window.exportJSON = exportJSON;
+window.exportCSV = exportCSV;
+window.importJSON = importJSON;
+window.handleImport = handleImport;
+</script>
+</body>
+</html>

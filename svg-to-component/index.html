@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9DN1552YJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-F9DN1552YJ');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG to Component — Optimized React & Vue Icons</title>
+    <meta name="description" content="Convert SVG to optimized React or Vue components instantly. Clean attributes, standardize styling, and reduce file size with our secure, local-only tool.">
+    <meta name="keywords" content="svg to react, svg to vue, icon component generator, svg optimizer, react icon component, vue icon component">
+
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            font-family: 'JetBrains Mono', monospace;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 2px; }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-neutral-950 text-neutral-200">
+
+    <div class="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 relative">
+        <!-- Minimal grid background -->
+        <div class="fixed inset-0 opacity-[0.02] pointer-events-none" style="background-image: linear-gradient(0deg, transparent 24%, rgba(255,255,255,.1) 25%, rgba(255,255,255,.1) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.1) 75%, rgba(255,255,255,.1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255,255,255,.1) 25%, rgba(255,255,255,.1) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.1) 75%, rgba(255,255,255,.1) 76%, transparent 77%, transparent); background-size: 50px 50px;"></div>
+
+        <div class="relative z-10">
+            <!-- Header -->
+            <header class="border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-xl sticky top-0 z-20">
+                <div class="max-w-7xl mx-auto px-6 py-6">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-sm flex items-center justify-center">
+                                    <i data-lucide="code-2" class="w-5 h-5 text-neutral-950 font-bold"></i>
+                                </div>
+                                <h1 class="text-3xl font-bold text-neutral-50 tracking-tight">SVG to Component</h1>
+                            </div>
+                            <p class="text-neutral-500 text-sm">Convert SVG to optimized React/Vue components instantly</p>
+                        </div>
+                        <button onclick="toggleDocs()" class="flex items-center gap-2 px-4 py-2 rounded-md border border-neutral-700 hover:border-neutral-600 hover:bg-neutral-900 text-neutral-300 transition-colors text-sm">
+                            <i data-lucide="book-open" class="w-4 h-4"></i>
+                            Docs
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="max-w-7xl mx-auto px-6 py-10">
+                <!-- Controls -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-400 mb-2 uppercase tracking-wider">Framework</label>
+                        <select id="framework-select" onchange="updateFramework(this.value)" class="w-full px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-neutral-100 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30">
+                            <option value="react">React (JSX)</option>
+                            <option value="vue">Vue 3 (SFC)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-400 mb-2 uppercase tracking-wider">Component Name</label>
+                        <input type="text" id="component-name" value="Icon" oninput="updateComponentName(this.value)" placeholder="IconName" class="w-full px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-neutral-100 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30">
+                    </div>
+
+                    <div class="flex items-end gap-3">
+                        <label class="flex-1 flex items-center gap-2 cursor-pointer px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 hover:border-neutral-600 transition-colors">
+                            <input type="checkbox" id="typescript-check" checked onchange="updateTS(this.checked)" class="w-4 h-4 rounded">
+                            <span class="text-xs font-semibold text-neutral-300">TypeScript</span>
+                        </label>
+                        <button onclick="document.getElementById('file-input').click()" class="flex-1 px-3 py-2 rounded-md bg-amber-600 hover:bg-amber-700 text-neutral-50 text-sm font-semibold transition-colors">Upload SVG</button>
+                        <input type="file" accept=".svg" id="file-input" class="hidden" onchange="handleFile(this.files[0])">
+                    </div>
+                </div>
+
+                <!-- Editor & Preview Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+                    <!-- SVG Input -->
+                    <div class="flex flex-col">
+                        <div class="mb-3 flex items-center justify-between">
+                            <h2 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider">SVG Input</h2>
+                            <span class="text-xs text-neutral-500">Paste or drag-drop</span>
+                        </div>
+                        <textarea id="svg-input" oninput="handleInput(this.value)" placeholder='<svg viewBox="0 0 24 24">
+  <!-- Your SVG content here -->
+</svg>' class="flex-1 h-64 px-4 py-3 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-100 text-xs focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 resize-none font-mono"></textarea>
+                        <div id="stats-container" class="hidden mt-3 p-3 rounded-md bg-neutral-800/50 border border-neutral-700 text-xs text-neutral-400">
+                            <div class="flex justify-between items-center">
+                                <span id="stat-original">Original: 0 KB</span>
+                                <span id="stat-optimized" class="text-green-500">Optimized: 0 KB</span>
+                                <span id="stat-reduction" class="text-amber-500 font-semibold">0% smaller</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Code Output -->
+                    <div class="flex flex-col">
+                        <div class="mb-3 flex items-center justify-between">
+                            <h2 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider">Generated Code</h2>
+                            <div class="flex gap-2">
+                                <button onclick="copyCode()" id="copy-btn" class="flex items-center gap-1 px-3 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-semibold transition-colors">
+                                    <i data-lucide="copy" class="w-3 h-3"></i>
+                                    <span>Copy</span>
+                                </button>
+                                <button onclick="downloadCode()" id="download-btn" disabled class="flex items-center gap-1 px-3 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 disabled:opacity-50 text-neutral-300 text-xs font-semibold transition-colors">
+                                    <i data-lucide="download" class="w-3 h-3"></i>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                        <pre id="code-output" class="flex-1 h-64 px-4 py-3 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-100 text-xs overflow-auto font-mono">// Paste SVG to generate component code</pre>
+                    </div>
+                </div>
+
+                <!-- SVG Preview -->
+                <div id="preview-container" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10 fade-in">
+                    <div>
+                        <h2 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider mb-3">SVG Preview</h2>
+                        <div id="svg-preview" class="h-64 rounded-md bg-neutral-900 border border-neutral-800 p-8 flex items-center justify-center overflow-auto"></div>
+                    </div>
+
+                    <div>
+                        <h2 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider mb-3">Component Test</h2>
+                        <div class="h-64 rounded-md bg-neutral-900 border border-neutral-800 p-8 flex flex-col items-center justify-center gap-8">
+                            <div class="space-y-4 w-full text-center">
+                                <div>
+                                    <p class="text-xs text-neutral-500 mb-3">Default (24px)</p>
+                                    <div id="preview-default" class="flex justify-center text-neutral-50"></div>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-neutral-500 mb-3">Large (48px)</p>
+                                    <div id="preview-large" class="flex justify-center text-amber-500"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Docs Section -->
+                <div id="docs-section" class="hidden mt-16 bg-neutral-900/50 backdrop-blur border border-neutral-800 rounded-lg p-12 animate-fade-in">
+                    <article class="prose prose-invert max-w-none">
+                        <h2 class="text-4xl font-bold text-neutral-50 mb-8">Best Practices for SVG Icons in React</h2>
+
+                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-8 mb-8 not-prose">
+                            <p class="text-neutral-300 text-lg">
+                                SVG icons are the modern standard for responsive, scalable UI elements. Learn how to convert, optimize, and integrate them into your React applications for optimal performance.
+                            </p>
+                        </div>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">1. Why SVG Over Icon Fonts?</h3>
+                        <p class="text-neutral-400 mb-4">
+                            Icon fonts were the standard a decade ago, but SVG has clear advantages: smaller file sizes, better accessibility, easier to style with CSS, and no FOUT (flash of unstyled text) issues. Modern React projects should use SVG exclusively.
+                        </p>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">File Size Comparison</h4>
+                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
+                            <li><strong>Icon Font:</strong> 50-100 KB (loads entire font for few icons)</li>
+                            <li><strong>Individual SVG:</strong> 1-5 KB per icon</li>
+                            <li><strong>Optimized SVG as JSX:</strong> 0.5-2 KB (inline, no HTTP requests)</li>
+                        </ul>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">2. Optimization Techniques</h3>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Remove Unnecessary Attributes</h4>
+                        <p class="text-neutral-400 mb-4">
+                            Design tools export SVG with presentation attributes you don't need: width, height, fill colors, editor metadata. This converter removes them automatically.
+                        </p>
+
+                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-6 font-mono text-sm not-prose">
+                            <p class="text-neutral-500 mb-2">Before:</p>
+                            <code class="text-neutral-300 block mb-4">
+                                &lt;svg width="24" height="24" viewBox="0 0 24 24" fill="#333" xmlns="..."&gt;
+                            </code>
+                            <p class="text-neutral-500 mb-2">After:</p>
+                            <code class="text-neutral-300">
+                                &lt;svg viewBox="0 0 24 24" fill="currentColor"&gt;
+                            </code>
+                        </div>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Use currentColor for Theming</h4>
+                        <p class="text-neutral-400 mb-4">
+                            By setting fill to "currentColor", SVGs inherit text color from their parent. This enables single-source icons that work with light/dark modes and custom color schemes without duplicates.
+                        </p>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">3. React Component Best Practices</h3>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Prop-Based Configuration</h4>
+                        <p class="text-neutral-400 mb-4">
+                            Icons should accept props for size, color, and className. This pattern is consistent with Lucide, Heroicons, and other modern icon libraries.
+                        </p>
+
+                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-6 font-mono text-sm not-prose">
+                            <code class="text-neutral-300">
+                                export const CheckIcon: React.FC&lt;IconProps&gt; = ({ 
+                                  size = 24, 
+                                  color = 'currentColor' 
+                                }) =&gt; (
+                                  &lt;svg width={size} height={size} viewBox="0 0 24 24"&gt;
+                                    &lt;path d="..." stroke={color} /&gt;
+                                  &lt;/svg&gt;
+                                );
+                            </code>
+                        </div>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Default to currentColor</h4>
+                        <p class="text-neutral-400 mb-6">
+                            This lets the icon inherit color from its parent element, matching text color automatically. Users can override with the color prop when needed.
+                        </p>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">4. Optimizing SVG Assets for Performance</h3>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Inline vs. External</h4>
+                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
+                            <li><strong>Inline (JSX):</strong> Best for design system icons. Zero HTTP requests. Inline bundle optimization.</li>
+                            <li><strong>External (.svg):</strong> Use for large, complex illustrations. Cacheable. Better for multiple pages.</li>
+                            <li><strong>Sprite Sheets:</strong> Legacy approach. Avoid unless supporting very old browsers.</li>
+                        </ul>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Build-Time Optimization</h4>
+                        <p class="text-neutral-400 mb-4">
+                            Use SVGO (SVG Optimizer) in your build pipeline to compress all SVGs automatically. Most designs export with unnecessary metadata that SVGO strips safely.
+                        </p>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Lazy Loading</h4>
+                        <p class="text-neutral-400 mb-6">
+                            For icon libraries with hundreds of icons, use dynamic imports and code-splitting. Load icon components on-demand rather than bundling everything upfront.
+                        </p>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">5. Accessibility Considerations</h3>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Decorative vs. Semantic Icons</h4>
+                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
+                            <li><strong>Decorative:</strong> Icon next to text. Add aria-hidden="true". Screen readers skip it.</li>
+                            <li><strong>Semantic:</strong> Icon as button or standalone. Add role and aria-label props.</li>
+                        </ul>
+
+                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-6 font-mono text-sm not-prose">
+                            <p class="text-neutral-500 mb-2">Decorative icon:</p>
+                            <code class="text-neutral-300 block mb-4">
+                                &lt;CheckIcon aria-hidden="true" /&gt; Success
+                            </code>
+                            <p class="text-neutral-500 mb-2">Semantic icon button:</p>
+                            <code class="text-neutral-300">
+                                &lt;button aria-label="Delete"&gt;&lt;TrashIcon /&gt;&lt;/button&gt;
+                            </code>
+                        </div>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">6. Common Pitfalls to Avoid</h3>
+
+                        <ul class="list-disc list-inside text-neutral-400 space-y-3 mb-6">
+                            <li><strong>Forgetting viewBox:</strong> Always include viewBox. Width/height are optional but viewBox is mandatory for scaling.</li>
+                            <li><strong>Hardcoded colors:</strong> Avoid fill="#FFF" or stroke="black". Use currentColor or pass as props.</li>
+                            <li><strong>Missing aria-labels:</strong> Icon buttons are invisible to screen readers without proper labels.</li>
+                            <li><strong>Overly complex SVG:</strong> Simplify paths. Use SVGO. Every extra node impacts performance.</li>
+                            <li><strong>No fallbacks:</strong> Provide title tags for important icons. &lt;title&gt;Settings&lt;/title&gt;</li>
+                        </ul>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">7. Design System Integration</h3>
+
+                        <p class="text-neutral-400 mb-4">
+                            Build a centralized icon component library with consistent sizing (16px, 24px, 32px), colors, and props. This ensures consistency across your application and makes icon updates trivial.
+                        </p>
+
+                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-8 font-mono text-sm not-prose">
+                            <code class="text-neutral-300">
+                                // icons/index.ts<br>
+                                export { CheckIcon } from './Check';<br>
+                                export { AlertIcon } from './Alert';<br>
+                                export { SearchIcon } from './Search';<br><br>
+                                // Usage<br>
+                                import { CheckIcon, AlertIcon } from '@/icons';<br><br>
+                                &lt;CheckIcon size={24} color="#10b981" /&gt;
+                            </code>
+                        </div>
+
+                        <div class="bg-neutral-950 border-l-4 border-amber-500 rounded-lg p-6 my-8 not-prose">
+                            <p class="text-neutral-300">
+                                <strong>Pro Tip:</strong> Use TypeScript interfaces for icon props. Enable IntelliSense for developers using your icon library. Type-safe icons = fewer bugs.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="mt-16 pt-16 border-t border-neutral-800">
+                        <h2 class="text-4xl font-bold text-neutral-50 mb-8">Optimizing SVG Assets for Performance</h2>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">File Size Matters</h3>
+
+                        <p class="text-neutral-400 mb-6">
+                            Even small icons add up. A design system with 200 icons can be 50-100 KB unoptimized. Every KB affects:
+                        </p>
+
+                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
+                            <li>Bundle size (slower initial load)</li>
+                            <li>Runtime memory usage (slower parsing)</li>
+                            <li>Mobile performance (more data transfer)</li>
+                        </ul>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">Optimization Techniques</h3>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">1. Use SVGO Aggressively</h4>
+                        <p class="text-neutral-400 mb-4">
+                            SVGO (SVG Optimizer) removes metadata, optimizes paths, and collapses groups. It can reduce file size by 50-70% without visual loss.
+                        </p>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">2. Remove Unused Attributes</h4>
+                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
+                            <li>editor metadata (sodipodi, illustrator namespaces)</li>
+                            <li>presentation attributes (use CSS instead)</li>
+                            <li>transform attributes (flatten into paths)</li>
+                        </ul>
+
+                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">3. Minify SVG Content</h4>
+                        <p class="text-neutral-400 mb-6">
+                            Remove whitespace, shorten path data, use single-letter attributes. In JSX, whitespace is removed by the bundler anyway.
+                        </p>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">Performance Metrics</h3>
+
+                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-8 not-prose">
+                            <table class="w-full text-sm text-neutral-300">
+                                <thead class="border-b border-neutral-700">
+                                    <tr>
+                                        <th class="text-left py-3">Metric</th>
+                                        <th class="text-left py-3">Unoptimized</th>
+                                        <th class="text-left py-3">Optimized</th>
+                                        <th class="text-left py-3">Improvement</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-neutral-700">
+                                        <td class="py-3">Single Icon Size</td>
+                                        <td>3.2 KB</td>
+                                        <td>0.8 KB</td>
+                                        <td class="text-green-500">75%</td>
+                                    </tr>
+                                    <tr class="border-b border-neutral-700">
+                                        <td class="py-3">Library (200 icons)</td>
+                                        <td>640 KB</td>
+                                        <td>160 KB</td>
+                                        <td class="text-green-500">75%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3">Parse Time (gzip)</td>
+                                        <td>45ms</td>
+                                        <td>12ms</td>
+                                        <td class="text-green-500">73%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">Best Tool for the Job</h3>
+
+                        <p class="text-neutral-400 mb-8">
+                            This converter handles the essentials: camelCase conversion, currentColor substitution, and viewBox preservation. For maximum optimization, pipe the output through SVGO afterward.
+                        </p>
+
+                        <div class="bg-amber-900/20 border border-amber-700/50 rounded-lg p-6 not-prose">
+                            <p class="text-neutral-300">
+                                <strong>Workflow:</strong> Export SVG from Figma → Paste in converter → Copy React component → Optionally run SVGO on the SVG content → Commit to repo.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </main>
+
+            <!-- Pro Modal -->
+            <div id="pro-modal" class="fixed inset-0 bg-neutral-950/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+                <div class="bg-neutral-900 rounded-lg p-10 max-w-md border border-neutral-800 shadow-2xl scale-95 transition-transform duration-200">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-md bg-amber-600 mx-auto mb-6">
+                        <i data-lucide="lock" class="w-6 h-6 text-neutral-50"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-neutral-50 text-center mb-2">Pro Features Coming</h3>
+                    <p class="text-neutral-400 text-center mb-8 text-sm">Unlock advanced workflows for professional developers</p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-neutral-200 text-sm">Bulk Conversion</p>
+                                <p class="text-xs text-neutral-500">Upload multiple SVGs, get Zip with components</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-neutral-200 text-sm">SVGO Configuration</p>
+                                <p class="text-xs text-neutral-500">Fine-tune optimization settings</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-neutral-200 text-sm">Design System Templates</p>
+                                <p class="text-xs text-neutral-500">Predefined patterns for Storybook</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-neutral-200 text-sm">CLI Integration</p>
+                                <p class="text-xs text-neutral-500">Batch convert via command-line</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="closeProModal()" class="w-full px-4 py-3 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-semibold transition-colors">Close</button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="border-t border-neutral-800 bg-neutral-950 mt-16 py-8">
+                <div class="max-w-7xl mx-auto px-6 text-center text-neutral-500 text-xs">
+                    <p>SVG to Component Converter • 100% Client-Side • No Data Collection</p>
+                    <p class="mt-2">For designers and developers who value speed and simplicity</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // --- State ---
+        let state = {
+            svgInput: '',
+            framework: 'react',
+            useTypeScript: true,
+            componentName: 'Icon',
+            generatedCode: '',
+            svgPreview: '',
+            showDocs: false
+        };
+
+        // --- Logic ---
+        function optimizeSVG(svgString) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(svgString, 'image/svg+xml');
+            if (doc.documentElement.tagName === 'parsererror') return null;
+
+            const svgElement = doc.documentElement;
+            const keepAttrs = ['viewBox', 'xmlns', 'width', 'height'];
+            Array.from(svgElement.attributes).forEach(attr => {
+                if (!keepAttrs.includes(attr.name) && !attr.name.startsWith('xmlns')) {
+                    svgElement.removeAttribute(attr.name);
+                }
+            });
+
+            const processElement = (el) => {
+                Array.from(el.attributes).forEach(attr => {
+                    const attrName = attr.name;
+                    if (attrName === 'stroke-width') { el.setAttribute('strokeWidth', attr.value); el.removeAttribute('stroke-width'); }
+                    else if (attrName === 'stroke-linecap') { el.setAttribute('strokeLinecap', attr.value); el.removeAttribute('stroke-linecap'); }
+                    else if (attrName === 'stroke-linejoin') { el.setAttribute('strokeLinejoin', attr.value); el.removeAttribute('stroke-linejoin'); }
+                    else if (attrName === 'fill-rule') { el.setAttribute('fillRule', attr.value); el.removeAttribute('fill-rule'); }
+                    else if (attrName === 'clip-path') { el.setAttribute('clipPath', attr.value); el.removeAttribute('clip-path'); }
+                });
+
+                if (el.hasAttribute('fill') && el.getAttribute('fill') !== 'none') {
+                    if (el.getAttribute('fill') !== 'currentColor') el.setAttribute('fill', 'currentColor');
+                }
+                if (el.tagName === 'svg') { el.removeAttribute('width'); el.removeAttribute('height'); }
+                Array.from(el.children).forEach(child => processElement(child));
+            };
+            processElement(svgElement);
+
+            const serializer = new XMLSerializer();
+            const optimizedSvg = serializer.serializeToString(svgElement);
+            return {
+                svg: optimizedSvg,
+                stats: {
+                    originalSize: svgString.length,
+                    optimizedSize: optimizedSvg.length,
+                    reduction: Math.max(0, Math.round(((svgString.length - optimizedSvg.length) / svgString.length) * 100))
+                }
+            };
+        }
+
+        function generateCode(optimizedSvg) {
+            if (!optimizedSvg) return '';
+            
+            // Extract inner content of SVG to replace the dummy path
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(optimizedSvg, 'image/svg+xml');
+            const innerContent = Array.from(doc.documentElement.children).map(c => new XMLSerializer().serializeToString(c)).join('\n    ');
+            const viewBox = doc.documentElement.getAttribute('viewBox') || '0 0 24 24';
+
+            if (state.framework === 'react') {
+                if (state.useTypeScript) {
+                    return `interface ${state.componentName}Props {
+  size?: number;
+  color?: string;
+  className?: string;
+}
+
+export const ${state.componentName}: React.FC<${state.componentName}Props> = ({ 
+  size = 24, 
+  color = 'currentColor',
+  className = ''
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="${viewBox}"
+    fill="none"
+    stroke={color}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    ${innerContent}
+  </svg>
+);`;
+                } else {
+                    return `export const ${state.componentName} = ({ size = 24, color = 'currentColor', className = '' }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="${viewBox}"
+    fill="none"
+    stroke={color}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    ${innerContent}
+  </svg>
+);`;
+                }
+            } else {
+                if (state.useTypeScript) {
+                    return '<script setup lang="ts">\n' + 
+`interface Props {
+  size?: number;
+  color?: string;
+  class?: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  size: 24,
+  color: 'currentColor'
+});
+` + '<' + '/script>\n\n' +
+`<template>
+  <svg
+    :width="size"
+    :height="size"
+    viewBox="${viewBox}"
+    fill="none"
+    :stroke="color"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    :class="$attrs.class"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    ${innerContent}
+  </svg>
+</template>`;
+                } else {
+                    return `<template>
+  <svg
+    :width="size"
+    :height="size"
+    viewBox="${viewBox}"
+    fill="none"
+    :stroke="color"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    :class="$attrs.class"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    ${innerContent}
+  </svg>
+</template>\n\n` + 
+'<script>\n' +
+`export default {
+  props: {
+    size: { type: Number, default: 24 },
+    color: { type: String, default: 'currentColor' }
+  }
+};
+` + '<' + '/script>';
+                }
+            }
+        }
+
+        function handleInput(val) {
+            state.svgInput = val;
+            const optimized = optimizeSVG(val);
+            if (optimized) {
+                state.svgPreview = optimized.svg;
+                state.generatedCode = generateCode(optimized.svg);
+                renderOutput(optimized.stats);
+            } else {
+                state.svgPreview = '';
+                state.generatedCode = '';
+                renderOutput(null);
+            }
+        }
+
+        function handleFile(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('svg-input').value = e.target.result;
+                handleInput(e.target.result);
+            };
+            reader.readAsText(file);
+        }
+
+        function updateFramework(val) { state.framework = val; handleInput(state.svgInput); }
+        function updateComponentName(val) { state.componentName = val.replace(/\s+/g, ''); handleInput(state.svgInput); }
+        function updateTS(val) { state.useTypeScript = val; handleInput(state.svgInput); }
+
+        function toggleDocs() {
+            state.showDocs = !state.showDocs;
+            document.getElementById('docs-section').classList.toggle('hidden', !state.showDocs);
+        }
+
+        async function copyCode() {
+            if (!state.generatedCode) return;
+            await navigator.clipboard.writeText(state.generatedCode);
+            const btn = document.getElementById('copy-btn');
+            const span = btn.querySelector('span');
+            const original = span.textContent;
+            span.textContent = 'Copied!';
+            setTimeout(() => span.textContent = original, 2000);
+        }
+
+        function downloadCode() {
+            const ext = state.useTypeScript ? (state.framework === 'react' ? 'tsx' : 'vue') : (state.framework === 'react' ? 'jsx' : 'vue');
+            const blob = new Blob([state.generatedCode], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${state.componentName}.${ext}`;
+            a.click();
+        }
+
+        function openProModal() {
+            const m = document.getElementById('pro-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            setTimeout(() => m.firstElementChild.classList.remove('scale-95'), 10);
+        }
+
+        function closeProModal() {
+            const m = document.getElementById('pro-modal');
+            m.firstElementChild.classList.add('scale-95');
+            setTimeout(() => { m.classList.add('hidden'); m.classList.remove('flex'); }, 200);
+        }
+
+        // --- Render ---
+        function renderOutput(stats) {
+            const codeOut = document.getElementById('code-output');
+            codeOut.textContent = state.generatedCode || '// Paste SVG to generate component code';
+            document.getElementById('download-btn').disabled = !state.generatedCode;
+
+            const statsContainer = document.getElementById('stats-container');
+            if (stats) {
+                statsContainer.classList.remove('hidden');
+                document.getElementById('stat-original').textContent = `Original: ${(stats.originalSize / 1024).toFixed(2)} KB`;
+                document.getElementById('stat-optimized').textContent = `Optimized: ${(stats.optimizedSize / 1024).toFixed(2)} KB`;
+                document.getElementById('stat-reduction').textContent = `${stats.reduction}% smaller`;
+            } else {
+                statsContainer.classList.add('hidden');
+            }
+
+            const previewContainer = document.getElementById('preview-container');
+            if (state.svgPreview) {
+                previewContainer.classList.remove('hidden');
+                document.getElementById('svg-preview').innerHTML = state.svgPreview;
+                document.getElementById('preview-default').innerHTML = state.svgPreview.replace(/<svg/, '<svg style="width: 24px; height: 24px;"');
+                document.getElementById('preview-large').innerHTML = state.svgPreview.replace(/<svg/, '<svg style="width: 48px; height: 48px;"');
+            } else {
+                previewContainer.classList.add('hidden');
+            }
+        }
+
+        // --- Init ---
+        lucide.createIcons();
+    </script>
+</body>
+</html>

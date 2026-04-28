@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GRJEYQ3PN8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-GRJEYQ3PN8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPA Calculator – Instantly Calculate Your College Grade Point Average</title>
+  <meta name="description" content="Free GPA calculator for college students. Enter your grades and credits to instantly calculate your GPA. Plus expert tips on how to raise your GPA and improve academic performance." />
+  <meta name="keywords" content="GPA calculator, college grade point average, how to raise my GPA, cumulative GPA, semester GPA" />
+  <link rel="canonical" href="https://gpacalculator.example.com/" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"DM Serif Display"', 'Georgia', 'serif'],
+            sans: ['"DM Sans"', 'sans-serif'],
+          },
+          colors: {
+            ink:    '#1a1a2e',
+            paper:  '#f5f0e8',
+            cream:  '#ede8dc',
+            accent: '#c8502a',
+            gold:   '#d4a843',
+            muted:  '#7a7060',
+          },
+          boxShadow: {
+            'stamp': '4px 4px 0px #1a1a2e',
+            'stamp-sm': '2px 2px 0px #1a1a2e',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #f5f0e8;
+      font-family: 'DM Sans', sans-serif;
+      color: #1a1a2e;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(212,168,67,.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(200,80,42,.06) 0%, transparent 50%);
+    }
+
+    /* ── Typography ── */
+    .font-serif { font-family: 'DM Serif Display', Georgia, serif; }
+
+    /* ── Header rule ── */
+    .rule-title {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .rule-title::before, .rule-title::after {
+      content: ''; flex: 1; height: 1px; background: #1a1a2e; opacity: .25;
+    }
+
+    /* ── Grade row animation ── */
+    .grade-row {
+      animation: rowIn .22s ease both;
+    }
+    @keyframes rowIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Input style ── */
+    .field {
+      background: #fff;
+      border: 1.5px solid #d0c8b8;
+      border-radius: 6px;
+      padding: .55rem .75rem;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      color: #1a1a2e;
+      width: 100%;
+      transition: border-color .18s, box-shadow .18s;
+      -webkit-appearance: none;
+    }
+    .field:focus {
+      outline: none;
+      border-color: #c8502a;
+      box-shadow: 0 0 0 3px rgba(200,80,42,.15);
+    }
+    select.field { cursor: pointer; }
+
+    /* ── GPA display pulse ── */
+    @keyframes glow {
+      0%,100% { box-shadow: 4px 4px 0 #1a1a2e; }
+      50%      { box-shadow: 4px 4px 0 #c8502a; }
+    }
+    .gpa-box.updated { animation: glow .5s ease; }
+
+    /* ── Blog prose ── */
+    .prose-blog p   { line-height: 1.8; margin-bottom: 1rem; color: #3a3428; }
+    .prose-blog h3  { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin: 1.5rem 0 .5rem; }
+    .prose-blog ul  { list-style: none; padding: 0; }
+    .prose-blog ul li {
+      padding: .45rem 0 .45rem 1.5rem;
+      position: relative;
+      border-bottom: 1px dashed #d0c8b8;
+      color: #3a3428;
+      line-height: 1.7;
+    }
+    .prose-blog ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: #c8502a; font-weight: 600;
+    }
+
+    /* ── Decorative corner ── */
+    .corner-tl { position: absolute; top: 12px; left: 12px; width: 24px; height: 24px;
+      border-top: 2px solid #d4a843; border-left: 2px solid #d4a843; }
+    .corner-br { position: absolute; bottom: 12px; right: 12px; width: 24px; height: 24px;
+      border-bottom: 2px solid #d4a843; border-right: 2px solid #d4a843; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #ede8dc; }
+    ::-webkit-scrollbar-thumb { background: #c8b898; border-radius: 3px; }
+  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GRJEYQ3PN8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GRJEYQ3PN8');
+</script>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="border-b border-ink/10 bg-ink text-paper">
+    <div class="max-w-4xl mx-auto px-4 py-5 flex items-center justify-between">
+      <div>
+        <span class="font-serif text-2xl tracking-tight">GPA<span class="text-gold">·</span>Calc</span>
+        <span class="ml-3 text-xs uppercase tracking-widest text-paper/50 hidden sm:inline">Academic Tools</span>
+      </div>
+      <nav class="flex gap-6 text-sm text-paper/70">
+        <a href="#calculator" class="hover:text-gold transition-colors">Calculator</a>
+        <a href="#blog" class="hover:text-gold transition-colors">Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="max-w-4xl mx-auto px-4 pt-12 pb-6 text-center">
+    <p class="text-xs uppercase tracking-[.2em] text-muted mb-3 font-medium">Free Tool for College Students</p>
+    <h1 class="font-serif text-4xl sm:text-5xl leading-tight mb-4">
+      GPA Calculator
+    </h1>
+    <p class="text-muted max-w-xl mx-auto text-base leading-relaxed">
+      Instantly compute your <strong class="text-ink font-medium">college grade point average</strong>.
+      Add each course, select your grade, enter credits — your GPA updates in real time.
+    </p>
+  </section>
+
+  <!-- ═══════════════ CALCULATOR ═══════════════ -->
+  <main id="calculator" class="max-w-3xl mx-auto px-4 pb-16">
+
+    <!-- Card -->
+    <div class="relative bg-white border-2 border-ink rounded-xl shadow-stamp p-6 sm:p-8 mb-4">
+      <div class="corner-tl"></div>
+      <div class="corner-br"></div>
+
+      <!-- Column headers (desktop) -->
+      <div class="hidden sm:grid sm:grid-cols-[2fr_1.4fr_1fr_auto] gap-3 mb-2 px-1">
+        <span class="text-xs font-semibold uppercase tracking-widest text-muted">Course Name <span class="font-normal">(optional)</span></span>
+        <span class="text-xs font-semibold uppercase tracking-widest text-muted">Grade</span>
+        <span class="text-xs font-semibold uppercase tracking-widest text-muted">Credits</span>
+        <span class="w-8"></span>
+      </div>
+      <div class="w-full h-px bg-ink/10 mb-4 hidden sm:block"></div>
+
+      <!-- Rows container -->
+      <div id="rows-container" class="flex flex-col gap-3 mb-6"></div>
+
+      <!-- Add row -->
+      <button id="btn-add"
+        class="w-full py-2.5 border-2 border-dashed border-ink/20 rounded-lg text-sm text-muted
+               font-medium hover:border-accent hover:text-accent transition-all duration-200 flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        Add Course
+      </button>
+    </div>
+
+    <!-- GPA Result + Actions -->
+    <div class="grid sm:grid-cols-[1fr_auto] gap-4 items-stretch">
+
+      <!-- GPA Box -->
+      <div id="gpa-box" class="gpa-box relative bg-ink text-paper rounded-xl border-2 border-ink shadow-stamp p-6 flex items-center gap-6">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-paper/50 mb-1">Your GPA</p>
+          <p id="gpa-display" class="font-serif text-6xl leading-none text-gold">—</p>
+        </div>
+        <div class="flex-1 border-l border-paper/10 pl-6">
+          <p id="gpa-label" class="text-sm text-paper/60 leading-relaxed">Enter your courses to see your <span class="text-paper font-medium">grade point average</span>.</p>
+          <div id="gpa-stats" class="mt-2 hidden">
+            <p class="text-xs text-paper/50">Total credits: <span id="stat-credits" class="text-paper font-medium">—</span></p>
+            <p class="text-xs text-paper/50 mt-0.5">Quality points: <span id="stat-points" class="text-paper font-medium">—</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side buttons -->
+      <div class="flex sm:flex-col gap-2">
+        <button id="btn-reset"
+          class="flex-1 sm:flex-none px-5 py-3 bg-paper border-2 border-ink rounded-lg text-sm font-semibold
+                 hover:bg-cream transition-colors shadow-stamp-sm">
+          Reset
+        </button>
+        <button id="btn-copy"
+          class="flex-1 sm:flex-none px-5 py-3 bg-accent text-white border-2 border-accent rounded-lg text-sm font-semibold
+                 hover:bg-accent/90 transition-colors shadow-stamp-sm">
+          Copy GPA
+        </button>
+      </div>
+    </div>
+
+    <!-- Grade scale legend -->
+    <details class="mt-6 bg-cream border border-ink/10 rounded-lg overflow-hidden">
+      <summary class="px-5 py-3 text-sm font-semibold cursor-pointer select-none hover:bg-ink/5 transition-colors flex items-center gap-2">
+        <svg class="w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 110 20A10 10 0 0112 2z"/>
+        </svg>
+        4.0 Grade Scale Reference
+      </summary>
+      <div class="px-5 pb-4 pt-2 grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">A / A+</span><span class="text-muted">4.0</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">A−</span><span class="text-muted">3.7</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">B+</span><span class="text-muted">3.3</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">B</span><span class="text-muted">3.0</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">B−</span><span class="text-muted">2.7</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">C+</span><span class="text-muted">2.3</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">C</span><span class="text-muted">2.0</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">C−</span><span class="text-muted">1.7</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">D+</span><span class="text-muted">1.3</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">D</span><span class="text-muted">1.0</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">D−</span><span class="text-muted">0.7</span></div>
+        <div class="flex justify-between border-b border-ink/10 py-1"><span class="font-medium">F</span><span class="text-muted">0.0</span></div>
+      </div>
+    </details>
+
+  </main>
+
+  <!-- ═══════════════ BLOG SECTION ═══════════════ -->
+  <section id="blog" class="border-t-2 border-ink/10 bg-cream">
+    <div class="max-w-3xl mx-auto px-4 py-14">
+
+      <!-- Section header -->
+      <div class="rule-title mb-10">
+        <span class="font-serif text-2xl sm:text-3xl text-center">GPA Guide</span>
+      </div>
+
+      <!-- Article 1 -->
+      <article class="mb-14">
+        <h2 class="font-serif text-2xl sm:text-3xl mb-2 leading-snug">How to Calculate Your GPA Accurately</h2>
+        <p class="text-xs uppercase tracking-widest text-muted mb-6">Understanding the Formula</p>
+
+        <div class="prose-blog">
+          <p>
+            A <strong>GPA calculator</strong> works by converting each letter grade into a numeric value — called a
+            <em>grade point</em> — and weighting it by the number of credit hours for that course. The result is your
+            <strong>college grade point average</strong>: a single number that summarizes your academic standing on
+            a 4.0 scale.
+          </p>
+
+          <h3>The Formula</h3>
+          <p>
+            GPA&nbsp;=&nbsp;<em>Sum of (Grade Points × Credit Hours)</em>&nbsp;÷&nbsp;<em>Total Credit Hours</em>
+          </p>
+          <p>
+            For example, if you earn an A (4.0) in a 3-credit course and a B (3.0) in a 4-credit course,
+            your quality points total is (4.0 × 3) + (3.0 × 4) = 12 + 12 = 24. Divided by 7 total credits,
+            your GPA is 3.43.
+          </p>
+
+          <h3>Semester GPA vs. Cumulative GPA</h3>
+          <p>
+            Your <strong>semester GPA</strong> only reflects the current term, while your
+            <strong>cumulative GPA</strong> — which matters most to employers and grad schools — is calculated
+            across all semesters combined. Use the <a href="#calculator" class="text-accent underline underline-offset-2">GPA calculator above</a> to
+            model both scenarios by adjusting which courses you include.
+          </p>
+
+          <h3>Common Mistakes to Avoid</h3>
+          <ul>
+            <li>Forgetting to weight grades by credit hours (a 1-credit elective counts far less than a 4-credit core class).</li>
+            <li>Mixing percentage scores directly into the formula — always convert to the letter grade first.</li>
+            <li>Ignoring pass/fail or withdrawn courses; check whether your institution counts a W in the GPA.</li>
+            <li>Confusing a weighted high-school GPA with the unweighted 4.0 college scale.</li>
+          </ul>
+        </div>
+      </article>
+
+      <div class="w-full h-px bg-ink/10 mb-14"></div>
+
+      <!-- Article 2 -->
+      <article>
+        <h2 class="font-serif text-2xl sm:text-3xl mb-2 leading-snug">Strategies to Improve Your Academic Performance</h2>
+        <p class="text-xs uppercase tracking-widest text-muted mb-6">A Practical Roadmap</p>
+
+        <div class="prose-blog">
+          <p>
+            If you're wondering <strong>how to raise my GPA</strong>, the good news is that small, consistent
+            changes can move the needle significantly — especially early in your degree when more semesters remain
+            to build momentum.
+          </p>
+
+          <h3>1. Audit Your Current Standing</h3>
+          <p>
+            Start by entering all your past courses into the <strong>GPA calculator</strong> at the top of this page.
+            Knowing your exact <em>college grade point average</em> lets you set realistic targets:
+            moving from a 2.5 to a 3.0 in one semester requires a dramatically different plan than moving from a 3.5 to a 3.7.
+          </p>
+
+          <h3>2. Prioritize High-Credit Courses</h3>
+          <ul>
+            <li>A higher-credit course has more weight — improving from a C to an A in a 4-credit class lifts your GPA more than the same jump in a 1-credit seminar.</li>
+            <li>Identify two or three high-credit courses where you're underperforming and focus your study energy there first.</li>
+            <li>Consider retaking a course if your institution allows grade replacement — the credit hours are the same but the quality points reset.</li>
+          </ul>
+
+          <h3>3. Build Consistent Study Habits</h3>
+          <ul>
+            <li>Study in short, focused blocks (45–60 min) rather than marathon sessions. Cognitive load research consistently shows spaced repetition beats cramming.</li>
+            <li>Attend every lecture — students who miss even 10 % of classes statistically earn lower final grades.</li>
+            <li>Form study groups for quantitative subjects; teaching others is one of the most effective retention strategies.</li>
+          </ul>
+
+          <h3>4. Leverage Office Hours and Academic Resources</h3>
+          <ul>
+            <li>Most professors adjust the bar slightly for students who demonstrate genuine effort — office-hour visits signal engagement.</li>
+            <li>Campus writing centers and tutoring labs can turn a B paper into an A.</li>
+            <li>Ask advisors about late-withdrawal deadlines to protect your GPA from classes that have gone severely off-track.</li>
+          </ul>
+
+          <h3>5. Use a GPA Calculator to Set Targets</h3>
+          <p>
+            The most actionable use of a <strong>GPA calculator</strong> is reverse-planning. Enter your current
+            grades and credits, then change the grades for upcoming courses to see exactly what score you need to
+            reach your target GPA. This transforms a vague goal — "I want to raise my GPA" — into a concrete
+            benchmark: "I need at least a B+ in Biology and an A in History this semester."
+          </p>
+
+          <div class="mt-8 bg-white border-2 border-ink rounded-lg shadow-stamp p-5">
+            <p class="font-serif text-lg mb-2">Ready to calculate?</p>
+            <p class="text-sm text-muted mb-4">Use our free GPA calculator to model your target semester right now.</p>
+            <a href="#calculator"
+              class="inline-block bg-accent text-white text-sm font-semibold px-6 py-2.5 rounded-lg
+                     border-2 border-accent shadow-stamp-sm hover:bg-accent/90 transition-colors">
+              → Go to Calculator
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="bg-ink text-paper/50 text-xs py-6 text-center">
+    <p>GPA·Calc — Free GPA Calculator for College Students &nbsp;|&nbsp; Grades on the standard 4.0 scale</p>
+  </footer>
+
+
+  <!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+  <script>
+  (() => {
+    'use strict';
+
+    /* ── Grade map ── */
+    const GRADES = {
+      'A': 4.0, 'A+': 4.0, 'A-': 3.7,
+      'B+': 3.3, 'B': 3.0, 'B-': 2.7,
+      'C+': 2.3, 'C': 2.0, 'C-': 1.7,
+      'D+': 1.3, 'D': 1.0, 'D-': 0.7,
+      'F': 0.0
+    };
+
+    /* ── State ── */
+    let rows = [];
+    let nextId = 0;
+
+    /* ── Load from localStorage ── */
+    function loadState() {
+      try {
+        const saved = localStorage.getItem('gpa_rows');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          rows = parsed.rows || [];
+          nextId = parsed.nextId || 0;
+        }
+      } catch(e) { rows = []; nextId = 0; }
+      if (rows.length === 0) addRow(false);
+    }
+
+    /* ── Save to localStorage ── */
+    function saveState() {
+      try {
+        localStorage.setItem('gpa_rows', JSON.stringify({ rows, nextId }));
+      } catch(e) {}
+    }
+
+    /* ── Add a new row ── */
+    function addRow(doSave = true) {
+      const id = nextId++;
+      rows.push({ id, name: '', grade: 'A', credits: '' });
+      if (doSave) saveState();
+      renderRows();
+      if (doSave) {
+        const container = document.getElementById('rows-container');
+        const last = container.lastElementChild;
+        if (last) last.querySelector('input.credit-field')?.focus();
+      }
+    }
+
+    /* ── Remove a row ── */
+    function removeRow(id) {
+      rows = rows.filter(r => r.id !== id);
+      if (rows.length === 0) addRow(false);
+      saveState();
+      renderRows();
+      computeGPA();
+    }
+
+    /* ── Update row field ── */
+    function updateRow(id, field, value) {
+      const row = rows.find(r => r.id === id);
+      if (row) {
+        row[field] = value;
+        saveState();
+        computeGPA();
+      }
+    }
+
+    /* ── Render all rows ── */
+    function renderRows() {
+      const container = document.getElementById('rows-container');
+      container.innerHTML = '';
+      rows.forEach((row, i) => {
+        const div = document.createElement('div');
+        div.className = 'grade-row grid grid-cols-1 sm:grid-cols-[2fr_1.4fr_1fr_auto] gap-2 sm:gap-3 items-center bg-paper/50 sm:bg-transparent rounded-lg p-3 sm:p-0 border border-ink/8 sm:border-0';
+        div.dataset.id = row.id;
+
+        /* Label (mobile only row number) */
+        const mobileLabel = `<span class="sm:hidden text-xs font-semibold text-muted uppercase tracking-widest col-span-full">Course ${i + 1}</span>`;
+
+        /* Name input */
+        const nameHtml = `<input type="text" placeholder="Course name (optional)"
+          class="field name-field text-sm" value="${escHtml(row.name)}" autocomplete="off" />`;
+
+        /* Grade select */
+        const gradeOpts = Object.keys(GRADES).map(g =>
+          `<option value="${g}" ${g === row.grade ? 'selected' : ''}>${g}</option>`
+        ).join('');
+        const gradeHtml = `<select class="field grade-field text-sm">${gradeOpts}</select>`;
+
+        /* Credits input */
+        const creditsHtml = `<input type="number" placeholder="Credits" min="0" max="20" step="0.5"
+          class="field credit-field text-sm" value="${row.credits}" />`;
+
+        /* Remove btn */
+        const removeHtml = `<button class="btn-remove flex items-center justify-center w-8 h-8 rounded-md border border-ink/15 text-muted hover:border-accent hover:text-accent transition-colors ml-auto sm:ml-0" aria-label="Remove row">
+          <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>`;
+
+        div.innerHTML = mobileLabel + nameHtml + gradeHtml + creditsHtml + removeHtml;
+        container.appendChild(div);
+
+        /* Event listeners */
+        div.querySelector('.name-field').addEventListener('input', e => updateRow(row.id, 'name', e.target.value));
+        div.querySelector('.grade-field').addEventListener('change', e => updateRow(row.id, 'grade', e.target.value));
+        div.querySelector('.credit-field').addEventListener('input', e => updateRow(row.id, 'credits', e.target.value));
+        div.querySelector('.btn-remove').addEventListener('click', () => removeRow(row.id));
+      });
+
+      computeGPA();
+    }
+
+    /* ── Compute GPA ── */
+    function computeGPA() {
+      let totalPoints = 0;
+      let totalCredits = 0;
+      let validRows = 0;
+
+      rows.forEach(row => {
+        const credits = parseFloat(row.credits);
+        if (!isNaN(credits) && credits > 0 && GRADES[row.grade] !== undefined) {
+          totalPoints += GRADES[row.grade] * credits;
+          totalCredits += credits;
+          validRows++;
+        }
+      });
+
+      const display = document.getElementById('gpa-display');
+      const label = document.getElementById('gpa-label');
+      const stats = document.getElementById('gpa-stats');
+      const box = document.getElementById('gpa-box');
+
+      if (validRows === 0 || totalCredits === 0) {
+        display.textContent = '—';
+        label.innerHTML = 'Enter your courses to see your <span class="text-paper font-medium">grade point average</span>.';
+        stats.classList.add('hidden');
+        return;
+      }
+
+      const gpa = (totalPoints / totalCredits).toFixed(2);
+      display.textContent = gpa;
+      document.getElementById('stat-credits').textContent = totalCredits % 1 === 0 ? totalCredits : totalCredits.toFixed(1);
+      document.getElementById('stat-points').textContent = totalPoints.toFixed(2);
+      stats.classList.remove('hidden');
+
+      /* Label text */
+      const gpaNum = parseFloat(gpa);
+      let msg = '';
+      if (gpaNum >= 3.9) msg = 'Outstanding — <span class="text-gold font-semibold">Summa Cum Laude</span> territory.';
+      else if (gpaNum >= 3.7) msg = 'Excellent — <span class="text-gold font-semibold">Magna Cum Laude</span> range.';
+      else if (gpaNum >= 3.5) msg = 'Great work — <span class="text-paper font-medium">Cum Laude</span> eligible at many schools.';
+      else if (gpaNum >= 3.0) msg = 'Solid standing. Keep up the momentum!';
+      else if (gpaNum >= 2.5) msg = 'Passing — <a href="#blog" class="underline text-paper/80">see our tips</a> to push higher.';
+      else msg = 'Below average — <a href="#blog" class="underline text-paper/80">our guide</a> can help you improve.';
+      label.innerHTML = msg;
+
+      /* Pulse animation */
+      box.classList.remove('updated');
+      void box.offsetWidth;
+      box.classList.add('updated');
+    }
+
+    /* ── Copy GPA ── */
+    function copyGPA() {
+      const val = document.getElementById('gpa-display').textContent;
+      if (val === '—') return;
+      navigator.clipboard?.writeText(val).then(() => {
+        const btn = document.getElementById('btn-copy');
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = orig, 1500);
+      });
+    }
+
+    /* ── Reset ── */
+    function resetAll() {
+      if (!confirm('Clear all courses and start over?')) return;
+      rows = [];
+      nextId = 0;
+      localStorage.removeItem('gpa_rows');
+      addRow(false);
+      renderRows();
+    }
+
+    /* ── Helpers ── */
+    function escHtml(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    /* ── Init ── */
+    document.getElementById('btn-add').addEventListener('click', () => addRow());
+    document.getElementById('btn-reset').addEventListener('click', resetAll);
+    document.getElementById('btn-copy').addEventListener('click', copyGPA);
+
+    loadState();
+    renderRows();
+  })();
+  </script>
+
+</body>
+</html>

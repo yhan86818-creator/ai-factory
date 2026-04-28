@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BDH15CND2V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-BDH15CND2V');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batch Regex Tool - Clean Your Data 100x Faster</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen">
+  <div id="root"></div>
+
+  <script>
+    // Lucide icon helper
+    function createIcon(name) {
+      const icons = {
+        copy: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>',
+        download: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>',
+        rotateLeft: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>',
+        zap: '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>',
+        book: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 12s4.5 5.747 10 5.747m0-13c5.5 0 10 4.745 10 5.747s-4.5 5.747-10 5.747m0-13v13m0 0c5.5 0 10 4.745 10 5.747s-4.5 5.747-10 5.747m0 0c-5.5 0-10-4.745-10-5.747s4.5-5.747 10-5.747"></path></svg>',
+        lock: '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1l.993.006C17.052 1.363 21 5.467 21 10.5V18a3 3 0 01-3 3H6a3 3 0 01-3-3v-7.5C3 5.467 6.948 1.363 11.007 1.006L12 1m0 2a8 8 0 00-8 8v7.5a1 1 0 001 1h12a1 1 0 001-1v-7.5a8 8 0 00-8-8m-1 8h2v3h-2z"></path></svg>',
+        sparkles: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>',
+        chevronDown: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>',
+        checkCircle: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>'
+      };
+      return icons[name] || '';
+    }
+
+    const app = {
+      state: {
+        input: '',
+        output: '',
+        selectedPresets: [], // Changed to array for multi-select
+        customRegex: '',
+        customFlags: 'g',
+        useCustom: false,
+        replacementText: '',
+        processing: false,
+        stats: { lines: 0, matches: 0, changes: 0 },
+        showBlog: false,
+        showProModal: false,
+        copied: false
+      },
+
+      presets: [
+        {
+          id: 'email',
+          name: '📧 Extract Email Addresses',
+          description: 'Find all email addresses in text',
+          regex: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
+          flags: 'g',
+          replacement: '',
+          mode: 'extract'
+        },
+        {
+          id: 'phone',
+          name: '☎️ Extract Phone Numbers',
+          description: 'Find phone numbers (multiple formats)',
+          regex: /(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}|\+?\d{1,3}\s?\d{4,14}/g,
+          flags: 'g',
+          replacement: '',
+          mode: 'extract'
+        },
+        {
+          id: 'date-normalize',
+          name: '📅 Normalize Dates to YYYY-MM-DD',
+          description: 'Convert dates like 12/31/2023 → 2023-12-31',
+          regex: /(\d{1,2})\/(\d{1,2})\/(\d{4})/g,
+          flags: 'g',
+          replacement: '$3-$1-$2',
+          mode: 'replace'
+        },
+        {
+          id: 'html-strip',
+          name: '🏷️ Remove HTML Tags',
+          description: 'Strip all HTML tags from content',
+          regex: /<[^>]*>/g,
+          flags: 'g',
+          replacement: '',
+          mode: 'replace'
+        },
+        {
+          id: 'urls',
+          name: '🔗 Extract URLs',
+          description: 'Find all HTTP/HTTPS URLs',
+          regex: /https?:\/\/[^\s]+/g,
+          flags: 'g',
+          replacement: '',
+          mode: 'extract'
+        },
+        {
+          id: 'whitespace',
+          name: '✂️ Trim Extra Whitespace',
+          description: 'Remove extra spaces and line breaks',
+          regex: /\s+/g,
+          flags: 'g',
+          replacement: ' ',
+          mode: 'replace'
+        },
+        {
+          id: 'numbers',
+          name: '🔢 Extract Numbers Only',
+          description: 'Pull out all numbers from text',
+          regex: /\b\d+(?:\.\d+)?\b/g,
+          flags: 'g',
+          replacement: '',
+          mode: 'extract'
+        },
+        {
+          id: 'camelcase',
+          name: '🐫 Convert to camelCase',
+          description: 'Transform text to camelCase format',
+          regex: /([^a-zA-Z0-9])([a-z])/g,
+          flags: 'g',
+          replacement: (match, p1, p2) => p2.toUpperCase(),
+          mode: 'replace'
+        },
+        {
+          id: 'duplicate',
+          name: '🔄 Remove Duplicate Lines',
+          description: 'Eliminate repeated lines of text',
+          regex: /^(.+)(\r?\n\1)+$/gm,
+          flags: 'gm',
+          replacement: '$1',
+          mode: 'replace'
+        },
+        {
+          id: 'special-chars',
+          name: '🚫 Remove Special Characters',
+          description: 'Keep only letters, numbers, spaces',
+          regex: /[^a-zA-Z0-9\s]/g,
+          flags: 'g',
+          replacement: '',
+          mode: 'replace'
+        }
+      ],
+
+      processText() {
+        if (!this.state.input) {
+          this.state.output = '';
+          this.state.stats = { lines: 0, matches: 0, changes: 0 };
+          this.render();
+          return;
+        }
+
+        let result = this.state.input;
+        let totalMatches = 0;
+        let totalChanges = 0;
+
+        try {
+          // Apply selected presets sequentially
+          if (this.state.selectedPresets.length > 0) {
+            this.state.selectedPresets.forEach(presetId => {
+              const preset = this.presets.find(p => p.id === presetId);
+              if (preset) {
+                const regex = new RegExp(preset.regex.source, preset.flags);
+                const matches = result.match(regex);
+                totalMatches += matches ? matches.length : 0;
+
+                if (preset.mode === 'extract' && matches) {
+                  result = matches.join('\n');
+                  totalChanges += matches.length;
+                } else if (preset.mode === 'replace') {
+                  result = result.replace(regex, preset.replacement);
+                  totalChanges += matches ? matches.length : 0;
+                }
+              }
+            });
+          } else if (this.state.useCustom && this.state.customRegex) {
+            const regex = new RegExp(this.state.customRegex, this.state.customFlags);
+            const matches = result.match(regex);
+            totalMatches = matches ? matches.length : 0;
+
+            if (this.state.replacementText) {
+              result = result.replace(regex, this.state.replacementText);
+            } else if (matches) {
+              result = matches.join('\n');
+            }
+            totalChanges = totalMatches;
+          }
+
+          const lines = this.state.input.split('\n');
+          this.state.output = result;
+          this.state.stats = {
+            lines: lines.length,
+            matches: totalMatches,
+            changes: totalChanges
+          };
+        } catch (e) {
+          this.state.output = 'Error: ' + e.message;
+        }
+
+        this.render();
+      },
+
+      handleCopyOutput() {
+        navigator.clipboard.writeText(this.state.output);
+        this.state.copied = true;
+        this.render();
+        setTimeout(() => {
+          this.state.copied = false;
+          this.render();
+        }, 2000);
+      },
+
+      handleDownload() {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.state.output));
+        element.setAttribute('download', 'cleaned_data.txt');
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      },
+
+      handleReset() {
+        this.state.input = '';
+        this.state.output = '';
+        this.state.selectedPresets = [];
+        this.state.customRegex = '';
+        this.state.customFlags = 'g';
+        this.state.useCustom = false;
+        this.state.replacementText = '';
+        this.state.stats = { lines: 0, matches: 0, changes: 0 };
+        this.render();
+      },
+
+      togglePreset(presetId) {
+        const index = this.state.selectedPresets.indexOf(presetId);
+        if (index > -1) {
+          // Remove if already selected
+          this.state.selectedPresets.splice(index, 1);
+        } else {
+          // Add if not selected
+          this.state.selectedPresets.push(presetId);
+        }
+        this.state.useCustom = false;
+        this.processText();
+        this.render();
+      },
+
+      selectPreset(presetId) {
+        this.state.selectedPresets = [presetId];
+        this.state.useCustom = false;
+        this.processText();
+        this.render();
+      },
+
+      toggleCustom() {
+        this.state.useCustom = !this.state.useCustom;
+        if (this.state.useCustom) {
+          this.state.selectedPreset = null;
+        }
+        this.processText();
+        this.render();
+      },
+
+      render() {
+        const root = document.getElementById('root');
+        root.innerHTML = `
+          <div class="fixed inset-0 opacity-30 pointer-events-none">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+            <div class="absolute top-40 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+          </div>
+
+          <div class="relative z-10">
+            <!-- Header -->
+            <header class="border-b border-slate-700 bg-slate-900/80 backdrop-blur-xl sticky top-0 z-20">
+              <div class="max-w-7xl mx-auto px-6 py-8">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="flex items-center gap-3 mb-2">
+                      <div class="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
+                        ${createIcon('zap')}
+                      </div>
+                      <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                        Batch Regex Tool
+                      </h1>
+                    </div>
+                    <p class="text-slate-400 text-sm">No code. No limits. All local. Clean your data 100× faster.</p>
+                  </div>
+                  <button
+                    onclick="app.state.showBlog = !app.state.showBlog; app.render();"
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+                  >
+                    ${createIcon('book')}
+                    <span class="text-sm">Guide</span>
+                  </button>
+                </div>
+              </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="max-w-full mx-auto px-6 py-10">
+              <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 min-h-[calc(100vh-200px)]">
+                <!-- Left Panel: Presets & Options -->
+                <div class="lg:col-span-1">
+                  <div class="sticky top-24 space-y-6">
+                    <!-- Preset Selection -->
+                    <div class="bg-slate-800/50 backdrop-blur rounded-xl p-6 border border-slate-700">
+                      <h2 class="text-sm font-bold text-slate-200 mb-4 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                          ${createIcon('sparkles')}
+                          Quick Presets
+                        </span>
+                        ${this.state.selectedPresets.length > 0 ? `
+                          <span class="text-xs bg-blue-600 text-white px-2 py-1 rounded-full">
+                            ${this.state.selectedPresets.length} selected
+                          </span>
+                        ` : ''}
+                      </h2>
+                      <div class="space-y-2">
+                        ${this.presets.map(preset => `
+                          <button
+                            onclick="app.togglePreset('${preset.id}');"
+                            class="w-full text-left px-4 py-3 rounded-lg transition-all text-sm font-medium ${
+                              this.state.selectedPresets.includes(preset.id)
+                                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg ring-2 ring-blue-400'
+                                : 'bg-slate-700/30 text-slate-300 hover:bg-slate-700/60 border border-slate-600'
+                            }"
+                          >
+                            <div class="flex items-start justify-between">
+                              <span>${preset.name}</span>
+                              ${this.state.selectedPresets.includes(preset.id) ? `
+                                <div class="flex items-center gap-1">
+                                  ${createIcon('checkCircle')}
+                                  <span class="text-xs ml-1">#${this.state.selectedPresets.indexOf(preset.id) + 1}</span>
+                                </div>
+                              ` : ''}
+                            </div>
+                            <p class="text-xs opacity-75 mt-1">${preset.description}</p>
+                          </button>
+                        `).join('')}
+                      </div>
+                    </div>
+
+                    <!-- Custom Regex -->
+                    <div class="bg-slate-800/50 backdrop-blur rounded-xl p-6 border border-slate-700">
+                      <button
+                        onclick="app.toggleCustom();"
+                        class="w-full text-left mb-4 flex items-center justify-between"
+                      >
+                        <h2 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                          <svg class="w-4 h-4 transition-transform ${this.state.useCustom ? 'rotate-180' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                          </svg>
+                          Custom Pattern
+                        </h2>
+                      </button>
+                      ${this.state.useCustom ? `
+                        <div class="space-y-3">
+                          <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">
+                              Regex Pattern
+                            </label>
+                            <input
+                              type="text"
+                              value="${this.state.customRegex}"
+                              onchange="app.state.customRegex = this.value; app.processText();"
+                              placeholder="e.g., \\d{3}-\\d{2}-\\d{4}"
+                              class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-600 text-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                          </div>
+                          <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">
+                              Flags
+                            </label>
+                            <div class="flex gap-2">
+                              ${['g', 'i', 'm'].map(flag => `
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                  <input
+                                    type="checkbox"
+                                    ${this.state.customFlags.includes(flag) ? 'checked' : ''}
+                                    onchange="
+                                      if (this.checked) {
+                                        app.state.customFlags += '${flag}';
+                                      } else {
+                                        app.state.customFlags = app.state.customFlags.replace('${flag}', '');
+                                      }
+                                      app.processText();
+                                    "
+                                    class="w-4 h-4 rounded"
+                                  />
+                                  <span class="text-xs text-slate-300">${flag}</span>
+                                </label>
+                              `).join('')}
+                            </div>
+                            <p class="text-xs text-slate-500 mt-2">g=global, i=ignore case, m=multiline</p>
+                          </div>
+                          <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">
+                              Replacement
+                            </label>
+                            <textarea
+                              value="${this.state.replacementText}"
+                              onchange="app.state.replacementText = this.value; app.processText();"
+                              placeholder="e.g., $1-$2-$3 or leave empty to extract"
+                              class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-600 text-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                              rows="3"
+                            ></textarea>
+                          </div>
+                          <button
+                            onclick="app.state.showProModal = true; app.render();"
+                            class="w-full px-3 py-2 rounded-lg bg-gradient-to-r from-amber-600 to-orange-600 text-white text-sm font-semibold hover:shadow-lg transition-shadow flex items-center justify-center gap-2"
+                          >
+                            ${createIcon('lock')}
+                            Save Recipe (Pro)
+                          </button>
+                        </div>
+                      ` : ''}
+                    </div>
+
+                    <!-- Stats Card -->
+                    <div class="bg-slate-800/50 backdrop-blur rounded-xl p-6 border border-slate-700">
+                      <h3 class="text-sm font-bold text-slate-200 mb-4">Processing Stats</h3>
+                      <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                          <span class="text-xs text-slate-400">Total Lines</span>
+                          <span class="font-bold text-blue-400">${this.state.stats.lines.toLocaleString()}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                          <span class="text-xs text-slate-400">Matches Found</span>
+                          <span class="font-bold text-purple-400">${this.state.stats.matches.toLocaleString()}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                          <span class="text-xs text-slate-400">Changes Applied</span>
+                          <span class="font-bold text-green-400">${this.state.stats.changes.toLocaleString()}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right Panel: Input/Output -->
+                <div class="lg:col-span-4">
+                  <div class="grid grid-cols-2 gap-6 h-full">
+                    <!-- Input -->
+                    <div class="flex flex-col h-full">
+                      <div class="mb-4">
+                        <h3 class="text-sm font-bold text-slate-200 mb-2">Input Text</h3>
+                        <p class="text-xs text-slate-400">Paste your raw data here</p>
+                      </div>
+                      <textarea
+                        id="inputTextarea"
+                        onchange="app.state.input = this.value; app.processText();"
+                        oninput="app.state.input = this.value; app.processText();"
+                        placeholder="Paste your unclean data here... Works with thousands of lines!"
+                        class="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none font-mono text-sm"
+                      >${this.state.input}</textarea>
+                      <div class="mt-3 text-xs text-slate-500">
+                        ${this.state.input.length.toLocaleString()} characters
+                      </div>
+                    </div>
+
+                    <!-- Output -->
+                    <div class="flex flex-col h-full">
+                      <div class="mb-4 flex items-center justify-between">
+                        <div>
+                          <h3 class="text-sm font-bold text-slate-200 mb-2">Output Text</h3>
+                          <p class="text-xs text-slate-400">Cleaned & ready to use</p>
+                        </div>
+                      </div>
+                      <textarea
+                        id="outputTextarea"
+                        readonly
+                        class="flex-1 px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 resize-none font-mono text-sm focus:ring-2 focus:ring-purple-500"
+                      >${this.state.output}</textarea>
+                      <div class="mt-3 flex gap-2">
+                        <button
+                          onclick="app.handleCopyOutput();"
+                          ${!this.state.output ? 'disabled' : ''}
+                          class="flex-1 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 disabled:opacity-50 text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                        >
+                          ${createIcon('copy')}
+                          ${this.state.copied ? 'Copied!' : 'Copy'}
+                        </button>
+                        <button
+                          onclick="app.handleDownload();"
+                          ${!this.state.output ? 'disabled' : ''}
+                          class="flex-1 px-3 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 disabled:bg-slate-700 disabled:opacity-50 text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                        >
+                          ${createIcon('download')}
+                          Download
+                        </button>
+                        <button
+                          onclick="app.handleReset();"
+                          class="flex-1 px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                        >
+                          ${createIcon('rotateLeft')}
+                          Reset
+                        </button>
+                      </div>
+                      <div class="mt-3 text-xs text-slate-500">
+                        ${this.state.output.length.toLocaleString()} characters
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              ${this.state.showBlog ? `
+                <!-- Blog Section -->
+                <div class="mt-16 bg-slate-800/50 backdrop-blur rounded-2xl p-10 border border-slate-700">
+                  <article>
+                    <h2 class="text-3xl font-bold text-white mb-6">
+                      The Office Worker's Guide to Regex: Automating Your Daily Reports
+                    </h2>
+
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                      <div class="bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-lg p-4 border border-slate-600">
+                        <h4 class="text-sm font-bold text-blue-300 mb-2">🎯 Why This Tool?</h4>
+                        <p class="text-sm text-slate-300">
+                          Spend 30 seconds configuring once, save 2 hours every week. That's 100 hours a year—on data cleaning alone.
+                        </p>
+                      </div>
+                      <div class="bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-lg p-4 border border-slate-600">
+                        <h4 class="text-sm font-bold text-purple-300 mb-2">🔒 100% Private</h4>
+                        <p class="text-sm text-slate-300">
+                          Your data never leaves your browser. No servers. No accounts. No tracking. Pure privacy.
+                        </p>
+                      </div>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-slate-100 mt-8 mb-4">How to Clean Your Data Instantly</h3>
+
+                    <h4 class="text-xl font-bold text-slate-200 mt-6 mb-3">Step 1: Paste Your Data</h4>
+                    <p class="text-slate-300 mb-4">
+                      You have messy data. Maybe it's a CSV export with HTML tags embedded. Maybe it's a list of phone numbers in 5 different formats. Paste it into the left panel.
+                    </p>
+
+                    <h4 class="text-xl font-bold text-slate-200 mt-6 mb-3">Step 2: Select a Preset</h4>
+                    <p class="text-slate-300 mb-4">
+                      Choose from our 10 quick presets on the left. Your data will be processed in real-time. You'll instantly see how many lines, matches, and changes were made.
+                    </p>
+
+                    <h4 class="text-xl font-bold text-slate-200 mt-6 mb-3">Step 3: Download or Copy</h4>
+                    <p class="text-slate-300 mb-4">
+                      One click to copy to clipboard. One click to download as .txt. Then paste it straight into your spreadsheet or database.
+                    </p>
+
+                    <h3 class="text-2xl font-bold text-slate-100 mt-8 mb-4">Real-World Examples</h3>
+
+                    <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-600 my-6">
+                      <h4 class="text-white font-bold mb-3">📧 Example 1: Extract Emails</h4>
+                      <div class="space-y-3 text-sm">
+                        <div>
+                          <p class="text-slate-400">Before:</p>
+                          <code class="block bg-slate-800 p-3 rounded text-green-400 mt-1 font-mono text-xs">
+                            Contact John at john.doe@company.com or support@company.com
+                          </code>
+                        </div>
+                        <div>
+                          <p class="text-slate-400">After (using "Extract Email Addresses"):</p>
+                          <code class="block bg-slate-800 p-3 rounded text-green-400 mt-1 font-mono text-xs">
+                            john.doe@company.com<br/>
+                            support@company.com
+                          </code>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-lg p-6 border border-slate-600 mt-8">
+                      <h4 class="text-white font-bold mb-2">🚀 Ready to Save Hours?</h4>
+                      <p class="text-slate-300 text-sm">
+                        Bookmark this page. The next time you're drowning in data cleanup, you'll be glad you did.
+                      </p>
+                    </div>
+                  </article>
+                </div>
+              ` : ''}
+            </main>
+
+            <!-- Pro Modal -->
+            ${this.state.showProModal ? `
+              <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div class="bg-slate-800 rounded-2xl p-8 max-w-md border border-slate-700 shadow-2xl">
+                  <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 mx-auto mb-4">
+                    ${createIcon('lock')}
+                  </div>
+                  <h3 class="text-2xl font-bold text-white text-center mb-2">Unlock Pro Features</h3>
+                  <p class="text-slate-300 text-center mb-6">
+                    Save unlimited custom recipes and get direct CSV/Excel support.
+                  </p>
+                  <div class="space-y-3 mb-6">
+                    <div class="flex items-start gap-3">
+                      ${createIcon('checkCircle')}
+                      <span class="text-sm text-slate-200">Save unlimited custom recipes</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                      ${createIcon('checkCircle')}
+                      <span class="text-sm text-slate-200">CSV and Excel file import/export</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                      ${createIcon('checkCircle')}
+                      <span class="text-sm text-slate-200">Batch processing for multiple files</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                      ${createIcon('checkCircle')}
+                      <span class="text-sm text-slate-200">Priority support</span>
+                    </div>
+                  </div>
+                  <button
+                    onclick="app.state.showProModal = false; app.render();"
+                    class="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold hover:shadow-lg transition-shadow mb-3"
+                  >
+                    Coming Soon
+                  </button>
+                  <button
+                    onclick="app.state.showProModal = false; app.render();"
+                    class="w-full px-4 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-semibold transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Footer -->
+            <footer class="border-t border-slate-700 bg-slate-900/50 mt-16 py-8">
+              <div class="max-w-7xl mx-auto px-6 text-center text-slate-400 text-sm">
+                <p>Batch Regex Tool • 100% Client-Side • Zero Data Retention • Open Source Philosophy</p>
+                <p class="mt-2 text-xs text-slate-500">Your data is your data. We never touch it.</p>
+              </div>
+            </footer>
+          </div>
+        `;
+      },
+
+      init() {
+        this.render();
+      }
+    };
+
+    app.init();
+  </script>
+</body>
+</html>

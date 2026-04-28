@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Ghost – Advanced Character & Word Counter for Resumes</title>
+  <meta name="description"
+    content="Free word and character counter built for resume writers and engineers. Real-time stats, reading time, Resume Mode benchmarks, and an AI-prompt generator to instantly improve your resume copy." />
+  <meta name="keywords"
+    content="word counter, character counter, resume word count, how to write a resume, resume writing tips, professional resume" />
+  <link rel="canonical" href="https://resumeghost.example.com/" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+    rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            mono: ['"IBM Plex Mono"', 'monospace'],
+            prose: ['Lora', 'Georgia', 'serif'],
+          },
+          colors: {
+            void: '#0d0f14',
+            surface: '#13161e',
+            panel: '#1a1e28',
+            border: '#252a38',
+            teal: '#00d4aa',
+            amber: '#f5a623',
+            rose: '#ff5c7a',
+            ghost: '#e8eaf0',
+            dim: '#6b7280',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ── Reset & base ── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #0d0f14;
+      font-family: 'Syne', sans-serif;
+      color: #e8eaf0;
+      min-height: 100vh;
+      /* Subtle grid texture */
+      background-image:
+        linear-gradient(rgba(0, 212, 170, .03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 170, .03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ── Page-load fade-in ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp .5s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .d1 {
+      animation-delay: .05s;
+    }
+
+    .d2 {
+      animation-delay: .12s;
+    }
+
+    .d3 {
+      animation-delay: .20s;
+    }
+
+    .d4 {
+      animation-delay: .28s;
+    }
+
+    .d5 {
+      animation-delay: .36s;
+    }
+
+    /* ── Textarea ── */
+    #main-text {
+      background: #13161e;
+      border: 1.5px solid #252a38;
+      color: #e8eaf0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .92rem;
+      line-height: 1.75;
+      resize: vertical;
+      min-height: 220px;
+      width: 100%;
+      padding: 1.25rem;
+      border-radius: 10px;
+      transition: border-color .2s, box-shadow .2s;
+      caret-color: #00d4aa;
+    }
+
+    #main-text:focus {
+      outline: none;
+      border-color: #00d4aa;
+      box-shadow: 0 0 0 3px rgba(0, 212, 170, .12), inset 0 0 40px rgba(0, 212, 170, .03);
+    }
+
+    #main-text::placeholder {
+      color: #3a4155;
+    }
+
+    /* ── Stat cards ── */
+    .stat-card {
+      background: #1a1e28;
+      border: 1.5px solid #252a38;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      transition: border-color .2s, transform .15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 212, 170, .04), transparent 60%);
+      pointer-events: none;
+    }
+
+    .stat-card:hover {
+      border-color: #00d4aa33;
+      transform: translateY(-2px);
+    }
+
+    .stat-val {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #00d4aa;
+      line-height: 1;
+      transition: color .2s;
+    }
+
+    .stat-label {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-top: .35rem;
+    }
+
+    /* ── Toggle switch ── */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle-track {
+      width: 42px;
+      height: 22px;
+      background: #252a38;
+      border-radius: 999px;
+      position: relative;
+      transition: background .2s;
+      flex-shrink: 0;
+    }
+
+    .toggle-track.on {
+      background: #00d4aa;
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      background: #e8eaf0;
+      border-radius: 50%;
+      transition: transform .2s;
+    }
+
+    .toggle-track.on .toggle-thumb {
+      transform: translateX(20px);
+    }
+
+    /* ── Resume mode bar ── */
+    .progress-bar-bg {
+      height: 6px;
+      background: #252a38;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width .3s ease, background .3s;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: #00d4aa;
+      color: #0d0f14;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .04em;
+      padding: .65rem 1.4rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background .18s, transform .12s, box-shadow .18s;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      background: #00edc0;
+      box-shadow: 0 0 20px rgba(0, 212, 170, .35);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: #e8eaf0;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: .85rem;
+      padding: .65rem 1.2rem;
+      border-radius: 8px;
+      border: 1.5px solid #252a38;
+      cursor: pointer;
+      transition: border-color .18s, color .18s, background .18s;
+      white-space: nowrap;
+    }
+
+    .btn-ghost:hover {
+      border-color: #00d4aa;
+      color: #00d4aa;
+      background: rgba(0, 212, 170, .06);
+    }
+
+    /* ── Blog prose ── */
+    .prose-dark {
+      font-family: 'Lora', Georgia, serif;
+    }
+
+    .prose-dark p {
+      color: #a8aec0;
+      line-height: 1.85;
+      margin-bottom: 1.1rem;
+      font-size: .97rem;
+    }
+
+    .prose-dark strong {
+      color: #e8eaf0;
+      font-weight: 500;
+    }
+
+    .prose-dark h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #e8eaf0;
+      margin: 1.8rem 0 .6rem;
+    }
+
+    .prose-dark ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .prose-dark ul li {
+      padding: .55rem 0 .55rem 1.4rem;
+      position: relative;
+      color: #a8aec0;
+      font-size: .95rem;
+      border-bottom: 1px solid #1a1e28;
+      line-height: 1.7;
+    }
+
+    .prose-dark ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #00d4aa;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #13161e;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #252a38;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00d4aa55;
+    }
+
+    /* ── Glowing label ── */
+    .teal-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #00d4aa;
+    }
+
+    /* ── Ghost watermark ── */
+    .ghost-watermark {
+      position: fixed;
+      bottom: -40px;
+      right: -40px;
+      font-family: 'Syne', sans-serif;
+      font-size: 220px;
+      font-weight: 800;
+      color: rgba(0, 212, 170, .022);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      line-height: 1;
+    }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #00d4aa;
+      color: #0d0f14;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: .82rem;
+      padding: .65rem 1.2rem;
+      border-radius: 8px;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform .3s ease, opacity .3s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 212, 170, .4);
+    }
+
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ── Reading time badge ── */
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(245, 166, 35, .08);
+      border: 1px solid rgba(245, 166, 35, .2);
+      border-radius: 999px;
+      padding: .25rem .75rem;
+      font-size: .75rem;
+      font-weight: 600;
+      color: #f5a623;
+      letter-spacing: .04em;
+    }
+
+    /* Resume mode highlight */
+    .resume-highlight {
+      color: #f5a623;
+    }
+  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2YSYYP2PB8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2YSYYP2PB8');
+</script>
+</head>
+
+<body>
+  <div class="ghost-watermark">G</div>
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header class="border-b border-border/60 sticky top-0 z-50 backdrop-blur-md" style="background:rgba(13,15,20,.85)">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-md bg-teal flex items-center justify-center">
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none">
+            <rect x="2" y="2" width="5" height="5" rx="1" fill="#0d0f14" />
+            <rect x="9" y="2" width="5" height="5" rx="1" fill="#0d0f14" opacity=".5" />
+            <rect x="2" y="9" width="5" height="5" rx="1" fill="#0d0f14" opacity=".5" />
+            <rect x="9" y="9" width="5" height="5" rx="1" fill="#0d0f14" />
+          </svg>
+        </div>
+        <span class="font-display font-800 text-lg tracking-tight">Resume<span class="text-teal">Ghost</span></span>
+      </div>
+      <nav class="hidden sm:flex gap-5 text-sm font-semibold text-dim">
+        <a href="#tool" class="hover:text-teal transition-colors">Counter</a>
+        <a href="#guide" class="hover:text-teal transition-colors">Guide</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 pt-14 pb-8 relative z-10">
+    <div class="fade-up d1">
+      <p class="teal-label mb-3">Advanced Writing Tool for Professionals</p>
+      <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mb-5">
+        Advanced Character<br /><span class="text-teal">&amp; Word Counter</span>
+      </h1>
+      <p class="text-dim text-base sm:text-lg max-w-xl leading-relaxed">
+        Built for engineers and writers who craft resumes that get callbacks.
+        Real-time stats, AI-prompt generation, and resume benchmarks — in one zero-dependency file.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════ TOOL ═══════════ -->
+  <main id="tool" class="max-w-5xl mx-auto px-4 sm:px-6 pb-20 relative z-10">
+
+    <!-- Textarea -->
+    <div class="fade-up d2 mb-5">
+      <div class="flex items-center justify-between mb-2.5">
+        <label class="teal-label" for="main-text">Your Text</label>
+        <div id="time-badge-wrap">
+          <!-- reading time badge injected here -->
+        </div>
+      </div>
+      <textarea id="main-text"
+        placeholder="Paste your resume bullet, cover letter paragraph, or any text here…&#10;&#10;Try the Resume Mode switch below to see benchmark targets."
+        spellcheck="true" aria-label="Text input area"></textarea>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="fade-up d3 grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+      <div class="stat-card">
+        <div class="stat-val" id="stat-chars">0</div>
+        <div class="stat-label">Characters</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-nospace">0</div>
+        <div class="stat-label">No Spaces</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-words">0</div>
+        <div class="stat-label">Words</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-sentences">0</div>
+        <div class="stat-label">Sentences</div>
+      </div>
+    </div>
+
+    <!-- Controls row -->
+    <div class="fade-up d4 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center mb-5">
+
+      <!-- Resume Mode toggle -->
+      <div class="flex-1 bg-panel border border-border rounded-xl px-4 py-3.5 flex items-center gap-4">
+        <label class="toggle-wrap" for="resume-toggle" id="resume-toggle-label">
+          <div class="toggle-track" id="toggle-track">
+            <div class="toggle-thumb"></div>
+          </div>
+          <span class="text-sm font-semibold text-ghost">Resume Mode</span>
+        </label>
+        <span class="text-xs text-dim hidden sm:block">Show benchmark targets for professional resumes</span>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex gap-2 flex-shrink-0">
+        <button class="btn-ghost flex-1 sm:flex-none" id="btn-clear">Clear</button>
+        <button class="btn-primary flex-1 sm:flex-none" id="btn-ai">
+          ✦ Improve with AI
+        </button>
+      </div>
+    </div>
+
+    <!-- Resume Mode Panel (hidden by default) -->
+    <div id="resume-panel" class="fade-up hidden bg-panel border border-amber/20 rounded-xl p-5 mb-5">
+      <div class="flex items-center gap-2 mb-4">
+        <svg class="w-4 h-4 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        </svg>
+        <span class="text-sm font-bold resume-highlight uppercase tracking-widest">Resume Mode Benchmarks</span>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-5">
+        <!-- Words benchmark -->
+        <div>
+          <div class="flex justify-between mb-1.5">
+            <span class="text-xs font-semibold text-ghost">Word Count</span>
+            <span class="text-xs font-mono text-dim" id="word-bench-label">0 / 475–600</span>
+          </div>
+          <div class="progress-bar-bg mb-1.5">
+            <div class="progress-bar-fill" id="word-bar" style="width:0%"></div>
+          </div>
+          <p class="text-xs text-dim" id="word-bench-hint">Ideal: 475–600 words for a one-page resume.</p>
+        </div>
+
+        <!-- Chars benchmark -->
+        <div>
+          <div class="flex justify-between mb-1.5">
+            <span class="text-xs font-semibold text-ghost">Character Count</span>
+            <span class="text-xs font-mono text-dim" id="char-bench-label">0 / 2800–3500</span>
+          </div>
+          <div class="progress-bar-bg mb-1.5">
+            <div class="progress-bar-fill" id="char-bar" style="width:0%"></div>
+          </div>
+          <p class="text-xs text-dim" id="char-bench-hint">Ideal: 2,800–3,500 characters including spaces.</p>
+        </div>
+      </div>
+
+      <div id="resume-verdict" class="mt-4 hidden text-sm font-semibold px-4 py-2.5 rounded-lg border"></div>
+    </div>
+
+  </main>
+
+
+  <!-- ═══════════ BLOG SECTION ═══════════ -->
+  <section id="guide" class="border-t border-border/50" style="background:#13161e">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-16">
+
+      <!-- Header -->
+      <div class="mb-12">
+        <p class="teal-label mb-3">Career Intelligence</p>
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl leading-tight mb-4">
+          Why Short, Sharp Writing<br />Wins Job Offers
+        </h2>
+        <p class="text-dim text-base leading-relaxed max-w-xl">
+          A deep-dive into resume writing strategy — how word count, sentence structure, and language precision
+          directly affect whether a recruiter reads your resume or discards it.
+        </p>
+      </div>
+
+      <!-- Article 1 -->
+      <article class="mb-14">
+        <h2 class="font-display text-xl sm:text-2xl font-bold mb-1 text-ghost">The Science of the 6-Second Resume Scan
+        </h2>
+        <p class="teal-label mb-5">Why Length Kills Candidacies</p>
+
+        <div class="prose-dark">
+          <p>
+            Research from hiring analytics firms has consistently shown that recruiters spend an average of
+            <strong>six seconds</strong> on an initial resume scan. In that window, their eyes travel to job titles,
+            company names, and the first line of each bullet. Everything else is noise — unless it's sharp enough to
+            interrupt the pattern.
+          </p>
+          <p>
+            The paradox of the modern resume is that candidates try to demonstrate value by <em>adding</em> content,
+            when the actual signal of competence is <em>compression</em>. A 600-word one-pager that is dense with
+            outcomes tells a more powerful story than a 900-word document bloated with job duties.
+          </p>
+
+          <h3>What "Resume Word Count" Actually Signals</h3>
+          <p>
+            A <strong>professional, one-page resume</strong> typically lands in the 475–600 word range.
+            Two pages for senior professionals: 700–900 words. These aren't arbitrary rules — they reflect the
+            cognitive load a busy hiring manager can absorb without disengaging. Use the <a href="#tool"
+              class="text-teal underline underline-offset-2">character and word counter above</a>
+            and turn on Resume Mode to see exactly where you stand.
+          </p>
+
+          <h3>The Hidden Cost of Filler Language</h3>
+          <ul>
+            <li><strong>"Responsible for managing…"</strong> — passive, duty-framed. Replace with the outcome: "Cut
+              onboarding time by 40 %."</li>
+            <li><strong>"Worked closely with cross-functional teams"</strong> — vague. Name the teams, name the result.
+            </li>
+            <li><strong>"Assisted in the development of…"</strong> — the word "assisted" halves your perceived impact;
+              own the verb.</li>
+            <li><strong>"Proven track record of success"</strong> — circular self-praise. Proof is the number that
+              follows.</li>
+          </ul>
+        </div>
+      </article>
+
+      <div class="w-full h-px bg-border/50 mb-14"></div>
+
+      <!-- Article 2 -->
+      <article class="mb-14">
+        <h2 class="font-display text-xl sm:text-2xl font-bold mb-1 text-ghost">How to Write a Resume That Gets Read</h2>
+        <p class="teal-label mb-5">The Craft Behind High-Callback Copy</p>
+
+        <div class="prose-dark">
+          <p>
+            The single biggest lever in <strong>professional resume writing</strong> is the architecture of a bullet
+            point. The strongest bullets follow a simple formula: <strong>Action Verb + Scope + Metric</strong>.
+            Not "helped improve sales" but "Grew Q3 pipeline 28 % by re-sequencing outbound cadences for 12 SDRs."
+          </p>
+
+          <h3>Sentence Length as a Signal of Clarity</h3>
+          <p>
+            Academic writing rewards long, hedged sentences. Resume writing punishes them. Every bullet point
+            should be one sentence, ideally under 20 words. If you need a comma to finish a thought,
+            you probably need two bullets. Use the <strong>character counter</strong> to audit sentence density —
+            a high sentence count relative to word count signals appropriately crisp writing.
+          </p>
+
+          <h3>The Keyword-Density Balancing Act</h3>
+          <p>
+            Applicant Tracking Systems (ATS) scan for role-specific keywords before a human ever reads your resume.
+            But over-optimization — forcing keywords into every bullet — reads as robotic to the humans who follow.
+            The goal is natural keyword integration: use the job description's exact language once or twice in
+            context, then let your results speak through specificity.
+          </p>
+
+          <h3>Use AI to Sharpen, Not Write</h3>
+          <p>
+            AI tools are most powerful as editors, not ghostwriters. Paste your draft bullet into
+            the <strong>Improve with AI</strong> feature above — it generates a ready-to-use prompt that sends your
+            text to ChatGPT or Claude with precise editing instructions. The key rule: always review the output
+            and re-inject your specific numbers and proper nouns. AI cannot invent your achievements.
+          </p>
+
+          <ul>
+            <li>Write the first draft yourself — raw, honest, unpolished — then use AI to compress and sharpen.</li>
+            <li>Verify every AI-suggested metric is one you can defend in an interview.</li>
+            <li>Run the final text through the word counter and check it hits the Resume Mode benchmarks.</li>
+            <li>Read it aloud: if you stumble, a recruiter will too.</li>
+          </ul>
+        </div>
+      </article>
+
+      <div class="w-full h-px bg-border/50 mb-14"></div>
+
+      <!-- Article 3 -->
+      <article>
+        <h2 class="font-display text-xl sm:text-2xl font-bold mb-1 text-ghost">Resume Writing Checklist: Before You Hit
+          Send</h2>
+        <p class="teal-label mb-5">Your Final Audit</p>
+
+        <div class="prose-dark">
+          <p>
+            Before submitting any application, run your resume through this quick audit. Each item is directly
+            tied to either ATS compatibility, recruiter readability, or hiring manager credibility.
+          </p>
+          <ul>
+            <li><strong>Word count:</strong> One-page resume sits between 475–600 words. Paste into Resume Ghost and
+              check Resume Mode.</li>
+            <li><strong>Every bullet starts with a past-tense action verb</strong> (Built, Led, Reduced, Designed,
+              Launched).</li>
+            <li><strong>At least 60 % of bullets contain a quantified result</strong> — a %, $, time-saved, or scale
+              metric.</li>
+            <li><strong>No bullet exceeds 25 words.</strong> Over 25 words means it contains a duty, not an achievement.
+            </li>
+            <li><strong>Job title at current/last role exactly matches</strong> a term that appears in the job posting.
+            </li>
+            <li><strong>Zero spelling errors</strong> — use a spell-checker AND read backwards, sentence by sentence.
+            </li>
+            <li><strong>Contact info is in the body of the document,</strong> not a text box or header — ATS often can't
+              read those.</li>
+          </ul>
+        </div>
+
+        <!-- CTA -->
+        <div
+          class="mt-8 bg-panel border border-teal/20 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <p class="font-display font-bold text-base text-ghost mb-1">Ready to audit your resume?</p>
+            <p class="text-dim text-sm">Paste your text above and activate Resume Mode.</p>
+          </div>
+          <a href="#tool" class="btn-primary flex-shrink-0" style="display:inline-block; text-decoration:none;">
+            ↑ Open Counter
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="border-t border-border/40 bg-void py-6 text-center">
+    <p class="text-dim text-xs font-mono">Resume<span style="color:#00d4aa">Ghost</span> · Advanced Character & Word
+      Counter · Zero dependencies</p>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast">✓ Copied to clipboard</div>
+
+
+  <!-- ═══════════ JAVASCRIPT ═══════════ -->
+  <script>
+      (() => {
+        'use strict';
+
+        /* ── DOM refs ── */
+        const textarea = document.getElementById('main-text');
+        const statChars = document.getElementById('stat-chars');
+        const statNoSp = document.getElementById('stat-nospace');
+        const statWords = document.getElementById('stat-words');
+        const statSents = document.getElementById('stat-sentences');
+        const timeBadge = document.getElementById('time-badge-wrap');
+        const toggleTrack = document.getElementById('toggle-track');
+        const resumePanel = document.getElementById('resume-panel');
+        const wordBar = document.getElementById('word-bar');
+        const charBar = document.getElementById('char-bar');
+        const wordLabel = document.getElementById('word-bench-label');
+        const charLabel = document.getElementById('char-bench-label');
+        const wordHint = document.getElementById('word-bench-hint');
+        const charHint = document.getElementById('char-bench-hint');
+        const verdict = document.getElementById('resume-verdict');
+        const btnClear = document.getElementById('btn-clear');
+        const btnAI = document.getElementById('btn-ai');
+        const toast = document.getElementById('toast');
+
+        /* ── State ── */
+        let resumeMode = false;
+
+        /* ── Helpers ── */
+        function countWords(text) {
+          return text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        }
+        function countSentences(text) {
+          if (!text.trim()) return 0;
+          const matches = text.match(/[^.!?]*[.!?]+/g);
+          return matches ? matches.length : (text.trim().length > 0 ? 1 : 0);
+        }
+        function readingTime(words) {
+          const mins = words / 200; // avg adult reading speed
+          if (mins < 1) return `< 1 min read`;
+          return `${Math.ceil(mins)} min read`;
+        }
+        function showToast(msg = '✓ Copied to clipboard') {
+          toast.textContent = msg;
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
+        /* ── Update stats ── */
+        function update() {
+          const text = textarea.value;
+          const chars = text.length;
+          const noSpace = text.replace(/\s/g, '').length;
+          const words = countWords(text);
+          const sents = countSentences(text);
+
+          /* Animate number change (quick flash) */
+          [statChars, statNoSp, statWords, statSents].forEach(el => {
+            el.style.transition = 'none';
+            el.style.opacity = '.5';
+            requestAnimationFrame(() => {
+              el.style.transition = 'opacity .15s';
+              el.style.opacity = '1';
+            });
+          });
+
+          statChars.textContent = chars.toLocaleString();
+          statNoSp.textContent = noSpace.toLocaleString();
+          statWords.textContent = words.toLocaleString();
+          statSents.textContent = sents.toLocaleString();
+
+          /* Reading time badge */
+          if (words > 0) {
+            timeBadge.innerHTML = `<span class="time-badge">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        ${readingTime(words)}
+      </span>`;
+          } else {
+            timeBadge.innerHTML = '';
+          }
+
+          /* Resume mode benchmarks */
+          if (resumeMode) updateResumeBench(words, chars);
+        }
+
+        /* ── Resume benchmarks ── */
+        const W_MIN = 475, W_MAX = 600, W_HARD = 900;
+        const C_MIN = 2800, C_MAX = 3500, C_HARD = 5000;
+
+        function barColor(pct, inRange) {
+          if (inRange) return '#00d4aa';
+          if (pct > 100) return '#ff5c7a';
+          return '#f5a623';
+        }
+
+        function updateResumeBench(words, chars) {
+          /* Words bar */
+          const wPct = Math.min((words / W_MAX) * 100, 130);
+          const wInRange = words >= W_MIN && words <= W_MAX;
+          wordBar.style.width = Math.min(wPct, 100) + '%';
+          wordBar.style.background = barColor(wPct, wInRange);
+          wordLabel.textContent = `${words.toLocaleString()} / ${W_MIN}–${W_MAX}`;
+
+          if (words === 0) wordHint.textContent = 'Ideal: 475–600 words for a one-page resume.';
+          else if (words < W_MIN) wordHint.textContent = `Too short — add ${W_MIN - words} more words.`;
+          else if (wInRange) wordHint.textContent = '✓ Word count is in the ideal range.';
+          else if (words <= W_HARD) wordHint.textContent = `A bit long — consider trimming ${words - W_MAX} words.`;
+          else wordHint.textContent = `⚠ ${words - W_MAX} words over limit — split to two pages or cut aggressively.`;
+
+          /* Chars bar */
+          const cPct = Math.min((chars / C_MAX) * 100, 130);
+          const cInRange = chars >= C_MIN && chars <= C_MAX;
+          charBar.style.width = Math.min(cPct, 100) + '%';
+          charBar.style.background = barColor(cPct, cInRange);
+          charLabel.textContent = `${chars.toLocaleString()} / ${C_MIN.toLocaleString()}–${C_MAX.toLocaleString()}`;
+
+          if (chars === 0) charHint.textContent = 'Ideal: 2,800–3,500 characters including spaces.';
+          else if (chars < C_MIN) charHint.textContent = `Too sparse — add ~${(C_MIN - chars).toLocaleString()} characters.`;
+          else if (cInRange) charHint.textContent = '✓ Character count is in the ideal range.';
+          else charHint.textContent = `Consider trimming — ${(chars - C_MAX).toLocaleString()} characters over ideal.`;
+
+          /* Overall verdict */
+          const bothGood = wInRange && cInRange;
+          const overLimit = words > W_HARD || chars > C_HARD;
+          verdict.classList.remove('hidden');
+
+          if (words === 0) {
+            verdict.classList.add('hidden');
+          } else if (bothGood) {
+            verdict.textContent = '✓ Your resume is in the sweet spot. Time to polish and submit.';
+            verdict.className = 'mt-4 text-sm font-semibold px-4 py-2.5 rounded-lg border bg-teal/10 border-teal/30 text-teal';
+          } else if (overLimit) {
+            verdict.textContent = '⚠ Resume is significantly over limit. Cut duties; keep achievements.';
+            verdict.className = 'mt-4 text-sm font-semibold px-4 py-2.5 rounded-lg border bg-rose/10 border-rose/30 text-rose';
+          } else {
+            verdict.textContent = 'Getting closer — keep editing and check the benchmarks above.';
+            verdict.className = 'mt-4 text-sm font-semibold px-4 py-2.5 rounded-lg border bg-amber/10 border-amber/30 resume-highlight';
+          }
+        }
+
+        /* ── Toggle Resume Mode ── */
+        document.getElementById('resume-toggle-label').addEventListener('click', () => {
+          resumeMode = !resumeMode;
+          toggleTrack.classList.toggle('on', resumeMode);
+          if (resumeMode) {
+            resumePanel.classList.remove('hidden');
+            update();
+          } else {
+            resumePanel.classList.add('hidden');
+          }
+        });
+
+        /* ── Clear ── */
+        btnClear.addEventListener('click', () => {
+          textarea.value = '';
+          update();
+          textarea.focus();
+        });
+
+        /* ── Improve with AI ── */
+        btnAI.addEventListener('click', () => {
+          const text = textarea.value.trim();
+          if (!text) {
+            showToast('⚠ Please enter some text first.');
+            return;
+          }
+          const words = countWords(text);
+          const prompt = `You are an expert resume writer and career coach. Please improve the following resume text according to these instructions:
+
+1. Use strong, specific past-tense action verbs at the start of each bullet point.
+2. Add or preserve quantified metrics (%, $, time saved, scale of impact) wherever possible.
+3. Cut filler phrases like "responsible for", "assisted with", "worked closely with".
+4. Aim for ${words > 100 ? 'concise sentences under 25 words each' : 'punchy, outcome-focused language'}.
+5. Maintain the writer's authentic voice — do not invent achievements or metrics.
+6. Return the improved text in the same format as the original.
+
+--- ORIGINAL TEXT ---
+${text}
+--- END ---
+
+Provide the improved version, then add a brief 2-3 line explanation of the key changes you made.`;
+
+          navigator.clipboard.writeText(prompt).then(() => {
+            showToast('✦ AI prompt copied — paste into ChatGPT or Claude');
+          }).catch(() => {
+            /* Fallback: select a hidden textarea */
+            const tmp = document.createElement('textarea');
+            tmp.value = prompt;
+            tmp.style.position = 'fixed';
+            tmp.style.opacity = '0';
+            document.body.appendChild(tmp);
+            tmp.select();
+            document.execCommand('copy');
+            document.body.removeChild(tmp);
+            showToast('✦ AI prompt copied — paste into ChatGPT or Claude');
+          });
+        });
+
+        /* ── Live update ── */
+        textarea.addEventListener('input', update);
+
+        /* ── Init ── */
+        update();
+
+      })();
+  </script>
+
+</body>
+
+</html>

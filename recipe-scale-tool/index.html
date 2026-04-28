@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YB2FL7YJXW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-YB2FL7YJXW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Converter & Ingredient Calculator — Grams to Cups, Scale Recipes Instantly</title>
+  <meta name="description" content="Free recipe converter and ingredient calculator. Convert grams to cups, scale recipes for any number of servings, and get instant cooking measurement conversions. Fast, accurate, and free.">
+  <meta name="keywords" content="grams to cups, recipe converter, ingredient calculator, cooking measurement converter, scale recipe, cups to grams">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://recipe-scale-tool.pages.dev/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Recipe Converter & Ingredient Calculator">
+  <meta property="og:description" content="Convert grams to cups, scale recipes instantly. Free cooking measurement tool.">
+  <meta property="og:type" content="website">
+
+
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── TOKENS ───────────────────────────────────────────────── */
+    :root {
+      --cream:   #faf8f3;
+      --paper:   #ffffff;
+      --warm10:  #f5f0e8;
+      --warm20:  #ece4d4;
+      --warm30:  #d4c9b0;
+      --ink:     #1c1a16;
+      --ink2:    #4a4640;
+      --ink3:    #9a9188;
+      --spice:   #c45c2a;
+      --spice-l: #e8876a;
+      --herb:    #3d6b4f;
+      --herb-l:  #6aab82;
+      --gold:    #c8963c;
+      --border:  #e8e0d0;
+      --shadow:  0 2px 12px rgba(28,26,22,0.07);
+      --shadow-lg: 0 8px 32px rgba(28,26,22,0.11);
+      --r: 12px;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ───────────────────────────────────────────────── */
+    header {
+      background: var(--paper);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.3px;
+      text-decoration: none;
+    }
+
+    .logo em {
+      font-style: italic;
+      color: var(--spice);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--spice); }
+
+    @media (max-width: 540px) { .nav-links { display: none; } }
+
+    /* ── HERO ─────────────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 52px 24px 40px;
+      max-width: 680px;
+      margin: 0 auto;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      background: var(--warm10);
+      border: 1px solid var(--warm30);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--spice);
+      padding: 4px 14px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--spice);
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--ink2);
+      max-width: 460px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── TOOL CARD ────────────────────────────────────────────── */
+    #tool {
+      max-width: 860px;
+      margin: 0 auto 24px;
+      padding: 0 20px;
+      animation: fadeUp 0.5s ease 0.08s both;
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: var(--warm10);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-header-icon {
+      width: 34px; height: 34px;
+      background: var(--spice);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .card-header-text h2 {
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .card-header-text p {
+      font-size: 12px;
+      color: var(--ink3);
+    }
+
+    .card-body {
+      padding: 28px;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--warm10);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 28px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 9px 12px;
+      border: none;
+      background: none;
+      border-radius: 7px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink3);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 0 1px 4px rgba(28,26,22,0.1);
+    }
+
+    /* PANEL */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ── CONVERTER PANEL ──────────────────────────────────────── */
+    .converter-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 520px) {
+      .converter-grid {
+        grid-template-columns: 1fr;
+      }
+      .swap-col { order: 3; }
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 7px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap input[type="number"] {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--paper);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield;
+    }
+
+    .input-wrap input[type="number"]::-webkit-outer-spin-button,
+    .input-wrap input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    .input-wrap input:focus {
+      border-color: var(--spice);
+      box-shadow: 0 0 0 3px rgba(196,92,42,0.1);
+    }
+
+    select {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--paper);
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a9188' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      transition: border-color 0.2s;
+      margin-top: 7px;
+    }
+
+    select:focus { border-color: var(--spice); outline: none; }
+
+    .swap-col {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 14px;
+    }
+
+    .swap-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--paper);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--ink3);
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .swap-btn:hover {
+      border-color: var(--spice);
+      color: var(--spice);
+      transform: rotate(180deg);
+    }
+
+    /* RESULT */
+    .result-box {
+      background: linear-gradient(135deg, var(--warm10) 0%, #fdf6ec 100%);
+      border: 1.5px solid var(--gold);
+      border-radius: var(--r);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    .result-main {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .result-label {
+      font-size: 12px;
+      color: var(--ink3);
+      margin-top: 2px;
+    }
+
+    .result-unit {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gold);
+      background: rgba(200,150,60,0.12);
+      border-radius: 6px;
+      padding: 4px 10px;
+    }
+
+    /* PRESETS */
+    .presets-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 10px;
+    }
+
+    .preset-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .preset-chip {
+      padding: 7px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      background: var(--paper);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink2);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .preset-chip:hover, .preset-chip.active {
+      border-color: var(--spice);
+      color: var(--spice);
+      background: rgba(196,92,42,0.05);
+    }
+
+    /* ── SCALER PANEL ─────────────────────────────────────────── */
+    .scaler-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 480px) { .scaler-top { grid-template-columns: 1fr; } }
+
+    .quick-btns {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .quick-btn {
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--paper);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quick-btn:hover {
+      border-color: var(--herb);
+      color: var(--herb);
+      background: rgba(61,107,79,0.05);
+    }
+
+    .quick-btn.danger:hover {
+      border-color: var(--spice);
+      color: var(--spice);
+      background: rgba(196,92,42,0.05);
+    }
+
+    /* INGREDIENT ROWS */
+    .ing-table-head {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 8px;
+      padding: 0 0 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 10px;
+    }
+
+    .ing-table-head span {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--ink3);
+    }
+
+    .ing-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--warm10);
+      transition: background 0.15s;
+    }
+
+    .ing-row:hover { background: var(--warm10); border-radius: 8px; }
+
+    .ing-name {
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--ink);
+      padding-left: 6px;
+    }
+
+    .ing-orig, .ing-scaled, .ing-unit {
+      font-size: 14px;
+      color: var(--ink2);
+    }
+
+    .ing-scaled {
+      font-weight: 600;
+      color: var(--herb);
+    }
+
+    .ing-input {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--paper);
+      outline: none;
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+
+    .ing-input::-webkit-outer-spin-button,
+    .ing-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .ing-input:focus { border-color: var(--herb); }
+
+    .add-ing-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .add-ing-row input, .add-ing-row select {
+      margin-top: 0;
+      flex: 1;
+      min-width: 80px;
+      padding: 9px 12px;
+      font-size: 13px;
+    }
+
+    .btn-add {
+      padding: 9px 18px;
+      background: var(--herb);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-add:hover { opacity: 0.85; }
+
+    /* ── DIVIDER ──────────────────────────────────────────────── */
+    .page-divider {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .page-divider hr {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── BLOG SECTION ─────────────────────────────────────────── */
+    #blog {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .blog-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .blog-header .eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--herb);
+      margin-bottom: 10px;
+    }
+
+    .blog-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.3px;
+    }
+
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .article-card {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      cursor: default;
+    }
+
+    .article-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--warm30);
+    }
+
+    .article-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--spice);
+      background: rgba(196,92,42,0.08);
+      border-radius: 5px;
+      padding: 3px 8px;
+      margin-bottom: 12px;
+    }
+
+    .article-card h2 {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .article-excerpt {
+      font-size: 13px;
+      color: var(--ink2);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .read-more {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--spice);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.2s;
+    }
+
+    .read-more:hover { gap: 8px; }
+
+    /* FULL ARTICLES */
+    .articles-full { display: flex; flex-direction: column; gap: 48px; }
+
+    .article-full {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 36px 32px;
+    }
+
+    @media (max-width: 540px) { .article-full { padding: 24px 18px; } }
+
+    .article-full .article-tag { margin-bottom: 14px; }
+
+    .article-full h2 {
+      font-family: var(--serif);
+      font-size: clamp(20px, 3.5vw, 26px);
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .article-full p {
+      font-size: 15px;
+      color: var(--ink2);
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+
+    .article-full h3 {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 28px 0 10px;
+    }
+
+    .article-full ul, .article-full ol {
+      padding-left: 20px;
+      margin-bottom: 18px;
+    }
+
+    .article-full li {
+      font-size: 15px;
+      color: var(--ink2);
+      line-height: 1.7;
+      margin-bottom: 6px;
+    }
+
+    .article-full table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 14px;
+      overflow-x: auto;
+      display: block;
+    }
+
+    .article-full th {
+      background: var(--warm10);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ink2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-full td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--warm10);
+      color: var(--ink2);
+    }
+
+    .article-full tr:last-child td { border-bottom: none; }
+
+    .cta-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--spice);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      margin-top: 8px;
+    }
+
+    .cta-inline:hover { opacity: 0.88; }
+
+    /* ── FOOTER ───────────────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    footer strong { color: rgba(255,255,255,0.9); }
+
+    /* ── UTILS ────────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--warm30); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#tool" class="logo">Recipe<em>Scale</em></a>
+    <nav aria-label="Site navigation">
+      <ul class="nav-links">
+        <li><a href="#tool">Converter</a></li>
+        <li><a href="#blog">Guides</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" aria-label="Page introduction">
+  <span class="hero-eyebrow">Free Cooking Tool</span>
+  <h1>Recipe Converter &amp; <em>Ingredient Calculator</em></h1>
+  <p class="hero-sub">Convert grams to cups, scale recipes for any number of servings, and get instant accurate measurements — no math required.</p>
+</section>
+
+<!-- ── TOOL ───────────────────────────────────────────────────── -->
+<main id="tool" aria-label="Recipe converter tool">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-icon">🍳</div>
+      <div class="card-header-text">
+        <h2>Recipe Converter</h2>
+        <p>Unit conversion &amp; recipe scaler in one place</p>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <!-- TABS -->
+      <div class="tabs" role="tablist" aria-label="Tool tabs">
+        <button class="tab-btn active" role="tab" aria-selected="true" onclick="switchTab('convert')">⚖ Unit Converter</button>
+        <button class="tab-btn" role="tab" aria-selected="false" onclick="switchTab('scale')">📐 Recipe Scaler</button>
+      </div>
+
+      <!-- ── CONVERT PANEL ─────────────────────────────────────── -->
+      <div id="panel-convert" class="panel active">
+
+        <!-- PRESETS -->
+        <div class="presets-label">Quick presets</div>
+        <div class="preset-chips" id="presetChips">
+          <button class="preset-chip" onclick="loadPreset('flour')">🌾 All-purpose flour</button>
+          <button class="preset-chip" onclick="loadPreset('sugar')">🍬 Granulated sugar</button>
+          <button class="preset-chip" onclick="loadPreset('butter')">🧈 Butter</button>
+          <button class="preset-chip" onclick="loadPreset('milk')">🥛 Milk</button>
+          <button class="preset-chip" onclick="loadPreset('rice')">🍚 White rice</button>
+        </div>
+
+        <div style="height:22px"></div>
+
+        <!-- INPUT / OUTPUT -->
+        <div class="converter-grid">
+          <div class="field-group">
+            <label for="cvtValue">Amount</label>
+            <div class="input-wrap">
+              <input type="number" id="cvtValue" min="0" step="any" value="1" oninput="convert()" placeholder="0">
+            </div>
+            <select id="cvtFrom" onchange="convert()" aria-label="From unit">
+              <option value="g">g — Grams</option>
+              <option value="ml">ml — Milliliters</option>
+              <option value="cup">cup — Cups</option>
+              <option value="tbsp">tbsp — Tablespoons</option>
+              <option value="tsp">tsp — Teaspoons</option>
+              <option value="oz">oz — Ounces</option>
+              <option value="lb">lb — Pounds</option>
+            </select>
+          </div>
+
+          <div class="swap-col">
+            <button class="swap-btn" onclick="swapUnits()" title="Swap units" aria-label="Swap units">⇄</button>
+          </div>
+
+          <div class="field-group">
+            <label>Result</label>
+            <div class="result-box" aria-live="polite">
+              <div>
+                <div class="result-main" id="cvtResult">—</div>
+                <div class="result-label" id="cvtResultLabel">Enter a value to convert</div>
+              </div>
+              <span class="result-unit" id="cvtResultUnit"></span>
+            </div>
+            <select id="cvtTo" onchange="convert()" aria-label="To unit">
+              <option value="cup" selected>cup — Cups</option>
+              <option value="g">g — Grams</option>
+              <option value="ml">ml — Milliliters</option>
+              <option value="tbsp">tbsp — Tablespoons</option>
+              <option value="tsp">tsp — Teaspoons</option>
+              <option value="oz">oz — Ounces</option>
+              <option value="lb">lb — Pounds</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ALL CONVERSIONS -->
+        <div id="allConversions" style="margin-top:18px;padding:16px 20px;background:var(--warm10);border-radius:var(--r);font-size:13px;color:var(--ink2);display:none;">
+          <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;">All conversions</div>
+          <div id="allConvList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;"></div>
+        </div>
+
+      </div><!-- /panel-convert -->
+
+      <!-- ── SCALE PANEL ───────────────────────────────────────── -->
+      <div id="panel-scale" class="panel">
+
+        <div class="scaler-top">
+          <div class="field-group">
+            <label for="origServings">Original servings</label>
+            <div class="input-wrap">
+              <input type="number" id="origServings" min="0.25" step="0.25" value="2" oninput="scaleRecipe()">
+            </div>
+          </div>
+          <div class="field-group">
+            <label for="newServings">New servings</label>
+            <div class="input-wrap">
+              <input type="number" id="newServings" min="0.25" step="0.25" value="4" oninput="scaleRecipe()">
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-btns">
+          <button class="quick-btn" onclick="setScale(2)">× 2 Double</button>
+          <button class="quick-btn" onclick="setScale(0.5)">÷ 2 Half</button>
+          <button class="quick-btn" onclick="setScale(3)">× 3 Triple</button>
+          <button class="quick-btn" onclick="setScale(4)">× 4 Quad</button>
+          <button class="quick-btn danger" onclick="resetScale()">↺ Reset</button>
+        </div>
+
+        <div id="scaleRatioBar" style="background:var(--warm10);border-radius:8px;padding:10px 16px;font-size:13px;color:var(--ink2);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <span>Scale factor: <strong id="scaleFactor" style="color:var(--herb)">× 2.0</strong></span>
+          <span style="font-size:12px;color:var(--ink3)">Adjust servings or use quick buttons above</span>
+        </div>
+
+        <!-- INGREDIENT TABLE -->
+        <div class="ing-table-head">
+          <span>Ingredient</span>
+          <span>Original</span>
+          <span>Scaled</span>
+          <span>Unit</span>
+        </div>
+        <div id="ingList"></div>
+
+        <!-- ADD ROW -->
+        <div class="add-ing-row">
+          <input type="text" id="newIngName" placeholder="Ingredient name" style="flex:2;border:1.5px solid var(--border);border-radius:8px;font-family:var(--sans);font-size:13px;color:var(--ink);padding:9px 12px;outline:none;">
+          <input type="number" id="newIngAmt" placeholder="Amt" min="0" step="any" class="ing-input" style="flex:1;">
+          <select id="newIngUnit" style="flex:1.2;margin-top:0;padding:9px 12px;font-size:13px;">
+            <option>g</option><option>ml</option><option>cup</option>
+            <option>tbsp</option><option>tsp</option><option>oz</option><option>lb</option><option>piece</option>
+          </select>
+          <button class="btn-add" onclick="addIngredient()">+ Add</button>
+        </div>
+
+      </div><!-- /panel-scale -->
+
+    </div><!-- /card-body -->
+  </div><!-- /card -->
+</main>
+
+<!-- DIVIDER -->
+<div class="page-divider"><hr></div>
+
+<!-- ── BLOG SECTION ────────────────────────────────────────────── -->
+<section id="blog" aria-label="Cooking guides and tips">
+
+  <div class="blog-header">
+    <span class="eyebrow">Cooking Guides</span>
+    <h2>Master Kitchen Measurements</h2>
+  </div>
+
+  <div class="articles-full">
+
+    <!-- ARTICLE 1 -->
+    <article itemscope itemtype="https://schema.org/Article">
+      <div class="article-full">
+        <span class="article-tag">Conversions</span>
+        <h2 itemprop="headline">Grams to Cups Conversion Guide</h2>
+        <p itemprop="description">Converting <strong>grams to cups</strong> is one of the most common challenges in cooking and baking. Unlike liquid measurements, dry ingredients can't be converted with a single formula — density matters. One cup of flour weighs about 120–130 g, while one cup of sugar weighs around 200 g. Using a <strong>recipe converter</strong> removes the guesswork entirely.</p>
+
+        <h3>Why Grams Are More Accurate Than Cups</h3>
+        <p>Cups measure volume, not weight. When you scoop flour with a measuring cup, you can pack anywhere from 100 g to 160 g depending on your technique. Professional bakers always weigh ingredients for consistency. That said, most home recipes list cups — which is exactly why conversion tools matter.</p>
+
+        <h3>Quick Reference: Grams to Cups for Common Ingredients</h3>
+        <table>
+          <thead>
+            <tr><th>Ingredient</th><th>1 Cup (g)</th><th>½ Cup (g)</th><th>¼ Cup (g)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>All-purpose flour</td><td>125 g</td><td>63 g</td><td>31 g</td></tr>
+            <tr><td>Granulated sugar</td><td>200 g</td><td>100 g</td><td>50 g</td></tr>
+            <tr><td>Brown sugar (packed)</td><td>220 g</td><td>110 g</td><td>55 g</td></tr>
+            <tr><td>Butter</td><td>227 g</td><td>113 g</td><td>57 g</td></tr>
+            <tr><td>Rolled oats</td><td>90 g</td><td>45 g</td><td>23 g</td></tr>
+            <tr><td>Milk / Water</td><td>240 ml</td><td>120 ml</td><td>60 ml</td></tr>
+            <tr><td>Honey</td><td>340 g</td><td>170 g</td><td>85 g</td></tr>
+          </tbody>
+        </table>
+
+        <p>Use our free <strong>ingredient calculator</strong> above to convert any amount instantly — just enter your value, choose grams, and select cups as the output unit.</p>
+        <a href="#tool" class="cta-inline">Try the Converter ↑</a>
+      </div>
+    </article>
+
+    <!-- ARTICLE 2 -->
+    <article itemscope itemtype="https://schema.org/Article">
+      <div class="article-full">
+        <span class="article-tag">Techniques</span>
+        <h2 itemprop="headline">How to Scale Recipes Easily</h2>
+        <p itemprop="description">Scaling a recipe — whether doubling it for a crowd or halving it for one — sounds simple, but certain ingredients don't scale linearly. Understanding which ingredients to scale directly, and which require adjustment, is key to consistent results.</p>
+
+        <h3>The Simple Rule: Most Ingredients Scale Linearly</h3>
+        <p>Flour, sugar, butter, eggs (approximately), vegetables, and proteins all scale proportionally. If a recipe feeds 4 and you want to feed 8, multiply every ingredient by 2. Our <strong>recipe scaler</strong> above handles this automatically — enter your original and target servings and every ingredient updates instantly.</p>
+
+        <h3>Ingredients That Don't Scale 1:1</h3>
+        <ul>
+          <li><strong>Salt &amp; spices:</strong> Scale at 75% when doubling. Strong flavors intensify non-linearly.</li>
+          <li><strong>Leavening agents</strong> (baking powder, yeast): Scale at 60–75% when tripling or more.</li>
+          <li><strong>Alcohol &amp; vinegar:</strong> Use 50–70% when doubling — acidity gets pronounced.</li>
+          <li><strong>Gelatin:</strong> Scale exactly — this one actually does work linearly.</li>
+        </ul>
+
+        <h3>Scaling Baking vs. Cooking</h3>
+        <p>Cooking (soups, stews, sautés) is forgiving. Baking is chemistry. When scaling baked goods beyond 2×, bake times and temperatures may need adjustment — a doubled cake batter often takes only 15–20% longer to bake, not twice as long. Always use a thermometer to check doneness.</p>
+
+        <a href="#tool" class="cta-inline">Scale Your Recipe ↑</a>
+      </div>
+    </article>
+
+    <!-- ARTICLE 3 -->
+    <article itemscope itemtype="https://schema.org/Article">
+      <div class="article-full">
+        <span class="article-tag">Tips</span>
+        <h2 itemprop="headline">Common Cooking Measurement Mistakes</h2>
+        <p itemprop="description">Even experienced cooks make measurement mistakes that silently ruin recipes. Here are the most common errors — and how to avoid them using a reliable <strong>recipe converter</strong> and good technique.</p>
+
+        <h3>1. Scooping Flour Directly from the Bag</h3>
+        <p>This packs air out of the flour, resulting in up to 30% more flour than intended. The correct method: spoon flour into the measuring cup and level off with a straight edge. Better yet, weigh it — 125 g per cup, every time.</p>
+
+        <h3>2. Confusing Fluid Ounces and Weight Ounces</h3>
+        <p>8 fl oz of water equals 8 oz by weight (237 g). But 8 fl oz of honey weighs about 12 oz (340 g). Fluid ounces measure volume; weight ounces measure mass. When a recipe says "8 oz," context (liquid vs. solid) determines which it means. Use our <strong>ingredient calculator</strong> to avoid confusion.</p>
+
+        <h3>3. Not Accounting for Ingredient Temperature</h3>
+        <p>Cold butter measures differently than room-temperature butter. For baking, weight measurements eliminate this entirely. "1 cup of butter" is ambiguous; "225 g of butter" is precise regardless of temperature or how it's cut.</p>
+
+        <h3>4. Using Metric and Imperial Interchangeably</h3>
+        <ul>
+          <li>1 US cup = 240 ml — but 1 UK/Australian cup = 250 ml</li>
+          <li>1 US tablespoon = 14.8 ml — but 1 Australian tbsp = 20 ml</li>
+          <li>When following international recipes, always check which system is used</li>
+        </ul>
+
+        <h3>5. Eyeballing Small Amounts</h3>
+        <p>The difference between ¼ tsp and ½ tsp of baking soda in a cake can mean the difference between a perfect rise and a flat, dense result. For amounts under 1 tsp, use a proper measuring spoon — never estimate.</p>
+
+        <a href="#tool" class="cta-inline">Use the Free Converter ↑</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>RecipeScale</strong> — Free online recipe converter &amp; ingredient calculator.</p>
+  <p style="margin-top:6px;">No account needed. No data stored. Runs entirely in your browser.</p>
+</footer>
+
+<!-- ── JAVASCRIPT ────────────────────────────────────────────────── -->
+<script>
+  // ── CONVERSION DATA ──────────────────────────────────────────────
+  // Density g/ml for dry ingredients (g per cup = density × 240)
+  const DENSITY = {
+    flour:  0.521,   // all-purpose flour: ~125g/cup
+    sugar:  0.833,   // granulated sugar:  ~200g/cup
+    butter: 0.946,   // butter:            ~227g/cup
+    milk:   1.030,
+    rice:   0.775,
+    water:  1.000,
+    default: 1.000,
+  };
+
+  let currentDensity = DENSITY.default;
+  let currentPreset  = null;
+
+  // Base unit: ml (for liquids) or g (for mass)
+  // All conversions go through a canonical "ml" or "g" depending on type.
+  // We treat mass units and volume units separately.
+  // Cross-conversion (g ↔ cups) uses density.
+
+  const TO_ML = {
+    ml:   1,
+    cup:  240,
+    tbsp: 14.787,
+    tsp:  4.929,
+    'fl oz': 29.574,
+  };
+
+  const TO_G = {
+    g:  1,
+    oz: 28.3495,
+    lb: 453.592,
+  };
+
+  const UNIT_LABELS = {
+    g: 'g', ml: 'ml', cup: 'cup', tbsp: 'tbsp', tsp: 'tsp', oz: 'oz', lb: 'lb'
+  };
+
+  const ALL_UNITS = ['g', 'ml', 'cup', 'tbsp', 'tsp', 'oz', 'lb'];
+
+  // Convert value in fromUnit → toUnit, using density for g↔volume
+  function convertVal(val, from, to) {
+    if (from === to) return val;
+
+    const volUnits  = new Set(['ml', 'cup', 'tbsp', 'tsp', 'fl oz']);
+    const massUnits = new Set(['g', 'oz', 'lb']);
+
+    const fromIsVol  = volUnits.has(from);
+    const toIsVol    = volUnits.has(to);
+    const fromIsMass = massUnits.has(from);
+    const toIsMass   = massUnits.has(to);
+
+    // vol → vol
+    if (fromIsVol && toIsVol) {
+      const ml = val * (TO_ML[from] || 1);
+      return ml / (TO_ML[to] || 1);
+    }
+
+    // mass → mass
+    if (fromIsMass && toIsMass) {
+      const g = val * (TO_G[from] || 1);
+      return g / (TO_G[to] || 1);
+    }
+
+    // mass → vol : g → ml via density
+    if (fromIsMass && toIsVol) {
+      const g  = val * (TO_G[from] || 1);
+      const ml = g / currentDensity;
+      return ml / (TO_ML[to] || 1);
+    }
+
+    // vol → mass
+    if (fromIsVol && toIsMass) {
+      const ml = val * (TO_ML[from] || 1);
+      const g  = ml * currentDensity;
+      return g / (TO_G[to] || 1);
+    }
+
+    return val; // fallback
+  }
+
+  function fmt(n) {
+    if (n === null || isNaN(n)) return '—';
+    if (n === 0) return '0';
+    if (n >= 100)  return Math.round(n).toLocaleString();
+    if (n >= 10)   return parseFloat(n.toFixed(1)).toString();
+    if (n >= 1)    return parseFloat(n.toFixed(2)).toString();
+    return parseFloat(n.toFixed(4)).toString();
+  }
+
+  // ── CONVERTER ────────────────────────────────────────────────────
+  function convert() {
+    const val  = parseFloat(document.getElementById('cvtValue').value);
+    const from = document.getElementById('cvtFrom').value;
+    const to   = document.getElementById('cvtTo').value;
+
+    if (isNaN(val) || val === '') {
+      document.getElementById('cvtResult').textContent = '—';
+      document.getElementById('cvtResultLabel').textContent = 'Enter a value to convert';
+      document.getElementById('cvtResultUnit').textContent = '';
+      document.getElementById('allConversions').style.display = 'none';
+      return;
+    }
+
+    const result = convertVal(val, from, to);
+    document.getElementById('cvtResult').textContent = fmt(result);
+    document.getElementById('cvtResultLabel').textContent =
+      `${fmt(val)} ${from} = ${fmt(result)} ${to}${currentPreset ? ' (' + currentPreset + ')' : ''}`;
+    document.getElementById('cvtResultUnit').textContent = to;
+
+    // All conversions
+    const allDiv = document.getElementById('allConversions');
+    const allList = document.getElementById('allConvList');
+    allList.innerHTML = '';
+    ALL_UNITS.forEach(u => {
+      if (u === from) return;
+      const r = convertVal(val, from, u);
+      const div = document.createElement('div');
+      div.style.cssText = 'background:var(--paper);border-radius:6px;padding:7px 10px;border:1px solid var(--border);';
+      div.innerHTML = `<span style="font-size:11px;color:var(--ink3);display:block;">${u}</span><strong style="color:var(--ink);font-size:14px;">${fmt(r)}</strong>`;
+      allList.appendChild(div);
+    });
+    allDiv.style.display = 'block';
+  }
+
+  function swapUnits() {
+    const from = document.getElementById('cvtFrom');
+    const to   = document.getElementById('cvtTo');
+    const tmp  = from.value;
+    from.value = to.value;
+    to.value   = tmp;
+    convert();
+  }
+
+  // ── PRESETS ───────────────────────────────────────────────────────
+  const PRESETS = {
+    flour:  { name: 'All-purpose flour', density: DENSITY.flour  },
+    sugar:  { name: 'Granulated sugar',  density: DENSITY.sugar  },
+    butter: { name: 'Butter',            density: DENSITY.butter },
+    milk:   { name: 'Milk',              density: DENSITY.milk   },
+    rice:   { name: 'White rice',        density: DENSITY.rice   },
+  };
+
+  function loadPreset(key) {
+    const p = PRESETS[key];
+    if (!p) return;
+    currentDensity = p.density;
+    currentPreset  = p.name;
+    document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
+    event.target.classList.add('active');
+    convert();
+  }
+
+  // ── TABS ──────────────────────────────────────────────────────────
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', ['convert','scale'][i] === tab);
+      b.setAttribute('aria-selected', ['convert','scale'][i] === tab);
+    });
+    document.getElementById('panel-convert').classList.toggle('active', tab === 'convert');
+    document.getElementById('panel-scale').classList.toggle('active',   tab === 'scale');
+  }
+
+  // ── SCALER ────────────────────────────────────────────────────────
+  let ingredients = [
+    { name: 'All-purpose flour', amount: 200, unit: 'g' },
+    { name: 'Granulated sugar',  amount: 100, unit: 'g' },
+    { name: 'Butter',            amount: 100, unit: 'g' },
+    { name: 'Milk',              amount: 120, unit: 'ml' },
+    { name: 'Eggs',              amount: 2,   unit: 'piece' },
+    { name: 'Baking powder',     amount: 1,   unit: 'tsp' },
+  ];
+
+  function getScale() {
+    const orig = parseFloat(document.getElementById('origServings').value) || 1;
+    const next = parseFloat(document.getElementById('newServings').value)  || 1;
+    return next / orig;
+  }
+
+  function scaleRecipe() {
+    const factor = getScale();
+    document.getElementById('scaleFactor').textContent = '× ' + parseFloat(factor.toFixed(3));
+    renderIngredients();
+  }
+
+  function setScale(multiplier) {
+    const orig = parseFloat(document.getElementById('origServings').value) || 2;
+    document.getElementById('newServings').value = parseFloat((orig * multiplier).toFixed(2));
+    scaleRecipe();
+  }
+
+  function resetScale() {
+    document.getElementById('origServings').value = 2;
+    document.getElementById('newServings').value  = 4;
+    scaleRecipe();
+  }
+
+  function renderIngredients() {
+    const factor  = getScale();
+    const list    = document.getElementById('ingList');
+    list.innerHTML = '';
+    ingredients.forEach((ing, idx) => {
+      const scaled = ing.amount * factor;
+      const row = document.createElement('div');
+      row.className = 'ing-row';
+      row.innerHTML = `
+        <span class="ing-name">${ing.name}</span>
+        <input type="number" class="ing-input" value="${ing.amount}" min="0" step="any"
+          onchange="updateIngAmt(${idx}, this.value)" style="font-size:13px;">
+        <span class="ing-scaled">${fmt(scaled)}</span>
+        <span class="ing-unit">${ing.unit}</span>`;
+      list.appendChild(row);
+    });
+  }
+
+  function updateIngAmt(idx, val) {
+    ingredients[idx].amount = parseFloat(val) || 0;
+    scaleRecipe();
+  }
+
+  function addIngredient() {
+    const name = document.getElementById('newIngName').value.trim();
+    const amt  = parseFloat(document.getElementById('newIngAmt').value);
+    const unit = document.getElementById('newIngUnit').value;
+    if (!name || isNaN(amt) || amt <= 0) return;
+    ingredients.push({ name, amount: amt, unit });
+    document.getElementById('newIngName').value = '';
+    document.getElementById('newIngAmt').value  = '';
+    scaleRecipe();
+  }
+
+  // Allow Enter key on Add row
+  document.addEventListener('DOMContentLoaded', () => {
+    ['newIngName','newIngAmt'].forEach(id => {
+      document.getElementById(id)?.addEventListener('keydown', e => {
+        if (e.key === 'Enter') addIngredient();
+      });
+    });
+  });
+
+  // ── INIT ──────────────────────────────────────────────────────────
+  convert();
+  renderIngredients();
+</script>
+
+</body>
+</html>
