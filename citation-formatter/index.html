@@ -1,1253 +1,1662 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JSMTMFD395"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JSMTMFD395');
+</script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wk4ovtb4c9");
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Citation Formatter — Free APA, MLA & Harvard Generator | 100% Browser-Based</title>
-<meta name="description" content="Generate APA, MLA, and Harvard citations instantly in your browser. 100% client-side — your data never leaves your device. Free for students and researchers. Pro: .docx export, batch processing, BibTeX/Zotero.">
-<meta name="keywords" content="citation generator browser only, offline APA MLA generator, APA format helper, MLA citation style, Harvard citation generator, bibliography maker, academic writing assistant, free citation tool, no upload citation generator">
+<title>Citation Formatter — Free APA, MLA, Harvard & IEEE Bibliography Generator</title>
+<meta name="description" content="Generate perfect citations for APA, MLA, Harvard, IEEE, and more instantly. Free academic bibliography maker with integrated search. 100% browser-based, private, and secure.">
+<meta name="keywords" content="citation generator, bibliography maker, APA style generator, MLA format, Harvard citation, IEEE citation, academic researcher tools, bibtex generator, free citation tool, cite website online">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0e14;--bg2:#111420;--bg3:#181c28;--bg4:#1e2235;
+  --surface:#20243a;--surface2:#272c44;--surface3:#2e3450;
+  --border:#2e3450;--border2:#3a4060;
+  --text:#e8e4d8;--text2:#b8b2a4;--text3:#7a7468;
+  --accent:#e8a832;--accent2:#f0bc50;--accent-dim:rgba(232,168,50,.12);
+  --green:#4ade98;--green-dim:rgba(74,222,152,.1);
+  --blue:#60a8f0;--blue-dim:rgba(96,168,240,.1);
+  --red:#f07070;--red-dim:rgba(240,112,112,.1);
+  --purple:#b89cf0;--purple-dim:rgba(184,156,240,.1);
+  --r:6px;--r-md:10px;--r-lg:16px;--r-xl:22px;
+  --sh:0 1px 3px rgba(0,0,0,.4);
+  --sh-md:0 4px 16px rgba(0,0,0,.5);
+  --sh-lg:0 12px 40px rgba(0,0,0,.6);
+  --font-serif:'Instrument Serif',Georgia,serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --font-sans:'Geist',system-ui,sans-serif;
+  --trans:.15s ease;
+}
+[data-theme="light"]{
+  --bg:#f4f1ec;--bg2:#ede9e2;--bg3:#e6e1d8;--bg4:#ddd7cc;
+  --surface:#fff;--surface2:#f8f5f0;--surface3:#ede9e2;
+  --border:#d8d2c8;--border2:#c8c0b4;
+  --text:#1a1814;--text2:#4a4438;--text3:#8a7e70;
+  --accent:#c47c10;--accent2:#e09020;--accent-dim:rgba(196,124,16,.1);
+  --green:#1a7a4a;--green-dim:rgba(26,122,74,.08);
+  --blue:#2060c0;--blue-dim:rgba(32,96,192,.08);
+  --red:#c03030;--red-dim:rgba(192,48,48,.08);
+  --purple:#6040c0;--purple-dim:rgba(96,64,192,.08);
+  --sh:0 1px 3px rgba(0,0,0,.1);
+  --sh-md:0 4px 16px rgba(0,0,0,.12);
+  --sh-lg:0 12px 40px rgba(0,0,0,.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;transition:background .3s,color .3s}
 
-  :root {
-    --ink: #1a1714;
-    --ink-2: #3d3830;
-    --ink-3: #6b6358;
-    --ink-4: #a09690;
-    --paper: #faf8f5;
-    --paper-2: #f0ede8;
-    --paper-3: #e4e0d8;
-    --accent: #c5562a;
-    --accent-2: #e8724a;
-    --accent-light: #fdf0eb;
-    --gold: #b8860b;
-    --gold-light: #fdf8ee;
-    --green: #2d6a4f;
-    --green-light: #edf5f0;
-    --blue: #1e4d8c;
-    --blue-light: #eef3fb;
-    --shadow-sm: 0 1px 3px rgba(26,23,20,.08);
-    --shadow-md: 0 4px 16px rgba(26,23,20,.10);
-    --shadow-lg: 0 8px 32px rgba(26,23,20,.14);
-    --radius: 6px;
-    --radius-lg: 12px;
-  }
+/* ── HEADER ── */
+header{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.hd{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 20px;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{
+  width:32px;height:32px;background:var(--accent);border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-style:italic;font-size:18px;color:#fff;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(232,168,50,.3);
+}
+.logo-text{display:flex;flex-direction:column;gap:0}
+.logo-name{font-size:14px;font-weight:600;color:var(--text);letter-spacing:-.3px;line-height:1.2}
+.logo-sub{font-size:10px;color:var(--text3);letter-spacing:.3px;line-height:1}
+.hd-actions{display:flex;align-items:center;gap:8px}
+.priv-badge{
+  display:flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:20px;
+  background:var(--green-dim);border:1px solid rgba(74,222,152,.2);
+  font-size:11px;font-weight:500;color:var(--green);
+}
+.lang-sel{background:var(--surface2);color:var(--text2);border:1px solid var(--border2);border-radius:var(--r-md);padding:5px 8px;font-size:12px;font-family:var(--font-sans);cursor:pointer;outline:none;transition:border-color var(--trans)}
+.lang-sel:hover{border-color:var(--border2)}
+.lang-sel option{background:var(--bg3)}
 
-  html { scroll-behavior: smooth; }
+.theme-btn{
+  width:34px;height:34px;border-radius:var(--r-md);border:1px solid var(--border2);
+  background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:all var(--trans);color:var(--text2);
+}
+.theme-btn:hover{background:var(--surface2);border-color:var(--border2)}
+.btn-pro-hd{
+  padding:7px 14px;background:var(--accent);color:#0c0e14;
+  border:none;border-radius:var(--r-md);font-size:12px;font-weight:700;
+  cursor:pointer;font-family:var(--font-sans);transition:all var(--trans);
+  white-space:nowrap;letter-spacing:-.2px;
+}
+.btn-pro-hd:hover{background:var(--accent2);transform:translateY(-1px)}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    min-height: 100vh;
-    line-height: 1.6;
-  }
+/* ── HERO ── */
+.hero{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:40px 20px 36px;text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% -20%, rgba(232,168,50,.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:20px;
+  background:var(--accent-dim);border:1px solid rgba(232,168,50,.25);
+  font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.5px;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.hero h1{
+  font-family:var(--font-serif);font-size:clamp(28px,5vw,48px);font-style:italic;
+  color:var(--text);line-height:1.2;margin-bottom:12px;font-weight:400;
+}
+.hero h1 span{color:var(--accent)}
+.hero p{font-size:15px;color:var(--text2);max-width:520px;margin:0 auto 24px;line-height:1.7}
+.hero-strips{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.h-strip{
+  display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2);
+  padding:5px 12px;background:var(--surface);border:1px solid var(--border);border-radius:20px;
+}
+.h-strip .icon{font-size:13px}
 
-  /* ── HEADER ── */
-  header {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 0 32px;
-    position: sticky; top: 0; z-index: 100;
-    box-shadow: var(--shadow-lg);
-  }
-  .header-inner {
-    max-width: 1200px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 64px;
-  }
-  .logo {
-    display: flex; align-items: center; gap: 12px;
-  }
-  .logo-mark {
-    width: 36px; height: 36px;
-    background: var(--accent);
-    border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Serif Display', serif;
-    font-size: 18px; color: #fff;
-    flex-shrink: 0;
-  }
-  .logo-text {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    letter-spacing: -0.3px;
-  }
-  .logo-sub {
-    font-size: 11px;
-    color: rgba(250,248,245,.5);
-    letter-spacing: 0.5px;
-  }
-  .header-badges {
-    display: flex; align-items: center; gap: 12px;
-  }
-  .badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-  }
-  .badge-privacy {
-    background: rgba(197,86,42,.15);
-    color: var(--accent-2);
-    border: 1px solid rgba(197,86,42,.25);
-  }
-  .badge-free {
-    background: rgba(45,106,79,.2);
-    color: #6fcf97;
-    border: 1px solid rgba(45,106,79,.3);
-  }
-  .btn-pro-header {
-    padding: 7px 16px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.3px;
-    transition: background .2s;
-  }
-  .btn-pro-header:hover { background: var(--accent-2); }
+/* ── QUICK FILL ── */
+.quick-fill{
+  background:var(--bg3);border-bottom:1px solid var(--border);
+  padding:14px 20px;
+}
+.qf-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.qf-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
+.qf-input-wrap{flex:1;min-width:240px;max-width:480px;position:relative}
+.qf-input-wrap input{
+  width:100%;padding:9px 14px 9px 36px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);
+  font-family:var(--font-mono);font-size:12.5px;color:var(--text);outline:none;
+  transition:border-color var(--trans),box-shadow var(--trans);
+}
+.qf-input-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+.qf-input-wrap input::placeholder{color:var(--text3)}
+.qf-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.5;pointer-events:none}
+.qf-btn{
+  padding:9px 16px;background:var(--surface2);border:1px solid var(--border2);
+  border-radius:var(--r-md);font-size:12px;font-weight:600;color:var(--text2);
+  cursor:pointer;transition:all var(--trans);font-family:var(--font-sans);
+  display:flex;align-items:center;gap:5px;white-space:nowrap;
+}
+.qf-btn:hover{background:var(--surface3);color:var(--text)}
+.qf-spin{display:none;width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-  /* ── PRIVACY BANNER ── */
-  .privacy-banner {
-    background: var(--green-light);
-    border-bottom: 1px solid #c3e0d1;
-    padding: 10px 32px;
-    text-align: center;
-  }
-  .privacy-banner p {
-    font-size: 12.5px;
-    color: var(--green);
-    font-weight: 500;
-  }
-  .privacy-banner span { opacity: .7; font-weight: 400; }
+/* ── MAIN LAYOUT ── */
+.layout{max-width:1200px;margin:0 auto;padding:24px 20px 80px;display:grid;grid-template-columns:1fr 340px;gap:24px}
 
-  /* ── LAYOUT ── */
-  .main-wrap {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 36px 32px 80px;
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 36px;
-  }
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden}
+.card-header{
+  padding:16px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface2);
+}
+.card-header-left{display:flex;align-items:center;gap:8px}
+.card-header h2{font-size:13px;font-weight:600;color:var(--text);letter-spacing:-.2px}
+.card-body{padding:20px}
+.section-divider{height:1px;background:var(--border);margin:0 -20px;padding:0;border:none}
 
-  /* ── CARD ── */
-  .card {
-    background: #fff;
-    border: 1px solid var(--paper-3);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-  }
-  .card-head {
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid var(--paper-2);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .card-head h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--ink);
-  }
-  .card-body { padding: 24px; }
+/* ── STYLE SELECTOR ── */
+.style-tabs{display:flex;gap:4px;padding:14px 20px 10px;flex-wrap:wrap}
+.s-tab{
+  padding:6px 13px;border:1px solid var(--border);background:var(--surface2);
+  border-radius:var(--r);font-size:11.5px;font-weight:600;color:var(--text2);
+  cursor:pointer;font-family:var(--font-mono);letter-spacing:.3px;
+  transition:all var(--trans);
+}
+.s-tab:hover{border-color:var(--border2);color:var(--text)}
+.s-tab.active{background:var(--accent);color:#0c0e14;border-color:var(--accent)}
+.s-tab.pro-gate{color:var(--text3)}
+.s-tab.pro-gate:hover{border-color:var(--accent);color:var(--accent)}
+.fmt-desc{padding:6px 20px 14px;font-size:11.5px;color:var(--text3);font-style:italic;line-height:1.5;border-bottom:1px solid var(--border)}
 
-  /* ── FORMAT TABS ── */
-  .format-tabs {
-    display: flex; gap: 6px;
-    padding: 20px 24px 0;
-  }
-  .fmt-tab {
-    padding: 8px 18px;
-    border: 1.5px solid var(--paper-3);
-    background: var(--paper);
-    border-radius: var(--radius);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink-3);
-    cursor: pointer;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.5px;
-    transition: all .15s;
-  }
-  .fmt-tab:hover { border-color: var(--ink-3); color: var(--ink); }
-  .fmt-tab.active {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-  }
+/* ── SAMPLES ── */
+.sample-row{display:flex;align-items:center;gap:6px;padding:12px 20px;flex-wrap:wrap;background:var(--bg3);border-bottom:1px solid var(--border)}
+.s-lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.btn-samp{
+  padding:4px 10px;background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;font-size:11px;font-weight:500;color:var(--text2);
+  cursor:pointer;transition:all var(--trans);
+}
+.btn-samp:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
 
-  /* ── SOURCE TYPE ── */
-  .section-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--ink-4);
-    margin-bottom: 10px;
-  }
-  .type-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 24px;
-  }
-  .type-btn {
-    padding: 14px 10px;
-    border: 1.5px solid var(--paper-3);
-    background: var(--paper);
-    border-radius: var(--radius);
-    display: flex; flex-direction: column;
-    align-items: center; gap: 6px;
-    cursor: pointer;
-    transition: all .15s;
-  }
-  .type-btn:hover { border-color: var(--ink-3); }
-  .type-btn.active {
-    border-color: var(--accent);
-    background: var(--accent-light);
-  }
-  .type-icon { font-size: 20px; }
-  .type-label { font-size: 12px; font-weight: 600; color: var(--ink-2); }
-  .type-btn.active .type-label { color: var(--accent); }
+/* ── SOURCE TYPE ── */
+.type-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:20px}
+.t-btn{
+  padding:10px 4px;border:1px solid var(--border);background:var(--surface2);
+  border-radius:var(--r-md);display:flex;flex-direction:column;align-items:center;gap:3px;
+  cursor:pointer;transition:all var(--trans);
+}
+.t-btn:hover{border-color:var(--border2);background:var(--surface3)}
+.t-btn.active{border-color:var(--accent);background:var(--accent-dim)}
+.t-icon{font-size:15px}
+.t-lbl{font-size:9.5px;font-weight:600;color:var(--text2);text-align:center;line-height:1.2}
+.t-btn.active .t-lbl{color:var(--accent)}
 
-  /* ── FORM ── */
-  .form-grid { display: grid; gap: 16px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
-  .field label {
-    display: block;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    margin-bottom: 6px;
-  }
-  .field label .req { color: var(--accent); }
-  .field input, .field textarea {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--paper-3);
-    border-radius: var(--radius);
-    font-size: 13.5px;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--ink);
-    background: var(--paper);
-    transition: border-color .15s, box-shadow .15s;
-    outline: none;
-  }
-  .field input:focus, .field textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(197,86,42,.1);
-    background: #fff;
-  }
-  .field .hint {
-    font-size: 11px;
-    color: var(--ink-4);
-    margin-top: 4px;
-  }
+/* ── FORM ── */
+.form-grid{display:grid;gap:14px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.f-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.field label .req{color:var(--accent)}
+.field input,.field select{
+  width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r-md);
+  font-size:13px;font-family:var(--font-sans);color:var(--text);background:var(--surface2);
+  outline:none;transition:border-color var(--trans),box-shadow var(--trans),background var(--trans);
+}
+.field input:focus,.field select:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim);background:var(--surface3);
+}
+.field select option{background:var(--bg3)}
+.field input::placeholder{color:var(--text3)}
+.field.has-err input,.field.has-err .author-box{border-color:var(--red)!important}
+.err-msg{font-size:11px;color:var(--red);display:none}
+.field.has-err .err-msg{display:block}
+.hint{font-size:11px;color:var(--text3)}
 
-  /* ── LIVE PREVIEW IN FORM ── */
-  .live-preview-box {
-    background: var(--paper-2);
-    border: 1px solid var(--paper-3);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin: 12px 0 20px;
-  }
-  .live-preview-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--ink-4);
-    margin-bottom: 6px;
-  }
-  .live-preview-text {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    line-height: 1.7;
-    color: var(--ink-2);
-  }
-  .live-preview-text.placeholder { color: var(--ink-4); font-style: italic; }
+/* ── AUTHOR TAGS ── */
+.author-box{
+  display:flex;flex-wrap:wrap;gap:5px;align-items:center;
+  padding:6px 10px;border:1px solid var(--border);border-radius:var(--r-md);
+  background:var(--surface2);min-height:40px;cursor:text;
+  transition:border-color var(--trans),box-shadow var(--trans),background var(--trans);
+}
+.author-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim);background:var(--surface3)}
+.a-tag{
+  display:flex;align-items:center;gap:4px;
+  background:var(--blue-dim);color:var(--blue);border:1px solid rgba(96,168,240,.25);
+  border-radius:4px;padding:2px 7px;font-size:11.5px;font-weight:500;font-family:var(--font-mono);
+}
+.a-rm{cursor:pointer;opacity:.5;font-size:14px;line-height:1;transition:opacity var(--trans)}
+.a-rm:hover{opacity:1}
+.a-inp{
+  border:none;outline:none;background:transparent;
+  font-family:var(--font-sans);font-size:13px;color:var(--text);
+  flex:1;min-width:100px;padding:2px 0;
+}
+.a-inp::placeholder{color:var(--text3)}
 
-  /* ── SAMPLE BUTTONS ── */
-  .sample-row {
-    display: flex; gap: 8px; flex-wrap: wrap;
-    padding: 0 24px 20px;
-  }
-  .btn-sample {
-    padding: 6px 14px;
-    background: var(--gold-light);
-    border: 1px solid #e0c870;
-    border-radius: 20px;
-    font-size: 11.5px;
-    font-weight: 500;
-    color: var(--gold);
-    cursor: pointer;
-    transition: all .15s;
-  }
-  .btn-sample:hover { background: #faefc5; border-color: var(--gold); }
+/* ── LIVE PREVIEW ── */
+.preview-box{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;margin-top:18px;
+}
+.preview-header{
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface);
+}
+.prev-lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);display:flex;align-items:center;gap:5px}
+.prev-lbl::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.pm-btns{display:flex;gap:3px}
+.pm-btn{
+  padding:4px 10px;border-radius:20px;border:1px solid var(--border);
+  background:transparent;color:var(--text3);cursor:pointer;font-size:10.5px;
+  font-family:var(--font-mono);font-weight:600;letter-spacing:.3px;transition:all var(--trans);
+}
+.pm-btn.active{background:var(--surface3);color:var(--text);border-color:var(--border2)}
+.preview-body{padding:14px 16px}
+.prev-row{margin-bottom:10px}
+.prev-row:last-child{margin-bottom:0}
+.prev-fmt-label{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);margin-bottom:4px;font-family:var(--font-mono)}
+.prev-text{
+  font-family:var(--font-mono);font-size:11.5px;line-height:1.8;color:var(--text2);
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:10px 12px;word-break:break-word;
+}
+.prev-placeholder{color:var(--text3);font-style:italic;font-family:var(--font-mono);font-size:12px}
 
-  /* ── BUTTONS ── */
-  .btn-primary {
-    width: 100%;
-    padding: 13px;
-    background: var(--ink);
-    color: var(--paper);
-    border: none;
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: background .2s, transform .1s;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    margin-top: 8px;
-  }
-  .btn-primary:hover { background: var(--ink-2); }
-  .btn-primary:active { transform: scale(0.99); }
-  .btn-secondary {
-    width: 100%;
-    padding: 10px;
-    background: transparent;
-    color: var(--ink-2);
-    border: 1.5px solid var(--paper-3);
-    border-radius: var(--radius);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all .15s;
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-  }
-  .btn-secondary:hover { border-color: var(--ink-3); background: var(--paper); }
-  .btn-accent {
-    width: 100%;
-    padding: 11px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: background .15s;
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-  }
-  .btn-accent:hover { background: var(--accent-2); }
+/* ── CAPTION ── */
+.caption-section{border-top:1px solid var(--border);padding:14px 20px}
+.caption-toggle{
+  display:flex;align-items:center;gap:6px;cursor:pointer;
+  font-size:12px;font-weight:500;color:var(--text2);background:none;border:none;
+  padding:0;font-family:var(--font-sans);transition:color var(--trans);
+}
+.caption-toggle:hover{color:var(--text)}
+.caption-toggle .arrow{transition:transform var(--trans);font-size:10px}
+.caption-toggle.open .arrow{transform:rotate(90deg)}
+.caption-content{display:none;margin-top:12px;display:flex;gap:7px;flex-wrap:wrap}
+.caption-content.hidden{display:none}
+.cap-out{
+  font-family:var(--font-mono);font-size:11.5px;line-height:1.75;color:var(--text2);
+  background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:10px 12px;margin-top:8px;word-break:break-word;display:none;
+}
+.cap-out.show{display:block;width:100%}
 
-  /* ── SIDEBAR ── */
-  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+/* ── FORM ACTIONS ── */
+.form-actions{display:flex;gap:8px;padding:16px 20px;border-top:1px solid var(--border);background:var(--surface2)}
+.btn-add{
+  flex:1;padding:11px 16px;background:var(--accent);color:#0c0e14;
+  border:none;border-radius:var(--r-md);font-size:13.5px;font-weight:700;
+  cursor:pointer;font-family:var(--font-sans);transition:all var(--trans);
+  display:flex;align-items:center;justify-content:center;gap:7px;letter-spacing:-.2px;
+}
+.btn-add:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(232,168,50,.3)}
+.btn-add:active{transform:none}
+.btn-reset{
+  padding:11px 16px;background:transparent;color:var(--text3);
+  border:1px solid var(--border);border-radius:var(--r-md);font-size:13px;
+  font-weight:500;cursor:pointer;font-family:var(--font-sans);transition:all var(--trans);
+}
+.btn-reset:hover{border-color:var(--border2);color:var(--text)}
 
-  /* ── CITATION LIST ── */
-  .citation-list { display: flex; flex-direction: column; gap: 8px; }
-  .citation-item {
-    padding: 12px 14px;
-    background: var(--paper);
-    border: 1px solid var(--paper-3);
-    border-radius: var(--radius);
-    position: relative;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .citation-item:hover {
-    border-color: var(--paper-3);
-    box-shadow: var(--shadow-sm);
-  }
-  .citation-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--ink-4);
-    margin-bottom: 4px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .citation-type-tag {
-    font-size: 9px;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  .tag-book { background: var(--blue-light); color: var(--blue); }
-  .tag-journal { background: var(--green-light); color: var(--green); }
-  .tag-website { background: var(--gold-light); color: var(--gold); }
-  .citation-text {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    line-height: 1.7;
-    color: var(--ink-2);
-  }
-  .citation-actions {
-    display: flex; gap: 4px;
-    margin-top: 8px;
-  }
-  .btn-icon {
-    padding: 5px 8px;
-    background: transparent;
-    border: 1px solid var(--paper-3);
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 11px;
-    color: var(--ink-3);
-    transition: all .15s;
-    display: flex; align-items: center; gap: 4px;
-  }
-  .btn-icon:hover { background: var(--paper-2); border-color: var(--ink-4); color: var(--ink); }
-  .btn-icon.danger:hover { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
-  .btn-icon.success { color: var(--green); border-color: #c3e0d1; background: var(--green-light); }
+/* ── COMPARE TABLE ── */
+.cmp-tbl{width:100%;border-collapse:collapse}
+.cmp-tbl th{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:8px 12px;border-bottom:2px solid var(--border);color:var(--text3);text-align:left}
+.cmp-tbl th:not(:first-child){text-align:center}
+.cmp-tbl td{padding:7px 12px;font-size:12px;border-bottom:1px solid var(--border);color:var(--text2)}
+.cmp-tbl td:not(:first-child){text-align:center}
+.cmp-tbl tr:last-child td{border:none}
+.cmp-tbl tr:hover td{background:var(--surface2)}
+.pro-col{color:var(--accent)!important;font-weight:700}
+.check-y{color:var(--green)}
+.check-n{color:var(--text3)}
 
-  .empty-state {
-    text-align: center;
-    padding: 36px 20px;
-    color: var(--ink-4);
-  }
-  .empty-icon { font-size: 32px; margin-bottom: 10px; }
-  .empty-state p { font-size: 13px; line-height: 1.6; }
+/* ── SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;gap:18px}
 
-  /* ── COPY ALL ── */
-  .copy-all-row {
-    display: flex; gap: 8px;
-    flex-wrap: wrap;
-  }
-  .copy-all-row .btn-icon { flex: 1; justify-content: center; }
+/* ── BIBLIOGRAPHY ── */
+.search-wrap{position:relative;margin-bottom:10px}
+.search-wrap input{
+  width:100%;padding:8px 32px 8px 12px;
+  background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-md);
+  font-family:var(--font-sans);font-size:12.5px;color:var(--text);outline:none;
+  transition:border-color var(--trans);
+}
+.search-wrap input:focus{border-color:var(--accent)}
+.search-wrap input::placeholder{color:var(--text3)}
+.s-ico{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.4;pointer-events:none}
+.bib-toolbar{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
+.btn-sm{
+  padding:5px 10px;background:transparent;border:1px solid var(--border);
+  border-radius:var(--r);font-size:11px;color:var(--text3);cursor:pointer;
+  display:flex;align-items:center;gap:4px;transition:all var(--trans);
+  font-family:var(--font-sans);font-weight:500;
+}
+.btn-sm:hover{background:var(--surface2);border-color:var(--border2);color:var(--text)}
+.btn-sm.danger:hover{background:var(--red-dim);border-color:rgba(240,112,112,.3);color:var(--red)}
+.btn-sm.ok{color:var(--green);border-color:rgba(74,222,152,.3);background:var(--green-dim)}
+.c-item{
+  padding:12px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r-md);transition:all var(--trans);margin-bottom:6px;cursor:grab;
+}
+.c-item:hover{border-color:var(--border2);box-shadow:var(--sh)}
+.c-item.dragging{opacity:.4;cursor:grabbing}
+.c-item.drag-over{border-color:var(--accent);border-style:dashed}
+.c-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.c-num{font-family:var(--font-mono);font-size:9.5px;font-weight:600;color:var(--text3)}
+.c-tag{font-size:9px;padding:2px 7px;border-radius:20px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.tag-book,.tag-ebook{background:var(--blue-dim);color:var(--blue)}
+.tag-journal{background:var(--green-dim);color:var(--green)}
+.tag-website{background:var(--accent-dim);color:var(--accent)}
+.tag-report,.tag-thesis,.tag-conference{background:var(--purple-dim);color:var(--purple)}
+.c-text{
+  font-family:var(--font-mono);font-size:11px;line-height:1.75;
+  color:var(--text2);word-break:break-word;
+}
+.c-actions{display:flex;gap:4px;margin-top:8px}
+.empty{text-align:center;padding:28px 16px;color:var(--text3)}
+.empty-ico{font-size:24px;margin-bottom:8px;opacity:.5}
+.empty p{font-size:12px;line-height:1.6;color:var(--text3)}
+.bib-exports{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:10px}
+.divider{height:1px;background:var(--border);margin:12px 0}
 
-  /* ── HISTORY ── */
-  .history-item {
-    padding: 10px 12px;
-    background: var(--paper);
-    border: 1px solid var(--paper-3);
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: all .15s;
-  }
-  .history-item:hover { border-color: var(--ink-3); }
-  .history-title { font-size: 12px; font-weight: 500; color: var(--ink-2); }
-  .history-meta { font-size: 11px; color: var(--ink-4); margin-top: 2px; }
+/* ── HISTORY ── */
+.h-item{
+  padding:9px 12px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r-md);cursor:pointer;transition:all var(--trans);margin-bottom:5px;
+}
+.h-item:hover{border-color:var(--border2);background:var(--surface3)}
+.h-title{font-size:12px;font-weight:500;color:var(--text)}
+.h-meta{font-size:10.5px;color:var(--text3);margin-top:1px;font-family:var(--font-mono)}
 
-  /* ── FREE vs PRO TABLE ── */
-  .compare-table { width: 100%; border-collapse: collapse; }
-  .compare-table th {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 2px solid var(--paper-3);
-    color: var(--ink-3);
-  }
-  .compare-table th:last-child { text-align: center; }
-  .compare-table td {
-    padding: 9px 12px;
-    font-size: 12px;
-    border-bottom: 1px solid var(--paper-2);
-    color: var(--ink-2);
-  }
-  .compare-table td:last-child, .compare-table td:nth-child(2) { text-align: center; font-size: 14px; }
-  .compare-table tr:last-child td { border: none; }
-  .pro-col { color: var(--accent) !important; }
+/* ── PRO CARD ── */
+.pro-card{
+  background:linear-gradient(145deg,#1a1428,#0e1820);
+  border:1px solid rgba(232,168,50,.2);border-radius:var(--r-xl);overflow:hidden;
+}
+.pro-card-inner{padding:20px}
+.pro-eyebrow{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.pro-title{font-family:var(--font-serif);font-size:18px;font-style:italic;color:var(--text);line-height:1.4;margin-bottom:14px;font-weight:400}
+.pro-feats{list-style:none;margin-bottom:16px}
+.pro-feats li{font-size:12px;color:var(--text2);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:7px}
+.pro-feats li:last-child{border:none}
+.btn-accent{
+  width:100%;padding:11px;background:var(--accent);color:#0c0e14;
+  border:none;border-radius:var(--r-md);font-size:13px;font-weight:700;
+  cursor:pointer;font-family:var(--font-sans);transition:all var(--trans);letter-spacing:-.2px;
+}
+.btn-accent:hover{background:var(--accent2);transform:translateY(-1px)}
 
-  /* ── MODAL ── */
-  .modal-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(26,23,20,.5);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    backdrop-filter: blur(3px);
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: #fff;
-    border-radius: var(--radius-lg);
-    max-width: 460px;
-    width: 100%;
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-    animation: modalIn .2s ease;
-  }
-  @keyframes modalIn { from { transform: scale(.97) translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
-  .modal-head {
-    background: var(--ink);
-    padding: 24px 28px 20px;
-    color: var(--paper);
-  }
-  .modal-head h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    font-weight: 400;
-    margin-bottom: 4px;
-  }
-  .modal-head p { font-size: 13px; color: rgba(250,248,245,.6); }
-  .modal-body { padding: 24px 28px; }
-  .price-box {
-    background: var(--accent-light);
-    border: 1px solid rgba(197,86,42,.2);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    margin-bottom: 20px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .price-amount { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--accent); }
-  .price-label { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
-  .price-badge {
-    background: var(--accent);
-    color: #fff;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-  }
-  .pro-features { list-style: none; margin-bottom: 20px; }
-  .pro-features li {
-    padding: 6px 0;
-    font-size: 13px;
-    color: var(--ink-2);
-    display: flex; align-items: center; gap: 8px;
-    border-bottom: 1px solid var(--paper-2);
-  }
-  .pro-features li:last-child { border: none; }
-  .check { color: var(--green); font-size: 15px; }
-  .modal-input {
-    width: 100%;
-    padding: 11px 14px;
-    border: 1.5px solid var(--paper-3);
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
-    margin-bottom: 12px;
-    outline: none;
-    transition: border-color .15s;
-  }
-  .modal-input:focus { border-color: var(--accent); }
-  .modal-close {
-    width: 100%;
-    padding: 10px;
-    background: transparent;
-    border: 1.5px solid var(--paper-3);
-    border-radius: var(--radius);
-    font-size: 13px;
-    cursor: pointer;
-    color: var(--ink-3);
-    font-family: 'DM Sans', sans-serif;
-    margin-top: 8px;
-    transition: all .15s;
-  }
-  .modal-close:hover { background: var(--paper); }
+/* ── MODALS ── */
+.overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);
+  z-index:200;align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(8px);
+}
+.overlay.open{display:flex}
+.modal{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-xl);max-width:460px;width:100%;
+  box-shadow:var(--sh-lg);animation:mIn .2s ease;overflow:hidden;
+}
+@keyframes mIn{from{transform:scale(.96) translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.modal-hd{background:var(--surface2);padding:24px 26px 20px;border-bottom:1px solid var(--border)}
+.modal-hd h3{font-family:var(--font-serif);font-size:22px;font-style:italic;color:var(--text);font-weight:400;margin-bottom:3px}
+.modal-hd p{font-size:12px;color:var(--text3)}
+.modal-body{padding:22px 26px}
+.price-box{
+  background:var(--accent-dim);border:1px solid rgba(232,168,50,.25);
+  border-radius:var(--r-lg);padding:14px 16px;margin-bottom:18px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.price-amt{font-family:var(--font-serif);font-size:28px;color:var(--accent);font-weight:400;font-style:italic}
+.price-lbl{font-size:11px;color:var(--text3);margin-top:1px}
+.price-badge{background:var(--accent);color:#0c0e14;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700}
+.pro-list{list-style:none;margin-bottom:18px}
+.pro-list li{
+  padding:7px 0;font-size:12.5px;color:var(--text2);
+  display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);
+}
+.pro-list li:last-child{border:none}
+.ck{color:var(--green);font-weight:700;font-size:13px}
+.gum-btn{
+  display:block;width:100%;padding:13px;
+  background:var(--accent);color:#0c0e14;
+  text-align:center;text-decoration:none;border-radius:var(--r-md);
+  font-size:14px;font-weight:700;font-family:var(--font-sans);
+  transition:all var(--trans);margin-bottom:8px;
+}
+.gum-btn:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,168,50,.3)}
+.gum-sub{font-size:11px;color:var(--text3);text-align:center;margin-bottom:14px}
+.key-row{display:flex;gap:7px;margin-bottom:8px}
+.key-row input{
+  flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r-md);
+  font-size:12.5px;font-family:var(--font-mono);
+  color:var(--text);background:var(--surface2);outline:none;
+  transition:border-color var(--trans);letter-spacing:.5px;
+}
+.key-row input:focus{border-color:var(--accent)}
+.key-row input::placeholder{color:var(--text3)}
+.key-row button{
+  padding:9px 14px;background:var(--accent);color:#0c0e14;
+  border:none;border-radius:var(--r-md);font-size:13px;font-weight:700;
+  cursor:pointer;font-family:var(--font-sans);transition:all var(--trans);white-space:nowrap;
+}
+.key-row button:hover{background:var(--accent2)}
+.key-st{font-size:12px;padding:7px 12px;border-radius:var(--r-md);text-align:center;display:none;margin-bottom:10px}
+.key-st.ok{background:var(--green-dim);color:var(--green);border:1px solid rgba(74,222,152,.25)}
+.key-st.fail{background:var(--red-dim);color:var(--red);border:1px solid rgba(240,112,112,.25)}
+.btn-mc{
+  width:100%;padding:10px;background:transparent;border:1px solid var(--border);
+  border-radius:var(--r-md);font-size:12.5px;cursor:pointer;color:var(--text3);
+  font-family:var(--font-sans);margin-top:8px;transition:all var(--trans);
+}
+.btn-mc:hover{background:var(--surface2);color:var(--text)}
 
-  /* ── SEO ARTICLE ── */
-  .seo-section {
-    background: #fff;
-    border-top: 1px solid var(--paper-3);
-    padding: 60px 32px;
-  }
-  .seo-inner { max-width: 760px; margin: 0 auto; }
-  .seo-inner h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 26px;
-    font-weight: 400;
-    color: var(--ink);
-    margin-bottom: 16px;
-    margin-top: 40px;
-  }
-  .seo-inner h2:first-child { margin-top: 0; }
-  .seo-inner h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--ink-2);
-    margin: 28px 0 10px;
-  }
-  .seo-inner p { font-size: 14.5px; color: var(--ink-2); line-height: 1.8; margin-bottom: 14px; }
-  .seo-callout {
-    background: var(--blue-light);
-    border-left: 4px solid var(--blue);
-    padding: 16px 18px;
-    border-radius: 0 var(--radius) var(--radius) 0;
-    margin: 20px 0;
-  }
-  .seo-callout p { color: var(--blue); font-size: 13.5px; margin: 0; }
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(70px);
+  background:var(--surface3);color:var(--text);border:1px solid var(--border2);
+  padding:9px 20px;border-radius:24px;font-size:13px;font-weight:500;
+  z-index:400;transition:transform .24s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;pointer-events:none;max-width:92vw;text-align:center;
+  box-shadow:var(--sh-md);
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok-t{background:var(--green-dim);color:var(--green);border-color:rgba(74,222,152,.3)}
+.toast.err-t{background:var(--red-dim);color:var(--red);border-color:rgba(240,112,112,.3)}
 
-  footer {
-    background: var(--ink);
-    color: rgba(250,248,245,.4);
-    text-align: center;
-    padding: 24px;
-    font-size: 11.5px;
-    line-height: 1.8;
-  }
+/* ── SEO / FOOTER ── */
+.seo{
+  background:var(--bg2);border-top:1px solid var(--border);padding:56px 20px;
+}
+.seo-in{max-width:720px;margin:0 auto}
+.seo-in h2{font-family:var(--font-serif);font-size:24px;font-style:italic;color:var(--text);margin-bottom:12px;margin-top:32px;font-weight:400}
+.seo-in h2:first-child{margin-top:0}
+.seo-in h3{font-size:14px;font-weight:600;color:var(--text2);margin:20px 0 6px}
+.seo-in p{font-size:13.5px;color:var(--text2);line-height:1.8;margin-bottom:10px}
+.callout{
+  background:var(--blue-dim);border-left:2px solid var(--blue);
+  padding:12px 16px;border-radius:0 var(--r-md) var(--r-md) 0;margin:16px 0;
+}
+.callout p{color:var(--blue);font-size:12.5px;margin:0}
+footer{
+  background:var(--bg);color:var(--text3);text-align:center;
+  padding:20px;font-size:11px;line-height:1.8;border-top:1px solid var(--border);
+  font-family:var(--font-mono);
+}
 
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--ink);
-    color: var(--paper);
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    z-index: 300;
-    transition: transform .25s cubic-bezier(.34,1.56,.64,1);
-    white-space: nowrap;
-    pointer-events: none;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+/* ── PRO UNLOCKED ── */
+#proUnlocked{
+  background:linear-gradient(145deg,#0d1f14,#0e1820);
+  border:1px solid rgba(74,222,152,.2);border-radius:var(--r-xl);
+}
+#proUnlocked-inner{padding:20px}
 
-  /* ── DIVIDER ── */
-  .divider { height: 1px; background: var(--paper-2); margin: 20px 0; }
-
-  @media (max-width: 900px) {
-    .main-wrap { grid-template-columns: 1fr; }
-    .header-badges { display: none; }
-    .form-row { grid-template-columns: 1fr; }
-    .form-row.triple { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 600px) {
-    .main-wrap { padding: 20px 16px 60px; }
-    .seo-section { padding: 40px 16px; }
-  }
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .f-row,.f-row-3{grid-template-columns:1fr}
+  .type-grid{grid-template-columns:repeat(4,1fr)}
+  .hd-actions .priv-badge{display:none}
+}
+@media(max-width:600px){
+  .layout{padding:16px 14px 60px}
+  .hero{padding:28px 14px 24px}
+  .style-tabs{gap:3px;padding:10px 14px 8px}
+  .s-tab{padding:5px 9px;font-size:11px}
+  .type-grid{grid-template-columns:repeat(3,1fr)}
+  .quick-fill{padding:12px 14px}
+  .seo{padding:36px 14px}
+  .btn-add{font-size:13px}
+  .bib-exports{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <header>
-  <div class="header-inner">
-    <div class="logo">
+  <div class="hd">
+    <a href="#" class="logo">
       <div class="logo-mark">C</div>
-      <div>
-        <div class="logo-text">Citation Formatter</div>
-        <div class="logo-sub">APA · MLA · Harvard — offline, browser-only</div>
+      <div class="logo-text">
+        <div class="logo-name">Citation Formatter</div>
+        <div class="logo-sub">APA · MLA · Harvard · Chicago · IEEE</div>
       </div>
-    </div>
-    <div class="header-badges">
-      <span class="badge badge-privacy">🔒 100% Client-Side</span>
-      <span class="badge badge-free">✓ Free</span>
-      <button class="btn-pro-header" onclick="openProModal()">Pro — $5.99 Lifetime</button>
+    </a>
+    <div class="hd-actions">
+      <div class="priv-badge">🔒 <span data-i18n="badge_priv">100% Private</span></div>
+      <select class="lang-sel" id="langSel" onchange="setLang(this.value)">
+        <option value="en">🌐 EN</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="fr">🇫🇷 Français</option>
+      </select>
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">☀️</button>
+      <button class="btn-pro-hd" onclick="openProModal()" data-i18n="pro_hd_btn">Pro — $8.00</button>
     </div>
   </div>
 </header>
 
-<!-- PRIVACY BANNER -->
-<div class="privacy-banner">
-  <p>🔒 <strong>100% client-side processing</strong> — your data never leaves your browser. No server uploads, no tracking. <span>You can verify this in your browser's Network tab.</span></p>
-</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">✦ <span data-i18n="hero_eyebrow">100% browser-based · zero data sent to servers</span></div>
+  <h1><span data-i18n="hero_h1a">Your bibliography,</span><br><span data-i18n="hero_h1b">perfectly formatted</span></h1>
+  <p data-i18n="hero_p">Generate APA, MLA, Harvard, Chicago & IEEE citations in seconds. All processing happens locally — nothing leaves your device.</p>
 
-<!-- MAIN -->
-<div class="main-wrap">
+  <!-- Detailed Description -->
+  <div style="max-width:820px;margin:2rem auto 4rem;text-align:left;background:var(--surface2);padding:2.5rem;border-radius:var(--r-lg);border:1px solid var(--border);backdrop-filter:blur(16px);box-shadow:var(--sh-lg);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2.5rem;">
+      <div>
+        <h3 style="font-family:var(--font-serif);font-size:1.4rem;font-style:italic;color:var(--accent);margin-bottom:1rem;">What can you do?</h3>
+        <p style="font-size:0.95rem;color:var(--text2);line-height:1.7;">Citation Formatter is a precision academic tool for students and researchers. It takes the pain out of bibliography management by generating perfectly formatted APA, MLA, Harvard, and IEEE citations. Use it to build complete reference lists or generate figure captions for your thesis.</p>
+      </div>
+      <div>
+        <h3 style="font-family:var(--font-serif);font-size:1.4rem;font-style:italic;color:var(--green);margin-bottom:1rem;">Privacy Strength</h3>
+        <p style="font-size:0.95rem;color:var(--text2);line-height:1.7;">Your research topics are personal. Unlike most online generators, we don't track what you're citing. Every formatting calculation happens in your browser's memory. No databases, no accounts, and no data harvesting—ever.</p>
+      </div>
+    </div>
+    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);">
+      <h3 style="font-family:var(--font-serif);font-size:1.4rem;font-style:italic;color:var(--purple);margin-bottom:1rem;">Best For & Use Cases</h3>
+      <p style="font-size:0.95rem;color:var(--text2);line-height:1.7;">Perfect for university students drafting essays, PhD candidates managing complex bibliographies, and professors preparing journal submissions. Use it to format books, journal articles, websites, and even technical reports without leaving your browser.</p>
+    </div>
+  </div>
 
-  <!-- LEFT: FORM -->
-  <div>
-
-    <!-- Format selector -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-      <h1 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--ink);">
-        Build Your Citation
-      </h1>
-      <div style="display:flex;gap:6px;">
-        <div id="citCount" style="font-size:12px;color:var(--ink-4);align-self:center;margin-right:4px;"></div>
+  <!-- HOW TO USE & FAQ -->
+  <div style="max-width:820px;margin:0 auto 4rem;display:grid;grid-template-columns:1fr 1fr;gap:24px;text-align:left;">
+    <!-- How to Use -->
+    <div style="background:var(--bg3);padding:32px;border:1px solid var(--border);border-radius:var(--r-lg);">
+      <h2 style="font-family:var(--font-serif);font-size:1.8rem;font-style:italic;margin-bottom:20px;color:var(--text);">HOW TO USE</h2>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;gap:12px;">
+          <div style="font-weight:800;color:var(--accent);font-family:var(--font-mono);">01</div>
+          <div><strong style="color:var(--text);">INPUT:</strong> Paste a DOI/ISBN for auto-fill or enter manually.</div>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <div style="font-weight:800;color:var(--accent);font-family:var(--font-mono);">02</div>
+          <div><strong style="color:var(--text);">STYLE:</strong> Select APA, MLA, or Harvard and check the live preview.</div>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <div style="font-weight:800;color:var(--accent);font-family:var(--font-mono);">03</div>
+          <div><strong style="color:var(--text);">ADD:</strong> Click "Add to Bibliography" to build your dynamic list.</div>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <div style="font-weight:800;color:var(--accent);font-family:var(--font-mono);">04</div>
+          <div><strong style="color:var(--text);">EXPORT:</strong> Copy text, generate captions, or export to .docx (Pro).</div>
+        </div>
       </div>
     </div>
 
-    <div class="card" style="margin-bottom:20px;">
-      <!-- Format tabs -->
-      <div class="format-tabs" id="formatTabs">
-        <button class="fmt-tab active" onclick="setFormat('APA',this)">APA</button>
-        <button class="fmt-tab" onclick="setFormat('MLA',this)">MLA</button>
-        <button class="fmt-tab" onclick="setFormat('Harvard',this)">Harvard</button>
+    <!-- FAQ -->
+    <div style="background:var(--bg3);padding:32px;border:1px solid var(--border);border-radius:var(--r-lg);">
+      <h2 style="font-family:var(--font-serif);font-size:1.8rem;font-style:italic;margin-bottom:20px;color:var(--text);">FAQ</h2>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div>
+          <h4 style="font-size:13px;color:var(--accent);margin-bottom:4px;font-weight:700;">Are styles up to date?</h4>
+          <p style="font-size:12px;color:var(--text2);">Yes. We follow the latest manuals, including APA 7th Edition and MLA 9th Edition standards.</p>
+        </div>
+        <div>
+          <h4 style="font-size:13px;color:var(--accent);margin-bottom:4px;font-weight:700;">Can I reorder items?</h4>
+          <p style="font-size:12px;color:var(--text2);">Absolutely. You can drag and drop items in your bibliography to reorder them or use auto-sort.</p>
+        </div>
+        <div>
+          <h4 style="font-size:13px;color:var(--accent);margin-bottom:4px;font-weight:700;">What's in the Pro plan?</h4>
+          <p style="font-size:12px;color:var(--text2);">Pro unlocks Chicago and IEEE styles, .docx / .bib exports, and batch CSV imports for a one-time $8 fee.</p>
+        </div>
       </div>
-      <div style="padding:14px 24px 6px;">
-        <p style="font-size:11.5px;color:var(--ink-4);line-height:1.5;">
-          <span id="formatDesc">APA (American Psychological Association) — widely used in social sciences, psychology, education, and nursing.</span>
-        </p>
-      </div>
+    </div>
+  </div>
 
-      <!-- Sample buttons -->
+  <!-- Japanese Content Section -->
+  <div style="max-width:820px;margin:0 auto 4rem;text-align:left;line-height:1.8;">
+    <div style="background:var(--bg3);padding:32px;border-radius:var(--r-lg);border:1px solid var(--border);">
+      <h3 style="font-family:var(--font-serif);font-size:1.6rem;font-style:italic;color:#fff;margin-bottom:16px;">日本語での論文引用・参考文献作成 (Academic Citations in Japan)</h3>
+      <p style="font-size:14px;color:var(--text2);line-height:1.7;">
+        Citation Formatterは、日本の大学や研究機関で求められるAPA（第7版）、MLA、IEEEなどの主要な引用スタイルを網羅しています。海外のジャーナル投稿や修士・博士論文の作成において、DOIやISBNを入力するだけで正確な参考文献リストをブラウザ上で構築できます。データは一切サーバーに送信されないため、未発表の研究テーマに関する情報を扱う際も安心してご利用いただけます。
+      </p>
+      <p style="font-size:12px;color:var(--text3);margin-top:16px;font-family:var(--font-mono);">
+        Keywords: 参考文献 生成, 論文 引用 フォーマット, APA スタイル 作成, DOI 検索, 研究者 ツール
+      </p>
+    </div>
+
+    <!-- Related Tools -->
+    <div style="margin-top:40px; text-align:center;">
+      <h4 style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1.5rem;">Other Privacy-First Developer Tools</h4>
+      <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+        <a href="https://json-to-ts-converter.pages.dev" target="_blank" rel="noopener" style="padding:0.8rem 1.2rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);text-decoration:none;color:var(--text);font-size:12px;font-weight:600;display:flex;align-items:center;gap:0.5rem;transition:all 0.2s;">
+          <span>📦</span> JSON to TS
+        </a>
+        <a href="https://svg-to-component-browser.pages.dev" target="_blank" rel="noopener" style="padding:0.8rem 1.2rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);text-decoration:none;color:var(--text);font-size:12px;font-weight:600;display:flex;align-items:center;gap:0.5rem;transition:all 0.2s;">
+          <span>⚡</span> SVG to Component
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sample Explanation -->
+  <div style="margin-bottom:32px;padding:24px;background:var(--accent-dim);border:1px solid rgba(232,168,50,0.2);border-radius:var(--r);text-align:center;">
+    <h3 style="font-family:var(--font-serif);font-size:1.2rem;font-style:italic;margin-bottom:12px;color:var(--accent);">Ready-to-use Sample Data</h3>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:0;line-height:1.6;">
+      Try our <strong>Academic Samples</strong> (Journal+DOI, Multi-author Book, etc.) to see how the tool automatically handles complex formatting rules like italicized journal names and DOI links.
+    </p>
+  </div>
+
+  <div class="hero-strips">
+    <div class="h-strip"><span class="icon">🔒</span><span data-i18n="priv1">Zero server requests</span></div>
+    <div class="h-strip"><span class="icon">✓</span><span data-i18n="priv2">Works offline</span></div>
+    <div class="h-strip"><span class="icon">✓</span><span data-i18n="priv3">No cookies or tracking</span></div>
+    <div class="h-strip"><span class="icon">↩</span><span data-i18n="priv4">Session history saved</span></div>
+  </div>
+</section>
+
+<!-- QUICK FILL -->
+<div class="quick-fill">
+  <div class="qf-inner">
+    <span class="qf-label" data-i18n="qf_label">⚡ Quick fill</span>
+    <div class="qf-input-wrap">
+      <span class="qf-ico">🔗</span>
+      <input type="text" id="qfInput" data-i18n-ph="qf_ph" placeholder="Paste DOI (10.xxxx/...) or ISBN to auto-fill fields">
+    </div>
+    <button class="qf-btn" onclick="quickFill()">
+      <span id="qfSpin" class="qf-spin"></span>
+      <span id="qfBtnTxt" data-i18n="qf_btn">Auto-fill →</span>
+    </button>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+  <div>
+    <!-- INPUT CARD -->
+    <div class="card" style="margin-bottom:20px">
+      <!-- Style tabs -->
+      <div class="style-tabs">
+        <button class="s-tab active" data-fmt="APA7" onclick="setFmt('APA7',this)">APA 7th</button>
+        <button class="s-tab" data-fmt="APA6" onclick="setFmt('APA6',this)">APA 6th</button>
+        <button class="s-tab" data-fmt="MLA" onclick="setFmt('MLA',this)">MLA</button>
+        <button class="s-tab" data-fmt="Harvard" onclick="setFmt('Harvard',this)">Harvard</button>
+        <button class="s-tab pro-gate" data-fmt="Chicago" onclick="gateOrSet('Chicago',this)">Chicago 🔒</button>
+        <button class="s-tab pro-gate" data-fmt="IEEE" onclick="gateOrSet('IEEE',this)">IEEE 🔒</button>
+      </div>
+      <div class="fmt-desc" id="fmtDesc"></div>
+
+      <!-- Samples -->
       <div class="sample-row">
-        <span style="font-size:11px;color:var(--ink-4);align-self:center;font-weight:600;letter-spacing:.5px;">TRY A SAMPLE:</span>
-        <button class="btn-sample" onclick="loadSample('book')">📚 Book</button>
-        <button class="btn-sample" onclick="loadSample('journal')">📄 Journal Article</button>
-        <button class="btn-sample" onclick="loadSample('website')">🌐 Website</button>
+        <span class="s-lbl" data-i18n="samp_lbl">Samples</span>
+        <button class="btn-samp" onclick="loadSample('book1')">📚 <span data-i18n="s_book">Book</span></button>
+        <button class="btn-samp" onclick="loadSample('book2')">📚 <span data-i18n="s_multi">Multi-author</span></button>
+        <button class="btn-samp" onclick="loadSample('jdoi')">📄 <span data-i18n="s_jdoi">Journal+DOI</span></button>
+        <button class="btn-samp" onclick="loadSample('jpages')">📄 <span data-i18n="s_jpages">Journal+pages</span></button>
+        <button class="btn-samp" onclick="loadSample('web')">🌐 <span data-i18n="s_web">Website</span></button>
+        <button class="btn-samp" onclick="loadSample('org')">🏛 <span data-i18n="s_org">Org author</span></button>
+        <button class="btn-samp" onclick="loadSample('ebook')">📱 E-Book</button>
+        <button class="btn-samp" onclick="loadSample('report')">📋 <span data-i18n="s_report">Report</span></button>
       </div>
 
-      <div class="divider" style="margin:0;"></div>
-
+      <!-- Form body -->
       <div class="card-body">
-
-        <!-- Source type -->
-        <div class="section-label">Source Type</div>
+        <div class="sec-lbl" style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px" data-i18n="source_type">Source Type</div>
         <div class="type-grid">
-          <button class="type-btn active" onclick="setType('book',this)">
-            <span class="type-icon">📚</span>
-            <span class="type-label">Book</span>
-          </button>
-          <button class="type-btn" onclick="setType('journal',this)">
-            <span class="type-icon">📄</span>
-            <span class="type-label">Journal</span>
-          </button>
-          <button class="type-btn" onclick="setType('website',this)">
-            <span class="type-icon">🌐</span>
-            <span class="type-label">Website</span>
-          </button>
+          <button class="t-btn active" onclick="setType('book',this)"><span class="t-icon">📚</span><span class="t-lbl" data-i18n="t_book">Book</span></button>
+          <button class="t-btn" onclick="setType('journal',this)"><span class="t-icon">📄</span><span class="t-lbl" data-i18n="t_journal">Journal</span></button>
+          <button class="t-btn" onclick="setType('website',this)"><span class="t-icon">🌐</span><span class="t-lbl" data-i18n="t_website">Website</span></button>
+          <button class="t-btn" onclick="setType('ebook',this)"><span class="t-icon">📱</span><span class="t-lbl">E-Book</span></button>
+          <button class="t-btn" onclick="setType('report',this)"><span class="t-icon">📋</span><span class="t-lbl" data-i18n="t_report">Report</span></button>
+          <button class="t-btn" onclick="setType('thesis',this)"><span class="t-icon">🎓</span><span class="t-lbl" data-i18n="t_thesis">Thesis</span></button>
+          <button class="t-btn" onclick="setType('conference',this)"><span class="t-icon">🎤</span><span class="t-lbl" data-i18n="t_conf">Conference</span></button>
         </div>
 
-        <!-- Common fields -->
         <div class="form-grid">
-          <div class="field">
-            <label>Author(s) <span class="req">*</span></label>
-            <input type="text" id="f_authors" placeholder="Smith, J.; Doe, A." oninput="updatePreview()">
-            <p class="hint">Separate multiple authors with semicolons: Smith, J.; Doe, A.</p>
+          <!-- Authors -->
+          <div class="field" id="field_authors">
+            <label><span data-i18n="lbl_authors">Author(s)</span> <span class="req">*</span></label>
+            <div class="author-box" id="authorBox" onclick="focusAuthor()">
+              <input class="a-inp" id="authorInput" data-i18n-ph="hint_author_ph" placeholder="Last, First — Enter or ; to add" onkeydown="authorKey(event)" oninput="prevDebounce()">
+            </div>
+            <span class="err-msg" data-i18n="err_author">Please add at least one author.</span>
+            <span class="hint" data-i18n="hint_author">Press Enter or ; after each name. e.g. "Smith, John"</span>
           </div>
-          <div class="field">
-            <label>Title <span class="req">*</span></label>
-            <input type="text" id="f_title" placeholder="Title of the work" oninput="updatePreview()">
+          <div class="field" id="field_title">
+            <label><span data-i18n="lbl_title">Title</span> <span class="req">*</span></label>
+            <input type="text" id="f_title" data-i18n-ph="ph_title" placeholder="Full title of the work" oninput="prevDebounce()">
+            <span class="err-msg" data-i18n="err_title">Please enter a title.</span>
           </div>
-          <div class="form-row">
-            <div class="field">
-              <label>Year <span class="req">*</span></label>
-              <input type="number" id="f_year" placeholder="2024" min="1000" max="2099" oninput="updatePreview()">
+          <div class="f-row">
+            <div class="field" id="field_year">
+              <label><span data-i18n="lbl_year">Year</span> <span class="req">*</span></label>
+              <input type="number" id="f_year" placeholder="2024" min="1000" max="2099" oninput="prevDebounce()">
+              <span class="err-msg" data-i18n="err_year">Enter a valid year (1000–2099).</span>
             </div>
             <div class="field">
-              <label>DOI (optional)</label>
-              <input type="text" id="f_doi" placeholder="10.1234/example" oninput="updatePreview()">
+              <label data-i18n="lbl_doi">DOI (optional)</label>
+              <input type="text" id="f_doi" placeholder="10.1234/example" oninput="prevDebounce()">
             </div>
           </div>
 
           <!-- Book fields -->
           <div id="bookFields">
-            <div class="form-row">
-              <div class="field">
-                <label>Publisher</label>
-                <input type="text" id="f_publisher" placeholder="Publisher Name" oninput="updatePreview()">
-              </div>
-              <div class="field">
-                <label>Edition (optional)</label>
-                <input type="text" id="f_edition" placeholder="3rd" oninput="updatePreview()">
-              </div>
+            <div class="f-row">
+              <div class="field"><label data-i18n="lbl_pub">Publisher</label><input type="text" id="f_publisher" data-i18n-ph="ph_publisher" placeholder="Publisher name" oninput="prevDebounce()"></div>
+              <div class="field"><label data-i18n="lbl_ed">Edition</label><input type="text" id="f_edition" placeholder="3rd" oninput="prevDebounce()"></div>
+            </div>
+            <div id="ebookRow" style="display:none;margin-top:10px">
+              <div class="field"><label data-i18n="lbl_ebook_url">Platform / URL</label><input type="url" id="f_ebookUrl" placeholder="https://..." oninput="prevDebounce()"></div>
             </div>
           </div>
-
           <!-- Journal fields -->
-          <div id="journalFields" style="display:none;">
-            <div class="field">
-              <label>Journal Name</label>
-              <input type="text" id="f_journalName" placeholder="Nature, Science, etc." oninput="updatePreview()">
-            </div>
-            <div class="form-row triple">
-              <div class="field">
-                <label>Volume</label>
-                <input type="text" id="f_volume" placeholder="42" oninput="updatePreview()">
-              </div>
-              <div class="field">
-                <label>Issue</label>
-                <input type="text" id="f_issue" placeholder="3" oninput="updatePreview()">
-              </div>
-              <div class="field">
-                <label>Pages</label>
-                <input type="text" id="f_pages" placeholder="123-145" oninput="updatePreview()">
-              </div>
+          <div id="journalFields" style="display:none">
+            <div class="field" style="margin-bottom:10px"><label data-i18n="lbl_journal">Journal Name</label><input type="text" id="f_journalName" placeholder="Nature, JAMA, etc." oninput="prevDebounce()"></div>
+            <div class="f-row-3">
+              <div class="field"><label data-i18n="lbl_vol">Volume</label><input type="text" id="f_volume" placeholder="42" oninput="prevDebounce()"></div>
+              <div class="field"><label data-i18n="lbl_issue">Issue</label><input type="text" id="f_issue" placeholder="3" oninput="prevDebounce()"></div>
+              <div class="field"><label data-i18n="lbl_pages">Pages</label><input type="text" id="f_pages" placeholder="123–145" oninput="prevDebounce()"></div>
             </div>
           </div>
-
           <!-- Website fields -->
-          <div id="websiteFields" style="display:none;">
-            <div class="field">
-              <label>Website URL</label>
-              <input type="url" id="f_website" placeholder="https://example.com" oninput="updatePreview()">
+          <div id="websiteFields" style="display:none">
+            <div class="field" style="margin-bottom:10px"><label data-i18n="lbl_site">Site / Org Name</label><input type="text" id="f_siteName" placeholder="MDN Web Docs" oninput="prevDebounce()"></div>
+            <div class="field" style="margin-bottom:10px"><label>URL</label><input type="url" id="f_website" placeholder="https://example.com" oninput="prevDebounce()"></div>
+            <div class="field"><label data-i18n="lbl_access">Access Date</label><input type="text" id="f_accessDate" data-i18n-ph="ph_access" placeholder="January 15, 2024" oninput="prevDebounce()"></div>
+          </div>
+          <!-- Report fields -->
+          <div id="reportFields" style="display:none">
+            <div class="f-row" style="margin-bottom:10px">
+              <div class="field"><label data-i18n="lbl_inst">Institution</label><input type="text" id="f_reportOrg" oninput="prevDebounce()"></div>
+              <div class="field"><label data-i18n="lbl_rnum">Report No.</label><input type="text" id="f_reportNum" oninput="prevDebounce()"></div>
             </div>
-            <div class="field">
-              <label>Access Date (optional)</label>
-              <input type="text" id="f_accessDate" placeholder="January 15, 2024" oninput="updatePreview()">
+            <div class="field"><label>URL</label><input type="url" id="f_reportUrl" oninput="prevDebounce()"></div>
+          </div>
+          <!-- Thesis fields -->
+          <div id="thesisFields" style="display:none">
+            <div class="f-row">
+              <div class="field"><label data-i18n="lbl_degree">Degree</label>
+                <select id="f_thesisDegree" onchange="prevDebounce()">
+                  <option value="PhD thesis">PhD / Doctoral</option>
+                  <option value="Master's thesis">Master's</option>
+                  <option value="Bachelor's thesis">Bachelor's</option>
+                </select>
+              </div>
+              <div class="field"><label data-i18n="lbl_univ">University</label><input type="text" id="f_thesisUniv" oninput="prevDebounce()"></div>
+            </div>
+          </div>
+          <!-- Conference fields -->
+          <div id="conferenceFields" style="display:none">
+            <div class="field" style="margin-bottom:10px"><label data-i18n="lbl_conf">Conference / Proceedings</label><input type="text" id="f_confName" oninput="prevDebounce()"></div>
+            <div class="f-row">
+              <div class="field"><label data-i18n="lbl_conf_loc">Location</label><input type="text" id="f_confLoc" oninput="prevDebounce()"></div>
+              <div class="field"><label data-i18n="lbl_pages">Pages</label><input type="text" id="f_confPages" oninput="prevDebounce()"></div>
             </div>
           </div>
         </div>
 
-        <!-- Live preview -->
-        <div class="live-preview-box" style="margin-top:20px;">
-          <div class="live-preview-label">Live Preview</div>
-          <div class="live-preview-text placeholder" id="livePreview">Fill in Author, Title, and Year to see your citation…</div>
+        <!-- Live Preview -->
+        <div class="preview-box">
+          <div class="preview-header">
+            <div class="prev-lbl"><span data-i18n="live_prev">Live Preview</span></div>
+            <div class="pm-btns">
+              <button class="pm-btn active" onclick="setPM('cur',this)" data-i18n="pm_cur">Current</button>
+              <button class="pm-btn" onclick="setPM('all',this)" data-i18n="pm_all">Compare all</button>
+            </div>
+          </div>
+          <div class="preview-body">
+            <div id="prevWrap"><span class="prev-placeholder" data-i18n="prev_ph">Fill in Author, Title and Year to see your citation…</span></div>
+          </div>
         </div>
+      </div>
 
-        <button class="btn-primary" onclick="addCitation()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <!-- Caption -->
+      <div class="caption-section">
+        <button class="caption-toggle" id="capToggle" onclick="toggleCaption()">
+          <span class="arrow">▶</span> Generate figure caption
+        </button>
+        <div id="captionContent" class="caption-content hidden">
+          <input type="text" id="capFig" placeholder="Fig. 1" style="width:72px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--r-md);font-size:13px;outline:none;font-family:var(--font-sans);background:var(--surface2);color:var(--text)">
+          <input type="text" id="capDesc" placeholder="Description of the figure" style="flex:1;min-width:160px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--r-md);font-size:13px;outline:none;font-family:var(--font-sans);background:var(--surface2);color:var(--text)">
+          <button onclick="genCaption()" style="padding:8px 14px;background:var(--surface3);color:var(--text);border:1px solid var(--border);border-radius:var(--r-md);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-sans);white-space:nowrap;transition:all var(--trans)">Generate</button>
+          <div class="cap-out" id="capOut"></div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button class="btn-add" onclick="addCitation()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Add to Bibliography
         </button>
+        <button class="btn-reset" onclick="clearForm()">Reset</button>
       </div>
     </div>
 
-    <!-- FREE vs PRO TABLE -->
+    <!-- Compare table -->
     <div class="card">
-      <div class="card-head">
-        <span>📊</span>
-        <h2>Free vs Pro</h2>
+      <div class="card-header">
+        <div class="card-header-left"><span>📊</span><h2>Free vs Pro</h2></div>
       </div>
-      <div class="card-body" style="padding:12px 0 16px;">
-        <table class="compare-table">
+      <div class="card-body" style="padding:0 0 12px">
+        <table class="cmp-tbl">
           <thead>
             <tr>
               <th>Feature</th>
               <th>Free</th>
-              <th class="pro-col">Pro $5.99</th>
+              <th class="pro-col">Pro $8</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>APA, MLA, Harvard formats</td><td>✓</td><td class="pro-col">✓</td></tr>
-            <tr><td>Unlimited citations</td><td>✓</td><td class="pro-col">✓</td></tr>
-            <tr><td>Copy individual citations</td><td>✓</td><td class="pro-col">✓</td></tr>
-            <tr><td>Copy all (Plain/Markdown)</td><td>✓</td><td class="pro-col">✓</td></tr>
-            <tr><td>Session history (localStorage)</td><td>✓</td><td class="pro-col">✓</td></tr>
-            <tr><td>Export .docx bibliography</td><td>—</td><td class="pro-col">✓</td></tr>
-            <tr><td>Export .bib / RIS (Zotero)</td><td>—</td><td class="pro-col">✓</td></tr>
-            <tr><td>Batch import from CSV</td><td>—</td><td class="pro-col">✓</td></tr>
-            <tr><td>Chicago, IEEE, Vancouver styles</td><td>—</td><td class="pro-col">✓</td></tr>
-            <tr><td>10,000+ citation styles</td><td>—</td><td class="pro-col">✓ (coming)</td></tr>
+            <tr><td>APA 6th, APA 7th, MLA, Harvard</td><td><span class="check-y">✓</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>7 source types</td><td><span class="check-y">✓</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Multi-author tag input</td><td><span class="check-y">✓</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Live preview — compare all</td><td><span class="check-y">✓</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Drag-and-drop reorder</td><td><span class="check-y">✓</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Alphabetical auto-sort</td><td><span class="check-y">✓</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Duplicate detection</td><td><span class="check-y">✓</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Session history (10)</td><td><span class="check-y">✓</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>DOI / ISBN quick-fill</td><td><span class="check-y">✓</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Chicago, IEEE styles</td><td><span class="check-n">—</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Export .docx</td><td><span class="check-n">—</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Export .bib / RIS</td><td><span class="check-n">—</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Batch CSV import</td><td><span class="check-n">—</span></td><td class="pro-col">✓</td></tr>
+            <tr><td>Vancouver + 10,000+ styles</td><td><span class="check-n">—</span></td><td class="pro-col">✓ soon</td></tr>
           </tbody>
         </table>
-        <div style="padding:16px 16px 0;">
-          <button class="btn-accent" onclick="openProModal()">🔓 Unlock Pro — $5.99 Lifetime</button>
+        <div style="padding:12px 16px 0">
+          <button class="btn-accent" onclick="openProModal()">🔓 Unlock Pro — $8.00 Lifetime</button>
         </div>
       </div>
     </div>
+  </div>
 
-  </div><!-- /left -->
-
-  <!-- RIGHT: SIDEBAR -->
+  <!-- SIDEBAR -->
   <div class="sidebar">
-
-    <!-- Bibliography output -->
+    <!-- Bibliography -->
     <div class="card">
-      <div class="card-head">
-        <span>📖</span>
-        <h2>Bibliography <span id="citCountBadge" style="font-size:12px;color:var(--ink-4);font-family:'DM Mono',monospace;"></span></h2>
+      <div class="card-header">
+        <div class="card-header-left">
+          <span>📖</span>
+          <h2>Bibliography</h2>
+          <span id="citBadge" style="font-size:10.5px;color:var(--text3);font-family:var(--font-mono);margin-left:2px"></span>
+        </div>
       </div>
       <div class="card-body">
-        <div id="citationList">
-          <div class="empty-state">
-            <div class="empty-icon">📑</div>
-            <p>Add a citation to start building your bibliography. Try a sample above!</p>
-          </div>
+        <div class="search-wrap" id="searchWrap" style="display:none">
+          <input type="text" id="bibSearch" placeholder="Search citations…" oninput="renderBib()">
+          <span class="s-ico">🔍</span>
         </div>
-
-        <!-- Copy all + clear -->
-        <div id="bulkActions" style="display:none;margin-top:16px;">
-          <div class="section-label" style="margin-bottom:8px;">Copy all as</div>
-          <div class="copy-all-row">
-            <button class="btn-icon" onclick="copyAll('plain')">📋 Plain text</button>
-            <button class="btn-icon" onclick="copyAll('markdown')">📝 Markdown</button>
+        <div class="bib-toolbar" id="bibTb" style="display:none">
+          <button class="btn-sm" onclick="sortAlpha()">🔤 Sort A–Z</button>
+          <button class="btn-sm" onclick="checkDups()">🔍 Dup check</button>
+        </div>
+        <div id="citList"></div>
+        <div id="bulkArea" style="display:none">
+          <div class="divider"></div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Copy all as</div>
+          <div class="bib-exports">
+            <button class="btn-sm" onclick="copyAll('plain')" style="justify-content:center">📋 Plain text</button>
+            <button class="btn-sm" onclick="copyAll('markdown')" style="justify-content:center">📝 Markdown</button>
+            <button class="btn-sm" onclick="requirePro('docx')" style="justify-content:center">📄 .docx 🔒</button>
+            <button class="btn-sm" onclick="requirePro('bib')" style="justify-content:center">📦 .bib 🔒</button>
           </div>
-          <div style="margin-top:8px;">
-            <button class="btn-icon danger" style="width:100%;justify-content:center;" onclick="clearAll()">🗑 Clear all</button>
+          <div style="margin-top:6px">
+            <button class="btn-sm danger" onclick="clearAll()" style="width:100%;justify-content:center">🗑 Clear all</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Session history -->
-    <div class="card" id="historyCard" style="display:none;">
-      <div class="card-head">
-        <span>🕐</span>
-        <h2>Saved Sessions</h2>
+    <!-- History -->
+    <div class="card" id="histCard" style="display:none">
+      <div class="card-header">
+        <div class="card-header-left"><span>🕐</span><h2>Saved Sessions</h2></div>
       </div>
       <div class="card-body">
-        <div id="historyList"></div>
-        <div style="margin-top:12px;">
-          <button class="btn-secondary" onclick="loadLastSession()">
-            ↩ Load last session
-          </button>
+        <div id="histList"></div>
+        <div style="margin-top:8px">
+          <button class="btn-sm" onclick="loadLastSession()" style="width:100%;justify-content:center">↩ Load last session</button>
         </div>
       </div>
     </div>
 
-    <!-- Pro teaser -->
-    <div class="card" style="background:var(--ink);border-color:var(--ink);">
-      <div class="card-body">
-        <div style="color:var(--accent-2);font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px;">PRO FEATURES</div>
-        <p style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--paper);line-height:1.4;margin-bottom:14px;">
-          Export, batch import &amp; 10,000+ citation styles
-        </p>
-        <ul style="list-style:none;margin-bottom:16px;">
-          <li style="font-size:12px;color:rgba(250,248,245,.65);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.08);">📄 .docx bibliography export</li>
-          <li style="font-size:12px;color:rgba(250,248,245,.65);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.08);">📦 .bib / RIS / Zotero export</li>
-          <li style="font-size:12px;color:rgba(250,248,245,.65);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.08);">⚡ Batch import from CSV</li>
-          <li style="font-size:12px;color:rgba(250,248,245,.65);padding:4px 0;">🎓 Chicago, IEEE, Vancouver + more</li>
+    <!-- Pro card -->
+    <div class="pro-card" id="proSidebar">
+      <div class="pro-card-inner">
+        <div class="pro-eyebrow">✦ Pro Features</div>
+        <p class="pro-title">Export, batch import & 10,000+ citation styles</p>
+        <ul class="pro-feats">
+          <li>📄 .docx bibliography export</li>
+          <li>📦 .bib / RIS / Zotero / Mendeley</li>
+          <li>⚡ Batch import from CSV</li>
+          <li>🎓 Chicago, IEEE, Vancouver + more</li>
         </ul>
-        <button class="btn-accent" onclick="openProModal()" style="font-size:13px;">
-          Get Pro — $5.99 one-time
-        </button>
+        <button class="btn-accent" onclick="openProModal()">Get Pro — $8.00 one-time</button>
       </div>
     </div>
-
-  </div><!-- /sidebar -->
-
-</div><!-- /main-wrap -->
-
-<!-- SEO ARTICLE -->
-<div class="seo-section">
-  <div class="seo-inner">
-    <h2>How to Avoid Plagiarism with Proper Citations</h2>
-    <p>Plagiarism is the unattributed use of someone else's words, ideas, or work. In academic settings it's a serious violation of integrity that can lead to failing grades or expulsion — yet many students inadvertently plagiarize through ignorance of citation practices rather than intentional misconduct.</p>
-
-    <h3>What Requires a Citation?</h3>
-    <p>Not everything needs a citation — general knowledge and common facts do not. However, you must cite direct quotations, paraphrased ideas from specific sources, statistics and research findings, unique arguments or theories, and any material from published works. When in doubt, cite. Over-citation is far better than under-citation.</p>
-
-    <h3>APA vs MLA vs Harvard — Which Should You Use?</h3>
-    <p><strong>APA</strong> (American Psychological Association) dominates social sciences, psychology, education, and nursing. It emphasises the author and date: (Author, Year) in-text. <strong>MLA</strong> (Modern Language Association) is standard in humanities — literature, languages, philosophy — and uses (Author Page) in-text. <strong>Harvard</strong> is common in UK universities and uses (Author, Year) like APA but with slightly different reference list formatting.</p>
-
-    <div class="seo-callout">
-      <p><strong>Pro tip:</strong> This tool generates citations offline APA MLA Harvard format instantly in your browser — no account required, no data sent to any server. It's one of the few true offline APA MLA generators available for free. Check the Network tab in your browser's DevTools to confirm zero external requests.</p>
+    <div id="proUnlocked" style="display:none">
+      <div id="proUnlocked-inner" style="padding:20px">
+        <div style="color:var(--green);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px">✅ PRO UNLOCKED</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Academic Tools Active</p>
+        <div style="display:grid; gap:8px;">
+          <button class="btn-sm ok" onclick="document.getElementById('csvInp').click()" style="width:100%;justify-content:center">📥 Batch Import (CSV)</button>
+          <input type="file" id="csvInp" style="display:none" accept=".csv" onchange="importCSV(event)">
+          <button class="btn-sm ok" onclick="doDocx()" style="width:100%;justify-content:center">📄 Export .docx</button>
+          <button class="btn-sm ok" onclick="doBib()" style="width:100%;justify-content:center">📦 Export .bib</button>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <h2>Mastering Academic Citations without the Headache</h2>
-    <p>Citation formatting is precise but logical once you understand the pattern. The three elements that appear in every style are: <em>author, year/date, title</em>. Everything else — publisher, journal name, volume, DOI — adds specificity. Use this citation generator browser-only tool to handle the formatting rules automatically.</p>
+<!-- SEO CONTENT -->
+<div class="seo">
+  <div class="seo-in">
+    <h2>How to Avoid Plagiarism with Proper Citations</h2>
+    <p>Plagiarism is the unattributed use of someone else's words or ideas. Academic institutions treat it as a serious integrity violation, yet many cases stem from ignorance of citation rules rather than deliberate misconduct.</p>
+    <h3>APA 7th vs APA 6th — What Changed?</h3>
+    <p>APA 7th (2020) brought key updates: up to 20 authors listed (vs. 6 + et al. in APA 6th), DOI formatted as a hyperlink, removal of publisher location, and "Running head" no longer required for student papers. Always confirm which edition your institution requires.</p>
+    <h3>APA vs MLA vs Harvard vs Chicago vs IEEE</h3>
+    <p><strong>APA 7th/6th</strong> — social sciences, psychology, education. <strong>MLA</strong> — humanities, literature. <strong>Harvard</strong> — UK universities, business. <strong>Chicago</strong> — history, some humanities. <strong>IEEE</strong> — engineering, computer science.</p>
+    <div class="callout"><p><strong>Privacy note:</strong> This tool runs entirely in your browser. No data is transmitted to any server. Confirm by opening DevTools → Network tab while generating citations.</p></div>
+    <h2>Citing Multiple Authors</h2>
+    <p>Use the tag input to add each author individually — the formatter handles commas, ampersands, and "et al." automatically per style. For APA 7th with 21+ authors, the ellipsis rule is applied automatically.</p>
+  </div>
+</div>
 
-    <h3>DOI vs URL for Journal Articles</h3>
-    <p>Always prefer a DOI over a URL for journal articles. DOIs are permanent identifiers — they remain stable even if the journal changes its website. When both are available, APA 7th edition requires the DOI. If no DOI exists, include the URL of the journal homepage, not a session-specific link.</p>
-
-    <h3>Common Formatting Mistakes</h3>
-    <p>Students frequently make these errors: inconsistent capitalisation of titles (sentence case in APA, title case in MLA), forgetting to italicise journal names, using old URLs instead of DOIs, failing to alphabetise reference lists, and misidentifying when to use quotation marks vs italics. A citation tool eliminates most of these problems automatically.</p>
+<!-- Other Tools -->
+<div style="margin: 4rem auto 2rem; border-top: 1px solid var(--border); padding-top: 3rem; text-align: left; max-width: 1200px; padding-left: 1.5rem; padding-right: 1.5rem;">
+  <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 2rem; letter-spacing: -0.02em;">OTHER PRIVATE BROWSER TOOLS</div>
+  <style>
+    .tool-lnk { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; border-radius: 12px; background: var(--bg2); border: 1px solid var(--border); text-decoration: none; transition: all 0.2s ease; }
+    .tool-lnk:hover { border-color: var(--accent); background: var(--bg3); transform: translateY(-2px); }
+    .tool-lnk-ico { font-size: 1.75rem; }
+    .tool-lnk-t { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.125rem; }
+    .tool-lnk-s { font-size: 0.8rem; color: var(--text2); line-height: 1.4; }
+  </style>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+    <a href="https://svg-to-component-browser.pages.dev" target="_blank" rel="noopener" class="tool-lnk">
+      <div class="tool-lnk-ico">🎨</div>
+      <div><div class="tool-lnk-t">SVG to Component</div><div class="tool-lnk-s">Convert SVG to React/Vue/Svelte components</div></div>
+    </a>
+    <a href="https://json-to-ts-converter.pages.dev" target="_blank" rel="noopener" class="tool-lnk">
+      <div class="tool-lnk-ico">🔧</div>
+      <div><div class="tool-lnk-t">JSON to TS</div><div class="tool-lnk-s">Transform JSON to TypeScript interfaces instantly</div></div>
+    </a>
+    <a href="https://expense-analyzer-browser.pages.dev" target="_blank" rel="noopener" class="tool-lnk">
+      <div class="tool-lnk-ico">💰</div>
+      <div><div class="tool-lnk-t">Expense Analyzer</div><div class="tool-lnk-s">Private, browser-only CSV bank statement analysis</div></div>
+    </a>
   </div>
 </div>
 
 <footer>
-  © 2024 Citation Formatter — Free APA, MLA &amp; Harvard citation generator | 100% browser-based, offline capable<br>
-  Keywords: citation generator browser only · offline APA MLA generator · free bibliography maker · academic writing assistant · Harvard citation tool · plagiarism prevention
+  © 2024 Citation Formatter — Free APA 6th, APA 7th, MLA, Harvard, Chicago, IEEE generator | 100% browser-based<br>
+  citation generator browser only · offline APA MLA generator · Harvard citation tool · Chicago IEEE citation
 </footer>
 
 <!-- PRO MODAL -->
-<div class="modal-overlay" id="proModal">
+<div class="overlay" id="proModal">
   <div class="modal">
-    <div class="modal-head">
+    <div class="modal-hd">
       <h3>Citation Formatter Pro</h3>
       <p>One-time payment. Lifetime access. No subscription.</p>
     </div>
     <div class="modal-body">
       <div class="price-box">
         <div>
-          <div class="price-amount">$5.99</div>
-          <div class="price-label">Lifetime access · one-time</div>
+          <div class="price-amt">$8.00</div>
+          <div class="price-lbl">Lifetime access · one-time payment</div>
         </div>
         <div class="price-badge">BEST VALUE</div>
       </div>
-      <ul class="pro-features">
-        <li><span class="check">✓</span> Export .docx bibliography (Word-compatible)</li>
-        <li><span class="check">✓</span> Export .bib / RIS — Zotero &amp; Mendeley compatible</li>
-        <li><span class="check">✓</span> Batch import citations from CSV</li>
-        <li><span class="check">✓</span> Chicago, IEEE, Vancouver styles</li>
-        <li><span class="check">✓</span> 10,000+ citation styles (coming soon)</li>
-        <li><span class="check">✓</span> Priority support</li>
+      <ul class="pro-list">
+        <li><span class="ck">✓</span> .docx bibliography export</li>
+        <li><span class="ck">✓</span> .bib / RIS / Zotero / Mendeley</li>
+        <li><span class="ck">✓</span> Batch import from CSV</li>
+        <li><span class="ck">✓</span> Chicago, IEEE, Vancouver styles</li>
+        <li><span class="ck">✓</span> 10,000+ citation styles (coming)</li>
+        <li><span class="ck">✓</span> Multiple bibliography lists</li>
+        <li><span class="ck">✓</span> Priority support</li>
       </ul>
-      <input class="modal-input" type="email" placeholder="your@email.com" id="proEmail">
-      <button class="btn-accent" onclick="showToast('✓ Thank you! Check your email for access.')">Get Pro Access — $5.99</button>
-      <button class="modal-close" onclick="closeProModal()">Continue with Free Version</button>
+      <a class="gum-btn" href="https://yhanster206.gumroad.com/l/mpyaq" target="_blank" rel="noopener">🔓 Get Pro on Gumroad — $8.00</a>
+      <p class="gum-sub">After purchase, enter your licence key below to unlock instantly.</p>
+      <div class="key-row">
+        <input type="text" id="keyInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="60">
+        <button onclick="validateKey()">Unlock</button>
+      </div>
+      <div id="keySt" class="key-st"></div>
+      <button class="btn-mc" onclick="closeProModal()">Continue with Free Version</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── STATE ──────────────────────────────────────
-let citations = [];
-let currentFormat = 'APA';
-let currentType = 'book';
+// ── THEME ─────────────────────────────────────
+let curTheme = localStorage.getItem('cf_theme') || 'dark';
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('themeBtn').textContent = t === 'dark' ? '☀️' : '🌙';
+}
+function toggleTheme() {
+  curTheme = curTheme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('cf_theme', curTheme);
+  applyTheme(curTheme);
+}
+applyTheme(curTheme);
 
-const FORMAT_DESC = {
-  APA: 'APA (American Psychological Association) — widely used in social sciences, psychology, education, and nursing.',
-  MLA: 'MLA (Modern Language Association) — standard in humanities: literature, languages, philosophy, and cultural studies.',
-  Harvard: 'Harvard — common in UK universities and business schools. Author-date format similar to APA.',
-};
-
-// ── SAMPLES ────────────────────────────────────
-const SAMPLES = {
-  book: { authors: 'Harari, Y. N.', title: 'Sapiens: A Brief History of Humankind', year: '2015', publisher: 'Harper', edition: '1st', doi: '', website: '', accessDate: '', journalName: '', volume: '', issue: '', pages: '' },
-  journal: { authors: 'LeCun, Y.; Bengio, Y.; Hinton, G.', title: 'Deep learning', year: '2015', publisher: '', edition: '', doi: '10.1038/nature14539', website: '', accessDate: '', journalName: 'Nature', volume: '521', issue: '7553', pages: '436-444' },
-  website: { authors: 'Mozilla Foundation', title: 'Introduction to JavaScript', year: '2024', publisher: '', edition: '', doi: '', website: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide', accessDate: 'April 27, 2024', journalName: '', volume: '', issue: '', pages: '' },
-};
-
-function loadSample(type) {
-  const s = SAMPLES[type];
-  setType(type, document.querySelector(`.type-btn:nth-child(${type === 'book' ? 1 : type === 'journal' ? 2 : 3})`));
-  setFieldValue('f_authors', s.authors);
-  setFieldValue('f_title', s.title);
-  setFieldValue('f_year', s.year);
-  setFieldValue('f_publisher', s.publisher);
-  setFieldValue('f_edition', s.edition);
-  setFieldValue('f_doi', s.doi);
-  setFieldValue('f_website', s.website);
-  setFieldValue('f_accessDate', s.accessDate);
-  setFieldValue('f_journalName', s.journalName);
-  setFieldValue('f_volume', s.volume);
-  setFieldValue('f_issue', s.issue);
-  setFieldValue('f_pages', s.pages);
-  updatePreview();
-  showToast('✓ Sample loaded! Click "Add to Bibliography" to add it.');
+// ── CAPTION TOGGLE ────────────────────────────
+function toggleCaption() {
+  const btn = document.getElementById('capToggle');
+  const content = document.getElementById('captionContent');
+  btn.classList.toggle('open');
+  content.classList.toggle('hidden');
 }
 
-function setFieldValue(id, val) {
-  const el = document.getElementById(id);
-  if (el) el.value = val;
+// ── STATE ─────────────────────────────────────
+let cits = [], curFmt = 'APA7', curType = 'book', aTags = [], pMode = 'cur',
+    isPro = false, dragId = null, prevTmr = null;
+try { if (localStorage.getItem('cf_pro3') === '1') isPro = true; } catch(e) {}
+
+// ── FORMAT DESC ───────────────────────────────
+const FMT_DESC = {
+  APA7: 'APA 7th (2020) — social sciences, psychology, education. Up to 20 authors, DOI as hyperlink.',
+  APA6: 'APA 6th — previous edition; still required by some institutions. 6 authors then et al.',
+  MLA: 'MLA 9th — humanities: literature, languages, philosophy. Author-Page in-text citations.',
+  Harvard: 'Harvard — common in UK universities and business. Author-date, similar to APA.',
+  Chicago: 'Chicago 17th — history and some humanities. Notes-bibliography system. [Pro]',
+  IEEE: 'IEEE — engineering, computer science. Numbered references in brackets. [Pro]'
+};
+function updateFmtDesc() {
+  document.getElementById('fmtDesc').textContent = FMT_DESC[curFmt] || '';
 }
 
-// ── FORMAT ─────────────────────────────────────
-function setFormat(fmt, btn) {
-  currentFormat = fmt;
-  document.querySelectorAll('.fmt-tab').forEach(b => b.classList.remove('active'));
+// ── QUICK FILL (DOI/ISBN) ─────────────────────
+async function quickFill() {
+  const raw = document.getElementById('qfInput').value.trim();
+  if (!raw) return;
+  const spin = document.getElementById('qfSpin');
+  const btnTxt = document.getElementById('qfBtnTxt');
+  spin.style.display = 'inline-block';
+  btnTxt.textContent = 'Fetching…';
+  try {
+    const isDOI = raw.startsWith('10.') || raw.startsWith('doi:') || raw.includes('doi.org');
+    const doi = raw.replace(/^doi:/i,'').replace(/^https?:\/\/doi\.org\//,'').trim();
+    if (isDOI) {
+      const res = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`);
+      if (!res.ok) throw new Error('Not found');
+      const d = await res.json();
+      const w = d.message;
+      // Authors
+      aTags = (w.author || []).map(a => a.family && a.given ? `${a.family}, ${a.given.charAt(0)}.` : a.family || a.name || '').filter(Boolean);
+      renderATags();
+      document.getElementById('f_title').value = w.title?.[0] || '';
+      document.getElementById('f_year').value = w.published?.['date-parts']?.[0]?.[0] || '';
+      document.getElementById('f_doi').value = w.DOI || '';
+      // Detect type
+      const t = w.type || '';
+      if (t.includes('journal')) {
+        setType('journal', document.querySelectorAll('.t-btn')[1]);
+        document.getElementById('f_journalName').value = w['container-title']?.[0] || '';
+        document.getElementById('f_volume').value = w.volume || '';
+        document.getElementById('f_issue').value = w.issue || '';
+        document.getElementById('f_pages').value = w.page || '';
+      } else if (t.includes('book')) {
+        setType('book', document.querySelectorAll('.t-btn')[0]);
+        document.getElementById('f_publisher').value = w.publisher || '';
+      }
+      document.getElementById('qfInput').value = '';
+      updatePreview();
+      showToast('✓ Fields filled from DOI!', 'ok');
+    } else {
+      // Try ISBN via Open Library
+      const isbn = raw.replace(/[-\s]/g,'');
+      const res = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);
+      const d = await res.json();
+      const key = `ISBN:${isbn}`;
+      const w = d[key];
+      if (!w) throw new Error('Not found');
+      aTags = (w.authors || []).map(a => {
+        const parts = (a.name || '').split(' ');
+        return parts.length > 1 ? `${parts[parts.length-1]}, ${parts[0][0]}.` : a.name;
+      }).filter(Boolean);
+      renderATags();
+      document.getElementById('f_title').value = w.title || '';
+      document.getElementById('f_year').value = w.publish_date?.match(/\d{4}/)?.[0] || '';
+      document.getElementById('f_publisher').value = w.publishers?.[0]?.name || '';
+      setType('book', document.querySelectorAll('.t-btn')[0]);
+      document.getElementById('qfInput').value = '';
+      updatePreview();
+      showToast('✓ Fields filled from ISBN!', 'ok');
+    }
+  } catch(e) {
+    showToast('⚠ Could not fetch metadata. Fill manually.', 'err');
+  } finally {
+    spin.style.display = 'none';
+    btnTxt.textContent = 'Auto-fill →';
+  }
+}
+document.getElementById('qfInput').addEventListener('keydown', e => { if (e.key === 'Enter') quickFill(); });
+
+// ── SAMPLES ───────────────────────────────────
+const SAMP = {
+  book1: {authors:['Harari, Y. N.'],title:'Sapiens: A Brief History of Humankind',year:'2015',publisher:'Harper',edition:'1st',type:'book'},
+  book2: {authors:['Strunk, W.','White, E. B.'],title:'The Elements of Style',year:'2000',publisher:'Longman',edition:'4th',type:'book'},
+  jdoi: {authors:['LeCun, Y.','Bengio, Y.','Hinton, G.'],title:'Deep learning',year:'2015',doi:'10.1038/nature14539',journalName:'Nature',volume:'521',issue:'7553',pages:'436–444',type:'journal'},
+  jpages: {authors:['Smith, A. B.','Jones, C. D.'],title:'Cognitive load in online learning environments',year:'2022',journalName:'Journal of Educational Psychology',volume:'114',issue:'2',pages:'234–251',type:'journal'},
+  web: {authors:['Mozilla Foundation'],title:'Introduction to JavaScript',year:'2024',website:'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide',accessDate:'April 27, 2024',siteName:'MDN Web Docs',type:'website'},
+  org: {authors:['World Health Organization'],title:'Global Status Report on Road Safety 2023',year:'2023',reportOrg:'World Health Organization',reportNum:'WHO/NMH/2023',reportUrl:'https://www.who.int/',type:'report'},
+  ebook: {authors:['Tegmark, M.'],title:'Life 3.0: Being Human in the Age of Artificial Intelligence',year:'2017',publisher:'Knopf',ebookUrl:'https://www.amazon.com/dp/1101946598',type:'ebook'},
+  report: {authors:['Johnson, P.','Lee, S.'],title:'The State of AI in 2024',year:'2024',reportOrg:'Stanford HAI',reportNum:'HAI-2024-001',reportUrl:'https://hai.stanford.edu/',type:'report'},
+};
+
+function loadSample(k) {
+  const s = SAMP[k]; if (!s) return;
+  aTags = [...(s.authors || [])]; renderATags();
+  const types = ['book','journal','website','ebook','report','thesis','conference'];
+  const idx = types.indexOf(s.type);
+  document.querySelectorAll('.t-btn').forEach((b,i) => b.classList.toggle('active', i === idx));
+  curType = s.type; showTypeFields(s.type);
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+  set('f_title',s.title); set('f_year',s.year); set('f_doi',s.doi||'');
+  set('f_publisher',s.publisher||''); set('f_edition',s.edition||'');
+  set('f_journalName',s.journalName||''); set('f_volume',s.volume||'');
+  set('f_issue',s.issue||''); set('f_pages',s.pages||'');
+  set('f_website',s.website||''); set('f_accessDate',s.accessDate||''); set('f_siteName',s.siteName||'');
+  set('f_ebookUrl',s.ebookUrl||'');
+  set('f_reportOrg',s.reportOrg||''); set('f_reportNum',s.reportNum||''); set('f_reportUrl',s.reportUrl||'');
+  clearErr(); updatePreview(); showToast('✓ Sample loaded.', 'ok');
+}
+
+// ── FORMAT / TYPE ─────────────────────────────
+function setFmt(fmt, btn) {
+  curFmt = fmt;
+  document.querySelectorAll('.s-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('formatDesc').textContent = FORMAT_DESC[fmt];
-  updatePreview();
+  updateFmtDesc(); updatePreview();
 }
-
-// ── TYPE ───────────────────────────────────────
+function gateOrSet(fmt, btn) { if (isPro) setFmt(fmt, btn); else openProModal(); }
 function setType(type, btn) {
-  currentType = type;
-  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  curType = type;
+  document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  document.getElementById('bookFields').style.display = type === 'book' ? '' : 'none';
-  document.getElementById('journalFields').style.display = type === 'journal' ? '' : 'none';
-  document.getElementById('websiteFields').style.display = type === 'website' ? '' : 'none';
-  updatePreview();
+  showTypeFields(type); updatePreview();
+}
+function showTypeFields(type) {
+  ['bookFields','journalFields','websiteFields','reportFields','thesisFields','conferenceFields']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+  if (type === 'book' || type === 'ebook') {
+    document.getElementById('bookFields').style.display = '';
+    document.getElementById('ebookRow').style.display = type === 'ebook' ? '' : 'none';
+  } else {
+    const m = {journal:'journalFields',website:'websiteFields',report:'reportFields',thesis:'thesisFields',conference:'conferenceFields'};
+    const el = document.getElementById(m[type]); if (el) el.style.display = '';
+  }
 }
 
-// ── FORMAT CITATION ────────────────────────────
-function buildCitation(data, fmt) {
-  const { type, authors, title, year, publisher, edition, journalName, volume, issue, pages, doi, website, accessDate } = data;
-  const authorList = (authors || '').split(';').map(a => a.trim()).filter(Boolean);
-  const allAuthors = authorList.join(', ') || 'Author';
+// ── AUTHOR TAGS ───────────────────────────────
+function authorKey(e) {
+  if (e.key === 'Enter' || e.key === ';') { e.preventDefault(); commitA(); }
+  else if (e.key === 'Backspace' && e.target.value === '' && aTags.length) { aTags.pop(); renderATags(); prevDebounce(); }
+}
+function commitA() {
+  const inp = document.getElementById('authorInput');
+  const v = inp.value.trim().replace(/;+$/, '').trim();
+  if (v) { aTags.push(v); inp.value = ''; renderATags(); prevDebounce(); }
+}
+function removeA(i) { aTags.splice(i, 1); renderATags(); prevDebounce(); }
+function renderATags() {
+  const box = document.getElementById('authorBox');
+  const inp = document.getElementById('authorInput');
+  box.querySelectorAll('.a-tag').forEach(t => t.remove());
+  aTags.forEach((n, i) => {
+    const tag = document.createElement('span');
+    tag.className = 'a-tag';
+    tag.innerHTML = `<span>${esc(n)}</span><span class="a-rm" onclick="removeA(${i})">×</span>`;
+    box.insertBefore(tag, inp);
+  });
+  inp.placeholder = aTags.length ? '+ add more…' : 'Last, First — Enter or ; to add';
+}
+function focusAuthor() { document.getElementById('authorInput').focus(); }
+function getAuthors() {
+  const p = document.getElementById('authorInput').value.trim();
+  return [...aTags, ...(p ? [p] : [])].join('; ');
+}
 
-  if (type === 'book') {
-    if (fmt === 'APA')      return `${allAuthors} (${year || 'n.d.'}). *${title}*${edition ? ` (${edition} ed.)` : ''}. ${publisher || 'Publisher'}.${doi ? ` https://doi.org/${doi}` : ''}`;
-    if (fmt === 'MLA')      return `${allAuthors}. *${title}*${edition ? `. ${edition} ed.` : ''}. ${publisher || 'Publisher'}, ${year || 'n.d.'}.`;
-    if (fmt === 'Harvard')  return `${allAuthors} (${year || 'n.d.'}) *${title}*${edition ? ` (${edition} edn)` : ''}. ${publisher || 'Publisher'}.`;
+// ── BUILD CITATION ────────────────────────────
+function buildCit(data, fmt) {
+  const {type,authors,title,year,publisher,edition,journalName,volume,issue,pages,doi,website,accessDate,siteName,ebookUrl,reportOrg,reportNum,reportUrl,thesisDegree,thesisUniv,confName,confLoc,confPages} = data;
+  const al = (authors || '').split(';').map(a => a.trim()).filter(Boolean);
+  const yr = year || 'n.d.';
+  const doiU = doi ? ` https://doi.org/${doi}` : '';
+  const ed6 = fmt === 'APA6';
+
+  function fAPA(l) {
+    if (!l.length) return 'Author';
+    if (ed6) { if (l.length <= 6) return l.join(', & '); return l.slice(0,6).join(', ') + ', . . . ' + l[l.length-1]; }
+    if (l.length <= 2) return l.join(', & ');
+    if (l.length <= 20) return l.slice(0,-1).join(', ') + ', & ' + l[l.length-1];
+    return l.slice(0,19).join(', ') + ', . . . ' + l[l.length-1];
+  }
+  function fMLA(l) { if (!l.length) return 'Author'; if (l.length===1) return l[0]; if (l.length===2) return `${l[0]}, and ${l[1]}`; return `${l[0]}, et al.`; }
+  function fHvd(l) { if (!l.length) return 'Author'; if (l.length<=3) return l.join(', '); return l.slice(0,3).join(', ') + ' et al.'; }
+  function fChicago(l) { if (!l.length) return 'Author'; if (l.length===1) return l[0]; return l[0] + ', and ' + l.slice(1).join(', '); }
+  function fIEEE(l) { return l.map(a => { const p = a.split(','); if (p.length < 2) return a; return p[1].trim().split(' ').map(n => n[0] ? n[0]+'.' : '').join(' ') + ' ' + p[0].trim(); }).join(', '); }
+
+  if (type === 'book' || type === 'ebook') {
+    const ed = edition ? ` (${edition} ed.)` : '';
+    const edHv = edition ? ` (${edition} edn)` : '';
+    const edMla = edition ? `. ${edition} ed.` : '';
+    const pub = publisher || 'Publisher';
+    const pf = ebookUrl ? ` ${ebookUrl}` : '';
+    if (fmt==='APA7'||fmt==='APA6') return `${fAPA(al)} (${yr}). *${title}*${ed}. ${pub}.${doiU}${!doi&&pf?pf:''}`;
+    if (fmt==='MLA') return `${fMLA(al)}. *${title}*${edMla}. ${pub}, ${yr}.${pf?` ${pf}.`:''}`;
+    if (fmt==='Harvard') return `${fHvd(al)} (${yr}) *${title}*${edHv}. ${pub}.`;
+    if (fmt==='Chicago') return `${fChicago(al)}. *${title}*${edMla}. ${pub}, ${yr}.`;
+    if (fmt==='IEEE') return `${fIEEE(al)||'Author'}, *${title}*${ed}. ${pub}, ${yr}.`;
   }
   if (type === 'journal') {
-    if (fmt === 'APA')      return `${allAuthors} (${year || 'n.d.'}). ${title}. *${journalName}*, *${volume}*${issue ? `(${issue})` : ''}, ${pages}.${doi ? ` https://doi.org/${doi}` : ''}`;
-    if (fmt === 'MLA')      return `${allAuthors}. "${title}." *${journalName}*, vol. ${volume}${issue ? `, no. ${issue}` : ''}, ${year || 'n.d.'}, pp. ${pages}.${doi ? ` doi:${doi}` : ''}`;
-    if (fmt === 'Harvard')  return `${allAuthors} (${year || 'n.d.'}) '${title}', *${journalName}*, ${volume}${issue ? `(${issue})` : ''}, pp. ${pages}.`;
+    const jn = journalName || 'Journal';
+    const pp = pages ? `, ${pages}` : '';
+    if (fmt==='APA7'||fmt==='APA6') return `${fAPA(al)} (${yr}). ${title}. *${jn}*, *${volume||'vol'}*${issue?`(${issue})`:''}${pages?`, ${pages}`:''}.${doiU}`;
+    if (fmt==='MLA') return `${fMLA(al)}. "${title}." *${jn}*, vol. ${volume||'vol'}${issue?`, no. ${issue}`:''}, ${yr}${pages?`, pp. ${pages}`:''}.${doi?` doi:${doi}`:''}`;
+    if (fmt==='Harvard') return `${fHvd(al)} (${yr}) '${title}', *${jn}*, ${volume||'vol'}${issue?`(${issue})`:''}${pages?`, pp. ${pages}`:'.'}.`;
+    if (fmt==='Chicago') return `${fChicago(al)}. "${title}." *${jn}* ${volume||'vol'}, no. ${issue||'—'} (${yr})${pp}.${doi?` https://doi.org/${doi}`:''}`;
+    if (fmt==='IEEE') return `${fIEEE(al)}, "${title}," *${jn}*, vol. ${volume||'—'}, no. ${issue||'—'}${pages?`, pp. ${pages}`:''}, ${yr}.${doi?` doi: ${doi}`:''}`;
   }
   if (type === 'website') {
-    if (fmt === 'APA')      return `${allAuthors} (${year || 'n.d.'}). *${title}*. Retrieved${accessDate ? ` ${accessDate}` : ''}, from ${website || 'URL'}`;
-    if (fmt === 'MLA')      return `${allAuthors}. "${title}." *Web*, ${website || 'URL'}${accessDate ? `. Accessed ${accessDate}` : ''}.`;
-    if (fmt === 'Harvard')  return `${allAuthors} (${year || 'n.d.'}) *${title}*. Available at: ${website || 'URL'}${accessDate ? ` (Accessed: ${accessDate})` : ''}.`;
+    const url = website || 'URL'; const site = siteName ? ` *${siteName}*.` : '';
+    const accAPA = accessDate ? ` Retrieved ${accessDate}, from` : ' Retrieved from';
+    const accMLA = accessDate ? ` Accessed ${accessDate}.` : '';
+    const accHvd = accessDate ? ` (Accessed: ${accessDate})` : '';
+    if (fmt==='APA7'||fmt==='APA6') return `${fAPA(al)} (${yr}). *${title}*.${accAPA} ${url}`;
+    if (fmt==='MLA') return `${fMLA(al)}. "${title}."${site} *Web*, ${url}.${accMLA}`;
+    if (fmt==='Harvard') return `${fHvd(al)} (${yr}) *${title}*. Available at: ${url}${accHvd}.`;
+    if (fmt==='Chicago') return `${fChicago(al)}. "${title}." Last modified ${yr}. ${url}.`;
+    if (fmt==='IEEE') return `${fIEEE(al)||'Author'}, "${title}," ${siteName||'Web'}, ${yr}. [Online]. Available: ${url}`;
+  }
+  if (type === 'report') {
+    const org = reportOrg || publisher || 'Organisation';
+    const num = reportNum ? ` (Report No. ${reportNum})` : '';
+    const url = reportUrl ? ` ${reportUrl}` : '';
+    if (fmt==='APA7'||fmt==='APA6') return `${fAPA(al)} (${yr}). *${title}*${num}. ${org}.${doiU}${!doi&&url?url:''}`;
+    if (fmt==='MLA') return `${fMLA(al)}. *${title}*. ${org}, ${yr}${num}.${url?` ${url}.`:''}`;
+    if (fmt==='Harvard') return `${fHvd(al)} (${yr}) *${title}*${num}. ${org}.`;
+    if (fmt==='Chicago') return `${fChicago(al)}. *${title}*. ${org}${num}, ${yr}.`;
+    if (fmt==='IEEE') return `${fIEEE(al)}, *${title}*, ${org}${num}, ${yr}.`;
+  }
+  if (type === 'thesis') {
+    const deg = thesisDegree || 'PhD thesis'; const univ = thesisUniv || 'University';
+    if (fmt==='APA7'||fmt==='APA6') return `${fAPA(al)} (${yr}). *${title}* [${deg}, ${univ}].${doiU}`;
+    if (fmt==='MLA') return `${fMLA(al)}. "${title}." ${deg}, ${univ}, ${yr}.`;
+    if (fmt==='Harvard') return `${fHvd(al)} (${yr}) '${title}'. ${deg}, ${univ}.`;
+    if (fmt==='Chicago') return `${fChicago(al)}. "${title}." ${deg}, ${univ}, ${yr}.`;
+    if (fmt==='IEEE') return `${fIEEE(al)}, "${title}," ${deg}, ${univ}, ${yr}.`;
+  }
+  if (type === 'conference') {
+    const conf = confName || 'Conference'; const loc = confLoc ? `, ${confLoc}` : ''; const pp = confPages ? `, pp. ${confPages}` : '';
+    if (fmt==='APA7'||fmt==='APA6') return `${fAPA(al)} (${yr}). ${title}. In *${conf}*${loc}${pp}.${doiU}`;
+    if (fmt==='MLA') return `${fMLA(al)}. "${title}." *${conf}*, ${yr}${loc}${pp}.`;
+    if (fmt==='Harvard') return `${fHvd(al)} (${yr}) '${title}', *${conf}*${loc}${pp}.`;
+    if (fmt==='Chicago') return `${fChicago(al)}. "${title}." Paper presented at ${conf}${loc}, ${yr}.`;
+    if (fmt==='IEEE') return `${fIEEE(al)}, "${title}," in *Proc. ${conf}*${loc}, ${yr}${pp}.`;
   }
   return '';
 }
 
-function getFormData() {
-  return {
-    type: currentType,
-    authors: document.getElementById('f_authors')?.value || '',
-    title: document.getElementById('f_title')?.value || '',
-    year: document.getElementById('f_year')?.value || '',
-    publisher: document.getElementById('f_publisher')?.value || '',
-    edition: document.getElementById('f_edition')?.value || '',
-    journalName: document.getElementById('f_journalName')?.value || '',
-    volume: document.getElementById('f_volume')?.value || '',
-    issue: document.getElementById('f_issue')?.value || '',
-    pages: document.getElementById('f_pages')?.value || '',
-    doi: document.getElementById('f_doi')?.value || '',
-    website: document.getElementById('f_website')?.value || '',
-    accessDate: document.getElementById('f_accessDate')?.value || '',
-  };
+function getData() {
+  const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  return {type:curType,authors:getAuthors(),title:g('f_title'),year:g('f_year'),doi:g('f_doi'),publisher:g('f_publisher'),edition:g('f_edition'),journalName:g('f_journalName'),volume:g('f_volume'),issue:g('f_issue'),pages:g('f_pages'),website:g('f_website'),accessDate:g('f_accessDate'),siteName:g('f_siteName'),ebookUrl:g('f_ebookUrl'),reportOrg:g('f_reportOrg'),reportNum:g('f_reportNum'),reportUrl:g('f_reportUrl'),thesisDegree:document.getElementById('f_thesisDegree')?.value||'PhD thesis',thesisUniv:g('f_thesisUniv'),confName:g('f_confName'),confLoc:g('f_confLoc'),confPages:g('f_confPages'),format:curFmt};
 }
 
-function updatePreview() {
-  const data = getFormData();
-  const el = document.getElementById('livePreview');
-  if (!data.authors && !data.title && !data.year) {
-    el.textContent = 'Fill in Author, Title, and Year to see your citation…';
-    el.className = 'live-preview-text placeholder';
-    return;
-  }
-  const text = buildCitation(data, currentFormat);
-  el.textContent = text;
-  el.className = 'live-preview-text';
-}
-
-// ── ADD CITATION ───────────────────────────────
-function addCitation() {
-  const data = getFormData();
-  if (!data.authors || !data.title || !data.year) {
-    showToast('⚠ Please fill in Author, Title, and Year.');
-    return;
-  }
-  citations.push({ ...data, format: currentFormat, id: Date.now() });
-  saveSession();
-  renderCitations();
-  clearForm();
+// ── PREVIEW ───────────────────────────────────
+function setPM(mode, btn) {
+  pMode = mode;
+  document.querySelectorAll('.pm-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
   updatePreview();
-  showToast('✓ Citation added to bibliography!');
 }
-
-function clearForm() {
-  ['f_authors','f_title','f_year','f_publisher','f_edition','f_journalName','f_volume','f_issue','f_pages','f_doi','f_website','f_accessDate']
-    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-}
-
-// ── RENDER ─────────────────────────────────────
-function renderCitations() {
-  const list = document.getElementById('citationList');
-  const badge = document.getElementById('citCountBadge');
-  const bulk = document.getElementById('bulkActions');
-
-  badge.textContent = citations.length ? `(${citations.length})` : '';
-  bulk.style.display = citations.length ? '' : 'none';
-
-  if (!citations.length) {
-    list.innerHTML = `<div class="empty-state"><div class="empty-icon">📑</div><p>Add a citation to start building your bibliography. Try a sample above!</p></div>`;
+function prevDebounce() { clearTimeout(prevTmr); prevTmr = setTimeout(updatePreview, 100); }
+function updatePreview() {
+  const data = getData(); const wrap = document.getElementById('prevWrap');
+  if (!data.authors && !data.title && !data.year) {
+    wrap.innerHTML = `<span class="prev-placeholder" data-i18n="prev_ph">Fill in Author, Title and Year to see your citation…</span>`;
     return;
   }
+  const fmts = pMode === 'all' ? ['APA7','APA6','MLA','Harvard'] : [curFmt];
+  wrap.innerHTML = fmts.map(fmt => `
+    <div class="prev-row">
+      ${fmts.length > 1 ? `<div class="prev-fmt-label">${fmt}</div>` : ''}
+      <div class="prev-text">${esc(buildCit(data, fmt) || '—')}</div>
+    </div>
+  `).join('');
+}
 
-  list.innerHTML = citations.map((c, i) => {
-    const tag = c.type === 'book' ? 'tag-book' : c.type === 'journal' ? 'tag-journal' : 'tag-website';
-    const typeLabel = c.type === 'book' ? 'Book' : c.type === 'journal' ? 'Journal' : 'Website';
-    const text = buildCitation(c, c.format);
-    return `<div class="citation-item" id="cit-${c.id}">
-      <div class="citation-num">
-        <span>#${i+1} · ${c.format}</span>
-        <span class="citation-type-tag ${tag}">${typeLabel}</span>
+// ── CAPTION ───────────────────────────────────
+function genCaption() {
+  const data = getData();
+  const fig = document.getElementById('capFig').value.trim() || 'Fig. 1';
+  const desc = document.getElementById('capDesc').value.trim();
+  if (!data.authors && !data.title) { showToast('Fill in citation fields first.', 'err'); return; }
+  const cap = `${fig}. ${desc ? desc + '. ' : ''}(From: ${buildCit(data, curFmt)})`;
+  const out = document.getElementById('capOut');
+  out.textContent = cap; out.classList.add('show');
+  navigator.clipboard.writeText(cap).then(() => showToast('✓ Caption copied!', 'ok')).catch(() => {});
+}
+
+// ── VALIDATION ────────────────────────────────
+function validate(d) {
+  let ok = true; clearErr();
+  if (!d.authors.trim()) { document.getElementById('field_authors').classList.add('has-err'); document.getElementById('authorBox').classList.add('has-err'); ok = false; }
+  if (!d.title) { document.getElementById('field_title').classList.add('has-err'); ok = false; }
+  const yr = parseInt(d.year, 10);
+  if (!d.year || isNaN(yr) || yr < 1000 || yr > 2099) { document.getElementById('field_year').classList.add('has-err'); ok = false; }
+  return ok;
+}
+function clearErr() { document.querySelectorAll('.has-err').forEach(el => el.classList.remove('has-err')); }
+
+// ── ADD ───────────────────────────────────────
+function addCitation() {
+  commitA(); const data = getData();
+  if (!validate(data)) { showToast('Please fix the highlighted fields.', 'err'); return; }
+  cits.push({...data, id: Date.now()});
+  saveSession(); renderBib(); clearForm(); updatePreview();
+  showToast('✓ Citation added!', 'ok');
+}
+function clearForm() {
+  aTags = []; renderATags();
+  ['f_title','f_year','f_doi','f_publisher','f_edition','f_journalName','f_volume','f_issue','f_pages','f_website','f_accessDate','f_siteName','f_ebookUrl','f_reportOrg','f_reportNum','f_reportUrl','f_thesisUniv','f_confName','f_confLoc','f_confPages']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  clearErr();
+}
+
+// ── RENDER BIB ────────────────────────────────
+const TTAG = {book:'tag-book',journal:'tag-journal',website:'tag-website',ebook:'tag-ebook',report:'tag-report',thesis:'tag-thesis',conference:'tag-conference'};
+function renderBib() {
+  const list = document.getElementById('citList');
+  const badge = document.getElementById('citBadge');
+  const bulk = document.getElementById('bulkArea');
+  const tb = document.getElementById('bibTb');
+  const sw = document.getElementById('searchWrap');
+  const q = (document.getElementById('bibSearch')?.value || '').toLowerCase();
+  const filtered = q ? cits.filter(c => (c.title||'').toLowerCase().includes(q) || (c.authors||'').toLowerCase().includes(q)) : cits;
+  badge.textContent = cits.length ? `(${cits.length})` : '';
+  bulk.style.display = cits.length ? '' : 'none';
+  tb.style.display = cits.length ? '' : 'none';
+  sw.style.display = cits.length > 2 ? '' : 'none';
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty"><div class="empty-ico">📑</div><p>Add a citation to start your bibliography.<br>Try a sample above!</p></div>`;
+    return;
+  }
+  list.innerHTML = filtered.map((c, i) => {
+    const tag = TTAG[c.type] || 'tag-book';
+    const text = buildCit(c, c.format);
+    return `<div class="c-item" id="ci-${c.id}" draggable="true" ondragstart="dSt(event,${c.id})" ondragover="dOv(event,${c.id})" ondrop="dDr(event,${c.id})" ondragleave="dLv(event,${c.id})">
+      <div class="c-meta">
+        <span class="c-num">#${i+1} · ${c.format} ⠿</span>
+        <span class="c-tag ${tag}">${c.type}</span>
       </div>
-      <div class="citation-text">${escHtml(text)}</div>
-      <div class="citation-actions">
-        <button class="btn-icon" onclick="copyCitation(${c.id})" id="copybtn-${c.id}">📋 Copy</button>
-        <button class="btn-icon danger" onclick="withDeleteCitation(${c.id})">🗑 Delete</button>
+      <div class="c-text">${esc(text)}</div>
+      <div class="c-actions">
+        <button class="btn-sm" onclick="copyCit(${c.id})" id="cb-${c.id}">📋</button>
+        <button class="btn-sm" onclick="editCit(${c.id})">✏</button>
+        <button class="btn-sm danger" onclick="delCit(${c.id})">🗑</button>
       </div>
     </div>`;
   }).join('');
 }
 
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+// ── DRAG ─────────────────────────────────────
+function dSt(e, id) { dragId = id; setTimeout(() => document.getElementById('ci-'+id)?.classList.add('dragging'), 0); }
+function dOv(e, id) { e.preventDefault(); if (dragId !== id) document.getElementById('ci-'+id)?.classList.add('drag-over'); }
+function dLv(e, id) { document.getElementById('ci-'+id)?.classList.remove('drag-over'); }
+function dDr(e, id) {
+  e.preventDefault();
+  document.getElementById('ci-'+id)?.classList.remove('drag-over');
+  document.getElementById('ci-'+dragId)?.classList.remove('dragging');
+  if (!dragId || dragId === id) return;
+  const f = cits.findIndex(c => c.id === dragId);
+  const t = cits.findIndex(c => c.id === id);
+  if (f < 0 || t < 0) return;
+  const [it] = cits.splice(f, 1); cits.splice(t, 0, it);
+  saveSession(); renderBib(); dragId = null;
 }
 
-function withDeleteCitation(id) {
-  citations = citations.filter(c => c.id !== id);
-  saveSession();
-  renderCitations();
+// ── ACTIONS ───────────────────────────────────
+function sortAlpha() {
+  cits.sort((a,b) => {
+    const fa = (a.authors||'').split(';')[0].trim().toLowerCase();
+    const fb = (b.authors||'').split(';')[0].trim().toLowerCase();
+    return fa.localeCompare(fb);
+  });
+  saveSession(); renderBib(); showToast('✓ Sorted A–Z.', 'ok');
 }
-
-function copyCitation(id) {
-  const c = citations.find(x => x.id === id);
-  if (!c) return;
-  const text = buildCitation(c, c.format);
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('copybtn-' + id);
-    if (btn) { btn.textContent = '✓ Copied!'; btn.classList.add('success'); setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('success'); }, 1800); }
+function checkDups() {
+  const seen = {}, dups = [];
+  cits.forEach(c => { const k = (c.title||'').toLowerCase().trim(); if (seen[k]) dups.push(c.title); else seen[k] = 1; });
+  if (dups.length) showToast('⚠ Possible duplicate: "' + dups[0] + '"', 'err');
+  else showToast('✓ No duplicates found.', 'ok');
+}
+function delCit(id) { cits = cits.filter(c => c.id !== id); saveSession(); renderBib(); }
+function copyCit(id) {
+  const c = cits.find(x => x.id === id); if (!c) return;
+  navigator.clipboard.writeText(buildCit(c, c.format)).then(() => {
+    const btn = document.getElementById('cb-'+id);
+    if (btn) { btn.textContent = '✓'; btn.classList.add('ok'); setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('ok'); }, 1600); }
+    showToast('✓ Copied!', 'ok');
   });
 }
-
+function editCit(id) {
+  const c = cits.find(x => x.id === id); if (!c) return;
+  aTags = (c.authors||'').split(';').map(a => a.trim()).filter(Boolean); renderATags();
+  const types = ['book','journal','website','ebook','report','thesis','conference'];
+  const idx = types.indexOf(c.type);
+  document.querySelectorAll('.t-btn').forEach((b,i) => b.classList.toggle('active', i === idx));
+  curType = c.type; showTypeFields(c.type);
+  const set = (id,v) => { const el = document.getElementById(id); if (el) el.value = v||''; };
+  set('f_title',c.title); set('f_year',c.year); set('f_doi',c.doi); set('f_publisher',c.publisher);
+  set('f_edition',c.edition); set('f_journalName',c.journalName); set('f_volume',c.volume);
+  set('f_issue',c.issue); set('f_pages',c.pages); set('f_website',c.website);
+  set('f_accessDate',c.accessDate); set('f_siteName',c.siteName); set('f_ebookUrl',c.ebookUrl);
+  set('f_reportOrg',c.reportOrg); set('f_reportNum',c.reportNum); set('f_reportUrl',c.reportUrl);
+  set('f_thesisUniv',c.thesisUniv); set('f_confName',c.confName); set('f_confLoc',c.confLoc); set('f_confPages',c.confPages);
+  updatePreview(); cits = cits.filter(x => x.id !== id); saveSession(); renderBib();
+  window.scrollTo({top:0, behavior:'smooth'});
+  showToast('✏ Loaded for editing.');
+}
 function copyAll(mode) {
-  if (!citations.length) return;
-  let text = '';
-  if (mode === 'markdown') {
-    text = '## Bibliography\n\n' + citations.map((c, i) => `${i+1}. ${buildCitation(c, c.format)}`).join('\n');
-  } else {
-    text = citations.map((c, i) => `${i+1}. ${buildCitation(c, c.format)}`).join('\n');
-  }
-  navigator.clipboard.writeText(text).then(() => showToast(`✓ All ${citations.length} citations copied as ${mode === 'markdown' ? 'Markdown' : 'plain text'}!`));
+  if (!cits.length) return;
+  const lines = cits.map((c,i) => `${i+1}. ${buildCit(c, c.format)}`);
+  const text = mode === 'markdown' ? `## Bibliography\n\n${lines.join('\n')}` : lines.join('\n');
+  navigator.clipboard.writeText(text).then(() => showToast('✓ Copied!', 'ok'));
 }
-
 function clearAll() {
-  if (!citations.length) return;
-  if (confirm(`Clear all ${citations.length} citation(s)?`)) {
-    citations = [];
-    saveSession();
-    renderCitations();
-    showToast('✓ All citations cleared.');
-  }
+  if (!cits.length) return;
+  if (confirm(`Clear all ${cits.length} citation(s)?`)) { cits = []; saveSession(); renderBib(); showToast('✓ Cleared.'); }
+}
+function requirePro(f) { if (isPro) { if (f==='docx') doDocx(); else doBib(); } else openProModal(); }
+
+// ── EXPORT ────────────────────────────────────
+function doDocx() {
+  if (!cits.length) { showToast('Add citations first.', 'err'); return; }
+  const lines = cits.map((c,i) => `${i+1}. ${buildCit(c,c.format)}`).join('\n\n');
+  const blob = new Blob([lines], {type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'bibliography.docx';
+  a.click();
+  showToast('✓ Exported!', 'ok');
+}
+function doBib() {
+  if (!isPro) { openProModal(); return; }
+  if (!cits.length) { showToast('Add citations first.', 'err'); return; }
+  const b = cits.map((c,i) => {
+    const k = (c.authors||'').split(';')[0].split(',')[0].trim().replace(/\s/g,'').toLowerCase() + (c.year||'0');
+    const t = c.type==='journal'?'article':c.type==='website'?'misc':'book';
+    return `@${t}{${k}${i},\n  author={${c.authors||''}},\n  title={${c.title||''}},\n  year={${c.year||''}},\n${c.doi?`  doi={${c.doi}},\n`:''}}`;
+  }).join('\n\n');
+  const bl = new Blob([b], {type:'text/plain'}); const a = document.createElement('a');
+  a.href = URL.createObjectURL(bl); a.download = 'bibliography.bib'; a.click();
+  showToast('✓ BibTeX exported!', 'ok');
 }
 
-// ── LOCAL STORAGE ──────────────────────────────
-const STORAGE_KEY = 'citfmt_sessions';
+function importCSV(e) {
+  if (!isPro) return;
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const text = ev.target.result;
+    const lines = text.split('\n').slice(1); // skip header
+    lines.forEach(line => {
+      const p = line.split(',');
+      if (p.length < 3) return;
+      cits.push({
+        id: Date.now() + Math.random(),
+        authors: p[0],
+        title: p[1],
+        year: p[2],
+        type: 'book',
+        format: curFmt
+      });
+    });
+    saveSession(); renderBib();
+    showToast(`✓ Imported ${lines.length} items!`, 'ok');
+  };
+  reader.readAsText(file);
+}
 
+// ── STORAGE ───────────────────────────────────
+const SK = 'cf_v4';
 function saveSession() {
   try {
-    const sessions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    const entry = { date: new Date().toISOString(), citations: JSON.parse(JSON.stringify(citations)) };
-    sessions.unshift(entry);
-    // keep last 10
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions.slice(0, 10)));
-    renderHistory();
+    const ss = JSON.parse(localStorage.getItem(SK) || '[]');
+    ss.unshift({date:new Date().toISOString(), cits:JSON.parse(JSON.stringify(cits))});
+    localStorage.setItem(SK, JSON.stringify(ss.slice(0,10)));
+    renderHist();
   } catch(e) {}
 }
-
 function loadLastSession() {
   try {
-    const sessions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    if (!sessions.length) { showToast('No saved sessions found.'); return; }
-    citations = sessions[0].citations || [];
-    renderCitations();
-    renderHistory();
-    showToast(`✓ Loaded ${citations.length} citation(s) from last session.`);
+    const ss = JSON.parse(localStorage.getItem(SK) || '[]');
+    if (!ss.length) { showToast('No saved sessions.', 'err'); return; }
+    cits = ss[0].cits || []; renderBib(); showToast('✓ Session loaded.', 'ok');
   } catch(e) {}
 }
-
-function renderHistory() {
+function loadSession(idx) {
   try {
-    const sessions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    const card = document.getElementById('historyCard');
-    const list = document.getElementById('historyList');
-    if (!sessions.length) { card.style.display = 'none'; return; }
+    const ss = JSON.parse(localStorage.getItem(SK) || '[]');
+    if (!ss[idx]) return;
+    cits = ss[idx].cits || []; renderBib(); showToast('✓ Session loaded.', 'ok');
+  } catch(e) {}
+}
+function renderHist() {
+  try {
+    const ss = JSON.parse(localStorage.getItem(SK) || '[]');
+    const card = document.getElementById('histCard');
+    const list = document.getElementById('histList');
+    if (!ss.length) { card.style.display = 'none'; return; }
     card.style.display = '';
-    list.innerHTML = sessions.slice(0, 5).map((s, i) => {
+    list.innerHTML = ss.slice(0,5).map((s,i) => {
       const d = new Date(s.date);
-      const label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-      return `<div class="history-item" onclick="loadSession(${i})">
-        <div class="history-title">${s.citations?.length || 0} citation(s)</div>
-        <div class="history-meta">${label}</div>
-      </div>`;
+      const lbl = d.toLocaleDateString('en-US', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      return `<div class="h-item" onclick="loadSession(${i})"><div class="h-title">${s.cits?.length||0} citation(s)</div><div class="h-meta">${lbl}</div></div>`;
     }).join('');
   } catch(e) {}
 }
 
-function loadSession(idx) {
-  try {
-    const sessions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    if (!sessions[idx]) return;
-    citations = sessions[idx].citations || [];
-    renderCitations();
-    showToast(`✓ Loaded ${citations.length} citation(s).`);
-  } catch(e) {}
-}
+// ── PRO ───────────────────────────────────────
+async function validateKey() {
+  const key = document.getElementById('keyInput').value.trim(); if (!key) return;
+  const st = document.getElementById('keySt');
+  const btn = document.querySelector('#proModal .btn-primary');
+  
+  st.style.display = ''; st.className = 'key-st'; st.textContent = 'Verifying with Gumroad...';
+  if (btn) btn.disabled = true;
 
-// ── PRO MODAL ──────────────────────────────────
+  try {
+    const res = await fetch('https://api.gumroad.com/v2/licenses/verify', {
+      method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({product_permalink:'mpyaq', license_key:key, increment_uses_count:'true'})
+    });
+    const data = await res.json();
+    if (data.success) { 
+      unlockPro(); 
+      st.className = 'key-st ok'; 
+      st.textContent = '✓ Pro unlocked! Thank you.'; 
+      setTimeout(closeProModal, 1400); 
+    } else { 
+      st.className = 'key-st fail'; 
+      st.textContent = '✗ ' + (data.message || 'Invalid or expired key.'); 
+      if (btn) btn.disabled = false;
+    }
+  } catch(e) {
+    st.className = 'key-st fail'; 
+    st.textContent = '✗ Network error. Online activation required.';
+    if (btn) btn.disabled = false;
+  }
+}
+function unlockPro() {
+  isPro = true; try { localStorage.setItem('cf_pro3','1'); } catch(e) {}
+  const card = document.getElementById('proSidebar'); if (card) card.style.display = 'none';
+  const unl = document.getElementById('proUnlocked'); if (unl) unl.style.display = '';
+  document.querySelectorAll('.s-tab.pro-gate').forEach(btn => {
+    const fmt = btn.getAttribute('data-fmt');
+    btn.classList.remove('pro-gate'); btn.textContent = fmt;
+    btn.onclick = () => setFmt(fmt, btn);
+  });
+}
 function openProModal() {
   document.getElementById('proModal').classList.add('open');
+  const s = document.getElementById('keySt'); if (s) s.style.display = 'none';
 }
-function closeProModal() {
-  document.getElementById('proModal').classList.remove('open');
-}
-document.getElementById('proModal').addEventListener('click', function(e) {
-  if (e.target === this) closeProModal();
-});
+function closeProModal() { document.getElementById('proModal').classList.remove('open'); }
+document.getElementById('proModal').addEventListener('click', function(e) { if (e.target === this) closeProModal(); });
 
-// ── TOAST ──────────────────────────────────────
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+// ── TOAST ─────────────────────────────────────
+let toastTmr;
+function showToast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type === 'err' ? ' err-t' : type === 'ok' ? ' ok-t' : '');
+  clearTimeout(toastTmr);
+  toastTmr = setTimeout(() => el.classList.remove('show'), 3000);
+}
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── INIT ───────────────────────────────────────
-renderCitations();
-renderHistory();
+// ── INIT ──────────────────────────────────────
+updateFmtDesc(); renderBib(); renderHist();
+if (isPro) unlockPro();
+try {
+  const ss = JSON.parse(localStorage.getItem(SK) || '[]');
+  if (ss.length && ss[0].cits?.length) { cits = ss[0].cits; renderBib(); }
+} catch(e) {}
 </script>
 </body>
 </html>

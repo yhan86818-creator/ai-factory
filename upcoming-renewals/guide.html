@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Track Subscription Renewals Before They Charge You | Upcoming Renewals Guide</title>
+    <meta name="description" content="Step-by-step guide to tracking subscription billing dates privately. Learn the color-coded alert system, how to catch overlooked renewals, and the difference between renewal tracking and trial tracking.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#060310; --bg2:#0d0820; --border:rgba(255,255,255,0.07); --accent:#a78bfa; --primary:#8b5cf6; --text:#ede9fe; --muted:#6b7280; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.7; }
+        nav { background:rgba(6,3,16,0.95); border-bottom:1px solid var(--border); padding:0 2rem; height:56px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; backdrop-filter:blur(12px); }
+        nav a { color:var(--muted); text-decoration:none; font-size:0.85rem; font-weight:600; }
+        .nav-cta { background:var(--primary); color:#fff !important; padding:0.4rem 1rem; border-radius:8px; font-weight:700; }
+        .hero { max-width:860px; margin:5rem auto 4rem; padding:0 2rem; }
+        .tag { display:inline-block; background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.3); color:var(--accent); font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:0.35rem 0.9rem; border-radius:20px; margin-bottom:1.5rem; }
+        h1 { font-size:clamp(2rem,5vw,3rem); font-weight:900; letter-spacing:-0.03em; color:#fff; margin-bottom:1.5rem; }
+        h1 span { color:var(--accent); }
+        .meta { color:var(--muted); font-size:0.85rem; margin-bottom:2rem; }
+        .intro { font-size:1.05rem; color:#c4b5fd; line-height:1.85; }
+        article { max-width:860px; margin:0 auto; padding:0 2rem 8rem; }
+        h2 { font-size:1.5rem; font-weight:800; color:#fff; margin:3rem 0 1rem; }
+        p { color:#c4b5fd; margin-bottom:1.2rem; font-size:0.97rem; }
+        strong { color:#fff; }
+        ul { color:#c4b5fd; padding-left:1.5rem; margin-bottom:1.5rem; display:grid; gap:0.6rem; font-size:0.95rem; }
+        .alert-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin:2rem 0; }
+        .alert-card { border-radius:14px; padding:1.25rem; border:1px solid; }
+        .alert-card h4 { font-weight:700; margin-bottom:0.5rem; }
+        .alert-card p { font-size:0.85rem; margin:0; }
+        .ac-red { background:rgba(248,113,113,0.07); border-color:rgba(248,113,113,0.3); }
+        .ac-red h4 { color:#f87171; }
+        .ac-amber { background:rgba(251,191,36,0.07); border-color:rgba(251,191,36,0.3); }
+        .ac-amber h4 { color:#fbbf24; }
+        .ac-green { background:rgba(74,222,128,0.07); border-color:rgba(74,222,128,0.3); }
+        .ac-green h4 { color:#4ade80; }
+        .callout { background:rgba(139,92,246,0.05); border:1px solid rgba(139,92,246,0.18); border-left:3px solid var(--primary); border-radius:0 12px 12px 0; padding:1.25rem 1.5rem; margin:2rem 0; }
+        .callout strong { color:var(--accent); display:block; margin-bottom:0.4rem; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.12em; }
+        .faq { border:1px solid var(--border); border-radius:18px; overflow:hidden; margin-top:2rem; }
+        .faq-item { padding:1.5rem 2rem; border-bottom:1px solid var(--border); }
+        .faq-item:last-child { border-bottom:none; }
+        .faq-item h4 { color:#fff; font-weight:700; margin-bottom:0.5rem; }
+        .faq-item p { margin:0; font-size:0.9rem; }
+        .cta { background:rgba(139,92,246,0.05); border:1px solid rgba(139,92,246,0.2); border-radius:22px; padding:3rem; text-align:center; margin:4rem 0 0; }
+        .btn { display:inline-flex; align-items:center; gap:0.5rem; background:var(--primary); color:#fff; padding:0.9rem 2rem; border-radius:12px; font-weight:700; text-decoration:none; }
+    </style>
+</head>
+<body>
+<nav>
+    <div style="display:flex;align-items:center;gap:1.5rem;"><a href="/">← Upcoming Renewals</a></div>
+    <a href="/" class="nav-cta">Open Tool →</a>
+</nav>
+<div class="hero">
+    <div class="tag">⏰ Upcoming Renewals — Usage Guide</div>
+    <h1>How to Track Subscription Renewals <span>Before They Charge You</span></h1>
+    <p class="meta">6 min read · Privacy Finance · Subscription Management</p>
+    <p class="intro">Subscription traps are real. This guide explains how to use the color-coded alert system to stay ahead of every billing date — without handing your data to a third-party service.</p>
+</div>
+<article>
+<h2>The Three Alert Zones</h2>
+<p>Upcoming Renewals uses a traffic-light system based on days remaining until the next billing date:</p>
+<div class="alert-grid">
+    <div class="alert-card ac-red"><h4>🔴 Red Zone (≤3 days)</h4><p>Act immediately. Cancel via the service's settings page or bank "block merchant" feature. The card pulses to maximize visibility.</p></div>
+    <div class="alert-card ac-amber"><h4>🟡 Amber Zone (≤7 days)</h4><p>Decision week. Decide whether you've used the service enough this month to justify the charge.</p></div>
+    <div class="alert-card ac-green"><h4>🟢 Green Zone (≤30 days)</h4><p>You're safely in the planning window. Evaluate usage patterns before the amber period starts.</p></div>
+</div>
+
+<h2>How to Set Up Your Watchlist</h2>
+<ul>
+    <li><strong>Service Name</strong> — Enter the name as it appears on your bank statement (helps cross-reference with CSV Auto Import).</li>
+    <li><strong>Price & Currency</strong> — Enter the exact amount charged. Supports USD, JPY, EUR, GBP.</li>
+    <li><strong>Next Billing Date</strong> — The date of the next charge, not the current period end.</li>
+</ul>
+<p>The list auto-sorts by urgency — the most critical renewals always appear at the top. After a renewal passes, you can update the date to the next cycle or delete the entry if you've cancelled.</p>
+
+<div class="callout">
+    <strong>💡 Weekly Habit</strong>
+    Set a recurring calendar event every Monday to check your Upcoming Renewals dashboard. The 2-minute check can save you from unexpected charges all week.
+</div>
+
+<h2>Privacy Architecture</h2>
+<p>All data is stored in your browser's <strong>localStorage</strong>. No account creation, no email addresses, no cloud sync. The tool works offline. Clear your browser data to remove everything permanently.</p>
+<p>Unlike email-based renewal reminders (which require your contact info and create marketing databases), this tool reminds you here — privately and locally.</p>
+
+<div class="faq">
+    <div class="faq-item"><h4>How do I update a renewal date after paying?</h4><p>Delete the entry and re-add it with the updated next billing date. Or simply update the date field if you keep recurring entries.</p></div>
+    <div class="faq-item"><h4>Can I track annual subscriptions?</h4><p>Yes — enter any future date. The days-remaining counter handles any duration from tomorrow to 365+ days.</p></div>
+    <div class="faq-item"><h4>What if I cleared my browser cache?</h4><p>Your data would be lost. For long-term tracking, take a periodic screenshot of your watchlist or export the localStorage data manually.</p></div>
+</div>
+
+<div class="cta">
+    <h2>Start Your Renewal Watchlist</h2>
+    <p style="color:#c4b5fd;margin-bottom:2rem;">Add your first subscription and see the countdown start immediately.</p>
+    <a href="/" class="btn">Open Upcoming Renewals →</a>
+</div>
+</article>
+</body>
+</html>

@@ -1,691 +1,1584 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MHHM60EY3G"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-MHHM60EY3G');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MarkConvert — Private Markdown to Notion, PDF & Obsidian</title>
-  <meta name="description" content="100% private, browser-based Markdown converter. Convert to Notion JSON, PDF, Obsidian, and HTML. Free, no server uploads, offline ready. Includes guides on Notion import and Markdown workflows.">
-  <meta name="keywords" content="markdown to notion, markdown to pdf, markdown to obsidian, markdown converter, notion json, private markdown tool, browser markdown, pwa markdown">
-  <link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;MarkConvert&quot;,&quot;short_name&quot;:&quot;MarkConvert&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#09090b&quot;,&quot;theme_color&quot;:&quot;#8b5cf6&quot;}">
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-
+  <title>MarkConvert — Markdown Converter</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-    
     :root {
-      --bg: #09090b; --surface: #18181b; --surface-hover: #27272a;
-      --border: #27272a; --border-focus: #3f3f46;
-      --text: #fafafa; --text-muted: #a1a1aa;
-      --primary: #8b5cf6; --primary-hover: #7c3aed; --primary-dim: rgba(139, 92, 246, 0.15);
-      --success: #10b981; --error: #ef4444;
-      --radius: 8px; --font-sans: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+      --bg: #0d0d14;
+      --surface: #161622;
+      --surface2: #1e1e2e;
+      --surface3: #262638;
+      --border: #2c2c42;
+      --border2: #3a3a55;
+      --text: #eeeeff;
+      --text-muted: #8888bb;
+      --text-dim: #4a4a70;
+      --primary: #7c6dfa;
+      --primary-light: #a99cfc;
+      --primary-glow: rgba(124,109,250,0.15);
+      --primary-dim: rgba(124,109,250,0.1);
+      --success: #22d3a0;
+      --warn: #f59e0b;
+      --error: #f87171;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --mono: 'Courier New', monospace;
+      --sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --display: Georgia, 'Times New Roman', serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; -webkit-font-smoothing: antialiased; }
-    
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { height: 100%; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--border-focus); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 
-    /* Header */
-    header { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 60px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-    .logo { font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
-    .logo span { color: var(--primary); }
-    .nav-links { display: flex; gap: 16px; }
-    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; cursor: pointer; }
-    .nav-links a:hover, .nav-links a.active { color: var(--text); }
-    .header-actions { display: flex; gap: 12px; }
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 52px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      gap: 8px;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .logo {
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--text);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer; letter-spacing: -0.3px;
+    }
+    .logo-icon {
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #7c6dfa, #a855f7);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+    }
+    .logo .accent { color: var(--primary-light); }
 
-    /* Buttons */
-    .btn { padding: 8px 16px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-hover); color: var(--text); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: 6px; }
-    .btn:hover { background: var(--border); }
+    .privacy-badge {
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(34,211,160,0.08);
+      border: 1px solid rgba(34,211,160,0.2);
+      border-radius: 20px; padding: 3px 10px;
+      font-size: 10px; font-weight: 600; color: var(--success);
+      letter-spacing: 0.3px; white-space: nowrap;
+    }
+    .privacy-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    nav { display: flex; gap: 2px; }
+    nav button {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-size: 13px; font-weight: 500;
+      padding: 5px 11px; border-radius: var(--radius);
+      transition: all 0.15s; font-family: var(--sans);
+    }
+    nav button:hover { color: var(--text); background: var(--surface2); }
+    nav button.active { color: var(--primary-light); background: var(--primary-dim); }
+
+    .header-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+    /* BUTTONS */
+    .btn {
+      padding: 6px 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 12px; font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--sans);
+      display: inline-flex; align-items: center; gap: 4px;
+      white-space: nowrap; line-height: 1;
+    }
+    .btn:hover { background: var(--surface3); border-color: var(--border2); }
     .btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
-    .btn-icon { padding: 6px 10px; }
+    .btn-primary:hover { background: #6a5de8; border-color: #6a5de8; }
+    .btn-pro {
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      border-color: transparent; color: #fff; font-weight: 600;
+    }
+    .btn-pro:hover { opacity: 0.88; }
+    .btn-ghost { background: transparent; border-color: transparent; color: var(--text-muted); }
+    .btn-ghost:hover { color: var(--text); background: var(--surface2); border-color: var(--border); }
+    .btn-xs { padding: 3px 8px; font-size: 11px; }
 
-    /* Views */
-    .view { display: none; flex: 1; overflow: hidden; }
-    .view.active { display: flex; flex-direction: column; }
+    /* VIEWS */
+    .view { display: none; flex: 1; flex-direction: column; }
+    .view.active { display: flex; }
 
-    /* Tool View */
-    .toolbar { display: flex; align-items: center; gap: 8px; padding: 12px 24px; border-bottom: 1px solid var(--border); overflow-x: auto; flex-shrink: 0; }
-    .format-chips { display: flex; gap: 8px; border-right: 1px solid var(--border); padding-right: 16px; margin-right: 8px; }
-    .chip { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-    .chip.active { background: var(--primary-dim); border-color: var(--primary); color: var(--primary); }
-    .chip:hover:not(.active) { color: var(--text); border-color: var(--border-focus); }
-    .tool-divider { width: 1px; height: 20px; background: var(--border); margin: 0 8px; }
-    
-    .workspace { display: flex; flex: 1; overflow: hidden; }
+    /* FORMAT BAR */
+    .format-bar {
+      display: flex; align-items: center; gap: 5px;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      overflow-x: auto;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      row-gap: 6px;
+    }
+    .chips { display: flex; gap: 4px; flex-shrink: 0; }
+    .chip {
+      padding: 5px 12px; border-radius: 20px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text-muted); font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; font-family: var(--sans);
+      white-space: nowrap;
+    }
+    .chip.active { background: var(--primary-dim); border-color: var(--primary); color: var(--primary-light); }
+    .chip:hover:not(.active) { color: var(--text); border-color: var(--border2); background: var(--surface2); }
+
+    .bar-sep { width: 1px; height: 18px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
+
+    .toolbar { display: flex; gap: 2px; flex-wrap: wrap; }
+    .tb-btn {
+      padding: 4px 7px; border-radius: 5px;
+      border: 1px solid transparent; background: transparent;
+      color: var(--text-muted); font-size: 11px; font-weight: 700;
+      cursor: pointer; transition: all 0.15s; font-family: var(--mono);
+    }
+    .tb-btn:hover { color: var(--text); background: var(--surface2); border-color: var(--border); }
+
+    select.btn { cursor: pointer; appearance: auto; }
+
+    .format-hint {
+      font-size: 10px; color: var(--text-dim);
+      padding: 3px 8px; background: var(--surface2); border-radius: 4px;
+      font-family: var(--mono); flex-shrink: 0;
+    }
+
+    /* SAMPLES STRIP */
+    .samples-strip {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 16px;
+      background: rgba(124,109,250,0.04);
+      border-bottom: 1px solid rgba(124,109,250,0.1);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .strip-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-dim); white-space: nowrap; }
+    .sample-pills { display: flex; gap: 4px; }
+    .sample-pill {
+      padding: 2px 9px; border-radius: 12px;
+      border: 1px solid var(--border); background: var(--surface2);
+      color: var(--text-muted); font-size: 11px; font-weight: 500;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+    .sample-pill:hover { color: var(--primary-light); border-color: var(--primary); background: var(--primary-dim); }
+
+    /* WORKSPACE */
+    .workspace {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      height: calc(100vh - 200px);
+    }
     .pane { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-    .pane-header { padding: 8px 24px; background: var(--surface); border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
-    .pane-body { flex: 1; position: relative; display: flex; flex-direction: column; overflow: hidden; }
-    
-    textarea.editor { flex: 1; width: 100%; height: 100%; background: var(--bg); border: none; color: var(--text); padding: 24px; font-family: var(--font-mono); font-size: 14px; line-height: 1.6; resize: none; outline: none; }
-    textarea.output { flex: 1; width: 100%; height: 100%; background: var(--bg); border: none; color: #a5b4fc; padding: 24px; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; resize: none; outline: none; white-space: pre-wrap; word-break: break-all; }
-    
-    .preview-container { flex: 1; overflow-y: auto; padding: 32px 48px; background: #fff; color: #111; display: none; }
-    .preview-container.active { display: block; }
-    
-    /* Blog View */
-    #view-blog { overflow-y: auto; background: var(--bg); }
-    .blog-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
-    .blog-header { text-align: center; margin-bottom: 48px; }
-    .blog-header h1 { font-size: 36px; margin-bottom: 16px; letter-spacing: -1px; }
-    .blog-header p { color: var(--text-muted); font-size: 18px; max-width: 600px; margin: 0 auto; line-height: 1.5; }
-    
-    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; }
-    .blog-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; cursor: pointer; transition: all 0.2s; text-decoration: none; color: inherit; display: block; }
-    .blog-card:hover { transform: translateY(-2px); border-color: var(--primary); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
-    .blog-card h3 { font-size: 18px; margin-bottom: 12px; line-height: 1.4; }
-    .blog-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
-    
-    .post-view { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
-    .back-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; margin-bottom: 32px; font-weight: 500; cursor: pointer; }
-    .back-btn:hover { color: var(--text); }
-    
-    /* Blog Post Content Styles (SEO Content) */
-    .seo-article { line-height: 1.8; font-size: 16px; color: #e4e4e7; }
-    .seo-article h1 { font-size: 36px; margin-bottom: 24px; line-height: 1.2; letter-spacing: -0.5px; }
-    .seo-article h2 { font-size: 24px; margin: 40px 0 16px; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-    .seo-article p { margin-bottom: 20px; }
-    .seo-article ul, .seo-article ol { padding-left: 24px; margin-bottom: 20px; }
-    .seo-article li { margin-bottom: 8px; }
-    .seo-article pre { background: var(--surface); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 20px; border: 1px solid var(--border); }
-    .seo-article code { font-family: var(--font-mono); font-size: 14px; color: #a5b4fc; }
-    .seo-article blockquote { border-left: 4px solid var(--primary); padding: 12px 20px; background: var(--primary-dim); margin-bottom: 20px; border-radius: 0 8px 8px 0; }
+    .pane + .pane { border-left: 1px solid var(--border); }
+    .pane-header {
+      padding: 6px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-size: 10px; font-weight: 700; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.8px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-shrink: 0;
+    }
+    .pane-actions { display: flex; align-items: center; gap: 5px; }
+    .char-count { font-family: var(--mono); font-size: 10px; color: var(--text-dim); }
 
-    /* Markdown Preview Styles */
-    .md-preview { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; max-width: 800px; margin: 0 auto; }
-    .md-preview h1, .md-preview h2 { border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; margin-top: 24px; margin-bottom: 16px; }
-    .md-preview pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow: auto; }
-    .md-preview code { font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; background: rgba(175,184,193,0.2); padding: 0.2em 0.4em; border-radius: 6px; font-size: 85%; }
-    .md-preview pre code { background: transparent; padding: 0; }
-    .md-preview blockquote { margin: 0 0 16px; padding: 0 1em; color: #57606a; border-left: 0.25em solid #d0d7de; }
-    .md-preview table { border-collapse: collapse; width: 100%; margin-bottom: 16px; }
-    .md-preview table th, .md-preview table td { padding: 6px 13px; border: 1px solid #d0d7de; }
-    .md-preview table tr:nth-child(2n) { background-color: #f6f8fa; }
-    .md-preview img { max-width: 100%; box-sizing: content-box; }
+    textarea {
+      flex: 1;
+      width: 100%;
+      background: var(--bg);
+      border: none;
+      color: var(--text);
+      padding: 18px 20px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      resize: none;
+      outline: none;
+      overflow-y: auto;
+      min-height: 300px;
+    }
+    textarea#output { color: var(--primary-light); }
+    textarea::placeholder { color: var(--text-dim); }
 
-    /* Modals & Toasts */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100; }
+    .output-area { flex: 1; display: flex; flex-direction: column; min-height: 0; position: relative; }
+
+    /* PREVIEW PANES */
+    #preview-pane {
+      flex: 1; overflow-y: auto; padding: 28px 32px;
+      background: #fff; display: none; min-height: 300px;
+    }
+    #preview-pane.active { display: block; }
+
+    #notion-preview-pane {
+      flex: 1; overflow-y: auto; padding: 20px;
+      background: var(--bg); display: none; min-height: 300px;
+    }
+    #notion-preview-pane.active { display: block; }
+
+    /* MARKDOWN PREVIEW STYLES */
+    .md-body { font-family: var(--sans); font-size: 15px; line-height: 1.7; color: #1a1a2e; max-width: 700px; }
+    .md-body h1, .md-body h2, .md-body h3, .md-body h4 { font-weight: 700; margin: 24px 0 10px; color: #0d0d1a; }
+    .md-body h1 { font-size: 26px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+    .md-body h2 { font-size: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
+    .md-body h3 { font-size: 16px; }
+    .md-body p { margin-bottom: 12px; }
+    .md-body ul, .md-body ol { padding-left: 22px; margin-bottom: 12px; }
+    .md-body li { margin-bottom: 4px; }
+    .md-body pre { background: #f1f5f9; padding: 14px; border-radius: 8px; overflow-x: auto; margin-bottom: 14px; border: 1px solid #e2e8f0; font-size: 12px; }
+    .md-body code { font-family: var(--mono); font-size: 12px; background: rgba(100,116,139,0.12); padding: 1px 5px; border-radius: 4px; }
+    .md-body pre code { background: none; padding: 0; }
+    .md-body blockquote { border-left: 3px solid #7c6dfa; padding: 8px 14px; background: rgba(124,109,250,0.05); margin-bottom: 12px; border-radius: 0 6px 6px 0; color: #4a5568; }
+    .md-body table { border-collapse: collapse; width: 100%; margin-bottom: 14px; font-size: 13px; }
+    .md-body th, .md-body td { padding: 7px 11px; border: 1px solid #e2e8f0; }
+    .md-body th { background: #f8fafc; font-weight: 600; }
+    .md-body tr:nth-child(even) { background: #f8fafc; }
+    .md-body a { color: #7c6dfa; }
+    .md-body hr { border: none; border-top: 1px solid #e2e8f0; margin: 18px 0; }
+    .md-body input[type=checkbox] { margin-right: 5px; }
+    .md-body img { max-width: 100%; border-radius: 6px; }
+    .md-body strong { font-weight: 700; }
+    .md-body em { font-style: italic; }
+
+    /* NOTION PREVIEW STYLES */
+    .nb { padding: 3px 0; line-height: 1.6; font-size: 14px; color: var(--text); }
+    .nb-h1 { font-size: 22px; font-weight: 700; margin: 18px 0 6px; color: var(--text); }
+    .nb-h2 { font-size: 17px; font-weight: 700; margin: 14px 0 5px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+    .nb-h3 { font-size: 14px; font-weight: 600; margin: 10px 0 3px; color: var(--text); }
+    .nb-callout { background: var(--surface2); border-radius: 8px; padding: 10px 14px; margin: 6px 0; display: flex; gap: 8px; border-left: 3px solid var(--primary); }
+    .nb-code { background: var(--surface2); border-radius: 6px; padding: 10px; margin: 6px 0; font-family: var(--mono); font-size: 12px; color: var(--primary-light); overflow-x: auto; }
+    .nb-bullet { padding: 2px 0 2px 18px; position: absolute; left: 5px; color: var(--text-muted); }
+    .nb-bullet::before { content: '•'; position: absolute; left: 5px; color: var(--text-muted); }
+    .nb-todo { display: flex; align-items: flex-start; gap: 7px; padding: 2px 0; }
+    .nb-box { width: 13px; height: 13px; border: 1.5px solid var(--border2); border-radius: 3px; flex-shrink: 0; margin-top: 3px; background: var(--surface2); }
+    .nb-box.checked { background: var(--primary); border-color: var(--primary); }
+    .nb-divider { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+    .nb-quote { border-left: 3px solid var(--border2); padding: 3px 0 3px 12px; color: var(--text-muted); margin: 5px 0; }
+    .nb-spacer { height: 6px; }
+
+    /* DRAG OVERLAY */
+    .drag-overlay {
+      position: absolute; inset: 0;
+      background: rgba(124,109,250,0.12);
+      border: 2px dashed var(--primary);
+      border-radius: var(--radius);
+      display: none; align-items: center; justify-content: center;
+      z-index: 10; font-size: 15px; color: var(--primary-light); font-weight: 600;
+    }
+    .drag-overlay.active { display: flex; }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: none; align-items: center; justify-content: center;
+      z-index: 100;
+    }
     .modal-overlay.active { display: flex; }
-    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 600px; max-height: 80vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow); }
-    .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .modal-title { font-size: 18px; font-weight: 600; }
-    .modal-close { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 20px; }
-    .modal-body { padding: 24px; overflow-y: auto; }
-    .sample-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .sample-card { padding: 16px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s; background: var(--bg); }
-    .sample-card:hover { border-color: var(--primary); background: var(--surface-hover); }
-    .sample-card h4 { margin-bottom: 4px; font-size: 14px; }
-    .sample-card p { font-size: 12px; color: var(--text-muted); }
+    .modal {
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: var(--radius-lg); width: 90%; max-width: 600px;
+      max-height: 85vh; display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 16px 20px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-shrink: 0;
+    }
+    .modal-title { font-size: 15px; font-weight: 700; }
+    .modal-close {
+      background: none; border: none; color: var(--text-muted);
+      cursor: pointer; font-size: 20px; line-height: 1; padding: 2px 6px; border-radius: 4px;
+    }
+    .modal-close:hover { color: var(--text); background: var(--surface2); }
+    .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
 
-    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 500; opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 200; box-shadow: var(--shadow); }
+    .sample-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sample-card {
+      padding: 14px; border: 1px solid var(--border); border-radius: var(--radius);
+      cursor: pointer; transition: all 0.15s; background: var(--bg);
+    }
+    .sample-card:hover { border-color: var(--primary); background: var(--surface2); }
+    .sample-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; color: var(--text); }
+    .sample-card p { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+    .s-icon { font-size: 18px; margin-bottom: 7px; display: block; }
+
+    .history-item {
+      padding: 11px; border: 1px solid var(--border); border-radius: var(--radius);
+      margin-bottom: 7px; cursor: pointer; transition: all 0.15s;
+    }
+    .history-item:hover { border-color: var(--primary); background: var(--surface2); }
+    .history-time { font-size: 10px; color: var(--text-dim); margin-bottom: 3px; font-family: var(--mono); }
+    .history-preview { font-size: 12px; color: var(--text-muted); font-family: var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* PRO MODAL */
+    .pro-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; }
+    .pro-table th { text-align: left; padding: 9px 12px; background: var(--surface2); border-bottom: 1px solid var(--border); font-weight: 600; color: var(--text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .pro-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+    .pro-table tr:last-child td { border-bottom: none; }
+    .pro-table .check { color: var(--success); font-weight: 700; }
+    .pro-table .cross { color: var(--text-dim); }
+    .pro-table .col-pro { color: var(--primary-light); font-weight: 600; }
+    .pro-price { text-align: center; }
+    .pro-amount { font-size: 34px; font-weight: 800; color: var(--text); }
+    .pro-period { color: var(--text-muted); font-size: 13px; }
+    .pro-sub { color: var(--text-muted); font-size: 11px; margin-top: 3px; }
+
+    /* BLOG */
+    #view-blog { overflow-y: auto; }
+    .blog-wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    .blog-hero { margin-bottom: 36px; }
+    .blog-hero h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 8px; }
+    .blog-hero p { color: var(--text-muted); font-size: 14px; line-height: 1.6; max-width: 520px; }
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .blog-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 18px;
+      cursor: pointer; transition: all 0.2s; display: block;
+    }
+    .blog-card:hover { transform: translateY(-2px); border-color: var(--primary); box-shadow: 0 8px 24px rgba(124,109,250,0.1); }
+    .blog-card h3 { font-size: 15px; margin-bottom: 7px; line-height: 1.4; font-weight: 700; }
+    .blog-card p { color: var(--text-muted); font-size: 12px; line-height: 1.5; }
+    .card-tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 7px; border-radius: 8px; margin-bottom: 8px; }
+
+    /* POST */
+    #view-post { overflow-y: auto; }
+    .post-wrap { max-width: 740px; margin: 0 auto; padding: 36px 20px; }
+    .back-btn { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 13px; font-weight: 500; margin-bottom: 24px; display: inline-flex; align-items: center; gap: 5px; padding: 0; }
+    .back-btn:hover { color: var(--text); }
+    .post-body { line-height: 1.8; font-size: 15px; color: #d4d4e8; }
+    .post-body h1 { font-size: 28px; font-weight: 800; margin-bottom: 18px; color: var(--text); letter-spacing: -0.3px; }
+    .post-body h2 { font-size: 19px; font-weight: 700; margin: 28px 0 10px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .post-body p { margin-bottom: 14px; }
+    .post-body ul, .post-body ol { padding-left: 20px; margin-bottom: 14px; }
+    .post-body li { margin-bottom: 5px; }
+    .post-body pre { background: var(--surface); padding: 12px; border-radius: 8px; overflow-x: auto; margin-bottom: 14px; border: 1px solid var(--border); }
+    .post-body code { font-family: var(--mono); font-size: 12px; color: var(--primary-light); background: var(--surface2); padding: 1px 5px; border-radius: 4px; }
+    .post-body pre code { background: none; padding: 0; font-size: 12px; }
+    .post-body blockquote { border-left: 3px solid var(--primary); padding: 8px 14px; background: var(--primary-dim); border-radius: 0 6px 6px 0; margin-bottom: 14px; }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 20px; left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--surface3); border: 1px solid var(--border2);
+      color: var(--text); padding: 9px 18px; border-radius: 20px;
+      font-size: 13px; font-weight: 500; opacity: 0;
+      pointer-events: none; transition: all 0.22s; z-index: 200;
+    }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* UTILITY */
+    .empty-msg { color: var(--text-muted); text-align: center; font-size: 13px; padding: 20px 0; }
   </style>
 </head>
 <body>
 
-  <header>
-    <a href="#" class="logo" onclick="navigate('tool')"><span>⚡</span> MarkConvert</a>
-    <nav class="nav-links">
-      <a id="nav-tool" class="active" onclick="navigate('tool')">Converter</a>
-      <a id="nav-blog" onclick="navigate('blog')">SEO Guides</a>
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <div class="logo" onclick="navigate('tool')">
+      <span class="logo-icon">⚡</span>
+      Mark<span class="accent">Convert</span>
+    </div>
+    <nav>
+      <button id="nav-tool" class="active" onclick="navigate('tool')">Converter</button>
+      <button id="nav-blog" onclick="navigate('blog')">Guides</button>
     </nav>
-    <div class="header-actions">
-      <button class="btn" onclick="openModal('samples-modal')">📄 Samples</button>
-      <button class="btn" onclick="openModal('history-modal')">🕒 History</button>
-      <button class="btn btn-primary" onclick="downloadOutput()">⬇ Download</button>
-    </div>
-  </header>
+  </div>
+  <div class="privacy-badge">
+    <span class="privacy-dot"></span>
+    Client-side · Zero uploads · No tracking
+  </div>
+  <div class="header-right">
+    <button class="btn btn-ghost" onclick="openModal('history-modal')">🕒 History</button>
+    <button class="btn" onclick="bulkConvert()">📦 Bulk Convert</button>
+    <button class="btn" onclick="openModal('samples-modal')">📄 Samples</button>
+    <button class="btn btn-pro" onclick="openModal('pro-modal')">⭐ Pro</button>
+    <button class="btn btn-primary" onclick="downloadOutput()">⬇ Download</button>
+    <button class="btn" onclick="openModal('settings-modal')" style="padding: 6px 8px;">⚙️</button>
+  </div>
+</header>
 
-  <!-- APP VIEW: CONVERTER -->
-  <main id="view-tool" class="view active">
+<!-- CONVERTER VIEW -->
+<main id="view-tool" class="view active">
+
+  <!-- Format bar -->
+  <div class="format-bar">
+    <div class="chips">
+      <button class="chip active" onclick="setFormat('html')" data-fmt="html">HTML</button>
+      <button class="chip" onclick="setFormat('pdf')" data-fmt="pdf">PDF-HTML</button>
+      <button class="chip" onclick="setFormat('notion')" data-fmt="notion">Notion JSON</button>
+      <button class="chip" onclick="setFormat('obsidian')" data-fmt="obsidian">Obsidian</button>
+      <button class="chip" onclick="setFormat('plain')" data-fmt="plain">Plain MD</button>
+      <button class="chip" onclick="setFormat('preview')" data-fmt="preview">👁 Preview</button>
+    </div>
+    <div class="bar-sep"></div>
     <div class="toolbar">
-      <div class="format-chips">
-        <button class="chip active" onclick="setFormat('html')">HTML</button>
-        <button class="chip" onclick="setFormat('pdf')">PDF-HTML</button>
-        <button class="chip" onclick="setFormat('notion')">Notion JSON</button>
-        <button class="chip" onclick="setFormat('obsidian')">Obsidian</button>
-        <button class="chip" onclick="setFormat('plain')">Plain MD</button>
-        <button class="chip" onclick="setFormat('preview')">Preview</button>
-      </div>
-      <select id="html-theme" class="btn" onchange="convert()">
-        <option value="github">GitHub Theme</option>
-        <option value="minimal">Minimal Theme</option>
-        <option value="modern">Modern Theme</option>
-      </select>
-      <div class="tool-divider"></div>
-      <button class="btn btn-icon" onclick="insertText('**', '**')" title="Bold">B</button>
-      <button class="btn btn-icon" onclick="insertText('*', '*')" title="Italic">I</button>
-      <button class="btn btn-icon" onclick="insertText('```\n', '\n```')" title="Code">&lt;/&gt;</button>
-      <button class="btn btn-icon" onclick="insertText('- [ ] ', '')" title="Todo">☑</button>
-      <button class="btn" onclick="embedImage()" title="Embed Local Image as Data URL">🖼 Embed Image</button>
+      <button class="tb-btn" onclick="insertText('**','**')"><b>B</b></button>
+      <button class="tb-btn" onclick="insertText('*','*')"><i>I</i></button>
+      <button class="tb-btn" onclick="insertHeading()">H#</button>
+      <button class="tb-btn" onclick="insertText('`','`')">` `</button>
+      <button class="tb-btn" onclick="insertText('```\n','\n```')">&lt;/&gt;</button>
+      <button class="tb-btn" onclick="insertText('[','](url)')">🔗</button>
+      <button class="tb-btn" onclick="insertText('- [ ] ','')">☑</button>
+      <button class="tb-btn" onclick="insertText('> ','')">❝</button>
+      <button class="tb-btn" onclick="insertTable()">⊞</button>
+      <button class="tb-btn" onclick="embedImage()">🖼</button>
     </div>
-
-    <div class="workspace">
-      <!-- Editor Pane -->
-      <div class="pane" style="border-right: 1px solid var(--border);">
-        <div class="pane-header">
-          <span>Input Markdown</span>
-          <span id="char-count">0 chars</span>
-        </div>
-        <div class="pane-body">
-          <textarea id="editor" class="editor" oninput="handleInput()" spellcheck="false" placeholder="Type or paste markdown here..."></textarea>
-        </div>
-      </div>
-      
-      <!-- Output Pane -->
-      <div class="pane">
-        <div class="pane-header">
-          <span id="output-title">Output</span>
-          <button class="btn btn-icon" style="padding: 2px 8px; font-size: 10px;" onclick="copyOutput()">Copy</button>
-        </div>
-        <div class="pane-body">
-          <textarea id="output" class="output" readonly spellcheck="false"></textarea>
-          <div id="preview-container" class="preview-container md-preview"></div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- APP VIEW: BLOG INDEX -->
-  <main id="view-blog" class="view">
-    <div class="blog-container">
-      <div class="blog-header">
-        <h1>Markdown Workflows & Guides</h1>
-        <p>Expert tutorials on importing, exporting, and managing your Markdown documents across platforms with 100% privacy.</p>
-      </div>
-      <div class="blog-grid">
-        <a class="blog-card" onclick="navigate('post-guide')" style="border-color: var(--primary);">
-          <h3 style="color: var(--primary);">Ultimate Guide: How to Use MarkConvert</h3>
-          <p>Master all 5 conversion formats, Mermaid diagrams, KaTeX math, and Data URL image embedding right in your browser.</p>
-        </a>
-        <a class="blog-card" onclick="navigate('post-notion')">
-          <h3>How to Import Markdown into Notion with Full Fidelity</h3>
-          <p>Notion's default importer drops tables and formatting. Learn how to use Notion JSON for perfect, browser-only imports.</p>
-        </a>
-        <a class="blog-card" onclick="navigate('post-obsidian')">
-          <h3>Obsidian ↔ Notion: The Complete Conversion Playbook</h3>
-          <p>Best practices for moving notes between local vaults and cloud workspaces without losing callouts or links.</p>
-        </a>
-        <a class="blog-card" onclick="navigate('post-pdf')">
-          <h3>Convert Markdown to Beautiful PDFs Locally</h3>
-          <p>Generate publication-quality PDFs with headers, footers, and page breaks using only your browser.</p>
-        </a>
-        <a class="blog-card" onclick="navigate('post-mermaid')">
-          <h3>Mermaid Diagrams & KaTeX in Notion</h3>
-          <p>Workarounds and automated tools to bring complex diagrams and math equations into Notion workspaces.</p>
-        </a>
-        <a class="blog-card" onclick="navigate('post-privacy')">
-          <h3>Why Your Markdown Tool Should Never Touch a Server</h3>
-          <p>The security risks of online PDF converters and why client-side processing is essential for sensitive data.</p>
-        </a>
-      </div>
-    </div>
-  </main>
-
-  <!-- APP VIEW: BLOG POST -->
-  <main id="view-post" class="view" style="overflow-y: auto; background: var(--bg);">
-    <div class="post-view">
-      <a class="back-btn" onclick="navigate('blog')">← Back to Guides</a>
-      <article id="post-content" class="seo-article"></article>
-    </div>
-  </main>
-
-  <!-- SEO CONTENT: Hardcoded in HTML for Crawlers -->
-  <div id="seo-content" style="display: none;">
-    <article id="seo-post-guide">
-      <h1>Ultimate Guide: How to Use MarkConvert</h1>
-      <p>MarkConvert is the ultimate browser-based Markdown conversion tool. It is 100% private, requiring no server uploads, and works entirely offline once loaded. Here is a comprehensive guide to its features.</p>
-      
-      <h2>1. Choose Your Output Format</h2>
-      <p>Select from 5 different output formats using the chips at the top:</p>
-      <ul>
-        <li><strong>HTML:</strong> Generates clean, styled HTML. Choose between GitHub, Minimal, or Modern themes.</li>
-        <li><strong>PDF-HTML:</strong> Generates HTML optimized for printing to PDF with <code>@page</code> CSS rules for perfect page breaks.</li>
-        <li><strong>Notion JSON:</strong> Converts Markdown to Notion's Block API JSON. Excellent for importing tables, checkboxes, and callouts into Notion without data loss.</li>
-        <li><strong>Obsidian:</strong> Cleans up Markdown and ensures Obsidian-flavored callouts (<code>&gt; [!NOTE]</code>) and frontmatter are correct.</li>
-        <li><strong>Plain MD:</strong> Formats and cleans your raw Markdown.</li>
-        <li><strong>Preview:</strong> See a live render of your document.</li>
-      </ul>
-
-      <h2>2. Advanced Markdown Features</h2>
-      <p>MarkConvert fully supports GitHub Flavored Markdown (GFM), including tables and task lists. Additionally, it supports:</p>
-      <ul>
-        <li><strong>Mermaid Diagrams:</strong> Simply use a <code>```mermaid</code> code block to render flowcharts and sequence diagrams in the Preview mode.</li>
-        <li><strong>KaTeX Math:</strong> Use <code>$$</code> for block equations or <code>$</code> for inline math. It will be rendered beautifully in the preview and correctly translated to Notion Equation blocks.</li>
-      </ul>
-
-      <h2>3. Local Image Embedding (Data URLs)</h2>
-      <p>Click the <strong>Embed Image</strong> button to select an image from your computer. MarkConvert will convert it to a Base64 Data URL and embed it directly into your Markdown text. This ensures your output file is completely self-contained without needing external image hosting.</p>
-
-      <h2>4. Privacy &amp; History</h2>
-      <p>Because MarkConvert is a pure client-side web application, your data never leaves your device. Your recent documents are saved in your browser's <code>localStorage</code>, which you can access via the <strong>History</strong> button. You can safely convert confidential work documents or API keys without fear of data leaks.</p>
-    </article>
-
-    <article id="seo-post-notion">
-      <h1>How to Import Markdown into Notion with Full Fidelity</h1>
-      <p>Notion accepts Markdown via paste or file import, but its parser is surprisingly simplistic. GFM tables are dropped entirely, multi-level lists collapse, callout blocks don't exist, and task checkboxes lose their checked state.</p>
-      <h2>The Solution: Notion JSON</h2>
-      <p>The correct approach is to convert Markdown to Notion's native Block API JSON format first, then import the structured data. MarkConvert does this entirely in your browser — no API key, no account required.</p>
-      <ul>
-        <li><code>h1</code>, <code>h2</code>, <code>h3</code> → <code>heading_1/2/3</code> blocks</li>
-        <li>Task lists (<code>- [ ]</code>) → <code>to_do</code> blocks with checked state</li>
-        <li>GFM Tables → <code>table</code> with <code>table_row</code> children</li>
-        <li>Callouts (<code>> [!NOTE]</code>) → <code>callout</code> blocks with emoji icons</li>
-      </ul>
-      <h2>Step-by-Step Guide</h2>
-      <p>1. Open MarkConvert and paste your Markdown.<br>2. Select <strong>Notion JSON</strong> output.<br>3. Copy the output and use the Notion API (PATCH /blocks) or a local script to push the blocks.<br>Your document never leaves your browser.</p>
-    </article>
-
-    <article id="seo-post-obsidian">
-      <h1>Obsidian ↔ Notion: The Complete Conversion Playbook</h1>
-      <p>Both Obsidian and Notion use Markdown as their foundation, but they've each extended it in incompatible directions. Understanding where they differ is the key to lossless conversion.</p>
-      <h2>Callouts and Links</h2>
-      <p>Obsidian uses <code>> [!NOTE] Title</code> syntax. Notion renders a native Callout block. MarkConvert automatically maps Obsidian's 12 standard callout types to Notion callouts with matching emojis.</p>
-      <pre><code>> [!WARNING] Watch out!
-> This is an Obsidian callout.</code></pre>
-      <h2>Obsidian to Notion</h2>
-      <p>Paste your vault note into MarkConvert. Select Notion JSON. Wikilinks are preserved as plain text (since Notion uses internal block IDs). Callouts and tables are perfectly mapped.</p>
-    </article>
-
-    <article id="seo-post-pdf">
-      <h1>Convert Markdown to Beautiful PDFs Locally — No LaTeX Required</h1>
-      <p>Chrome's print-to-PDF engine is incredibly capable. With correct <code>@page</code> CSS rules, you can control page size, margins, headers, footers, page numbering, and widow/orphan control.</p>
-      <h2>Browser-Based PDF Generation</h2>
-      <p>MarkConvert's <strong>PDF-ready HTML</strong> output includes a complete, self-contained HTML file with all necessary print CSS pre-configured. No LaTeX. No headless browser.</p>
-      <ul>
-        <li><code>@page { size: A4; margin: 2cm; }</code></li>
-        <li><code>page-break-before: always</code> on H2 headers</li>
-        <li>Print-optimized serif fonts and high-contrast colors</li>
-      </ul>
-      <p>Just download the HTML, open it in Chrome, and press Ctrl+P (Print to PDF). Ensure "Background graphics" is checked.</p>
-    </article>
-
-    <article id="seo-post-mermaid">
-      <h1>Embedding Mermaid Diagrams and KaTeX in Notion</h1>
-      <p>Notion doesn't render Mermaid natively. MarkConvert solves this by rendering the Mermaid diagram client-side to SVG, encoding it as a data URL, and embedding it as a Notion image block.</p>
-      <h2>KaTeX Math</h2>
-      <p>Notion has a native <code>equation</code> block type. MarkConvert detects <code>$...$</code> inline math and <code>$$...$$</code> display math and emits the correct Notion block types automatically.</p>
-      <p>Everything runs in your browser. No external APIs are called to render your proprietary diagrams.</p>
-    </article>
-
-    <article id="seo-post-privacy">
-      <h1>Why Your Markdown Tool Should Never Touch a Server</h1>
-      <p>Most online converters upload your documents to a remote server for processing. This exposes personal notes, work documents, source code, and API keys to potential breaches or data logging.</p>
-      <h2>The MarkConvert Difference</h2>
-      <p>Every conversion in MarkConvert happens via pure JavaScript running in your browser tab's sandboxed environment. The AST parser, Notion block mapper, and PDF generator all run locally.</p>
-      <p>You can verify this by opening your browser's Network tab. When you convert a document, exactly zero outbound network requests are made. Your data remains strictly yours.</p>
-    </article>
+    <div class="bar-sep"></div>
+    <select id="html-theme" class="btn" onchange="convert()">
+      <option value="github">GitHub</option>
+      <option value="minimal">Minimal</option>
+      <option value="modern">Modern</option>
+    </select>
+    <span id="format-hint" class="format-hint">→ HTML output</span>
   </div>
 
-  <!-- Modals -->
-  <div id="samples-modal" class="modal-overlay" onclick="closeModal(event, 'samples-modal')">
-    <div class="modal">
-      <div class="modal-header">
-        <span class="modal-title">Load Sample</span>
-        <button class="modal-close" onclick="document.getElementById('samples-modal').classList.remove('active')">×</button>
+  <!-- Samples strip -->
+  <div class="samples-strip">
+    <span class="strip-label">Try a sample</span>
+    <div class="sample-pills" id="quick-pills"></div>
+    <button class="btn btn-xs" style="margin-left:auto;flex-shrink:0" onclick="openModal('samples-modal')">All →</button>
+  </div>
+
+  <!-- Workspace -->
+  <div class="workspace">
+    <!-- Input pane -->
+    <div class="pane">
+      <div class="pane-header">
+        <span>Input Markdown</span>
+        <div class="pane-actions">
+          <span id="char-count" class="char-count">0 chars</span>
+          <button class="btn btn-xs btn-ghost" onclick="clearEditor()">Clear</button>
+        </div>
       </div>
-      <div class="modal-body">
-        <div class="sample-grid" id="sample-grid"></div>
+      <div style="flex:1;position:relative;display:flex;flex-direction:column;min-height:0;">
+        <textarea id="editor" oninput="handleInput()" spellcheck="false"
+          placeholder="Type or paste Markdown here, drag & drop a .md file, or load a sample above…"></textarea>
+        <div id="drag-overlay" class="drag-overlay">Drop .md file here</div>
+      </div>
+    </div>
+
+    <!-- Output pane -->
+    <div class="pane">
+      <div class="pane-header">
+        <span id="output-title">Output — HTML</span>
+        <div class="pane-actions">
+          <button class="btn btn-xs" onclick="copyOutput()">Copy</button>
+        </div>
+      </div>
+      <div class="output-area">
+        <textarea id="output" readonly spellcheck="false"></textarea>
+        <div id="preview-pane">
+          <div id="preview-content" class="md-body"></div>
+        </div>
+        <div id="notion-preview-pane">
+          <div id="notion-preview-content"></div>
+        </div>
       </div>
     </div>
   </div>
+</main>
 
-  <div id="history-modal" class="modal-overlay" onclick="closeModal(event, 'history-modal')">
-    <div class="modal">
-      <div class="modal-header">
-        <span class="modal-title">Local History</span>
-        <button class="modal-close" onclick="document.getElementById('history-modal').classList.remove('active')">×</button>
+<!-- BLOG VIEW -->
+<main id="view-blog" class="view">
+  <div class="blog-wrap">
+    <div class="blog-hero">
+      <h1>Markdown Workflows & Guides</h1>
+      <p>Practical tutorials for converting, importing, and managing Markdown across Notion, Obsidian, PDF, and beyond — entirely in your browser.</p>
+    </div>
+    <div class="blog-grid">
+      <div class="blog-card" onclick="navigate('post-guide')" style="border-color:var(--primary);">
+        <span class="card-tag" style="background:var(--primary-dim);color:var(--primary-light);">Getting Started</span>
+        <h3 style="color:var(--primary-light);">Ultimate Guide: How to Use MarkConvert</h3>
+        <p>All 5 formats, image embedding, and drag-and-drop — mastered in 10 minutes.</p>
       </div>
-      <div class="modal-body" id="history-list">
-        <p style="color: var(--text-muted); text-align: center;">No history yet. Start typing!</p>
+      <div class="blog-card" onclick="navigate('post-notion')">
+        <span class="card-tag" style="background:rgba(168,85,247,0.1);color:#c084fc;">Notion</span>
+        <h3>Import Markdown into Notion with Full Fidelity</h3>
+        <p>Notion's built-in importer drops tables and callouts. Here's how Notion JSON preserves everything.</p>
+      </div>
+      <div class="blog-card" onclick="navigate('post-obsidian')">
+        <span class="card-tag" style="background:rgba(34,211,160,0.08);color:var(--success);">Obsidian</span>
+        <h3>Obsidian ↔ Notion: The Complete Conversion Playbook</h3>
+        <p>Move notes between local vaults and cloud workspaces without losing wikilinks or callouts.</p>
+      </div>
+      <div class="blog-card" onclick="navigate('post-pdf')">
+        <span class="card-tag" style="background:rgba(245,158,11,0.08);color:var(--warn);">PDF</span>
+        <h3>Convert Markdown to Beautiful PDFs Locally</h3>
+        <p>Publication-quality PDFs with headers and page breaks — no server, no upload.</p>
+      </div>
+      <div class="blog-card" onclick="navigate('post-privacy')">
+        <span class="card-tag" style="background:rgba(248,113,113,0.08);color:var(--error);">Privacy</span>
+        <h3>Why Your Markdown Tool Should Never Touch a Server</h3>
+        <p>The security risks of online converters and why client-side processing matters.</p>
+      </div>
+      <div class="blog-card" onclick="navigate('post-mermaid')">
+        <span class="card-tag" style="background:rgba(124,109,250,0.08);color:var(--primary-light);">Diagrams</span>
+        <h3>Mermaid Diagrams & Math in Notion</h3>
+        <p>Workarounds to bring complex diagrams and equations into your Notion workspace.</p>
       </div>
     </div>
   </div>
+</main>
 
-  <div id="toast" class="toast">Action completed successfully</div>
+<!-- POST VIEW -->
+<main id="view-post" class="view">
+  <div class="post-wrap">
+    <button class="back-btn" onclick="navigate('blog')">← Back to Guides</button>
+    <article id="post-content" class="post-body"></article>
+  </div>
+</main>
 
-  <!-- Application Logic -->
-  <script>
-    /* -------------------------------------------------------------------------- */
-    /* 1. DATA (Samples)                                                          */
-    /* -------------------------------------------------------------------------- */
-    const SAMPLES = {
-      readme: { title: "README", desc: "Project docs, tables, badges", md: "# MarkConvert\n\n100% private, browser-based Markdown converter.\n\n## Features\n- **5 formats:** HTML, PDF, Notion JSON, Obsidian, Plain\n- **Offline-ready:** PWA support\n\n## Syntax\n| Feature | Status |\n|---------|--------|\n| Tables | ✅ |\n| Tasks | ✅ |\n\n> [!TIP]\n> Everything runs locally." },
-      blog: { title: "Tech Blog", desc: "Code blocks, quotes", md: "# Building in 2026\n\n*Jan 1, 2026*\n\nHere is some code:\n```js\nconsole.log('Hello World');\n```\n\n> The best tool is the one that respects privacy." },
-      notion: { title: "Notion Checklist", desc: "ToDos and Callouts", md: "# Launch Prep\n\n- [x] Write copy\n- [ ] Deploy server\n- [ ] Check analytics\n\n> [!WARNING]\n> Do not deploy on Friday." },
-      tables: { title: "Data Tables", desc: "Complex tables", md: "# Pricing\n\n| Tier | Price | Features |\n|------|-------|----------|\n| Free | $0 | Basic |\n| Pro | $10 | Advanced |\n| Team | $50 | Collab |" },
-      mermaid: { title: "Architecture", desc: "Mermaid diagrams", md: "# System Flow\n\n```mermaid\ngraph TD\n  A[Browser] --> B{Converter}\n  B --> C[Notion JSON]\n  B --> D[PDF HTML]\n```" },
-      math: { title: "Academic (Math)", desc: "KaTeX equations", md: "# Equations\n\nEinstein's relation:\n$$ E = mc^2 $$\n\nInline math: $\\pi \\approx 3.14159$." },
-      obsidian: { title: "Obsidian Note", desc: "Links and tags", md: "---\ntags: [research, ai]\n---\n# Notes\n\nConnecting ideas via [[Backlinks]].\n\n> [!ABSTRACT] Summary\n> Local-first is the future." },
-      api: { title: "API Docs", desc: "Endpoints and JSON", md: "# REST API\n\n## `GET /users`\nReturns users.\n\n```json\n{\n  \"status\": \"ok\",\n  \"data\": []\n}\n```" }
+<!-- SAMPLES MODAL -->
+<div id="samples-modal" class="modal-overlay" onclick="overlayClose(event,'samples-modal')">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">📄 Load a Sample</span>
+      <button class="modal-close" onclick="closeModal('samples-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="sample-grid" id="sample-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY MODAL -->
+<div id="history-modal" class="modal-overlay" onclick="overlayClose(event,'history-modal')">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">🕒 Local History</span>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-xs btn-ghost" onclick="clearHistory()">Clear all</button>
+        <button class="modal-close" onclick="closeModal('history-modal')">×</button>
+      </div>
+    </div>
+    <div class="modal-body" id="history-list">
+      <p class="empty-msg">No history yet. Start converting!</p>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settings-modal" class="modal-overlay" onclick="overlayClose(event,'settings-modal')">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">⚙️ Pro Settings</span>
+      <button class="modal-close" onclick="closeModal('settings-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom:20px;">
+        <label style="display:block; font-size:11px; font-weight:700; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">Notion Database Properties (Pro)</label>
+        <textarea id="notion-props" style="width:100%; height:80px; font-family:var(--mono); font-size:11px; border:1px solid var(--border); border-radius:4px; padding:10px;" placeholder='{ "Status": { "select": { "name": "Done" } } }'></textarea>
+        <div style="font-size:10px; color:var(--text-dim); margin-top:4px;">JSON format for Notion database properties.</div>
+      </div>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label style="display:block; font-size:11px; font-weight:700; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">Custom CSS (Pro Only)</label>
+        <textarea id="custom-css" style="width:100%; height:120px; font-family:var(--mono); font-size:11px; border:1px solid var(--border); border-radius:4px; padding:10px;" placeholder="/* Add your custom styles here... */"></textarea>
+      </div>
+      <div class="form-group">
+        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+          <input type="checkbox" id="pdf-toc" style="width:16px; height:16px;">
+          <span style="font-size:13px;">Generate Table of Contents for PDF (Pro)</span>
+        </label>
+      </div>
+      <div style="margin-top:24px; text-align:right;">
+        <button class="btn btn-primary" onclick="closeModal('settings-modal');convert();">Save Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="pro-modal" class="modal-overlay" onclick="overlayClose(event,'pro-modal')">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">⭐ MarkConvert Pro</span>
+      <button class="modal-close" onclick="closeModal('pro-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="pro-price">
+        <div class="pro-amount">$4.99</div>
+        <div class="pro-period">one-time · lifetime access</div>
+        <div class="pro-sub">No subscription. Pay once, use forever.</div>
+      </div>
+      <table class="pro-table">
+        <thead><tr><th>Feature</th><th>Free</th><th class="col-pro">Pro ⭐</th></tr></thead>
+        <tbody>
+          <tr><td>All 5 conversion formats</td><td class="check">✓</td><td class="check col-pro">✓</td></tr>
+          <tr><td>Live preview</td><td class="check">✓</td><td class="check col-pro">✓</td></tr>
+          <tr><td>Drag & drop .md files</td><td class="check">✓</td><td class="check col-pro">✓</td></tr>
+          <tr><td>History (last 5 items)</td><td class="check">✓</td><td class="check col-pro">✓ Unlimited</td></tr>
+          <tr><td>Bulk convert (ZIP)</td><td class="cross">–</td><td class="check col-pro">✓</td></tr>
+          <tr><td>Custom CSS injection</td><td class="cross">–</td><td class="check col-pro">✓</td></tr>
+          <tr><td>PDF Table of Contents</td><td class="cross">–</td><td class="check col-pro">✓</td></tr>
+          <tr><td>Notion page properties</td><td class="cross">–</td><td class="check col-pro">✓</td></tr>
+          <tr><td>Unlimited saved templates</td><td class="cross">–</td><td class="check col-pro">✓</td></tr>
+        </tbody>
+      </table>
+      <div id="pro-gated-ui">
+        <div style="text-align:center;margin-top:20px;">
+          <button class="btn btn-pro" style="padding:11px 28px;font-size:14px;" onclick="window.open('https://yhanster206.gumroad.com/l/rouxjph','_blank')">Unlock Pro for $4.99 →</button>
+          <div style="margin-top:8px;font-size:11px;color:var(--text-dim);">Secure one-time payment · Instant access</div>
+        </div>
+        <div style="margin-top:24px; border-top:1px solid var(--border); padding-top:20px;">
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:8px;">ALREADY HAVE A KEY?</label>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="lic-inp" class="btn" style="flex:1; text-align:left; cursor:text; padding:10px;" placeholder="XXXX-XXXX-XXXX-XXXX">
+            <button class="btn btn-primary" onclick="activateLicense()">Verify</button>
+          </div>
+          <div id="lic-msg" style="font-size:11px; margin-top:8px;"></div>
+        </div>
+      </div>
+      <div id="pro-active-ui" style="display:none; text-align:center; padding:20px 0;">
+        <div style="font-size:32px; margin-bottom:10px;">⭐</div>
+        <h3 style="color:var(--primary-light);">PRO FEATURES ACTIVE</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">Thank you for supporting MarkConvert!</p>
+        <button class="btn btn-ghost mt-4" onclick="closeModal('pro-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ──────────────────────────────────────────────────────────────────────────────
+// MARKED.JS — inlined minimal implementation
+// ──────────────────────────────────────────────────────────────────────────────
+
+// We'll use a fetch-based approach with fallback to simple parser
+// Load marked from CDN with a fallback
+var markedLoaded = false;
+
+function loadMarked(cb) {
+  if (window.marked) { markedLoaded = true; cb(); return; }
+  var script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js';
+  script.onload = function() { markedLoaded = true; cb(); };
+  script.onerror = function() {
+    // fallback: use simple parser
+    markedLoaded = false;
+    cb();
+  };
+  document.head.appendChild(script);
+}
+
+// Simple fallback markdown parser
+function simpleMarkdown(md) {
+  var html = md
+    // Escape HTML first (partial)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    // Code blocks
+    .replace(/```[\s\S]*?```/g, function(m) {
+      var code = m.slice(3, m.lastIndexOf('```')).replace(/^[^\n]*\n/, '');
+      return '<pre><code>' + code + '</code></pre>';
+    })
+    // Headings
+    .replace(/^#### (.+)$/gm, '<h4>$1</h4>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    // HR
+    .replace(/^---$/gm, '<hr>')
+    // Blockquote
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+    // Checkboxes
+    .replace(/^- \[x\] (.+)$/gm, '<div><input type="checkbox" checked disabled> $1</div>')
+    .replace(/^- \[ \] (.+)$/gm, '<div><input type="checkbox" disabled> $1</div>')
+    // Lists
+    .replace(/^[-*] (.+)$/gm, '<li>$1</li>')
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    // Bold, italic
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    // Inline code
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    // Links
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>')
+    // Paragraphs
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[h|p|d|b|l|i|u|o|h])/gm, '');
+  return '<p>' + html + '</p>';
+}
+
+function parseMarkdown(md) {
+  if (window.marked) {
+    try {
+      return window.marked.parse(md, { breaks: true, gfm: true });
+    } catch(e) {}
+  }
+  return simpleMarkdown(md);
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// SAMPLES DATA
+// ──────────────────────────────────────────────────────────────────────────────
+var SAMPLES = [
+  {
+    id: 'tech-blog', icon: '💻', name: 'Tech Blog Post', desc: 'Headings, lists, code blocks',
+    content: `# Building a REST API with Node.js and Express
+
+> **Stack:** Node.js 20 · Express 4 · TypeScript · PostgreSQL
+
+A production-ready REST API needs more than just working routes.
+
+## Prerequisites
+
+- Node.js ≥ 18 installed
+- Basic TypeScript knowledge
+- PostgreSQL running locally
+
+## Project Setup
+
+\`\`\`bash
+mkdir my-api && cd my-api
+npm init -y
+npm install express typescript ts-node @types/express
+npx tsc --init
+\`\`\`
+
+## Creating the Express Server
+
+\`\`\`typescript
+import express, { Request, Response } from 'express';
+
+const app = express();
+app.use(express.json());
+
+app.get('/health', (req: Request, res: Response) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.listen(3000, () => console.log('🚀 Server running on port 3000'));
+\`\`\`
+
+## Key Takeaways
+
+1. Always validate inputs with **Zod** or **Joi**
+2. Use environment variables — never hardcode secrets
+3. Return consistent error shapes across all endpoints
+
+---
+
+*Next up: Deploying to Railway →*`
+  },
+  {
+    id: 'notion-note', icon: '📓', name: 'Notion-style Note', desc: 'Callouts, todos, tables',
+    content: `# 📋 Q3 Product Planning — Sprint 12
+
+> 💡 **Note:** Last updated by @sarah on 2024-07-15.
+
+## Status Overview
+
+| Area | Owner | Status |
+|------|-------|--------|
+| Frontend | @alice | 🟢 On Track |
+| Backend | @bob | 🟡 At Risk |
+| Design | @carol | 🔴 Blocked |
+
+---
+
+## ✅ This Sprint's Tasks
+
+- [x] Redesign onboarding flow
+- [x] Fix auth token refresh bug
+- [ ] Implement bulk export feature
+- [ ] Write unit tests for payment module
+- [ ] Update API documentation
+
+## 🚧 Blockers
+
+> ⛔ **Blocked:** Design tokens not finalized.
+
+> ⚠️ **Risk:** Third-party payment provider changing API on Aug 1.
+
+## 📅 Key Dates
+
+- **July 22** — Sprint review & demo
+- **July 29** — Sprint 13 planning
+- **Aug 1** — Payment API migration deadline`
+  },
+  {
+    id: 'math-note', icon: '∑', name: 'Math Notes', desc: 'Equations and formulas',
+    content: `# Machine Learning: Mathematical Foundations
+
+## Linear Regression
+
+The goal is to find weights $\\mathbf{w}$ minimizing the mean squared error:
+
+$$\\mathcal{L}(\\mathbf{w}) = \\frac{1}{n} \\sum_{i=1}^{n} \\left( y_i - \\mathbf{w}^\\top \\mathbf{x}_i \\right)^2$$
+
+The closed-form solution (Normal Equation):
+
+$$\\mathbf{w}^* = (\\mathbf{X}^\\top \\mathbf{X})^{-1} \\mathbf{X}^\\top \\mathbf{y}$$
+
+## Gradient Descent
+
+The update rule for parameter $\\theta$ with learning rate $\\alpha$:
+
+$$\\theta_{t+1} = \\theta_t - \\alpha \\nabla_\\theta \\mathcal{L}(\\theta_t)$$
+
+## Attention Mechanism (Transformer)
+
+$$\\text{Attention}(Q, K, V) = \\text{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right) V$$`
+  },
+  {
+    id: 'comparison-table', icon: '📋', name: 'Comparison Table', desc: 'Heavy table markdown',
+    content: `# Frontend Framework Comparison 2024
+
+## Feature Matrix
+
+| Feature | React 18 | Vue 3 | Svelte 5 | Angular 17 |
+|---------|----------|-------|----------|------------|
+| **Learning Curve** | Medium | Low | Low | High |
+| **Bundle Size** | ~45KB | ~34KB | ~10KB | ~75KB |
+| **Virtual DOM** | ✅ Yes | ✅ Yes | ❌ No | ✅ Yes |
+| **TypeScript** | ✅ Full | ✅ Full | ✅ Full | ✅ Native |
+| **SSR** | Next.js | Nuxt | SvelteKit | Built-in |
+
+## Performance Benchmarks
+
+| Test | React | Vue | Svelte | Angular |
+|------|-------|-----|--------|---------|
+| Create 1k rows | 58ms | 49ms | 36ms | 92ms |
+| Update 10k rows | 95ms | 78ms | 55ms | 145ms |
+| Memory (MB) | 4.2 | 3.8 | 2.9 | 7.1 |`
+  },
+  {
+    id: 'obsidian-vault', icon: '🔮', name: 'Obsidian Vault Note', desc: 'Wikilinks, tags, frontmatter',
+    content: `---
+title: "Zettelkasten: The Note-Taking System"
+date: 2024-07-15
+tags: [productivity, note-taking, PKM]
+status: evergreen
+---
+
+# Zettelkasten: The Note-Taking System
+
+The Zettelkasten method was developed by [[Niklas Luhmann]], who used it to write over 70 books.
+
+## Core Principles
+
+1. **Fleeting Notes** — Quick captures of raw ideas
+2. **Literature Notes** — Summaries of what you've read
+3. **Permanent Notes** — Atomic, standalone ideas
+
+> The key insight: **Every note links to other notes.**
+
+## Implementation in Obsidian
+
+\`\`\`
+vault/
+├── 00 Inbox/
+├── 10 Literature/
+├── 20 Permanent/
+└── 99 Archive/
+\`\`\`
+
+#PKM #productivity`
+  },
+  {
+    id: 'readme', icon: '🛠', name: 'GitHub README', desc: 'Badges, install steps, API docs',
+    content: `# 🚀 Turbo Cache
+
+![npm](https://img.shields.io/npm/v/turbo-cache) ![license](https://img.shields.io/badge/license-MIT-green)
+
+> A blazing-fast, zero-dependency in-memory cache for Node.js with TTL support.
+
+## Features
+
+- ⚡ **Zero dependencies** — no bloat
+- 🕒 **TTL support** — per-key expiry
+- 📦 **LRU eviction** — auto-removes stale entries
+- 🔐 **Type-safe** — full TypeScript generics
+
+## Installation
+
+\`\`\`bash
+npm install turbo-cache
+\`\`\`
+
+## Quick Start
+
+\`\`\`typescript
+import { TurboCache } from 'turbo-cache';
+
+const cache = new TurboCache({ maxSize: 1000, defaultTTL: 60_000 });
+
+cache.set('user:123', { id: 123, name: 'Alice' });
+const user = cache.get('user:123');
+cache.delete('user:123');
+\`\`\`
+
+## License
+
+MIT © Jane Smith`
+  }
+];
+
+// ──────────────────────────────────────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────────────────────────────────────
+var currentFormat = 'html';
+var historyItems = [];
+
+// ──────────────────────────────────────────────────────────────────────────────
+// INIT
+// ──────────────────────────────────────────────────────────────────────────────
+loadMarked(function() {
+  buildSampleGrid();
+  buildQuickPills();
+  loadHistory();
+  setupDragDrop();
+  loadFromStorage();
+});
+
+function buildSampleGrid() {
+  var grid = document.getElementById('sample-grid');
+  grid.innerHTML = SAMPLES.map(function(s) {
+    return '<div class="sample-card" onclick="loadSample(\'' + s.id + '\')">' +
+      '<span class="s-icon">' + s.icon + '</span>' +
+      '<h4>' + s.name + '</h4>' +
+      '<p>' + s.desc + '</p>' +
+      '</div>';
+  }).join('');
+}
+
+function buildQuickPills() {
+  var pills = document.getElementById('quick-pills');
+  pills.innerHTML = SAMPLES.slice(0, 5).map(function(s) {
+    return '<button class="sample-pill" onclick="loadSample(\'' + s.id + '\')">' + s.icon + ' ' + s.name + '</button>';
+  }).join('');
+}
+
+function loadSample(id) {
+  var s = SAMPLES.find(function(x) { return x.id === id; });
+  if (!s) return;
+  document.getElementById('editor').value = s.content;
+  handleInput();
+  closeModal('samples-modal');
+  toast('Loaded: ' + s.name);
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// NAVIGATION
+// ──────────────────────────────────────────────────────────────────────────────
+function navigate(view) {
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.querySelectorAll('nav button').forEach(function(b) { b.classList.remove('active'); });
+
+  if (view === 'tool') {
+    document.getElementById('view-tool').classList.add('active');
+    document.getElementById('nav-tool').classList.add('active');
+  } else if (view === 'blog') {
+    document.getElementById('view-blog').classList.add('active');
+    document.getElementById('nav-blog').classList.add('active');
+  } else if (view.startsWith('post-')) {
+    document.getElementById('view-post').classList.add('active');
+    document.getElementById('nav-blog').classList.add('active');
+    renderPost(view.replace('post-', ''));
+    document.getElementById('view-post').scrollTop = 0;
+  }
+}
+
+function renderPost(slug) {
+  var posts = {
+    guide: '<h1>Ultimate Guide: How to Use MarkConvert</h1><p>MarkConvert is a 100% browser-based Markdown converter. Your text never leaves your device — no server uploads, no analytics on your content. This guide covers every feature.</p><h2>The 5 Conversion Formats</h2><p><strong>HTML</strong> — Converts Markdown to clean, styled HTML. Three themes: GitHub, Minimal, Modern. Great for pasting into CMSes or email clients.</p><p><strong>PDF-HTML</strong> — Generates a print-optimized HTML file. Open in your browser and use Ctrl+P → Save as PDF.</p><p><strong>Notion JSON</strong> — Converts Markdown into Notion\'s Block API format, preserving tables, code blocks, and checkboxes.</p><p><strong>Obsidian</strong> — Cleans and enriches Markdown for Obsidian vaults, normalizes wikilink syntax and frontmatter.</p><p><strong>Plain MD</strong> — Normalizes your Markdown, fixes mixed heading styles and strips invisible characters.</p><h2>Live Preview</h2><p>Click the <strong>👁 Preview</strong> chip to see a rendered HTML preview in real time.</p><h2>Drag & Drop Files</h2><p>Drag any <code>.md</code> file directly onto the input pane. The file never leaves your browser.</p>',
+    notion: '<h1>Import Markdown into Notion with Full Fidelity</h1><p>Notion\'s built-in "Import Markdown" feature silently drops content. Tables become garbled, code blocks lose language hints, checkboxes vanish. The culprit is Notion\'s non-standard Markdown parser.</p><h2>What Gets Lost with Default Import</h2><p>GFM tables, fenced code blocks with language tags, task list checkboxes, nested blockquotes, and most inline HTML.</p><h2>The Notion Blocks API Solution</h2><p>Notion\'s Block API accepts JSON that maps to every block type. MarkConvert\'s "Notion JSON" format converts Markdown into this structure, preserving everything.</p><h2>How to Use It</h2><p>1. Paste your Markdown and select <strong>Notion JSON</strong>.<br>2. Copy the output JSON.<br>3. Use Notion\'s API <code>PATCH /v1/blocks/{page_id}/children</code> with your integration token.<br>4. Blocks appear in your page exactly as authored.</p>',
+    obsidian: '<h1>Obsidian ↔ Notion: The Complete Conversion Playbook</h1><p>Obsidian is local-first and graph-based. Notion is cloud-first and hierarchical. Moving notes between them requires understanding what each tool does with Markdown.</p><h2>Obsidian → Notion</h2><p><strong>Wikilinks:</strong> Obsidian uses <code>[[Note Name]]</code> syntax. MarkConvert converts them to plain text links.</p><p><strong>Callouts:</strong> Obsidian callouts use <code>&gt; [!note]</code> syntax. MarkConvert converts these to Notion callout blocks.</p><h2>Notion → Obsidian</h2><p>Export your Notion page as Markdown, then paste into MarkConvert with Obsidian format selected. The converter normalizes headings and fixes checkbox syntax.</p>',
+    pdf: '<h1>Convert Markdown to Beautiful PDFs Locally</h1><p>Most Markdown-to-PDF tools upload your document to a server. MarkConvert takes a different approach: generate a print-optimized HTML file that you print to PDF natively in your browser.</p><h2>How It Works</h2><p>The PDF-HTML output includes CSS <code>@page</code> rules for margins, <code>page-break-inside: avoid</code> on code blocks and tables, and a clean font stack.</p><h2>Step-by-Step</h2><p>1. Paste your Markdown and select <strong>PDF-HTML</strong>.<br>2. Click Download to save the <code>.html</code> file.<br>3. Open it in Chrome or Firefox.<br>4. Press Ctrl+P, set destination to "Save as PDF".<br>5. Set margins to None or Minimum.</p>',
+    privacy: '<h1>Why Your Markdown Tool Should Never Touch a Server</h1><p>Search for "Markdown to PDF online" and you\'ll find dozens of tools that transmit your content to their servers, potentially logging and storing it indefinitely.</p><h2>The Real Risks</h2><p><strong>Accidental data exposure:</strong> Developers often convert documents containing API keys, passwords, and internal architecture details.</p><p><strong>GDPR compliance:</strong> Uploading personal data to a third-party converter likely violates your obligations as a data controller.</p><h2>How to Verify MarkConvert Is Client-Side</h2><p>Open DevTools (F12), go to the Network tab, clear it, and start typing. You will see zero network requests from your input. You can even go offline after page load and it continues to work.</p>',
+    mermaid: '<h1>Mermaid Diagrams & Math in Notion</h1><p>Notion doesn\'t natively render Mermaid diagrams or LaTeX math. Here are the best workarounds.</p><h2>Mermaid in Notion</h2><p><strong>Screenshot approach:</strong> Use MarkConvert\'s Preview mode to render your Mermaid diagram, screenshot it, and embed as an image in Notion.</p><p><strong>Embed via iframe:</strong> Use the Mermaid Live Editor (mermaid.live) to create a shareable link, then embed in Notion as a link preview.</p><h2>KaTeX / LaTeX Math in Notion</h2><p>Notion has built-in support using its <code>/equation</code> blocks. MarkConvert\'s Notion JSON output converts <code>$$...$$</code> block math and <code>$...$</code> inline math to the appropriate Notion equation block types.</p>'
+  };
+  var post = posts[slug];
+  if (post) document.getElementById('post-content').innerHTML = post;
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// FORMAT SELECTION
+// ──────────────────────────────────────────────────────────────────────────────
+function setFormat(fmt) {
+  currentFormat = fmt;
+  document.querySelectorAll('.chip').forEach(function(c) { c.classList.remove('active'); });
+  var chip = document.querySelector('.chip[data-fmt="' + fmt + '"]');
+  if (chip) chip.classList.add('active');
+
+  var hints = {
+    html: '→ HTML output', pdf: '→ Print-ready HTML',
+    notion: '→ Notion Block API JSON', obsidian: '→ Obsidian Markdown',
+    plain: '→ Normalized Markdown', preview: '→ Live render'
+  };
+  document.getElementById('format-hint').textContent = hints[fmt] || '';
+  document.getElementById('output-title').textContent = 'Output — ' + fmt.toUpperCase();
+  convert();
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// CONVERSION
+// ──────────────────────────────────────────────────────────────────────────────
+function convert() {
+  var md = document.getElementById('editor').value;
+  var outputTA = document.getElementById('output');
+  var previewPane = document.getElementById('preview-pane');
+  var notionPane = document.getElementById('notion-preview-pane');
+
+  outputTA.style.display = 'none';
+  previewPane.classList.remove('active');
+  notionPane.classList.remove('active');
+
+  if (currentFormat === 'preview') {
+    previewPane.classList.add('active');
+    renderPreview(md);
+    return;
+  }
+
+  if (currentFormat === 'notion') {
+    outputTA.style.display = '';
+    outputTA.value = mdToNotionJSON(md);
+    notionPane.classList.add('active');
+    renderNotionPreview(md);
+    return;
+  }
+
+  outputTA.style.display = '';
+
+  if (currentFormat === 'html') outputTA.value = mdToHTML(md);
+  else if (currentFormat === 'pdf') outputTA.value = mdToPDFHTML(md);
+  else if (currentFormat === 'obsidian') outputTA.value = mdToObsidian(md);
+  else if (currentFormat === 'plain') outputTA.value = normalizeMD(md);
+}
+
+function renderPreview(md) {
+  var container = document.getElementById('preview-content');
+  container.innerHTML = parseMarkdown(md);
+}
+
+function renderNotionPreview(md) {
+  var lines = md.split('\n');
+  var html = '';
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    if (!line.trim()) { html += '<div class="nb-spacer"></div>'; continue; }
+    if (/^# (.+)/.test(line)) html += '<div class="nb nb-h1">' + line.slice(2) + '</div>';
+    else if (/^## (.+)/.test(line)) html += '<div class="nb nb-h2">' + line.slice(3) + '</div>';
+    else if (/^### (.+)/.test(line)) html += '<div class="nb nb-h3">' + line.slice(4) + '</div>';
+    else if (/^> /.test(line)) html += '<div class="nb-callout"><span>💡</span><span>' + line.slice(2) + '</span></div>';
+    else if (/^- \[x\] /.test(line)) html += '<div class="nb-todo"><div class="nb-box checked"></div><span style="text-decoration:line-through;color:var(--text-dim)">' + line.slice(6) + '</span></div>';
+    else if (/^- \[ \] /.test(line)) html += '<div class="nb-todo"><div class="nb-box"></div><span>' + line.slice(6) + '</span></div>';
+    else if (/^[-*] /.test(line)) html += '<div class="nb nb-bullet">' + line.slice(2) + '</div>';
+    else if (/^---/.test(line)) html += '<hr class="nb-divider">';
+    else html += '<div class="nb">' + inlineRender(line) + '</div>';
+  }
+  document.getElementById('notion-preview-content').innerHTML = html;
+}
+
+function inlineRender(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code style="font-family:var(--mono);font-size:12px;color:var(--primary-light);background:var(--surface2);padding:1px 4px;border-radius:3px">$1</code>')
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" style="color:var(--primary-light)">$1</a>');
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// CONVERTERS
+// ──────────────────────────────────────────────────────────────────────────────
+function getThemeCSS() {
+  var theme = document.getElementById('html-theme').value;
+  var themes = {
+    github: 'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;color:#24292f;max-width:800px;margin:40px auto;padding:0 20px}h1,h2{border-bottom:1px solid #d0d7de;padding-bottom:.3em}pre{background:#f6f8fa;padding:16px;border-radius:6px;overflow:auto}code{background:rgba(175,184,193,.2);padding:.2em .4em;border-radius:6px;font-size:85%;font-family:monospace}pre code{background:none;padding:0}blockquote{margin:0;padding:0 1em;color:#57606a;border-left:.25em solid #d0d7de}table{border-collapse:collapse;width:100%}th,td{padding:6px 13px;border:1px solid #d0d7de}tr:nth-child(2n){background:#f6f8fa}',
+    minimal: 'body{font-family:Georgia,serif;font-size:17px;line-height:1.8;color:#222;max-width:680px;margin:60px auto;padding:0 24px}h1,h2,h3{font-family:system-ui;font-weight:700}pre{background:#f8f8f8;padding:16px;border-radius:4px;overflow:auto;border-left:3px solid #ddd;font-family:monospace}blockquote{border-left:3px solid #ccc;padding:4px 16px;color:#555}table{border-collapse:collapse;width:100%}th,td{padding:8px 12px;border:1px solid #ddd}',
+    modern: 'body{font-family:"Segoe UI",system-ui,sans-serif;font-size:16px;line-height:1.7;color:#1a1a2e;max-width:820px;margin:48px auto;padding:0 28px}h1{font-size:36px;letter-spacing:-1px}h2{font-size:22px;margin-top:40px}pre{background:#1a1a2e;color:#a5b4fc;padding:18px;border-radius:10px;overflow:auto;font-family:monospace}code{background:#f0f4ff;padding:2px 6px;border-radius:4px;color:#4c1d95;font-size:13px}pre code{background:none;color:inherit}blockquote{border-left:4px solid #7c6dfa;padding:12px 20px;background:#f5f3ff;border-radius:0 8px 8px 0}table{border-collapse:collapse;width:100%}th{background:#f5f3ff}th,td{padding:8px 14px;border:1px solid #e9d5ff}'
+  };
+  var base = themes[theme] || themes.github;
+  if (isPro) {
+    var custom = document.getElementById('custom-css').value;
+    if (custom) base += '\n' + custom;
+  }
+  return base;
+}
+
+function mdToHTML(md) {
+  var body = parseMarkdown(md);
+  return '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Document</title>\n  <style>' + getThemeCSS() + '</style>\n</head>\n<body>\n' + body + '\n</body>\n</html>';
+}
+
+function mdToPDFHTML(md) {
+  var body = parseMarkdown(md);
+  var toc = '';
+  if (isPro && document.getElementById('pdf-toc').checked) {
+    var headings = [];
+    var matches = md.match(/^#{1,3} .+/gm);
+    if (matches) {
+      toc = '<div class="toc" style="background:#f9f9f9; padding:20px; border-radius:8px; margin-bottom:40px; page-break-after:always;">';
+      toc += '<h2 style="margin-top:0;">Table of Contents</h2><ul style="list-style:none; padding:0;">';
+      matches.forEach(function(h) {
+        var level = h.match(/^#+/)[0].length;
+        var text = h.replace(/^#+ /, '');
+        toc += '<li style="margin-left:' + ((level-1)*20) + 'px; margin-bottom:8px;"><a href="#" style="color:#222; text-decoration:none;">' + text + '</a></li>';
+      });
+      toc += '</ul></div>';
+    }
+  }
+  return '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Document</title>\n  <style>\n    @page { margin: 1in; }\n    @media print { body { margin: 0; } }\n    body { font-family: Georgia, serif; font-size: 12pt; line-height: 1.6; color: #000; }\n    h1,h2,h3,h4 { font-family: Helvetica, Arial, sans-serif; page-break-after: avoid; }\n    h1 { font-size: 20pt; border-bottom: 2pt solid #000; padding-bottom: 6pt; }\n    h2 { font-size: 15pt; border-bottom: 1pt solid #ccc; }\n    pre { background: #f5f5f5; padding: 10pt; border-radius: 4pt; overflow: auto; font-size: 9pt; page-break-inside: avoid; white-space: pre-wrap; border: 1pt solid #ddd; font-family: monospace; }\n    code { font-family: monospace; font-size: 10pt; }\n    table { border-collapse: collapse; width: 100%; page-break-inside: avoid; }\n    th, td { padding: 6pt 10pt; border: 1pt solid #aaa; }\n    th { background: #f0f0f0; font-weight: bold; }\n    blockquote { border-left: 3pt solid #666; padding: 4pt 12pt; color: #444; margin: 12pt 0; }\n    img { max-width: 100%; page-break-inside: avoid; }\n    hr { border: 1pt solid #aaa; margin: 16pt 0; }\n  </style>\n</head>\n<body>\n' + toc + body + '\n</body>\n</html>';
+}
+
+function mdToNotionJSON(md) {
+  var lines = md.split('\n');
+  var blocks = [];
+  var inCode = false, codeLang = '', codeLines = [];
+  var inTable = false, tableLines = [];
+
+  function flushTable() {
+    if (!tableLines.length) return;
+    var rows = tableLines.filter(function(l) { return !/^[\s|:-]+$/.test(l); });
+    var cells = rows.map(function(r) { return r.split('|').map(function(c) { return c.trim(); }).filter(Boolean); });
+    if (cells.length > 0) {
+      blocks.push({
+        object: 'block', type: 'table',
+        table: {
+          table_width: cells[0].length,
+          has_column_header: true,
+          has_row_header: false,
+          children: cells.map(function(row) {
+            return { object: 'block', type: 'table_row', table_row: { cells: row.map(function(c) { return [{ type: 'text', text: { content: c } }]; }) } };
+          })
+        }
+      });
+    }
+    tableLines = [];
+    inTable = false;
+  }
+
+  function richText(s) {
+    var clean = s.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
+    return [{ type: 'text', text: { content: clean } }];
+  }
+
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    if (line.startsWith('```')) {
+      if (inCode) {
+        blocks.push({ object: 'block', type: 'code', code: { language: codeLang || 'plain text', rich_text: [{ type: 'text', text: { content: codeLines.join('\n') } }] } });
+        inCode = false; codeLang = ''; codeLines = [];
+      } else { inCode = true; codeLang = line.slice(3).trim() || 'plain text'; }
+      continue;
+    }
+    if (inCode) { codeLines.push(line); continue; }
+    if (line.startsWith('|') && line.includes('|')) {
+      if (!inTable) inTable = true;
+      tableLines.push(line);
+      continue;
+    } else if (inTable) flushTable();
+
+    if (!line.trim()) { blocks.push({ object: 'block', type: 'paragraph', paragraph: { rich_text: [] } }); continue; }
+    if (/^# (.+)/.test(line)) { blocks.push({ object: 'block', type: 'heading_1', heading_1: { rich_text: richText(line.slice(2)) } }); continue; }
+    if (/^## (.+)/.test(line)) { blocks.push({ object: 'block', type: 'heading_2', heading_2: { rich_text: richText(line.slice(3)) } }); continue; }
+    if (/^### (.+)/.test(line)) { blocks.push({ object: 'block', type: 'heading_3', heading_3: { rich_text: richText(line.slice(4)) } }); continue; }
+    if (/^---$/.test(line)) { blocks.push({ object: 'block', type: 'divider', divider: {} }); continue; }
+    if (/^> /.test(line)) { blocks.push({ object: 'block', type: 'quote', quote: { rich_text: richText(line.slice(2)) } }); continue; }
+    if (/^- \[x\] /.test(line)) { blocks.push({ object: 'block', type: 'to_do', to_do: { checked: true, rich_text: richText(line.slice(6)) } }); continue; }
+    if (/^- \[ \] /.test(line)) { blocks.push({ object: 'block', type: 'to_do', to_do: { checked: false, rich_text: richText(line.slice(6)) } }); continue; }
+    if (/^[-*] (.+)/.test(line)) { blocks.push({ object: 'block', type: 'bulleted_list_item', bulleted_list_item: { rich_text: richText(line.slice(2)) } }); continue; }
+    if (/^\d+\. (.+)/.test(line)) { blocks.push({ object: 'block', type: 'numbered_list_item', numbered_list_item: { rich_text: richText(line.replace(/^\d+\. /, '')) } }); continue; }
+    blocks.push({ object: 'block', type: 'paragraph', paragraph: { rich_text: richText(line) } });
+  }
+  if (inTable) flushTable();
+  
+  var result = { children: blocks };
+  if (isPro) {
+    try {
+      var props = document.getElementById('notion-props').value;
+      if (props) result.properties = JSON.parse(props);
+    } catch(e) { console.error('Invalid Notion props JSON'); }
+  }
+  
+  return JSON.stringify(result, null, 2);
+}
+
+function mdToObsidian(md) {
+  return md
+    .replace(/\[\[(.+?)\]\]/g, '[[$1]]')
+    .replace(/^> \*\*(\w+):\*\*/gm, '> [!$1]')
+    .replace(/^> ⚠️/gm, '> [!warning]')
+    .replace(/^> 💡/gm, '> [!tip]')
+    .replace(/^> ⛔/gm, '> [!danger]')
+    .trim();
+}
+
+function normalizeMD(md) {
+  return md
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+$/gm, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// INPUT HANDLING
+// ──────────────────────────────────────────────────────────────────────────────
+var convertTimer = null;
+function handleInput() {
+  var val = document.getElementById('editor').value;
+  document.getElementById('char-count').textContent = val.length.toLocaleString() + ' chars';
+  clearTimeout(convertTimer);
+  convertTimer = setTimeout(function() {
+    convert();
+    saveToHistory(val);
+  }, 250);
+}
+
+function clearEditor() {
+  document.getElementById('editor').value = '';
+  handleInput();
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// TOOLBAR
+// ──────────────────────────────────────────────────────────────────────────────
+function insertText(before, after) {
+  var ta = document.getElementById('editor');
+  var s = ta.selectionStart, e = ta.selectionEnd;
+  var sel = ta.value.substring(s, e);
+  ta.value = ta.value.substring(0, s) + before + sel + after + ta.value.substring(e);
+  ta.selectionStart = s + before.length;
+  ta.selectionEnd = s + before.length + sel.length;
+  ta.focus();
+  handleInput();
+}
+
+function insertHeading() {
+  var ta = document.getElementById('editor');
+  var s = ta.selectionStart;
+  var lineStart = ta.value.lastIndexOf('\n', s - 1) + 1;
+  var lineEnd = ta.value.indexOf('\n', s);
+  if (lineEnd === -1) lineEnd = ta.value.length;
+  var lineText = ta.value.substring(lineStart, lineEnd);
+  var hMatch = lineText.match(/^(#{1,5}) /);
+  var newPrefix = hMatch ? '#'.repeat(hMatch[1].length + 1) + ' ' : '# ';
+  var newLine = newPrefix + lineText.replace(/^#{1,6} /, '');
+  ta.value = ta.value.substring(0, lineStart) + newLine + ta.value.substring(lineEnd);
+  ta.focus();
+  handleInput();
+}
+
+function insertTable() {
+  insertText('\n| Column 1 | Column 2 | Column 3 |\n|----------|----------|----------|\n| Cell | Cell | Cell |\n| Cell | Cell | Cell |\n', '');
+}
+
+function embedImage() {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      insertText('![' + file.name + '](' + ev.target.result + ')', '');
+      toast('Image embedded as data URL');
     };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
 
-    /* -------------------------------------------------------------------------- */
-    /* 2. STATE & INIT                                                            */
-    /* -------------------------------------------------------------------------- */
-    let currentFormat = 'html';
-    let inputTimeout = null;
-    let editorEl, outputEl, previewEl;
+// ──────────────────────────────────────────────────────────────────────────────
+// DRAG & DROP
+// ──────────────────────────────────────────────────────────────────────────────
+function setupDragDrop() {
+  var ta = document.getElementById('editor');
+  var overlay = document.getElementById('drag-overlay');
+  var parent = ta.parentElement;
 
-    window.onload = () => {
-      editorEl = document.getElementById('editor');
-      outputEl = document.getElementById('output');
-      previewEl = document.getElementById('preview-container');
-
-      // Populate Samples
-      const sampleGrid = document.getElementById('sample-grid');
-      for (const [key, data] of Object.entries(SAMPLES)) {
-        const div = document.createElement('div');
-        div.className = 'sample-card';
-        div.innerHTML = `<h4>${data.title}</h4><p>${data.desc}</p>`;
-        div.onclick = () => { editorEl.value = data.md; document.getElementById('samples-modal').classList.remove('active'); convert(); };
-        sampleGrid.appendChild(div);
-      }
-
-      // Handle Hash Routing for SEO
-      handleRoute();
-      window.addEventListener('hashchange', handleRoute);
-
-      // Load initial state
-      editorEl.value = SAMPLES.readme.md;
-      convert();
-      updateHistoryUI();
-      
-      // Register PWA Service Worker Inline
-      if ('serviceWorker' in navigator) {
-        const swScript = `
-          const CACHE = 'markconvert-v1';
-          self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll([location.href]))));
-          self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
-        `;
-        const blob = new Blob([swScript], {type: 'application/javascript'});
-        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(console.error);
-      }
+  parent.addEventListener('dragover', function(e) { e.preventDefault(); overlay.classList.add('active'); });
+  parent.addEventListener('dragleave', function() { overlay.classList.remove('active'); });
+  parent.addEventListener('drop', function(e) {
+    e.preventDefault();
+    overlay.classList.remove('active');
+    var file = e.dataTransfer.files[0];
+    if (!file || !file.name.endsWith('.md')) { toast('Please drop a .md file'); return; }
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      ta.value = ev.target.result;
+      handleInput();
+      toast('Loaded: ' + file.name);
     };
+    reader.readAsText(file);
+  });
+}
 
-    /* -------------------------------------------------------------------------- */
-    /* 3. ROUTING & VIEWS                                                         */
-    /* -------------------------------------------------------------------------- */
-    function navigate(route) {
-      window.location.hash = route;
-    }
+// ──────────────────────────────────────────────────────────────────────────────
+// DOWNLOAD / COPY
+// ──────────────────────────────────────────────────────────────────────────────
+function downloadOutput() {
+  var out = document.getElementById('output').value;
+  if (!out) { toast('Nothing to download — start typing!'); return; }
+  var exts = { html: 'html', pdf: 'html', notion: 'json', obsidian: 'md', plain: 'md' };
+  var ext = exts[currentFormat] || 'txt';
+  var blob = new Blob([out], { type: 'text/plain' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'markconvert-output.' + ext;
+  a.click();
+  toast('Downloaded!');
+}
 
-    function handleRoute() {
-      const hash = window.location.hash.replace('#', '') || 'tool';
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-      
-      if (hash.startsWith('post-')) {
-        document.getElementById('view-post').classList.add('active');
-        document.getElementById('nav-blog').classList.add('active');
-        // Fetch content from hidden SEO div
-        const seoArticle = document.getElementById('seo-' + hash);
-        if (seoArticle) {
-          document.getElementById('post-content').innerHTML = seoArticle.innerHTML;
-        } else {
-          document.getElementById('post-content').innerHTML = '<h1>Post not found</h1>';
-        }
-      } else if (hash === 'blog') {
-        document.getElementById('view-blog').classList.add('active');
-        document.getElementById('nav-blog').classList.add('active');
-      } else {
-        document.getElementById('view-tool').classList.add('active');
-        document.getElementById('nav-tool').classList.add('active');
-      }
-    }
+function copyOutput() {
+  var val = document.getElementById('output').value;
+  if (!val) { toast('Nothing to copy'); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(val).then(function() { toast('Copied to clipboard!'); }).catch(function() {
+      fallbackCopy(val);
+    });
+  } else {
+    fallbackCopy(val);
+  }
+}
 
-    /* -------------------------------------------------------------------------- */
-    /* 4. CONVERSION ENGINE                                                       */
-    /* -------------------------------------------------------------------------- */
-    function handleInput() {
-      clearTimeout(inputTimeout);
-      inputTimeout = setTimeout(() => { convert(); saveHistory(); }, 300);
-    }
+function fallbackCopy(text) {
+  var ta = document.getElementById('output');
+  ta.removeAttribute('readonly');
+  ta.select();
+  try { document.execCommand('copy'); toast('Copied!'); } catch(e) { toast('Copy failed'); }
+  ta.setAttribute('readonly', '');
+}
 
-    function setFormat(fmt) {
-      currentFormat = fmt;
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      event.target.classList.add('active');
-      
-      if (fmt === 'preview') {
-        outputEl.style.display = 'none';
-        previewEl.classList.add('active');
-        document.getElementById('output-title').innerText = 'Live Preview';
-      } else {
-        outputEl.style.display = 'block';
-        previewEl.classList.remove('active');
-        document.getElementById('output-title').innerText = fmt.toUpperCase();
-      }
-      convert();
-    }
+// ──────────────────────────────────────────────────────────────────────────────
+// HISTORY
+// ──────────────────────────────────────────────────────────────────────────────
+function saveToHistory(md) {
+  if (!md.trim() || md.length < 10) return;
+  var MAX = 5;
+  historyItems = historyItems.filter(function(h) { return h.content !== md; });
+  historyItems.unshift({ content: md, time: new Date().toISOString(), format: currentFormat });
+  if (historyItems.length > MAX) historyItems = historyItems.slice(0, MAX);
+  try { localStorage.setItem('mc_history', JSON.stringify(historyItems)); } catch(e) {}
+}
 
-    function convert() {
-      const md = editorEl.value;
-      document.getElementById('char-count').innerText = md.length + ' chars';
-      
-      if (currentFormat === 'preview') {
-        renderPreview(md);
-        return;
-      }
+function loadHistory() {
+  try {
+    var stored = localStorage.getItem('mc_history');
+    if (stored) historyItems = JSON.parse(stored);
+  } catch(e) {}
+}
 
-      let res = '';
-      switch (currentFormat) {
-        case 'html': res = buildHTML(md); break;
-        case 'pdf': res = buildPDF(md); break;
-        case 'notion': res = buildNotion(md); break;
-        case 'obsidian': res = buildObsidian(md); break;
-        case 'plain': res = md.trim(); break;
-      }
-      outputEl.value = res;
-    }
-
-    function renderPreview(md) {
-      // Basic Marked parsing
-      let html = marked.parse(md, { gfm: true });
-      previewEl.innerHTML = html;
-      
-      // Render Mermaid if present
-      if (html.includes('language-mermaid') && window.mermaid) {
-        mermaid.initialize({ startOnLoad: false, theme: 'default' });
-        previewEl.querySelectorAll('.language-mermaid').forEach(el => {
-          const code = el.textContent;
-          const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
-          el.parentNode.outerHTML = `<div class="mermaid" id="${id}">${code}</div>`;
-        });
-        mermaid.run({ querySelector: '.mermaid' });
-      }
-      
-      // Render KaTeX if present
-      if (window.renderMathInElement) {
-        renderMathInElement(previewEl, {
-          delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false} ],
-          throwOnError: false
-        });
-      }
-    }
-
-    /* FORMAT: HTML & PDF */
-    function buildHTML(md) {
-      const body = marked.parse(md, { gfm: true });
-      const theme = document.getElementById('html-theme').value;
-      let css = "body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.6;color:#333} pre{background:#f4f4f4;padding:16px;border-radius:8px;overflow:auto} code{background:#eee;padding:2px 4px;border-radius:4px} table{border-collapse:collapse;width:100%} th,td{border:1px solid #ddd;padding:8px} blockquote{border-left:4px solid #ccc;padding-left:16px;color:#666}";
-      if(theme === 'modern') css = "body{font-family:'Inter',sans-serif;max-width:800px;margin:40px auto;line-height:1.7;color:#1e293b} h1,h2{color:#0f172a} pre{background:#0f172a;color:#f8fafc;padding:20px;border-radius:12px;overflow:auto} code{background:#f1f5f9;padding:2px 6px;border-radius:4px} blockquote{border-left:4px solid #6366f1;padding-left:16px;background:#e0e7ff;padding:12px;border-radius:0 8px 8px 0}";
-      return `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<style>\n${css}\n</style>\n</head>\n<body>\n${body}\n</body>\n</html>`;
-    }
-
-    function buildPDF(md) {
-      const body = marked.parse(md, { gfm: true });
-      const css = `
-        @page { size: A4; margin: 2cm 2.5cm; }
-        body { font-family: Georgia, serif; font-size: 11pt; line-height: 1.6; color: #000; }
-        h1 { border-bottom: 2px solid #000; padding-bottom: 8px; }
-        h2 { page-break-before: always; padding-top: 12px; }
-        h1 + h2 { page-break-before: avoid; }
-        pre, blockquote, table, img { page-break-inside: avoid; }
-        pre { background: #f5f5f5; border-left: 4px solid #666; padding: 12px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #999; padding: 6px; }
-      `;
-      return `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<style>\n${css}\n</style>\n</head>\n<body>\n${body}\n</body>\n</html>\n<!-- Print via Chrome (Ctrl+P) -> Save as PDF -> Background Graphics: ON -->`;
-    }
-
-    /* FORMAT: NOTION JSON */
-    function buildNotion(md) {
-      // Simplified Notion block generator (handles paragraphs, headings, lists, todos, callouts)
-      const blocks = [];
-      const lines = md.split('\n');
-      let i = 0;
-      
-      const createText = (text) => [{ type: 'text', text: { content: text } }];
-      
-      while(i < lines.length) {
-        let line = lines[i];
-        if(!line.trim()) { i++; continue; }
-        
-        let m;
-        // Headings
-        if (m = line.match(/^(#{1,3}) (.+)/)) {
-          const type = 'heading_' + m[1].length;
-          blocks.push({ object: 'block', type, [type]: { rich_text: createText(m[2]) } });
-        }
-        // Callouts
-        else if (m = line.match(/^> \[!(\w+)\](.*)$/)) {
-          blocks.push({ object: 'block', type: 'callout', callout: { icon: { type: 'emoji', emoji: '💡' }, rich_text: createText(m[2].trim() || 'Callout') } });
-        }
-        // Todo
-        else if (m = line.match(/^- \[( |x)\] (.+)/)) {
-          blocks.push({ object: 'block', type: 'to_do', to_do: { rich_text: createText(m[2]), checked: m[1].toLowerCase() === 'x' } });
-        }
-        // Bullets
-        else if (m = line.match(/^[-*+] (.+)/)) {
-          blocks.push({ object: 'block', type: 'bulleted_list_item', bulleted_list_item: { rich_text: createText(m[1]) } });
-        }
-        // Code
-        else if (line.startsWith('```')) {
-          let code = [];
-          i++;
-          while(i < lines.length && !lines[i].startsWith('```')) { code.push(lines[i]); i++; }
-          blocks.push({ object: 'block', type: 'code', code: { rich_text: createText(code.join('\n')), language: 'plain text' } });
-        }
-        // Paragraph
-        else {
-          blocks.push({ object: 'block', type: 'paragraph', paragraph: { rich_text: createText(line) } });
-        }
-        i++;
-      }
-      return JSON.stringify({ object: 'page', children: blocks }, null, 2);
-    }
-
-    /* FORMAT: OBSIDIAN */
-    function buildObsidian(md) {
-      let res = md.replace(/^> \[!(\w+)\]/gm, (match, p1) => `> [!${p1.toUpperCase()}]`);
-      if (!res.startsWith('---')) {
-        res = `---\ncreated: ${new Date().toISOString().split('T')[0]}\ntags: []\n---\n\n` + res;
-      }
-      return res;
-    }
-
-    /* -------------------------------------------------------------------------- */
-    /* 5. UTILS & UI INTERACTION                                                  */
-    /* -------------------------------------------------------------------------- */
-    function insertText(before, after) {
-      const start = editorEl.selectionStart;
-      const end = editorEl.selectionEnd;
-      const sel = editorEl.value.substring(start, end);
-      editorEl.setRangeText(before + sel + after, start, end, 'end');
-      editorEl.focus();
+function loadFromStorage() {
+  try {
+    var last = localStorage.getItem('mc_last');
+    if (last) {
+      document.getElementById('editor').value = last;
       handleInput();
     }
+  } catch(e) {}
+}
 
-    function embedImage() {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = (e) => {
-        const file = e.target.files[0];
-        if(!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          insertText(`\n![${file.name}](${ev.target.result})\n`, '');
-          showToast('Image embedded as Data URL');
-        };
-        reader.readAsDataURL(file);
-      };
-      input.click();
-    }
+function renderHistory() {
+  var el = document.getElementById('history-list');
+  if (!historyItems.length) {
+    el.innerHTML = '<p class="empty-msg">No history yet. Start converting!</p>';
+    return;
+  }
+  el.innerHTML = historyItems.map(function(h, i) {
+    return '<div class="history-item" onclick="restoreHistory(' + i + ')">' +
+      '<div class="history-time">' + new Date(h.time).toLocaleString() + ' · ' + h.format.toUpperCase() + '</div>' +
+      '<div class="history-preview">' + h.content.trim().substring(0, 80) + '…</div>' +
+      '</div>';
+  }).join('');
+}
 
-    function copyOutput() {
-      const text = currentFormat === 'preview' ? editorEl.value : outputEl.value;
-      navigator.clipboard.writeText(text);
-      showToast('Copied to clipboard');
-    }
+function restoreHistory(i) {
+  var h = historyItems[i];
+  if (!h) return;
+  document.getElementById('editor').value = h.content;
+  setFormat(h.format);
+  handleInput();
+  closeModal('history-modal');
+  toast('Restored from history');
+}
 
-    function downloadOutput() {
-      const text = outputEl.value;
-      if (!text) return;
-      const exts = { html:'html', pdf:'html', notion:'json', obsidian:'md', plain:'md', preview:'md' };
-      const blob = new Blob([text], { type: 'text/plain' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `document.${exts[currentFormat]}`;
-      a.click();
-      showToast('Download started');
-    }
+function clearHistory() {
+  historyItems = [];
+  try { localStorage.removeItem('mc_history'); } catch(e) {}
+  renderHistory();
+  toast('History cleared');
+}
 
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.innerText = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }
+// ──────────────────────────────────────────────────────────────────────────────
+// MODALS
+// ──────────────────────────────────────────────────────────────────────────────
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+  if (id === 'history-modal') renderHistory();
+}
 
-    function openModal(id) { document.getElementById(id).classList.add('active'); }
-    function closeModal(e, id) { if(e.target.id === id) document.getElementById(id).classList.remove('active'); }
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
 
-    /* HISTORY */
-    function saveHistory() {
-      const md = editorEl.value.trim();
-      if(md.length < 10) return;
-      let hist = JSON.parse(localStorage.getItem('mc_history') || '[]');
-      hist = hist.filter(h => h.content !== md); // Remove duplicate
-      hist.unshift({ id: Date.now(), title: md.split('\n')[0].replace(/#/g,'').substring(0,30) || 'Untitled', content: md, date: new Date().toLocaleTimeString() });
-      if(hist.length > 10) hist.pop();
-      localStorage.setItem('mc_history', JSON.stringify(hist));
-      updateHistoryUI();
-    }
+function overlayClose(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
 
-    function updateHistoryUI() {
-      const hist = JSON.parse(localStorage.getItem('mc_history') || '[]');
-      const container = document.getElementById('history-list');
-      if (hist.length === 0) return;
-      container.innerHTML = hist.map(h => `
-        <div class="sample-card" style="margin-bottom:8px" onclick="loadHistory(${h.id})">
-          <h4>${h.title}</h4>
-          <p>${h.date} — ${h.content.length} chars</p>
-        </div>
-      `).join('');
-    }
+// ──────────────────────────────────────────────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────────────────────────────────────────────
+var toastTimer;
+function toast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { el.classList.remove('show'); }, 2200);
+}
 
-    function loadHistory(id) {
-      const hist = JSON.parse(localStorage.getItem('mc_history') || '[]');
-      const item = hist.find(h => h.id === id);
-      if(item) {
-        editorEl.value = item.content;
-        document.getElementById('history-modal').classList.remove('active');
-        convert();
-        showToast('History loaded');
+  // ──────────────────────────────────────────────────────────────────────────────
+  // PRO LOGIC
+  // ──────────────────────────────────────────────────────────────────────────────
+  var isPro = false;
+  function activateLicense() {
+    var key = document.getElementById('lic-inp').value.trim();
+    var msg = document.getElementById('lic-msg');
+    var btn = document.querySelector('#pro-gated-ui .btn-primary');
+    if (!key) return;
+    
+    btn.disabled = true;
+    msg.textContent = 'Verifying with Gumroad...'; msg.style.color = 'var(--text-muted)';
+    
+    fetch('https://api.gumroad.com/v2/licenses/verify', {
+      method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ product_id: 'rouxjph', license_key: key, increment_uses_count: 'true' })
+    }).then(r => r.json()).then(d => {
+      if (d.success) {
+        setPro(key);
+        msg.textContent = '✓ Pro Unlocked! Thank you.'; msg.style.color = 'var(--success)';
+        setTimeout(() => closeModal('pro-modal'), 1500);
+      } else {
+        msg.textContent = '✕ ' + (d.message || 'Invalid license key'); msg.style.color = 'var(--error)';
+        btn.disabled = false;
       }
-    }
-  </script>
+    }).catch(e => {
+      msg.textContent = '✕ Network error. Online activation required for first-time setup.'; msg.style.color = 'var(--warn)';
+      btn.disabled = false;
+    });
+  }
+  
+  function setPro(key) {
+    isPro = true;
+    localStorage.setItem('mc_pro_key', key);
+    document.getElementById('pro-gated-ui').style.display = 'none';
+    document.getElementById('pro-active-ui').style.display = 'block';
+    document.querySelector('.btn-pro').textContent = '⭐ PRO ACTIVE';
+    toast('MarkConvert Pro Unlocked!');
+  }
+  
+  function checkPro() {
+    var k = localStorage.getItem('mc_pro_key');
+    if (k) setPro(k);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────────
+  // BULK EXPORT (Pro)
+  // ──────────────────────────────────────────────────────────────────────────────
+  async function bulkConvert() {
+    if (!isPro) { openModal('pro-modal'); return; }
+    var input = document.createElement('input');
+    input.type = 'file'; input.multiple = true; input.accept = '.md';
+    input.onchange = async function(e) {
+      var files = Array.from(e.target.files);
+      if (!files.length) return;
+      
+      toast('Processing ' + files.length + ' files...');
+      try {
+        if (typeof JSZip === 'undefined') {
+          await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+        }
+        var zip = new JSZip();
+        for (var i = 0; i < files.length; i++) {
+          var f = files[i];
+          var text = await f.text();
+          var out = '';
+          var ext = '';
+          if (currentFormat === 'html') { out = mdToHTML(text); ext = 'html'; }
+          else if (currentFormat === 'pdf-html') { out = mdToPDFHTML(text); ext = 'html'; }
+          else if (currentFormat === 'notion') { out = mdToNotionJSON(text); ext = 'json'; }
+          else { out = mdToObsidian(text); ext = 'md'; }
+          
+          zip.file(f.name.replace('.md', '.' + ext), out);
+        }
+        var content = await zip.generateAsync({type: "blob"});
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(content);
+        a.download = 'markconvert-batch-' + Date.now() + '.zip';
+        a.click();
+        toast('✓ Batch ZIP ready!');
+      } catch(err) {
+        console.error(err);
+        toast('✕ ZIP generation failed');
+      }
+    };
+    input.click();
+  }
+
+  function loadScript(url) {
+    return new Promise((resolve, reject) => {
+      var s = document.createElement('script');
+      s.src = url; s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  // Persist last typed content
+  setInterval(function() {
+    var val = document.getElementById('editor').value;
+    if (val) try { localStorage.setItem('mc_last', val); } catch(e) {}
+  }, 5000);
+  
+  checkPro();
+</script>
 </body>
 </html>

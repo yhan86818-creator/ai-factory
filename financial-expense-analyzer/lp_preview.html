@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spendly - Private, Browser-Only Expense Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        base: '#FFFFFF',      /* 60%: Background */
+                        main: '#F3F4F6',      /* 30%: Frames & Sub-buttons */
+                        accent: '#00E5A0',    /* 10%: Primary CTA */
+                        accentHover: '#00C88C',
+                        darkText: '#111827',
+                        grayText: '#4B5563',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #111827;
+            -webkit-font-smoothing: antialiased;
+        }
+        .btn-accent {
+            background-color: #00E5A0;
+            color: #000000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-accent:hover {
+            background-color: #00C88C;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 229, 160, 0.4);
+        }
+        .card-main {
+            background-color: #F3F4F6;
+            border: 1px solid #E5E7EB;
+        }
+        .hero-split {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        @media (min-width: 1024px) {
+            .hero-split {
+                grid-template-columns: 38.2% 61.8%; /* Golden Ratio Split */
+            }
+        }
+        /* Subtle glow for light mode */
+        .glow-light {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0,229,160,0.05) 0%, rgba(255,255,255,0) 70%);
+            top: -300px;
+            right: -200px;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="relative overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="text-2xl font-extrabold tracking-tight text-darkText">Spendly<span class="text-accent">.</span></div>
+            <div class="hidden md:flex gap-10 text-sm font-bold text-grayText">
+                <a href="#features" class="hover:text-darkText transition">Features</a>
+                <a href="#privacy" class="hover:text-darkText transition">Privacy</a>
+                <a href="#pricing" class="hover:text-darkText transition">Pricing</a>
+            </div>
+            <button onclick="nav('upload')" class="bg-darkText text-white px-7 py-2.5 rounded-full text-sm font-bold hover:bg-gray-800 transition">Go to App</button>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section class="relative pt-32 lg:pt-48 pb-24 px-6">
+        <div class="glow-light"></div>
+        <div class="max-w-7xl mx-auto hero-split gap-20 items-center">
+            
+            <!-- Left: Content -->
+            <div class="text-left">
+                <div class="inline-block bg-main text-grayText px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-gray-200">
+                    100% Local · Private · Secure
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] mb-8 text-darkText">
+                    Know your <br/><span class="text-accent underline decoration-gray-200 underline-offset-8">money.</span> <br/>
+                    <span class="text-gray-300">Private by design.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-grayText mb-10 max-w-lg leading-relaxed font-medium">
+                    Transform messy bank CSVs into clean dashboards instantly. 
+                    Everything stays on your device. Zero data ever leaves your browser.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button onclick="nav('upload')" class="btn-accent px-10 py-5 rounded-full font-black text-lg">
+                        Analyze My CSV
+                    </button>
+                    <button onclick="loadSample('Chase Bank')" class="text-darkText hover:bg-main px-8 py-5 rounded-full font-bold transition text-lg flex items-center gap-2">
+                        Try Demo 
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Mockup -->
+            <div class="relative mt-12 lg:mt-0">
+                <div class="absolute -inset-4 bg-accent/10 blur-3xl rounded-full opacity-50"></div>
+                <div class="relative rounded-[40px] overflow-hidden border border-gray-100 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] bg-white aspect-[1.618/1] flex items-center justify-center group transition-transform duration-500 hover:scale-[1.01]">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-gray-50 to-transparent z-10 pointer-events-none"></div>
+                    <!-- User should replace: hero-dash.png -->
+                    <div class="text-center p-12">
+                        <div class="w-16 h-16 bg-main text-accent rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </div>
+                        <p class="text-gray-400 font-mono text-[10px] uppercase tracking-[0.3em] mb-2 font-bold">Encrypted Local View</p>
+                        <p class="text-darkText font-black text-xl">[ Dashboard Preview ]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Trust Section -->
+    <section class="py-24 bg-main/30 border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="space-y-10">
+                    <div>
+                        <p class="text-xs font-black text-accent tracking-[0.3em] uppercase mb-4">Privacy Manifesto</p>
+                        <h3 class="text-4xl md:text-5xl font-extrabold mb-8 text-darkText leading-tight">Your data is yours.<br/>Not a product.</h3>
+                        <p class="text-grayText text-lg leading-relaxed max-w-lg font-medium">
+                            Spendly operates on a strict Local-First model. By processing everything in your browser, we eliminate the risk of server breaches and data harvesting. No accounts, no logins, no middleman.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-white py-3 px-6 rounded-2xl border border-gray-100 text-xs font-black uppercase tracking-wider text-darkText shadow-sm">No Database</div>
+                        <div class="bg-white py-3 px-6 rounded-2xl border border-gray-100 text-xs font-black uppercase tracking-wider text-darkText shadow-sm">No Cloud</div>
+                        <div class="bg-white py-3 px-6 rounded-2xl border border-gray-100 text-xs font-black uppercase tracking-wider text-darkText shadow-sm">No Cookies</div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute -inset-2 bg-accent/5 blur-xl rounded-[48px]"></div>
+                    <div class="relative bg-white p-12 rounded-[48px] border border-gray-100 shadow-xl">
+                        <div class="flex gap-8 items-start">
+                            <div class="shrink-0 w-20 h-20 bg-main rounded-full flex items-center justify-center text-3xl shadow-inner">👨‍💻</div>
+                            <div>
+                                <h3 class="text-2xl font-black mb-4 text-darkText italic">"Built for privacy."</h3>
+                                <p class="text-grayText leading-relaxed mb-8 font-medium text-lg">
+                                    "I didn't want to give my bank passwords to a cloud app just to see a spending chart. So I built Spendly. It's the tool I use every day to stay in control without the spy-ware."
+                                </p>
+                                <p class="text-sm font-black text-darkText uppercase tracking-widest">— Indie Dev & Founder</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Problem Section -->
+    <section id="problem" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-24">
+                <h2 class="text-4xl md:text-6xl font-extrabold mb-8 text-darkText tracking-tighter">Finance apps are <br/><span class="text-gray-300">spying on you.</span></h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-main p-12 rounded-[40px] border border-gray-100 hover:shadow-2xl transition-all duration-500">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-accent mb-8 text-2xl font-black shadow-sm">01</div>
+                    <h3 class="text-2xl font-black mb-4 text-darkText">Data Leakage</h3>
+                    <p class="text-grayText leading-relaxed font-medium">When financial apps are breached, your entire spending history is exposed to hackers. Spendly stores zero data on any server.</p>
+                </div>
+                <div class="bg-main p-12 rounded-[40px] border border-gray-100 hover:shadow-2xl transition-all duration-500">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-accent mb-8 text-2xl font-black shadow-sm">02</div>
+                    <h3 class="text-2xl font-black mb-4 text-darkText">Ad Profiling</h3>
+                    <p class="text-grayText leading-relaxed font-medium">Most "free" apps analyze your transactions to sell targeted ads to banks and lenders. Spendly has zero trackers.</p>
+                </div>
+                <div class="bg-main p-12 rounded-[40px] border border-gray-100 hover:shadow-2xl transition-all duration-500">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-accent mb-8 text-2xl font-black shadow-sm">03</div>
+                    <h3 class="text-2xl font-black mb-4 text-darkText">Bank Login Risk</h3>
+                    <p class="text-grayText leading-relaxed font-medium">Connecting your actual bank login to 3rd party apps creates a massive security hole. Spendly works with secure CSV exports.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Solution (Features) -->
+    <section id="features" class="py-32 px-6 bg-main/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-32 gap-8">
+                <h2 class="text-5xl md:text-7xl font-extrabold text-darkText tracking-tighter italic">Analyze like <br/>a professional.</h2>
+                <p class="text-xl text-grayText max-w-md font-medium">Turn raw CSV data into meaningful insights in seconds.</p>
+            </div>
+
+            <div class="space-y-64">
+                <!-- Feature 1 -->
+                <div class="grid lg:grid-cols-2 gap-32 items-center">
+                    <div class="order-2 lg:order-1 relative">
+                        <div class="absolute -inset-10 bg-accent/5 blur-[100px]"></div>
+                        <div class="relative rounded-[48px] overflow-hidden border border-gray-100 shadow-2xl bg-white aspect-square flex items-center justify-center group">
+                            <!-- User should replace: feature-chart.png -->
+                            <div class="text-center">
+                                <p class="text-gray-400 font-mono text-[10px] uppercase tracking-widest mb-4 font-bold">Interactive Dashboard</p>
+                                <p class="text-darkText font-black text-xl">[ Charts & Trends ]</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2">
+                        <div class="text-accent font-black tracking-[0.3em] uppercase text-xs mb-8 flex items-center gap-4">
+                            <span class="w-10 h-[2px] bg-accent"></span> Insights
+                        </div>
+                        <h3 class="text-5xl md:text-6xl font-extrabold mb-10 text-darkText leading-tight tracking-tighter">See trends, <br/>stop leaks.</h3>
+                        <p class="text-xl text-grayText mb-12 leading-relaxed font-medium">Automatic categorization and monthly trend analysis. Visualize your spending patterns to spot high-cost categories instantly.</p>
+                        <ul class="space-y-6 text-lg font-bold text-darkText">
+                            <li class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs">✓</span> Automatic Merchant Grouping</li>
+                            <li class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs">✓</span> Monthly Spend Comparisons</li>
+                            <li class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs">✓</span> Category-wise Breakdown</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="grid lg:grid-cols-2 gap-32 items-center">
+                    <div>
+                        <div class="text-accent font-black tracking-[0.3em] uppercase text-xs mb-8 flex items-center gap-4">
+                            <span class="w-10 h-[2px] bg-accent"></span> Mapping
+                        </div>
+                        <h3 class="text-5xl md:text-6xl font-extrabold mb-10 text-darkText leading-tight tracking-tighter">Any bank. <br/>Any format.</h3>
+                        <p class="text-xl text-grayText mb-12 leading-relaxed font-medium">Our intelligent mapping engine works with any CSV. Just tell Spendly which column is which, and it handles the rest—no matter the language or layout.</p>
+                        <ul class="space-y-6 text-lg font-bold text-darkText">
+                            <li class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs">✓</span> Custom Header Mapping</li>
+                            <li class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs">✓</span> Multi-Currency Support</li>
+                            <li class="flex items-center gap-4"><span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-xs">✓</span> Export Cleaned Datasets</li>
+                        </ul>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute -inset-10 bg-accent/5 blur-[100px]"></div>
+                        <div class="relative rounded-[48px] overflow-hidden border border-gray-100 shadow-2xl bg-white aspect-square flex items-center justify-center group">
+                            <!-- User should replace: feature-map.png -->
+                            <div class="text-center">
+                                <p class="text-gray-400 font-mono text-[10px] uppercase tracking-widest mb-4 font-bold">Mapping Engine</p>
+                                <p class="text-darkText font-black text-xl">[ Mapping Preview ]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Pricing -->
+    <section id="pricing" class="py-48 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-24">
+                <h2 class="text-5xl md:text-7xl font-black text-darkText mb-8 tracking-tighter">Simple Pricing.</h2>
+                <p class="text-2xl text-grayText font-medium">No subscriptions. No data mining. Just pro tools.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto items-center">
+                <div class="bg-main p-16 rounded-[60px] border border-gray-100 flex flex-col h-full">
+                    <h3 class="text-2xl font-black mb-4 text-darkText">Free</h3>
+                    <div class="flex items-baseline gap-2 mb-10 text-darkText">
+                        <span class="text-7xl font-black">$0</span>
+                    </div>
+                    <p class="text-grayText mb-12 text-lg font-medium leading-relaxed">Perfect for individuals who want a private audit of their monthly burn.</p>
+                    <ul class="space-y-6 mb-16 flex-1 text-darkText font-bold">
+                        <li class="flex items-center gap-4"><span class="text-accent">✓</span> Unlimited CSV Analysis</li>
+                        <li class="flex items-center gap-4"><span class="text-accent">✓</span> Category Visualizations</li>
+                        <li class="flex items-center gap-4"><span class="text-accent">✓</span> 100% Local Processing</li>
+                    </ul>
+                    <button onclick="nav('upload')" class="block w-full py-6 rounded-full border-2 border-darkText text-center font-black text-lg hover:bg-darkText hover:text-white transition-all">Start Free</button>
+                </div>
+
+                <div class="bg-darkText p-16 rounded-[60px] flex flex-col relative transform lg:scale-110 shadow-[0_48px_80px_-15px_rgba(0,0,0,0.3)] h-full">
+                    <div class="absolute -top-6 right-12 bg-accent text-black px-8 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-lg">Lifetime Pro</div>
+                    <h3 class="text-2xl font-black mb-4 text-white">Pro</h3>
+                    <div class="flex items-baseline gap-2 mb-10 text-white">
+                        <span class="text-7xl font-black">$8.50</span>
+                        <span class="text-white/40 font-bold uppercase text-[10px] tracking-widest">One-Time</span>
+                    </div>
+                    <p class="text-white/60 mb-12 text-lg font-medium leading-relaxed">Advanced tools for financial power users and consultants.</p>
+                    <ul class="space-y-6 mb-16 flex-1 text-white font-bold">
+                        <li class="flex items-center gap-4"><span class="text-accent">✓</span> Professional PDF Reports</li>
+                        <li class="flex items-center gap-4"><span class="text-accent">✓</span> Year-over-Year Analysis</li>
+                        <li class="flex items-center gap-4"><span class="text-accent">✓</span> Custom Multi-Account View</li>
+                        <li class="flex items-center gap-4"><span class="text-accent">✓</span> Export Cleaned CSVs</li>
+                    </ul>
+                    <button onclick="openModal()" class="btn-accent block w-full py-6 rounded-full text-center font-black text-lg shadow-xl">Unlock Pro</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Final CTA -->
+    <section class="py-48 px-6">
+        <div class="max-w-7xl mx-auto bg-main rounded-[80px] p-20 lg:p-40 text-center relative overflow-hidden border border-gray-100">
+            <h2 class="text-6xl md:text-9xl font-black mb-12 text-darkText tracking-tighter leading-none italic">Take back <br/>control.</h2>
+            <p class="text-xl lg:text-3xl text-grayText mb-20 max-w-3xl mx-auto leading-relaxed font-medium">
+                Master your finances without compromising your privacy. Join thousands of local-first users today.
+            </p>
+            <button onclick="nav('upload')" class="btn-accent inline-block px-16 py-7 rounded-full font-black text-2xl">
+                Get Started for Free
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-24 text-center border-t border-gray-100 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-2xl font-black text-darkText mb-12 tracking-tight">Spendly<span class="text-accent">.</span></div>
+            <div class="flex justify-center gap-16 mb-16 font-black uppercase tracking-[0.3em] text-[10px] text-grayText">
+                <a href="#features" class="hover:text-accent transition">Features</a>
+                <a href="#privacy" class="hover:text-accent transition">Privacy</a>
+                <a href="#pricing" class="hover:text-accent transition">Pricing</a>
+            </div>
+            <p class="text-gray-300 font-bold uppercase tracking-widest text-[10px]">© 2026 Spendly · 100% Client-Side · Private By Design</p>
+        </div>
+    </footer>
+
+    <!-- Mobile Sticky CTA -->
+    <div class="fixed bottom-8 left-6 right-6 z-50 lg:hidden">
+        <button onclick="nav('upload')" class="btn-accent block w-full py-5 rounded-full font-black text-center text-xl shadow-2xl">
+            Analyze My CSV
+        </button>
+    </div>
+
+</body>
+</html>

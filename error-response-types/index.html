@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="dyitLt80YqDWnYz6__XIEwhrunV4U1-KU8ODTGzuK_s" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Response Types — Standardize your API Failures</title>
+    <meta name="description" content="Generate standardized TypeScript definitions for API errors, validation failures, and pattern-based result types.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="blogPosts.js"></script>
+</head>
+<body>
+    <div style="background: rgba(239,68,68,0.07); border-bottom: 1px solid rgba(239,68,68,0.25); padding: 0.75rem 2rem; text-align: center;">
+        <a href="https://json-to-ts-converter.pages.dev/" style="color: #fecaca; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; font-weight: 600;">
+            <span style="background: var(--error-red); color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">⚡ Related Tool</span>
+            Just need JSON → TypeScript interface generation?
+            <span style="color: #fff; font-weight: 800; display: inline-flex; align-items: center; gap: 0.3rem; text-decoration: underline; text-underline-offset: 3px;">
+                Visit JSON to TS Converter
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+        </a>
+    </div>
+
+    <header>
+        <div class="badge-error">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            Robust Error Handling
+        </div>
+        <h1>Error Response Types</h1>
+        <p class="subtitle">Quickly define type-safe error structures for your frontend and backend communication.</p>
+        <a href="/guide.html" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.75rem;color:#fca5a5;font-size:0.82rem;font-weight:600;text-decoration:none;border:1px solid rgba(239,68,68,0.3);padding:0.35rem 0.9rem;border-radius:20px;background:rgba(239,68,68,0.07);">⚠ Read Error Handling Guide →</a>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <div class="section-title">Error Presets</div>
+            <div class="preset-list">
+                <button class="preset-btn active" data-preset="standard">Standard API Error</button>
+                <button class="preset-btn" data-preset="validation">Validation Error</button>
+                <button class="preset-btn" data-preset="auth">Authentication Error</button>
+                <button class="preset-btn" data-preset="result">Result<T, E> Pattern</button>
+                <button class="preset-btn" data-preset="either">Either Pattern</button>
+            </div>
+
+            <div class="section-title">Configuration</div>
+            <div class="config-group">
+                <label class="config-label">Error Codes (one per line)</label>
+                <textarea id="error-codes" placeholder="NOT_FOUND&#10;UNAUTHORIZED&#10;FORBIDDEN"></textarea>
+            </div>
+
+            <div class="config-group">
+                <label class="config-label">Interface Name</label>
+                <input type="text" id="interface-name" value="ApiError">
+            </div>
+
+            <div class="config-group">
+                <label class="config-label">Export Style</label>
+                <select id="export-style">
+                    <option value="export">export type</option>
+                    <option value="interface">export interface</option>
+                    <option value="none">const (local only)</option>
+                </select>
+            </div>
+        </aside>
+
+        <section class="content">
+            <div class="section-title">Generated TypeScript</div>
+            <div class="code-output">
+                <button class="btn-copy" id="btn-copy">Copy</button>
+                <code id="output-code"></code>
+            </div>
+        </section>
+    </main>
+
+    <section class="seo-guide" style="max-width: 1200px; margin: 4rem auto; padding: 0 2rem; border-top: 1px solid var(--border); padding-top: 4rem;">
+        <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 3rem; text-align: center;">Standardizing API Error Handling</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+            <div style="background: var(--bg-card); padding: 2.5rem; border-radius: 1.5rem; border: 1px solid var(--border);">
+                <h3 style="color: var(--error-red); margin-bottom: 1.2rem; font-size: 1.1rem; text-transform: uppercase;">The Result Pattern</h3>
+                <p style="color: var(--text-dim); line-height: 1.8; font-size: 0.9rem;">
+                    Avoid using <code>try/catch</code> for every API call. By using a <strong>Result Pattern</strong> (<code>{ success: boolean, data?: T, error?: E }</code>), you force your code to handle failure cases explicitly, reducing unhandled runtime exceptions.
+                </p>
+            </div>
+            
+            <div style="background: var(--bg-card); padding: 2.5rem; border-radius: 1.5rem; border: 1px solid var(--border);">
+                <h3 style="color: var(--warning-amber); margin-bottom: 1.2rem; font-size: 1.1rem; text-transform: uppercase;">Discriminated Unions</h3>
+                <p style="color: var(--text-dim); line-height: 1.8; font-size: 0.9rem;">
+                    Define your error codes as string literals. This allows TypeScript to provide <strong>exhaustive checks</strong> in your switch statements, ensuring you've handled every possible error state from the backend.
+                </p>
+            </div>
+            
+            <div style="background: var(--bg-card); padding: 2.5rem; border-radius: 1.5rem; border: 1px solid var(--border);">
+                <h3 style="color: var(--success-green); margin-bottom: 1.2rem; font-size: 1.1rem; text-transform: uppercase;">Validation Mapping</h3>
+                <p style="color: var(--text-dim); line-height: 1.8; font-size: 0.9rem;">
+                    For form validation errors, use a <code>Record&lt;string, string[]&gt;</code> structure. This mapping allows your frontend components to easily link error messages to specific form fields by their keys.
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-top: 5rem; padding: 4rem; background: rgba(255,255,255,0.02); border-radius: 2rem; border: 1px dashed var(--border); text-align: center;">
+            <h3 style="margin-bottom: 1.5rem; color: #fff;">How to implement these types?</h3>
+            <p style="color: var(--text-dim); max-width: 800px; margin: 0 auto 2.5rem; line-height: 1.8;">
+                Select a preset that matches your project's architecture, customize the error codes to match your backend documentation, and copy the generated TypeScript directly into your shared types library.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <span style="color: #fff; font-size: 0.8rem; font-weight: 700;">✓ React Query Friendly</span>
+                <span style="color: #fff; font-size: 0.8rem; font-weight: 700;">✓ Axios Middleware Optimized</span>
+                <span style="color: #fff; font-size: 0.8rem; font-weight: 700;">✓ tRPC Compatible</span>
+            </div>
+        </div>
+    </section>
+
+    
+<!-- BLOG LIST SECTION -->
+<section id="blog-section" style="max-width:900px; margin:40px auto; padding:40px 24px; border-top:1px solid rgba(255,255,255,0.1);">
+    <h2 style="font-size:2rem; margin-bottom:1rem; color:#fff;">Engineering Insights & Privacy</h2>
+    <div id="lp-blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;"></div>
+</section>
+
+<footer>
+        &copy; 2026 DevHub · Professional Error Handling Utilities
+    </footer>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script src="app.js"></script>
+
+<!-- BLOG VIEW -->
+<div id="blog-view" style="display: none; background-color: #000; min-height: 100vh; padding-top: 80px; color: #fff; font-family: sans-serif;">
+    <nav style="position:fixed; top:0; width:100%; z-index:50; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div style="max-width:800px; margin:0 auto; padding:0 24px; height:70px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:20px; font-weight:bold; cursor:pointer;" onclick="hideBlog()">← Back</div>
+        </div>
+    </nav>
+    <div style="max-width:800px; margin:0 auto; padding:40px 24px;" id="blog-content"></div>
+</div>
+
+
+<script>
+function showBlog(id) {
+    const post = window.blogPosts.find(p => p.id === id);
+    if (!post) return;
+    
+    // Hide all main body children except blog-view and scripts
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+            child.dataset.oldDisplay = child.style.display;
+            child.style.display = 'none';
+        }
+    });
+    
+    document.getElementById('blog-view').style.display = 'block';
+    
+    const content = `
+        <div style="color:#f97316; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px;">${post.category}</div>
+        <h1 style="font-size:3rem; font-weight:bold; margin-bottom:24px; line-height:1.2;">${post.title}</h1>
+        <div style="color:#a1a1aa; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+            By ${post.author} • ${post.date}
+        </div>
+        <div style="font-size:1.1rem; line-height:1.8; color:#d4d4d8;">
+            ${post.content}
+        </div>
+    `;
+    document.getElementById('blog-content').innerHTML = content;
+    window.scrollTo(0, 0);
+    if (history.state?.id !== id) history.pushState({view: 'blog', id}, '', '#blog=' + id);
+}
+
+function hideBlog() {
+    document.getElementById('blog-view').style.display = 'none';
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.dataset.oldDisplay !== undefined) {
+            child.style.display = child.dataset.oldDisplay;
+        }
+    });
+    window.scrollTo(0, 0);
+    if (history.state?.view === 'blog') history.pushState({view: 'main'}, '', window.location.pathname);
+}
+
+window.addEventListener('popstate', (e) => {
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    } else {
+        hideBlog();
+    }
+});
+
+function initBlog() {
+    const grid = document.getElementById('lp-blog-grid');
+    if (grid && window.blogPosts) {
+        grid.innerHTML = window.blogPosts.map(post => `
+            <div onclick="showBlog('${post.id}')" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px; cursor:pointer; transition:all 0.2s;">
+                <div style="color:#f97316; font-size:10px; font-weight:bold; text-transform:uppercase; margin-bottom:12px;">${post.category}</div>
+                <h3 style="color:#fff; font-size:1.2rem; font-weight:bold; margin-bottom:12px;">${post.title}</h3>
+                <p style="color:#a1a1aa; font-size:14px; line-height:1.5;">${post.excerpt}</p>
+            </div>
+        `).join('');
+    }
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    }
+}
+document.addEventListener('DOMContentLoaded', initBlog);
+// If already loaded
+if (document.readyState === 'interactive' || document.readyState === 'complete') initBlog();
+</script>
+
+</body>
+</html>

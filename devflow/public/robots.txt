@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://devflow-app.pages.dev/sitemap.xml

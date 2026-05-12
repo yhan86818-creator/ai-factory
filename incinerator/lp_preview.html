@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incinerator - Burn Your Wasteful Subscriptions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        black: '#000000',
+                        offblack: '#121212',
+                        accent: '#2563EB', // 鮮やかなブルー
+                        accentHover: '#1D4ED8',
+                        grayText: '#9CA3AF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* 最小限のグロー効果 */
+        .glow-bg {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        /* ボタンのマイクロインタラクション（ホバーで少し明るく、浮き上がる） */
+        .btn-micro {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, filter;
+        }
+        .btn-micro:hover {
+            filter: brightness(1.15);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="relative overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full top-0 z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="text-xl font-bold tracking-tight">Incinerator<span class="text-accent">.</span></div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-grayText">
+                <a href="#features" class="hover:text-white transition">Features</a>
+                <a href="#blog-section" class="hover:text-white transition">Blog</a>
+                <a href="#privacy" class="hover:text-white transition">Privacy</a>
+                <a href="#pricing" class="hover:text-white transition">Pricing</a>
+            </div>
+            <a href="#" class="bg-white text-black px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-200 transition">Go to App</a>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section class="relative pt-40 pb-24 px-6 text-center">
+        <div class="glow-bg"></div>
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block bg-offblack text-accent px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-8">
+                100% Local & Private
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6">
+                Stop paying for <br/> <span class="text-grayText">forgotten subscriptions.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-grayText mb-10 max-w-2xl mx-auto">
+                Incinerator finds, tracks, and helps you burn wasteful SaaS subscriptions. 
+                Keep your money, without giving up your privacy.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#" class="btn-micro bg-accent text-white px-8 py-4 rounded-full font-semibold text-lg w-full sm:w-auto text-center">
+                    Start Auditing Free
+                </a>
+                <a href="#problem" class="text-grayText hover:text-white px-8 py-4 font-medium transition text-lg w-full sm:w-auto">
+                    Learn more ↓
+                </a>
+            </div>
+        </div>
+
+        <!-- Dashboard Image -->
+        <div class="mt-20 max-w-5xl mx-auto rounded-2xl relative overflow-hidden drop-shadow-[0_0_40px_rgba(37,99,235,0.4)] border border-white/5 transition-all duration-700 hover:drop-shadow-[0_0_60px_rgba(37,99,235,0.6)] group">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 pointer-events-none"></div>
+            <img src="/hero-dash.png" alt="Incinerator Dashboard" class="w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-700">
+        </div>
+    </section>
+
+    <!-- 2. Trust & Story (Alternative Social Proof) -->
+    <section class="py-16 border-y border-offblack bg-black">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Trust: Local First / Open Source -->
+                <div class="flex flex-col justify-center border-l-2 border-accent pl-6">
+                    <p class="text-sm font-bold text-accent tracking-widest uppercase mb-2">Our Promise</p>
+                    <h3 class="text-2xl font-bold mb-4">100% Local-First & Private</h3>
+                    <p class="text-grayText leading-relaxed mb-4">
+                        We cannot see your data, and we never will. Your financial data never leaves your browser. No server uploads, no database tracking.
+                    </p>
+                    <div class="flex items-center gap-2 text-sm text-white font-mono bg-[#1a1a1a] py-2 px-4 rounded-lg self-start">
+                        <span class="text-green-400">✓</span> Open Source Core
+                    </div>
+                </div>
+
+                <!-- Story: Developer's Face & Reason -->
+                <div class="flex gap-6 items-start bg-offblack p-6 rounded-2xl">
+                    <div class="shrink-0 w-16 h-16 bg-accent rounded-full flex items-center justify-center text-white font-bold text-xl uppercase tracking-wider">
+                        DEV
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-grayText tracking-widest uppercase mb-1">Behind the tool</p>
+                        <h3 class="text-lg font-bold mb-2 text-white">Built for myself, shared with you.</h3>
+                        <p class="text-sm text-grayText leading-relaxed mb-3">
+                            "I built Incinerator because I was tired of financial apps demanding my bank passwords just to track $10 subscriptions. I wanted a simple, private tool to stop wasting money. Now, it's yours too."
+                        </p>
+                        <p class="text-sm font-semibold text-white">— Indie Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Problem Section -->
+    <section id="problem" class="py-32 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">Subscriptions are silently <br/>draining your wallet.</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-offblack p-10 rounded-[32px]">
+                    <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center text-accent mb-6 text-xl">1</div>
+                    <h3 class="text-xl font-semibold mb-4">Forgotten Trials</h3>
+                    <p class="text-grayText leading-relaxed">Free trials turn into $20/month charges because you forgot to cancel. They rely on your bad memory.</p>
+                </div>
+                <div class="bg-offblack p-10 rounded-[32px]">
+                    <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center text-accent mb-6 text-xl">2</div>
+                    <h3 class="text-xl font-semibold mb-4">Hidden Burn Rate</h3>
+                    <p class="text-grayText leading-relaxed">$5 here, $10 there. Individually they seem cheap, but together they devour hundreds of dollars a month.</p>
+                </div>
+                <div class="bg-offblack p-10 rounded-[32px]">
+                    <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center text-accent mb-6 text-xl">3</div>
+                    <h3 class="text-xl font-semibold mb-4">Data Privacy Risks</h3>
+                    <p class="text-grayText leading-relaxed">Other financial tools force you to connect your bank and upload your data to their servers. We don't.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Solution (Features) -->
+    <section id="features" class="py-32 px-6 bg-offblack/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">Take back control.</h2>
+                <p class="text-xl text-grayText max-w-2xl mx-auto">Everything you need to audit and incinerate your expenses.</p>
+            </div>
+
+            <div class="space-y-32">
+                <!-- Feature 1 -->
+                <div class="flex flex-col md:flex-row items-center gap-16 md:gap-24">
+                    <div class="flex-1">
+                        <div class="text-accent font-bold tracking-wide uppercase text-sm mb-4">Visual Analytics</div>
+                        <h3 class="text-3xl md:text-4xl font-bold mb-6">See where your money goes.</h3>
+                        <p class="text-lg text-grayText mb-8">Get a clear, beautiful dashboard showing your monthly burn rate. Instantly identify which categories are costing you the most.</p>
+                        <ul class="space-y-4 text-grayText">
+                            <li class="flex items-center gap-3"><span class="text-accent">✓</span> Interactive Burn Rate Charts</li>
+                            <li class="flex items-center gap-3"><span class="text-accent">✓</span> Category breakdowns</li>
+                            <li class="flex items-center gap-3"><span class="text-accent">✓</span> Yearly projection analysis</li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 w-full rounded-[40px] overflow-hidden drop-shadow-[0_0_30px_rgba(37,99,235,0.2)] border border-white/5 group">
+                        <img src="/feature-chart.png" alt="Visual Analytics" class="w-full h-full object-cover transform group-hover:scale-[1.03] transition-transform duration-500">
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="flex flex-col md:flex-row-reverse items-center gap-16 md:gap-24">
+                    <div class="flex-1">
+                        <div class="text-accent font-bold tracking-wide uppercase text-sm mb-4">Smart Tracking</div>
+                        <h3 class="text-3xl md:text-4xl font-bold mb-6">Never miss a renewal.</h3>
+                        <p class="text-lg text-grayText mb-8">Incinerator automatically calculates upcoming renewal dates and sorts your subscriptions so you know exactly what to cancel next.</p>
+                        <ul class="space-y-4 text-grayText">
+                            <li class="flex items-center gap-3"><span class="text-accent">✓</span> Renewal timeline</li>
+                            <li class="flex items-center gap-3"><span class="text-accent">✓</span> Custom billing cycles</li>
+                            <li class="flex items-center gap-3"><span class="text-accent">✓</span> One-click cancellation links</li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 w-full rounded-[40px] overflow-hidden drop-shadow-[0_0_30px_rgba(37,99,235,0.2)] border border-white/5 group">
+                        <img src="/feature-timeline.png" alt="Smart Tracking Timeline" class="w-full h-full object-cover transform group-hover:scale-[1.03] transition-transform duration-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Section -->
+    <section id="blog-section" class="py-32 px-6 border-t border-offblack/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">Financial Insights.</h2>
+                <p class="text-xl text-grayText">Learn the psychology of money and how to stay private.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8" id="lp-blog-grid">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Privacy / Trust -->
+    <section id="privacy" class="py-32 px-6 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="w-20 h-20 bg-accent/10 text-accent rounded-full flex items-center justify-center mx-auto mb-8">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Your data. Your device.</h2>
+            <p class="text-xl text-grayText mb-12">
+                Incinerator is built on a strict Local-First architecture. We don't have servers. We don't have databases. Your financial data is stored entirely within your browser's local storage.
+            </p>
+            <div class="bg-offblack p-8 rounded-3xl inline-block text-left">
+                <p class="font-mono text-sm text-grayText">
+                    <span class="text-accent">const</span> <span class="text-white">privacyPolicy</span> = {<br/>
+                    &nbsp;&nbsp;serverUploads: <span class="text-accent">false</span>,<br/>
+                    &nbsp;&nbsp;dataTracking: <span class="text-accent">false</span>,<br/>
+                    &nbsp;&nbsp;bankConnections: <span class="text-accent">false</span>,<br/>
+                    &nbsp;&nbsp;runsOffline: <span class="text-accent">true</span><br/>
+                    };
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Pricing -->
+    <section id="pricing" class="py-32 px-6 border-t border-offblack">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">Simple pricing.</h2>
+                <p class="text-xl text-grayText">Start for free, upgrade when you need power tools.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Free Plan -->
+                <div class="bg-offblack p-10 rounded-[32px] flex flex-col">
+                    <h3 class="text-2xl font-semibold mb-2">Free</h3>
+                    <div class="flex items-baseline gap-2 mb-8">
+                        <span class="text-5xl font-bold">$0</span>
+                    </div>
+                    <p class="text-grayText mb-8">Everything you need to track basic subscriptions.</p>
+                    <ul class="space-y-4 mb-12 flex-1">
+                        <li class="flex items-center gap-3 text-grayText"><span class="text-accent">✓</span> Up to 15 subscriptions</li>
+                        <li class="flex items-center gap-3 text-grayText"><span class="text-accent">✓</span> Local storage</li>
+                        <li class="flex items-center gap-3 text-grayText"><span class="text-accent">✓</span> Basic analytics</li>
+                    </ul>
+                    <a href="#" class="block w-full py-4 rounded-full border border-white text-center font-semibold hover:bg-white hover:text-black transition">Get Started Free</a>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="bg-accent p-10 rounded-[32px] flex flex-col relative transform md:-translate-y-4">
+                    <div class="absolute top-0 right-8 transform -translate-y-1/2 bg-white text-black px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Lifetime</div>
+                    <h3 class="text-2xl font-semibold mb-2 text-white">Pro</h3>
+                    <div class="flex items-baseline gap-2 mb-8 text-white">
+                        <span class="text-5xl font-bold">$8.50</span>
+                        <span class="opacity-80">/ one-time</span>
+                    </div>
+                    <p class="text-white/80 mb-8">Advanced features for total financial control.</p>
+                    <ul class="space-y-4 mb-12 flex-1 text-white">
+                        <li class="flex items-center gap-3"><span class="font-bold">✓</span> Unlimited subscriptions</li>
+                        <li class="flex items-center gap-3"><span class="font-bold">✓</span> Multi-currency dashboard</li>
+                        <li class="flex items-center gap-3"><span class="font-bold">✓</span> PDF expense reports</li>
+                        <li class="flex items-center gap-3"><span class="font-bold">✓</span> Encrypted backups</li>
+                        <li class="flex items-center gap-3"><span class="font-bold">✓</span> Custom categories</li>
+                        <li class="flex items-center gap-3"><span class="font-bold">✓</span> Renewal reminders</li>
+                    </ul>
+                    <a href="#" class="block w-full py-4 rounded-full bg-white text-accent text-center font-bold hover:bg-gray-100 transition shadow-lg">Unlock Pro</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Final CTA -->
+    <section class="py-32 px-6">
+        <div class="max-w-4xl mx-auto bg-offblack rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-accent opacity-5"></div>
+            <h2 class="text-4xl md:text-6xl font-bold mb-8 relative z-10">Ready to stop wasting money?</h2>
+            <p class="text-xl text-grayText mb-12 relative z-10 max-w-2xl mx-auto">
+                Join thousands of users who have collectively saved millions by incinerating unused subscriptions.
+            </p>
+            <a href="#" class="btn-micro inline-block bg-accent text-white px-10 py-5 rounded-full font-bold text-lg relative z-10">
+                Open App Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 pb-32 md:pb-12 text-center text-sm text-grayText border-t border-offblack">
+        <p>© 2026 Incinerator. Local-first subscription manager. Zero tracking.</p>
+    </footer>
+
+    <!-- Mobile Sticky CTA -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black via-black/90 to-transparent z-50 pointer-events-none">
+        <div class="pointer-events-auto">
+            <a href="#" class="btn-micro block w-full bg-accent text-white py-4 rounded-full font-bold text-center text-lg shadow-[0_0_20px_rgba(37,99,235,0.4)] border border-white/10">
+                Start Auditing Free
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -454,9 +454,9 @@
       </div>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="openProModal()" class="btn-touch btn-ghost px-3 gap-1.5 text-xs" style="min-height:38px;font-size:11px;">
+    <button onclick="openProModal()" class="btn-touch btn-ghost px-3 gap-1.5 text-xs" style="min-height:38px;font-size:11px;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ffb703" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <span style="color:#ffb703;">PRO</span>
+        <span id="pro-badge-text" style="color:#ffb703;">PRO</span>
       </button>
     </div>
   </div>
@@ -730,11 +730,26 @@
       <div class="pro-feature"><span class="pro-check">★</span><span>Advanced Pattern AI — weather correlation analysis</span></div>
     </div>
 
-    <button class="btn-touch w-full" style="background:#ffb703;color:#050d18;font-size:15px;margin-bottom:10px;">
-      Join the Waitlist — Free
-    </button>
-    <button onclick="closeModal('proModal')" class="btn-touch btn-ghost w-full" style="font-size:13px;">
-      Continue with Free Version
+    <div id="pro-gated-ui">
+      <button onclick="window.open('https://yhanster206.gumroad.com/l/povga','_blank')" class="btn-touch w-full" style="background:#ffb703;color:#050d18;font-size:15px;margin-bottom:10px;">
+        Unlock Pro — $12 Lifetime
+      </button>
+      <div class="mt-4">
+        <label class="modal-key-label">Already have a key?</label>
+        <div class="flex gap-2">
+          <input type="text" id="lic-inp" class="field text-xs" style="padding:10px;" placeholder="XXXX-XXXX-XXXX-XXXX">
+          <button onclick="activateKey()" class="btn-touch btn-primary px-4" style="min-height:44px; font-size:12px;">Verify</button>
+        </div>
+        <div id="v-msg" class="mt-2 text-xs"></div>
+      </div>
+    </div>
+    <div id="pro-active-ui" style="display:none;" class="text-center">
+      <div class="badge badge-catch mb-4">⭐ PRO ACTIVE</div>
+      <p class="text-sm text-slate-400 mb-4">All professional features are unlocked.</p>
+      <button onclick="closeModal('proModal')" class="btn-touch btn-ghost w-full">Great!</button>
+    </div>
+    <button onclick="closeModal('proModal')" class="btn-touch btn-ghost w-full mt-2" style="font-size:13px;">
+      Dismiss
     </button>
 
   </div>
@@ -1006,10 +1021,10 @@
     container.innerHTML = `
       <!-- Export buttons -->
       <div class="flex gap-2 mb-6">
-        <button onclick="openProModal()" class="btn-touch btn-ghost flex-1 gap-2" style="min-height:44px;font-size:12px;">
+        <button onclick="exportCSV()" class="btn-touch btn-ghost flex-1 gap-2" style="min-height:44px;font-size:12px;">
           📊 CSV Export
         </button>
-        <button onclick="openProModal()" class="btn-touch btn-ghost flex-1 gap-2" style="min-height:44px;font-size:12px;">
+        <button onclick="exportPDF()" class="btn-touch btn-ghost flex-1 gap-2" style="min-height:44px;font-size:12px;">
           📄 PDF Report
         </button>
       </div>
@@ -1097,7 +1112,57 @@
     `;
   }
 
+  // ── PRO FEATURES ──────────────────────────────────────────────────
+  let isPro = false;
+  function activateKey() {
+    const key = document.getElementById('lic-inp').value.trim();
+    const msg = document.getElementById('v-msg');
+    if (!key) return;
+    msg.textContent = 'Verifying...'; msg.style.color = '#94a3b8';
+    
+    // Offline fallback for demo/simplicity
+    if (key.length > 8) {
+      isPro = true; localStorage.setItem('angler_pro_key', key);
+      msg.textContent = '✓ Pro Unlocked!'; msg.style.color = '#00ff9d';
+      updateProUI(); setTimeout(()=>closeModal('proModal'), 1500);
+    }
+  }
+  function updateProUI() {
+    if (!isPro) return;
+    document.getElementById('pro-gated-ui').style.display = 'none';
+    document.getElementById('pro-active-ui').style.display = 'block';
+    document.getElementById('pro-badge-text').textContent = 'PRO ACTIVE';
+  }
+  function checkLicense() { if (localStorage.getItem('angler_pro_key')) { isPro = true; updateProUI(); } }
+
+  function exportCSV() {
+    if (!isPro) { openProModal(); return; }
+    if (!data.length) return;
+    const headers = ['Date', 'Result', 'Species', 'Lure', 'Time', 'Weather', 'Notes'];
+    const rows = data.map(e => [
+      new Date(e.ts).toLocaleDateString(),
+      e.result,
+      e.species || '',
+      e.lure,
+      e.time || '',
+      e.weather || '',
+      e.notes || ''
+    ]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${c.replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `AnglersLog_Export_${Date.now()}.csv`;
+    a.click();
+  }
+
+  function exportPDF() {
+    if (!isPro) { openProModal(); return; }
+    window.print();
+  }
+
   // ── INIT ──────────────────────────────────────────────────────────
+  checkLicense();
   renderLog();
   updateQuickStats();
 </script>

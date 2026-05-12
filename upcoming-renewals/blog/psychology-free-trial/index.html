@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${post.title} | ${originalTitle} Blog</title>
+  <meta name="description" content="${post.excerpt}">
+  <meta name="keywords" content="subscription renewal tracker, upcoming charges, cancel subscription reminder, billing date tracker, privacy subscription manager">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060310;
+      --bg2: #0d0820;
+      --bg3: #130d2e;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(139,92,246,0.25);
+      --primary: #8b5cf6;
+      --accent: #a78bfa;
+      --text: #ede9fe;
+      --muted: #6b7280;
+      --red: #f87171;
+      --amber: #fbbf24;
+      --green: #4ade80;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    .amb { position: fixed; border-radius: 50%; pointer-events: none; filter: blur(120px); }
+    .amb1 { width: 700px; height: 700px; background: rgba(139,92,246,0.07); top: -200px; right: -150px; }
+    .amb2 { width: 500px; height: 500px; background: rgba(167,139,250,0.04); bottom: -150px; left: -100px; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(6,3,16,0.9); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-weight: 900; font-size: 1rem; color: #fff; }
+    .logo span { color: var(--accent); }
+    .nav-link { color: var(--muted); font-size: 0.8rem; text-decoration: none; font-weight: 600; transition: color 0.2s; }
+    .nav-link:hover { color: var(--text); }
+    .nav-cta { background: var(--primary); color: #fff; padding: 0.4rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-decoration: none; }
+
+    .hero { text-align: center; padding: 5rem 2rem 3rem; position: relative; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(139,92,246,0.1); border: 1px solid var(--border2);
+      color: var(--accent); font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 2rem;
+    }
+    .ping { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); animation: ping 2s ease-out infinite; }
+    @keyframes ping { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(1.5)} }
+    h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 7rem); letter-spacing: 3px; color: #fff; line-height: 1; margin-bottom: 1.5rem; }
+    h1 em { font-style: normal; color: var(--accent); }
+    .hero-sub { color: var(--muted); font-size: 1rem; max-width: 480px; margin: 0 auto 2rem; line-height: 1.8; }
+    .guide-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid var(--border2); color: var(--accent);
+      padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+      text-decoration: none; transition: all 0.2s; background: rgba(139,92,246,0.08); margin-bottom: 2rem;
+    }
+    .guide-link:hover { background: rgba(139,92,246,0.15); }
+
+    .container { max-width: 820px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 1.75rem; margin-bottom: 1.5rem; }
+    .card-title { font-weight: 800; color: #fff; margin-bottom: 1.5rem; font-size: 1rem; }
+
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
+    label { display: block; font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+    input, select {
+      width: 100%; padding: 0.7rem 0.9rem;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: #fff; border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--primary); }
+    select option { background: var(--bg3); }
+    .btn-row { display: flex; gap: 0.75rem; }
+    .btn-primary { flex: 1; background: var(--primary); color: #fff; padding: 0.85rem; border-radius: 12px; border: none; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: opacity 0.2s; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 0.75rem 1.2rem; border-radius: 10px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+    .btn-ghost:hover { color: var(--text); }
+
+    #empty-state { text-align: center; padding: 4rem 2rem; border: 2px dashed var(--border); border-radius: 18px; }
+    .empty-ico { font-size: 3rem; opacity: 0.3; margin-bottom: 1rem; }
+
+    /* Sub cards */
+    .sub-card {
+      border-radius: 16px; padding: 1.25rem 1.5rem;
+      margin-bottom: 0.75rem;
+      border: 1px solid;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      transition: all 0.2s;
+    }
+    .sub-card:hover { transform: translateY(-1px); }
+    .sub-card.green { background: rgba(74,222,128,0.05); border-color: rgba(74,222,128,0.2); }
+    .sub-card.amber { background: rgba(251,191,36,0.07); border-color: rgba(251,191,36,0.25); }
+    .sub-card.red { background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.3); animation: glow-red 2s infinite; }
+    @keyframes glow-red { 0%,100%{box-shadow:0 0 0 rgba(248,113,113,0)} 50%{box-shadow:0 0 20px rgba(248,113,113,0.15)} }
+    .sub-avatar {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center;
+      font-weight: 900; color: #fff; font-size: 1rem; flex-shrink: 0;
+    }
+    .sub-name { font-weight: 700; color: #fff; }
+    .sub-meta { font-size: 0.8rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .badge { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+    .badge-green { background: var(--green); color: #000; }
+    .badge-amber { background: var(--amber); color: #000; }
+    .badge-red { background: var(--red); color: #fff; }
+    .del-btn { background: none; border: none; color: var(--muted); cursor: pointer; padding: 0.3rem; transition: color 0.2s; }
+    .del-btn:hover { color: var(--red); }
+
+    /* CTA */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(167,139,250,0.04));
+      border: 1px solid var(--border2); border-radius: 20px;
+      padding: 2rem; margin-bottom: 2rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .cta-banner h3 { font-weight: 800; color: #fff; margin-bottom: 0.3rem; }
+    .cta-banner p { color: var(--muted); font-size: 0.85rem; }
+    .cta-btn { background: var(--primary); color: #fff; padding: 0.75rem 1.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.85rem; white-space: nowrap; transition: opacity 0.2s; }
+    .cta-btn:hover { opacity: 0.85; }
+
+    /* SEO */
+    .seo { max-width: 820px; margin: 0 auto; padding: 5rem 2rem; border-top: 1px solid var(--border); }
+    .seo h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,5vw,3rem); letter-spacing: 2px; color: #fff; margin-bottom: 1rem; }
+    .seo p { color: var(--muted); line-height: 1.85; margin-bottom: 1.2rem; font-size: 0.95rem; }
+    .seo strong { color: var(--text); }
+    .faq { border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-top: 3rem; }
+    .faq-item { padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item h4 { color: #fff; font-weight: 700; margin-bottom: 0.5rem; }
+    .faq-item p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+    .related { margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--border); text-align: center; }
+    .related-links { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1.25rem; }
+    .related-link { background: var(--bg2); border: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; font-weight: 600; padding: 0.5rem 1.2rem; border-radius: 20px; text-decoration: none; transition: all 0.2s; }
+    .related-link:hover { color: var(--accent); border-color: var(--border2); }
+    footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.75rem; }
+  </style>
+  <script src="/blogPosts.js"></script>
+${jsonLd}\n</head>
+<body>
+<div class="amb amb1"></div>
+<div class="amb amb2"></div>
+
+<nav>
+  <div class="logo">Upcoming <span>Renewals</span></div>
+  <div style="display:flex;align-items:center;gap:1.5rem;">
+    <a href="//guide.html" class="nav-link">📖 Guide</a>
+    <a href="https://incinerator-c3z.pages.dev" target="_blank" class="nav-link">Incinerator</a>
+    <a href="//guide.html" class="nav-cta">Read Guide →</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge"><span class="ping"></span> 30-Day Alert System</div>
+  <h1>Upcoming<br><em>Renewals</em></h1>
+  <p class="hero-sub">Never get blindsided by a recurring charge. Track billing dates, get color-coded urgency alerts, and cancel before the cycle starts.</p>
+  <a href="//guide.html" class="guide-link">📖 How to use this tool →</a>
+</div>
+
+<div class="container">
+  <div class="card">
+    <div class="card-title">Add Subscription to Watch</div>
+    <form id="add-form">
+      <div class="form-grid">
+        <div><label>Service Name</label><input type="text" id="sub-name" placeholder="Netflix, Adobe..." required></div>
+        <div><label>Price</label><input type="number" id="sub-price" step="0.01" placeholder="9.99" required></div>
+        <div>
+          <label>Currency</label>
+          <select id="sub-currency">
+            <option value="$">$ USD</option>
+            <option value="¥">¥ JPY</option>
+            <option value="€">€ EUR</option>
+            <option value="£">£ GBP</option>
+          </select>
+        </div>
+        <div><label>Next Billing Date</label><input type="date" id="sub-date" required></div>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn-primary">Monitor Renewal</button>
+        <button type="button" onclick="loadSamples()" class="btn-ghost">Try Samples</button>
+      </div>
+    </form>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding:0 0.25rem;">
+    <h2 style="font-weight:800;color:#fff;">Active Watchlist</h2>
+    <span id="sub-count" style="background:var(--bg2);border:1px solid var(--border);color:var(--muted);font-size:0.75rem;font-weight:700;padding:0.3rem 0.8rem;border-radius:20px;">0 Subscriptions</span>
+  </div>
+
+  <div id="sub-list">
+    <div id="empty-state">
+      <div class="empty-ico">⌛</div>
+      <p style="color:var(--muted);">No upcoming renewals tracked yet.</p>
+    </div>
+  </div>
+
+  <div class="cta-banner">
+    <div>
+      <h3>Need a complete financial audit?</h3>
+      <p>Use Incinerator to manage your full burn rate and eliminate wasteful spending.</p>
+    </div>
+    <a href="https://incinerator-c3z.pages.dev" target="_blank" class="cta-btn">Open Incinerator →</a>
+  </div>
+</div>
+
+<section class="seo">
+  <h2>Stop Subscription Traps Before They Charge You</h2>
+  <p>Subscription companies design their billing cycles to be <strong>invisible</strong>. Renewal dates are buried in confirmation emails. Free trials convert to paid plans while you're distracted. Upcoming Renewals gives you a single dashboard that sorts all your billing dates by urgency — turning invisible drains into high-visibility alerts.</p>
+  <p>The color system does the work: <strong style="color:#f87171;">Red (≤3 days)</strong> means act now or you'll be charged. <strong style="color:#fbbf24;">Amber (≤7 days)</strong> means you need to decide this week. <strong style="color:#4ade80;">Green (≤30 days)</strong> means you're safely in the window. All data stored in your browser's localStorage — no cloud, no email, no leakage.</p>
+
+  <div class="faq">
+    <div class="faq-item">
+      <h4>Does this send email notifications?</h4>
+      <p>No. To ensure 100% privacy, this tool doesn't collect your email. Check the dashboard manually as part of your weekly financial routine.</p>
+    </div>
+    <div class="faq-item">
+      <h4>How is my data stored?</h4>
+      <p>In your browser's localStorage. It persists on your device across sessions but never syncs to any server. Clear your browser data to remove everything.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can I track annual subscriptions?</h4>
+      <p>Yes — just enter the next billing date, whether it's next month or next year. The days-remaining counter handles any duration.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What if I miss a renewal?</h4>
+      <p>The card turns red with a pulse animation when the renewal date passes. You can then decide to cancel retrospectively or keep the service.</p>
+    </div>
+  </div>
+
+  <div class="related">
+    <p style="color:var(--muted);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;">Related Tools</p>
+    <div class="related-links">
+      <a href="https://csv-auto-import.pages.dev" class="related-link">📂 CSV Auto Import</a>
+      <a href="https://free-trial-tracker.pages.dev" class="related-link">🔔 Free Trial Tracker</a>
+      <a href="https://subscription-simulator-ev7.pages.dev" class="related-link">📈 Sub Simulator</a>
+      <a href="https://incinerator-c3z.pages.dev" class="related-link">🔥 Incinerator</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- BLOG LIST SECTION -->
+<section id="blog-section" style="max-width:900px; margin:40px auto; padding:40px 24px; border-top:1px solid rgba(255,255,255,0.1);">
+    <h2 style="font-size:2rem; margin-bottom:1rem; color:#fff;">Financial Insights & Privacy</h2>
+    <div id="lp-blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;"></div>
+</section>
+
+<footer>© 2026 Upcoming Renewals · 100% Client-Side · Zero Data Collection</footer>
+
+<script>
+  let subscriptions = JSON.parse(localStorage.getItem('upcoming_subs') || '[]');
+  const form = document.getElementById('add-form');
+  const subList = document.getElementById('sub-list');
+  const emptyState = document.getElementById('empty-state');
+  const subCount = document.getElementById('sub-count');
+  function save(){localStorage.setItem('upcoming_subs',JSON.stringify(subscriptions));render();}
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    subscriptions.push({id:Date.now(),name:document.getElementById('sub-name').value,price:document.getElementById('sub-price').value,currency:document.getElementById('sub-currency').value,date:document.getElementById('sub-date').value});
+    form.reset();save();
+  });
+  function loadSamples(){
+    subscriptions=[...subscriptions,
+      {id:1,name:'Netflix Premium',price:19.99,currency:'$',date:getFutureDate(2)},
+      {id:2,name:'Adobe Creative Cloud',price:54.99,currency:'$',date:getFutureDate(6)},
+      {id:3,name:'YouTube Premium',price:11.99,currency:'$',date:getFutureDate(12)},
+      {id:4,name:'ChatGPT Plus',price:20.00,currency:'$',date:getFutureDate(25)}
+    ];save();
+  }
+  function getFutureDate(days){const d=new Date();d.setDate(d.getDate()+days);return d.toISOString().split('T')[0];}
+  function deleteSub(id){subscriptions=subscriptions.filter(s=>s.id!==id);save();}
+  function render(){
+    if(!subscriptions.length){
+      subList.innerHTML='';subList.appendChild(emptyState);emptyState.style.display='block';
+      subCount.innerText='0 Subscriptions';return;
+    }
+    emptyState.style.display='none';
+    subCount.innerText=`${subscriptions.length} Subscription${subscriptions.length>1?'s':''}`;
+    const today=new Date();today.setHours(0,0,0,0);
+    const sorted=[...subscriptions].sort((a,b)=>new Date(a.date)-new Date(b.date));
+    subList.innerHTML=sorted.map(sub=>{
+      const next=new Date(sub.date);
+      const diff=Math.ceil((next-today)/(1000*60*60*24));
+      const cls=diff<=3?'red':diff<=7?'amber':'green';
+      const bCls=diff<=3?'badge-red':diff<=7?'badge-amber':'badge-green';
+      const label=diff<0?'Overdue':diff===0?'Today':diff===1?'1 Day Left':`${diff} Days Left`;
+      return `
+        <div class="sub-card ${cls}">
+          <div style="display:flex;align-items:center;gap:0.9rem;">
+            <div class="sub-avatar">${sub.name[0]}</div>
+            <div>
+              <div class="sub-name">${sub.name}</div>
+              <div class="sub-meta">${sub.currency}${sub.price} · ${new Date(sub.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <span class="badge ${bCls}">${label}</span>
+            <button class="del-btn" onclick="deleteSub(${sub.id})">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+  render();
+</script>
+
+<!-- BLOG VIEW -->
+<div id="blog-view" style="display: none; background-color: #000; min-height: 100vh; padding-top: 80px; color: #fff; font-family: sans-serif;">
+    <nav style="position:fixed; top:0; width:100%; z-index:50; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div style="max-width:800px; margin:0 auto; padding:0 24px; height:70px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:20px; font-weight:bold; cursor:pointer;" onclick="hideBlog()">← Back</div>
+        </div>
+    </nav>
+    <div style="max-width:800px; margin:0 auto; padding:40px 24px;" id="blog-content">${preRenderedContent}</div>
+</div>
+
+
+<script>
+function showBlog(id) {
+    const post = window.blogPosts.find(p => p.id === id);
+    if (!post) return;
+    
+    // Hide all main body children except blog-view and scripts
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+            child.dataset.oldDisplay = child.style.display;
+            child.style.display = 'none';
+        }
+    });
+    
+    document.getElementById('blog-view').style.display = 'block';
+    
+    const content = `
+        <div style="color:#f97316; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px;">${post.category}</div>
+        <h1 style="font-size:3rem; font-weight:bold; margin-bottom:24px; line-height:1.2;">${post.title}</h1>
+        <div style="color:#a1a1aa; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+            By ${post.author} • ${post.date}
+        </div>
+        <div style="font-size:1.1rem; line-height:1.8; color:#d4d4d8;">
+            ${post.content}
+        </div>
+    `;
+    document.getElementById('blog-content').innerHTML = content;
+    window.scrollTo(0, 0);
+    if (history.state?.id !== id) history.pushState({view: 'blog', id}, '', '/blog/' + id);
+}
+
+function hideBlog() {
+    document.getElementById('blog-view').style.display = 'none';
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.dataset.oldDisplay !== undefined) {
+            child.style.display = child.dataset.oldDisplay;
+        }
+    });
+    window.scrollTo(0, 0);
+    if (window.location.pathname.startsWith('/blog/')) history.pushState({view: 'main'}, '', '/');
+}
+
+window.addEventListener('popstate', (e) => {
+    if (window.location.pathname.startsWith('/blog/')) { showBlog(window.location.pathname.replace('/blog/', '')); } else { hideBlog(); }
+});
+
+function initBlog() {
+    const grid = document.getElementById('lp-blog-grid');
+    if (grid && window.blogPosts) {
+        grid.innerHTML = window.blogPosts.map(post => `
+            <a href="//blog/${post.id}" onclick="event.preventDefault(); showBlog('${post.id}');" style="display:block; text-decoration:none; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px; cursor:pointer; transition:all 0.2s;">
+                <div style="color:#f97316; font-size:10px; font-weight:bold; text-transform:uppercase; margin-bottom:12px;">${post.category}</div>
+                <h3 style="color:#fff; font-size:1.2rem; font-weight:bold; margin-bottom:12px;">${post.title}</h3>
+                <p style="color:#a1a1aa; font-size:14px; line-height:1.5;">${post.excerpt}</p>
+            </a>
+        `).join('');
+    }
+    if (window.location.pathname.startsWith('/blog/')) { showBlog(window.location.pathname.replace('/blog/', '')); }
+}
+document.addEventListener('DOMContentLoaded', initBlog);
+// If already loaded
+if (document.readyState === 'interactive' || document.readyState === 'complete') initBlog();
+
+            // SSG INITIALIZATION OVERRIDE
+            document.addEventListener('DOMContentLoaded', () => {
+                Array.from(document.body.children).forEach(child => {
+                    if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+                        child.dataset.oldDisplay = child.style.display || '';
+                        child.style.display = 'none';
+                    }
+                });
+                const bv = document.getElementById('blog-view');
+                if(bv) bv.style.display = 'block';
+            });
+        </script>
+
+</body>
+</html>

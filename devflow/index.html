@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1SQEN17M9F"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1SQEN17M9F');
+    </script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevFlow | AI Development Command Center</title>
+    <meta name="description" content="The ultimate dashboard for managing your AI-assisted development projects, conversation logs, and file versions." />
+    <meta name="keywords" content="AI development, programming, dashboard, developer tools, productivity, local-first, privacy" />
+    <meta property="og:title" content="DevFlow | AI Development Command Center" />
+    <meta property="og:description" content="Manage AI logs, file versions, and tasks in one private dashboard." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://devflow-app.pages.dev/" />
+    <meta property="og:image" content="https://devflow-app.pages.dev/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DevFlow | AI Development Command Center" />
+    <meta name="twitter:description" content="Manage AI logs, file versions, and tasks in one private dashboard." />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#09090b]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

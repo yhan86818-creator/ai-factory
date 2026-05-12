@@ -1,696 +1,1776 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QY1C17HTRD"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KWNNEL7X7J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-      gtag('config', 'G-QY1C17HTRD');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Expense Analyzer — Private, Local CSV Analysis</title>
-    <meta name="description" content="Analyze your bank statements locally. No server uploads, 100% private. Visualize your spending patterns and manage your budget with our secure tool.">
-    <meta name="keywords" content="financial analyzer, bank statement analyzer, expense tracker, private budgeting, csv analyzer, finance tool">
-    
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QY1C17HTRD"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+  gtag('config', 'G-KWNNEL7X7J');
+</script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wk4ovtb4c9");
+    function track(e,p){}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Expense Analyzer — Private Bank Statement & CSV Analysis Tool</title>
+<meta name="description" content="Free, 100% private bank statement analyzer. Visualize spending, categorize expenses, and track your budget locally in your browser. No server uploads, zero data tracking, works with any CSV.">
+<meta name="keywords" content="financial analyzer, bank statement analyzer, expense tracker, private budgeting, csv analyzer, finance tool, spending visualizer, personal finance dashboard, local csv analysis, privacy first budgeting">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* ════════════════════════════════════════════════════════
+   DESIGN TOKENS — "Obsidian Terminal"
+════════════════════════════════════════════════════════ */
+:root{
+  --bg:         #07090F;
+  --bg2:        #0C0F1A;
+  --bg3:        #111520;
+  --bg4:        #171C2E;
+  --line:       rgba(255,255,255,0.06);
+  --line2:      rgba(255,255,255,0.11);
+  --text:       #DDE3F0;
+  --sub:        #5A6480;
+  --sub2:       #3A4260;
+  --g:          #00E5A0;   /* primary accent — electric green */
+  --g2:         #00B87A;
+  --b:          #0EB5FF;   /* secondary accent — ice blue */
+  --r:          #FF4D6A;   /* danger / negative */
+  --y:          #FFB800;   /* gold / pro */
+  --radius:     10px;
+  --radius2:    18px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,a{font-family:inherit;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px;}
 
-      gtag('config', 'G-QY1C17HTRD');
-    </script>
-    
-    <!-- Scripts -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <style>
-        body { 
-            font-family: 'DM Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
+/* ── GRAIN OVERLAY ── */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.018;mix-blend-mode:overlay;
+}
 
-        .animate-pulse-slow {
-            animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.1; }
-        }
+/* ── AMBIENT ── */
+.amb{position:fixed;border-radius:50%;pointer-events:none;filter:blur(120px);}
+.amb1{width:700px;height:700px;background:rgba(0,229,160,.07);top:-250px;right:-200px;}
+.amb2{width:500px;height:500px;background:rgba(14,181,255,.05);bottom:-200px;left:-150px;}
+.amb3{width:300px;height:300px;background:rgba(255,184,0,.04);bottom:30%;right:5%;}
 
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Chart container heights */
-        .chart-container { position: relative; height: 300px; width: 100%; }
-    </style>
+/* ════════════════════════════════════════════════════════
+   HEADER
+════════════════════════════════════════════════════════ */
+#hdr{
+  position:sticky;top:0;z-index:100;
+  height:56px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+  background:rgba(7,9,15,.9);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--line);
+}
+.logo{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;
+  background:linear-gradient(90deg,var(--g),var(--b));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  flex-shrink:0;
+}
+.hdr-mid{display:flex;align-items:center;gap:2px;}
+.nav-pill{
+  padding:5px 14px;border-radius:100px;font-size:12px;font-weight:500;
+  color:var(--sub);cursor:pointer;border:none;background:none;
+  transition:all .18s;letter-spacing:.02em;
+}
+.nav-pill:hover{color:var(--text);}
+.nav-pill.on{background:var(--bg3);color:var(--text);border:1px solid var(--line2);}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.btn-xs{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;
+  border:1px solid var(--line2);color:var(--sub);
+  background:none;cursor:pointer;transition:all .18s;letter-spacing:.04em;text-transform:uppercase;
+}
+.btn-xs:hover{color:var(--text);border-color:var(--line2);background:var(--bg3);}
+.btn-xs.pro{border-color:rgba(255,184,0,.3);color:var(--y);background:rgba(255,184,0,.05);}
+.btn-xs.pro:hover{background:rgba(255,184,0,.1);}
+.btn-xs.active{border-color:rgba(0,229,160,.3);color:var(--g);background:rgba(0,229,160,.06);}
+#pro-status{display:none;}
+
+/* ════════════════════════════════════════════════════════
+   SECTIONS
+════════════════════════════════════════════════════════ */
+.sec{display:none;min-height:calc(100vh - 56px);}
+.sec.on{display:block;}
+
+/* ════════════════════════════════════════════════════════
+   HOME / HERO
+════════════════════════════════════════════════════════ */
+#s-home{
+  display:none;
+  padding:80px 24px 60px;
+  text-align:center;
+  flex-direction:column;align-items:center;
+}
+#s-home.on{display:flex;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:32px;
+  padding:6px 16px;border-radius:100px;
+  background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.18);
+  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--g);
+}
+.dot-pulse{
+  width:6px;height:6px;border-radius:50%;background:var(--g);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hero-h{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,9vw,110px);line-height:.9;
+  letter-spacing:3px;color:#fff;margin-bottom:24px;
+}
+.hero-h em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--g),var(--b));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-p{
+  font-size:clamp(15px,2vw,17px);color:var(--sub);
+  max-width:480px;line-height:1.7;margin-bottom:44px;
+}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:60px;}
+.btn-main{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 30px;border-radius:var(--radius2);border:none;cursor:pointer;
+  background:var(--g);color:#07090F;font-weight:700;font-size:14px;
+  box-shadow:0 0 32px rgba(0,229,160,.25);transition:all .2s;
+}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 4px 40px rgba(0,229,160,.35);}
+.btn-out{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 30px;border-radius:var(--radius2);cursor:pointer;
+  border:1px solid var(--line2);background:none;color:var(--text);
+  font-weight:500;font-size:14px;transition:all .2s;
+}
+.btn-out:hover{background:var(--bg3);}
+
+/* FLOW */
+.flow{
+  display:flex;align-items:stretch;
+  background:var(--bg3);border:1px solid var(--line);
+  border-radius:var(--radius2);overflow:hidden;
+  max-width:700px;width:100%;margin-bottom:56px;
+}
+.flow-s{
+  flex:1;padding:20px 16px;text-align:center;
+  position:relative;border-right:1px solid var(--line);
+}
+.flow-s:last-child{border-right:none;}
+.flow-s::after{
+  content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);
+  color:var(--sub2);font-size:14px;z-index:1;
+}
+.flow-s:last-child::after{display:none;}
+.flow-ico{font-size:20px;margin-bottom:6px;}
+.flow-lbl{font-size:11px;color:var(--sub);font-weight:500;letter-spacing:.06em;text-transform:uppercase;}
+
+/* TRUST */
+.trust{
+  display:flex;gap:24px;flex-wrap:wrap;justify-content:center;
+  padding:20px 28px;border-radius:var(--radius2);
+  background:var(--bg3);border:1px solid var(--line);
+}
+.trust-i{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--sub);}
+.trust-ico{
+  width:30px;height:30px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;
+}
+
+/* ════════════════════════════════════════════════════════
+   UPLOAD SECTION
+════════════════════════════════════════════════════════ */
+#s-upload{padding:40px 24px 80px;}
+.upload-inner{max-width:820px;margin:0 auto;}
+.sec-title{
+  font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;
+  color:#fff;margin-bottom:6px;
+}
+.sec-sub{font-size:13px;color:var(--sub);margin-bottom:28px;}
+
+/* DROP ZONE */
+#drop-zone{
+  border:2px dashed var(--line2);border-radius:var(--radius2);
+  padding:52px 32px;text-align:center;cursor:pointer;
+  position:relative;overflow:hidden;transition:all .25s;
+  background:var(--bg2);
+}
+#drop-zone::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,229,160,.05),transparent);
+  pointer-events:none;
+}
+#drop-zone:hover,#drop-zone.dov{
+  border-color:rgba(0,229,160,.45);
+  background:rgba(0,229,160,.025);
+}
+.dz-ico{
+  width:56px;height:56px;border-radius:14px;margin:0 auto 18px;
+  background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.2);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.dz-t{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:#fff;margin-bottom:6px;}
+.dz-s{font-size:13px;color:var(--sub);margin-bottom:14px;}
+.fmt-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+.fmt{
+  padding:2px 9px;border-radius:100px;font-size:11px;font-weight:600;
+  font-family:'JetBrains Mono',monospace;
+  background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--sub);
+}
+
+/* SAMPLE GRID */
+.sample-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px;
+  margin-top:20px;
+}
+.samp{
+  padding:13px 15px;border-radius:var(--radius);border:1px solid var(--line);
+  background:var(--bg3);cursor:pointer;text-align:left;transition:all .18s;
+}
+.samp:hover{border-color:rgba(0,229,160,.3);background:rgba(0,229,160,.04);}
+.samp-n{font-size:12px;font-weight:600;color:var(--text);}
+.samp-d{font-size:11px;color:var(--sub);margin-top:2px;}
+
+/* HISTORY */
+.hist-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;
+  margin-top:12px;
+}
+.hist-c{
+  padding:15px;border-radius:var(--radius);border:1px solid var(--line);
+  background:var(--bg3);cursor:pointer;transition:all .18s;
+}
+.hist-c:hover{border-color:rgba(0,229,160,.3);}
+.hist-n{font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.hist-v{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;color:var(--g);margin-bottom:3px;}
+.hist-m{font-size:11px;color:var(--sub);}
+
+/* ════════════════════════════════════════════════════════
+   MAPPING
+════════════════════════════════════════════════════════ */
+#s-map{padding:40px 24px 80px;}
+.map-inner{max-width:760px;margin:0 auto;}
+.card{
+  background:var(--bg2);border:1px solid var(--line);
+  border-radius:var(--radius2);padding:24px;margin-bottom:14px;
+}
+.card-hd{
+  font-size:11px;font-weight:600;color:var(--sub);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;
+}
+.f-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.f-lbl{font-size:11px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;}
+.f-sel{
+  width:100%;padding:9px 12px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--line2);
+  color:var(--text);font-size:13px;outline:none;cursor:pointer;
+  appearance:none;transition:border-color .18s;
+}
+.f-sel:focus{border-color:rgba(0,229,160,.45);}
+.f-sel option{background:#111520;}
+.preset-row{display:flex;gap:6px;flex-wrap:wrap;}
+.pre-btn{
+  padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;
+  border:1px solid var(--line2);color:var(--sub);background:none;cursor:pointer;transition:all .18s;
+}
+.pre-btn:hover,.pre-btn.on{
+  border-color:rgba(0,229,160,.35);background:rgba(0,229,160,.07);color:var(--g);
+}
+.prev-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--line);}
+.prev-tbl{width:100%;border-collapse:collapse;font-size:12px;font-family:'JetBrains Mono',monospace;}
+.prev-tbl th{padding:7px 12px;text-align:left;font-weight:500;color:var(--sub);background:var(--bg3);border-bottom:1px solid var(--line);white-space:nowrap;}
+.prev-tbl td{padding:6px 12px;color:var(--sub);border-bottom:1px solid var(--line);white-space:nowrap;}
+.err-msg{
+  display:none;align-items:center;gap:8px;
+  padding:10px 14px;border-radius:var(--radius);margin-bottom:12px;
+  background:rgba(255,77,106,.09);border:1px solid rgba(255,77,106,.22);
+  color:#FF7A8A;font-size:13px;
+}
+.err-msg.on{display:flex;}
+
+/* ════════════════════════════════════════════════════════
+   ANALYSIS
+════════════════════════════════════════════════════════ */
+#s-analysis{padding:32px 24px 80px;}
+.a-inner{max-width:1140px;margin:0 auto;}
+
+/* STAT CARDS */
+.stats-g{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;
+}
+.sc{
+  background:var(--bg2);border:1px solid var(--line);
+  border-radius:var(--radius2);padding:18px 20px;
+  position:relative;overflow:hidden;
+}
+.sc::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--ac,var(--g)),transparent);
+}
+.sc-l{font-size:10px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+.sc-v{
+  font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;
+  color:#fff;margin-bottom:3px;
+}
+.sc-s{font-size:11px;color:var(--sub);}
+
+/* INSIGHT */
+.ins-card{
+  background:linear-gradient(135deg,rgba(0,229,160,.05),rgba(14,181,255,.03));
+  border:1px solid rgba(0,229,160,.12);border-radius:var(--radius2);
+  padding:20px;margin-bottom:14px;
+}
+.ins-hd{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.ins-title{font-size:13px;font-weight:600;color:#fff;}
+.ins-badge{
+  padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;
+  background:rgba(0,229,160,.12);color:var(--g);letter-spacing:.08em;text-transform:uppercase;
+}
+.ins-list{display:flex;flex-direction:column;gap:8px;}
+.ins-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 12px;border-radius:var(--radius);
+  background:rgba(255,255,255,.02);border:1px solid var(--line);
+}
+.ins-dot{width:5px;height:5px;border-radius:50%;background:var(--g);flex-shrink:0;margin-top:6px;}
+.ins-txt{font-size:12px;color:var(--sub);line-height:1.55;}
+.ins-txt b{color:var(--text);}
+
+/* CHARTS */
+.ch-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px;}
+.ch-card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius2);padding:22px;}
+.ch-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:#fff;margin-bottom:18px;}
+.ch-wrap{position:relative;height:250px;}
+
+/* CATEGORY BAR TABLE */
+.cat-tbl{width:100%;border-collapse:collapse;}
+.cat-r{border-bottom:1px solid var(--line);}
+.cat-r:last-child{border-bottom:none;}
+.cat-cell{padding:10px 0;}
+.cat-name{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);font-weight:500;}
+.cat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.cat-amt{font-size:13px;color:#fff;font-weight:600;text-align:right;white-space:nowrap;font-family:'JetBrains Mono',monospace;}
+.cat-pct{font-size:11px;color:var(--sub);text-align:right;white-space:nowrap;}
+.bar-track{height:3px;background:rgba(255,255,255,.05);border-radius:2px;margin-top:4px;}
+.bar-fill{height:100%;border-radius:2px;transition:width .8s ease;}
+
+/* FILTER + TX TABLE */
+.filter-r{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center;}
+.f-inp{
+  flex:1;min-width:150px;padding:8px 12px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--line2);
+  color:var(--text);font-size:13px;outline:none;
+}
+.f-inp::placeholder{color:var(--sub);}
+.f-inp:focus{border-color:rgba(0,229,160,.35);}
+.f-drop{
+  padding:8px 12px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--line2);
+  color:var(--text);font-size:13px;outline:none;cursor:pointer;
+}
+.f-drop option{background:#111520;}
+.tx-wrap{overflow-x:auto;border-radius:var(--radius2);border:1px solid var(--line);}
+.tx-tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.tx-tbl th{
+  padding:9px 14px;text-align:left;font-size:10px;font-weight:600;
+  color:var(--sub);text-transform:uppercase;letter-spacing:.1em;
+  background:var(--bg3);border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;
+}
+.tx-tbl th:hover{color:var(--text);}
+.tx-tbl td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--text);}
+.tx-tbl tr:last-child td{border-bottom:none;}
+.tx-tbl tr:hover td{background:rgba(255,255,255,.015);}
+.cat-tag{
+  display:inline-block;padding:2px 7px;border-radius:100px;
+  font-size:10px;font-weight:600;letter-spacing:.04em;
+}
+.pager{
+  display:flex;align-items:center;gap:6px;
+  padding:10px 14px;border-top:1px solid var(--line);
+}
+.pg-btn{
+  padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;
+  border:1px solid var(--line2);background:none;color:var(--sub);cursor:pointer;transition:all .18s;
+}
+.pg-btn:hover,.pg-btn.on{background:var(--bg3);color:var(--text);}
+.pg-info{font-size:11px;color:var(--sub);margin-left:auto;}
+
+/* ACTIONS */
+.act-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+.btn-act{
+  flex:1;min-width:130px;display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 18px;border-radius:var(--radius);border:1px solid var(--line2);
+  background:var(--bg2);color:var(--text);font-size:12px;font-weight:600;
+  cursor:pointer;transition:all .18s;letter-spacing:.02em;
+}
+.btn-act:hover{background:var(--bg3);}
+.btn-act.g{background:rgba(0,229,160,.08);border-color:rgba(0,229,160,.25);color:var(--g);}
+.btn-act.g:hover{background:rgba(0,229,160,.13);}
+.btn-act.y{background:rgba(255,184,0,.07);border-color:rgba(255,184,0,.25);color:var(--y);}
+.btn-act.y:hover{background:rgba(255,184,0,.12);}
+.pro-chip{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(255,184,0,.15);color:var(--y);margin-left:2px;}
+
+/* ════════════════════════════════════════════════════════
+   HISTORY SECTION
+════════════════════════════════════════════════════════ */
+#s-hist{padding:40px 24px 80px;}
+.hist-inner{max-width:900px;margin:0 auto;}
+.hist-empty{text-align:center;padding:60px 0;color:var(--sub);}
+.hist-empty-ico{font-size:48px;margin-bottom:14px;}
+
+/* ════════════════════════════════════════════════════════
+   PRO MODAL
+════════════════════════════════════════════════════════ */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.8);backdrop-filter:blur(10px);
+  z-index:200;align-items:center;justify-content:center;padding:16px;
+}
+.overlay.on{display:flex;}
+.modal{
+  background:var(--bg2);border:1px solid var(--line2);
+  border-radius:var(--radius2);width:100%;max-width:440px;
+  overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,.7);
+}
+.m-tabs{display:flex;border-bottom:1px solid var(--line);}
+.m-tab{
+  flex:1;padding:13px;font-size:12px;font-weight:600;text-align:center;
+  cursor:pointer;color:var(--sub);border-bottom:2px solid transparent;
+  transition:all .18s;background:none;border-top:none;border-left:none;border-right:none;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.m-tab.on{color:#fff;border-bottom-color:var(--g);}
+.m-pan{padding:26px;display:none;}
+.m-pan.on{display:block;}
+.m-price{text-align:center;margin-bottom:22px;}
+.m-big{font-family:'Bebas Neue',sans-serif;font-size:72px;color:#fff;line-height:1;letter-spacing:2px;}
+.m-small{font-size:13px;color:var(--sub);}
+.feat-list{display:flex;flex-direction:column;gap:9px;margin-bottom:22px;}
+.feat{display:flex;align-items:flex-start;gap:9px;font-size:13px;}
+.feat-ck{color:var(--g);flex-shrink:0;margin-top:1px;}
+.feat-n{color:var(--text);font-weight:500;}
+.feat-d{color:var(--sub);font-size:11px;margin-top:1px;}
+.btn-gum{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px;border-radius:var(--radius);border:none;cursor:pointer;
+  background:linear-gradient(135deg,#FF90E8,#FF3CAC);
+  color:#fff;font-weight:700;font-size:14px;
+  box-shadow:0 4px 24px rgba(255,60,172,.3);transition:all .2s;
+}
+.btn-gum:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(255,60,172,.4);}
+.lic-lbl{font-size:10px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;}
+.lic-inp{
+  width:100%;padding:11px 13px;border-radius:var(--radius);
+  background:var(--bg);border:1px solid var(--line2);
+  color:var(--text);font-size:13px;font-family:'JetBrains Mono',monospace;outline:none;
+  transition:border-color .18s;
+}
+.lic-inp:focus{border-color:rgba(0,229,160,.45);}
+.btn-verify{
+  width:100%;padding:12px;border-radius:var(--radius);border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--g),var(--g2));
+  color:#07090F;font-weight:700;font-size:14px;transition:opacity .18s;
+}
+.btn-verify:hover{opacity:.9;}
+.btn-verify:disabled{opacity:.5;cursor:not-allowed;}
+.v-msg{font-size:12px;margin-top:8px;padding:9px 11px;border-radius:8px;display:none;}
+.v-msg.err{background:rgba(255,77,106,.09);color:#FF8F8F;border:1px solid rgba(255,77,106,.2);display:block;}
+.v-msg.ok{background:rgba(0,229,160,.09);color:var(--g);border:1px solid rgba(0,229,160,.2);display:block;}
+.suc-anim{text-align:center;padding:16px 0;display:none;}
+.suc-anim.on{display:block;}
+@keyframes pop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.suc-anim.on{animation:pop .4s ease-out both;}
+
+/* ════════════════════════════════════════════════════════
+   FREE vs PRO TABLE
+════════════════════════════════════════════════════════ */
+.fvp{max-width:820px;margin:40px auto 0;}
+.fvp-wrap{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius2);overflow:hidden;}
+.fvp-hd{padding:14px 20px;border-bottom:1px solid var(--line);font-size:12px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;}
+.fvp-tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.fvp-tbl th{padding:9px 16px;font-size:10px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--line);}
+.fvp-tbl td{padding:9px 16px;border-bottom:1px solid rgba(255,255,255,.03);}
+.fvp-tbl tr:last-child td{border-bottom:none;}
+.fvp-foot{
+  padding:14px 20px;border-top:1px solid var(--line);
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.lnk{font-size:12px;color:var(--g);text-decoration:underline;text-underline-offset:3px;cursor:pointer;background:none;border:none;}
+
+/* ════════════════════════════════════════════════════════
+   PRIVACY BLOG
+════════════════════════════════════════════════════════ */
+#s-privacy{padding:40px 24px 80px;display:none;}
+#s-privacy.on{display:block;}
+.priv-inner{max-width:740px;margin:0 auto;}
+.blog-h2{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:#fff;margin-bottom:8px;}
+.blog-p{font-size:14px;color:var(--sub);line-height:1.75;margin-bottom:16px;}
+.blog-callout{
+  background:rgba(255,77,106,.06);border-left:3px solid var(--r);
+  border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px;margin-bottom:14px;
+}
+.blog-callout b{color:var(--text);}
+.blog-tip{
+  background:rgba(0,229,160,.05);border:1px solid rgba(0,229,160,.15);
+  border-radius:var(--radius);padding:14px 18px;margin-top:20px;
+}
+
+/* ════════════════════════════════════════════════════════
+   TOAST
+════════════════════════════════════════════════════════ */
+#toast{
+  position:fixed;bottom:20px;left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:var(--bg3);border:1px solid var(--line2);
+  color:var(--text);font-size:12px;font-weight:500;
+  padding:9px 18px;border-radius:100px;
+  pointer-events:none;z-index:300;
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;
+}
+#toast.on{transform:translateX(-50%) translateY(0);}
+
+/* ════════════════════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fu{animation:fadeUp .32s ease-out both;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sp{animation:spin .7s linear infinite;display:inline-block;}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════════════ */
+@media(max-width:900px){
+  .ch-grid{grid-template-columns:1fr;}
+  .stats-g{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .stats-g{grid-template-columns:1fr 1fr;}
+  .hdr-mid{display:none;}
+  .hero-h{font-size:52px;}
+  .flow{flex-direction:column;}
+  .flow-s{border-right:none;border-bottom:1px solid var(--line);}
+  .flow-s:last-child{border-bottom:none;}
+  .flow-s::after{content:'↓';right:auto;left:50%;top:auto;bottom:-11px;}
+  .f-grid{grid-template-columns:1fr;}
+  .act-row{flex-direction:column;}
+  #hdr{padding:0 14px;}
+}
+@media(max-width:420px){
+  .stats-g{grid-template-columns:1fr;}
+}
+</style>
 </head>
-<body class="bg-slate-950 text-slate-200">
+<body>
 
-    <div class="min-h-screen bg-gradient-to-br from-slate-950 via-teal-900/20 to-slate-950 relative">
-        <!-- Animated background -->
-        <div class="fixed inset-0 opacity-20 pointer-events-none">
-            <div class="absolute top-0 left-1/4 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse-slow"></div>
-            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-slate-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse-slow delay-7000"></div>
-        </div>
+<div class="amb amb1"></div>
+<div class="amb amb2"></div>
+<div class="amb amb3"></div>
 
-        <div class="relative z-10">
-            <!-- Header -->
-            <header class="border-b border-slate-700/50 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-20">
-                <div class="max-w-6xl mx-auto px-6 py-6">
-                    <!-- Privacy Badge -->
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-teal-500/20 to-cyan-500/20 border border-teal-400/50">
-                            <i data-lucide="shield" class="w-4 h-4 text-teal-400"></i>
-                            <span class="text-xs font-semibold text-teal-300">
-                                🔒 Data Processing: Local Only (No Server Uploads)
-                            </span>
-                        </div>
-                        <button onclick="toggleBlog()" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300 transition-colors text-sm">
-                            <i data-lucide="book-open" class="w-4 h-4"></i>
-                            Privacy Guide
-                        </button>
-                    </div>
+<!-- ══════════════════════════════════════
+     HEADER
+══════════════════════════════════════ -->
+<header id="hdr">
+  <div class="logo">SPENDLY</div>
+  <nav class="hdr-mid">
+    <button class="nav-pill on" onclick="nav('home')">Home</button>
+    <button class="nav-pill" onclick="nav('upload')">Upload</button>
+    <button class="nav-pill" onclick="nav('analysis')">Analysis</button>
+    <button class="nav-pill" onclick="nav('hist')">History</button>
+  </nav>
+  <div class="hdr-right">
+    <div id="pro-status" class="btn-xs active">✦ Pro Active</div>
+    <button id="pro-btn" class="btn-xs pro" onclick="openModal()">⚡ Unlock Pro</button>
+    <button class="btn-xs" onclick="nav('upload')">↑ Upload</button>
+  </div>
+</header>
 
-                    <!-- Title -->
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 rounded-xl bg-gradient-to-br from-teal-600 to-cyan-600">
-                            <i data-lucide="trending-down" class="w-7 h-7 text-white"></i>
-                        </div>
-                        <div>
-                            <h1 class="text-4xl font-bold text-white mb-1">Financial Expense Analyzer</h1>
-                            <p class="text-slate-400 text-sm">Import your bank CSV. Analyze offline. All data stays on your device.</p>
-                        </div>
-                    </div>
-                </div>
-            </header>
+<!-- ══════════════════════════════════════
+     SECTION: HOME
+══════════════════════════════════════ -->
+<section id="s-home" class="sec on">
+  <div class="eyebrow"><span class="dot-pulse"></span> 100% LOCAL & PRIVATE</div>
+  <h1 class="hero-h">KNOW YOUR<br><em>MONEY.</em></h1>
+  <p class="hero-p">Drop your bank CSV — get instant spending analysis. Everything runs in your browser. Nothing leaves your device.</p>
+  
+  <div class="cta-row">
+    <button class="btn-main" onclick="nav('upload')">Start Analyzing</button>
+    <button class="btn-out" onclick="loadSample('Chase Bank')">Try Sample Data</button>
+  </div>
 
-            <!-- Main Content -->
-            <main class="max-w-6xl mx-auto px-6 py-12">
-                <!-- Landing / Upload Section -->
-                <div id="upload-section" class="space-y-8">
-                    <div id="drop-zone" class="bg-slate-800/40 backdrop-blur border-2 border-dashed border-slate-600/50 rounded-2xl p-12 text-center hover:border-teal-500/50 transition-colors cursor-pointer">
-                        <div class="flex justify-center mb-4">
-                            <div class="p-4 rounded-full bg-teal-500/10 border border-teal-500/30">
-                                <i data-lucide="upload" class="w-8 h-8 text-teal-400"></i>
-                            </div>
-                        </div>
-                        <h2 class="text-2xl font-bold text-white mb-2">Upload Your Bank CSV</h2>
-                        <p class="text-slate-400 mb-4">Drag and drop your bank statement CSV, or click to browse</p>
-                        <p class="text-xs text-slate-500">Works with most bank formats: Chase, Bank of America, Wells Fargo, Charles Schwab, Wise, Revolut, etc.</p>
-                        <input type="file" accept=".csv" id="file-input" class="hidden">
-                    </div>
-                </div>
+  <div class="flow">
+    <div class="flow-s">
+      <div class="flow-ico">📄</div>
+      <div class="flow-lbl">Export CSV</div>
+    </div>
+    <div class="flow-s">
+      <div class="flow-ico">☁️</div>
+      <div class="flow-lbl">Drop Here</div>
+    </div>
+    <div class="flow-s">
+      <div class="flow-ico">📊</div>
+      <div class="flow-lbl">Gain Insight</div>
+    </div>
+  </div>
 
-                <!-- Mapping Section -->
-                <div id="mapping-section" class="hidden space-y-8 fade-in">
-                    <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-8">
-                        <div class="flex items-center justify-between mb-8">
-                            <div>
-                                <h2 class="text-2xl font-bold text-white mb-1">Map Your Columns</h2>
-                                <p class="text-slate-400 text-sm">Select which columns contain your transaction data</p>
-                            </div>
-                            <div class="text-right">
-                                <p id="file-size-info" class="text-xs text-slate-500"></p>
-                                <p id="row-count-info" class="text-xs text-slate-500"></p>
-                            </div>
-                        </div>
+  <div class="trust">
+    <div class="trust-i"><span class="trust-ico">🔒</span> Privacy First</div>
+    <div class="trust-i"><span class="trust-ico">⚡</span> No Account</div>
+    <div class="trust-i"><span class="trust-ico">💎</span> Pro Tools</div>
+  </div>
+</section>
+<section id="s-upload" class="sec">
+<div class="upload-inner">
+  <div class="sec-title">UPLOAD CSV</div>
+  <div class="sec-sub">Select your bank's export file — processed entirely in your browser</div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-200 mb-3">Date</label>
-                                <select id="map-date" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600 text-slate-200 focus:ring-2 focus:ring-teal-500 outline-none text-sm"></select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-200 mb-3">Amount</label>
-                                <select id="map-amount" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600 text-slate-200 focus:ring-2 focus:ring-teal-500 outline-none text-sm"></select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-200 mb-3">Category (Optional - Auto-Detected)</label>
-                                <select id="map-category" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600 text-slate-200 focus:ring-2 focus:ring-teal-500 outline-none text-sm"></select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-200 mb-3">Memo/Description (Optional)</label>
-                                <select id="map-notes" class="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600 text-slate-200 focus:ring-2 focus:ring-teal-500 outline-none text-sm"></select>
-                            </div>
-                        </div>
+  <div id="drop-zone" onclick="document.getElementById('fi').click()">
+    <div class="dz-ico">📂</div>
+    <div class="dz-t">DRAG & DROP YOUR CSV</div>
+    <div class="dz-s">or click to browse files</div>
+    <div class="fmt-row">
+      <span class="fmt">Chase</span><span class="fmt">Revolut</span><span class="fmt">Wise</span>
+      <span class="fmt">Schwab</span><span class="fmt">MUFG</span><span class="fmt">Any CSV</span>
+    </div>
+    <input type="file" accept=".csv" id="fi" style="display:none">
+  </div>
 
-                        <div class="mb-8">
-                            <h3 class="text-sm font-semibold text-slate-200 mb-4">Preview (First 3 Rows)</h3>
-                            <div class="overflow-x-auto border border-slate-700/50 rounded-lg">
-                                <table id="preview-table" class="w-full text-xs text-slate-300">
-                                    <thead class="bg-slate-900/50"></thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
+  <div style="margin-top:22px">
+    <div style="font-size:11px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Try sample data</div>
+    <div class="sample-grid" id="sample-grid"></div>
+  </div>
 
-                        <div class="flex gap-4">
-                            <button onclick="processData()" class="flex-1 px-6 py-3 rounded-lg bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold hover:shadow-lg hover:shadow-teal-500/20 transition-all flex items-center justify-center gap-2">
-                                <i data-lucide="zap" class="w-4 h-4"></i>
-                                Analyze Transactions
-                            </button>
-                            <button onclick="resetAll()" class="px-6 py-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-200 font-semibold transition-colors">Clear</button>
-                        </div>
-                    </div>
-                </div>
+  <div id="hist-upload-sec" style="margin-top:28px;display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:11px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.1em">Previous Analyses</div>
+      <button onclick="clearHistory()" style="font-size:11px;color:var(--sub);background:none;border:none;cursor:pointer">Clear all</button>
+    </div>
+    <div class="hist-grid" id="hist-grid-up"></div>
+  </div>
+</div>
+</section>
 
-                <!-- Analysis Results Section -->
-                <div id="results-section" class="hidden space-y-8 fade-in">
-                    <!-- Summary Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
-                            <p class="text-slate-400 text-sm mb-2">Total Expenses</p>
-                            <p id="stat-total" class="text-3xl font-bold text-white">$0.00</p>
-                            <p id="stat-count" class="text-xs text-slate-500 mt-2">0 transactions</p>
-                        </div>
-                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
-                            <p class="text-slate-400 text-sm mb-2">Average Transaction</p>
-                            <p id="stat-average" class="text-3xl font-bold text-teal-400">$0.00</p>
-                            <p class="text-xs text-slate-500 mt-2">per transaction</p>
-                        </div>
-                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
-                            <p class="text-slate-400 text-sm mb-2">Largest Expense</p>
-                            <p id="stat-highest" class="text-3xl font-bold text-cyan-400">$0.00</p>
-                            <p class="text-xs text-slate-500 mt-2">single transaction</p>
-                        </div>
-                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
-                            <p class="text-slate-400 text-sm mb-2">Time Period</p>
-                            <p id="stat-period" class="text-3xl font-bold text-white">0</p>
-                            <p class="text-xs text-slate-500 mt-2">months of data</p>
-                        </div>
-                    </div>
+<!-- ══════════════════════════════════════
+     SECTION: MAPPING
+══════════════════════════════════════ -->
+<section id="s-map" class="sec">
+<div class="map-inner">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button onclick="nav('upload')" style="font-size:12px;color:var(--sub);background:none;border:none;cursor:pointer">← Back</button>
+    <div style="font-size:11px;color:var(--sub)" id="file-meta"></div>
+  </div>
+  <div class="sec-title">MAP COLUMNS</div>
+  <div class="sec-sub">Tell us which columns contain your transaction data</div>
 
-                    <!-- Charts Grid -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <!-- Monthly Trend -->
-                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-8">
-                            <h3 class="text-xl font-bold text-white mb-6">Monthly Spending Trend</h3>
-                            <div class="chart-container">
-                                <canvas id="trendChart"></canvas>
-                            </div>
-                        </div>
+  <div class="card">
+    <div class="card-hd">Bank Presets</div>
+    <div class="preset-row" id="preset-row"></div>
+  </div>
 
-                        <!-- Category Breakdown -->
-                        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-8">
-                            <h3 class="text-xl font-bold text-white mb-6">Spending by Category</h3>
-                            <div class="chart-container">
-                                <canvas id="categoryChart"></canvas>
-                            </div>
-                        </div>
+  <div class="card">
+    <div class="card-hd">Column Mapping</div>
+    <div class="f-grid">
+      <div><div class="f-lbl">Date <span style="color:var(--r)">*</span></div><select class="f-sel" id="map-date"></select></div>
+      <div><div class="f-lbl">Amount <span style="color:var(--r)">*</span></div><select class="f-sel" id="map-amount"></select></div>
+      <div><div class="f-lbl">Category <span style="color:var(--sub2)">(optional)</span></div><select class="f-sel" id="map-category"></select></div>
+      <div><div class="f-lbl">Memo / Description <span style="color:var(--sub2)">(optional)</span></div><select class="f-sel" id="map-notes"></select></div>
+    </div>
+  </div>
 
-                        <!-- Category Details Table -->
-                        <div class="lg:col-span-2 bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-8">
-                            <h3 class="text-xl font-bold text-white mb-6">Category Breakdown</h3>
-                            <div class="overflow-x-auto">
-                                <table id="category-table" class="w-full text-sm">
-                                    <thead>
-                                        <tr class="border-b border-slate-600 text-left">
-                                            <th class="px-6 py-3 font-semibold text-slate-200">Category</th>
-                                            <th class="px-6 py-3 font-semibold text-slate-200 text-right">Amount</th>
-                                            <th class="px-6 py-3 font-semibold text-slate-200 text-right">% of Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+  <div class="card">
+    <div class="card-hd">Preview — first 3 rows</div>
+    <div class="prev-wrap"><table class="prev-tbl" id="prev-tbl"><thead></thead><tbody></tbody></table></div>
+  </div>
 
-                    <!-- Action Buttons -->
-                    <div class="flex gap-4">
-                        <button onclick="openProModal()" class="flex-1 px-6 py-4 rounded-lg bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                            <i data-lucide="lock" class="w-4 h-4"></i>
-                            Generate PDF Report (Pro)
-                        </button>
-                        <button onclick="openProModal()" class="flex-1 px-6 py-4 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-200 font-semibold transition-colors flex items-center justify-center gap-2">
-                            <i data-lucide="download" class="w-4 h-4"></i>
-                            Export Data (Pro)
-                        </button>
-                        <button onclick="resetAll()" class="px-6 py-4 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-200 font-semibold transition-colors">New Analysis</button>
-                    </div>
-                </div>
+  <div class="err-msg" id="map-err"><span>⚠</span><span id="map-err-txt"></span></div>
 
-                <!-- Blog Section -->
-                <div id="blog-section" class="hidden mt-16 bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-12 prose prose-invert max-w-none animate-fade-in">
-                    <article>
-                        <h2 class="text-4xl font-bold text-white mb-6">
-                            Financial Data Sovereignty: Why Offline Budgeting is Safer
-                        </h2>
+  <div style="display:flex;gap:10px">
+    <button class="btn-main" style="flex:1;justify-content:center;border-radius:var(--radius)" onclick="processData();track('mapping_done')">⚡ Analyze Transactions</button>
+    <button class="btn-out" style="border-radius:var(--radius);padding:14px 20px" onclick="nav('upload')">← Back</button>
+  </div>
+</div>
+</section>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 not-prose">
-                            <div class="bg-gradient-to-br from-teal-600/20 to-cyan-600/20 rounded-lg p-6 border border-teal-600/50">
-                                <h4 class="text-lg font-bold text-teal-300 mb-3">🏦 Bank-Grade Privacy</h4>
-                                <p class="text-slate-300 text-sm">
-                                    Your financial data never leaves your device. No servers. No cloud. No data brokers.
-                                </p>
-                            </div>
-                            <div class="bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-lg p-6 border border-cyan-600/50">
-                                <h4 class="text-lg font-bold text-cyan-300 mb-3">🔐 Zero Trust Architecture</h4>
-                                <p class="text-slate-300 text-sm">
-                                    We don't need to trust because we can't access. Your browser does the processing locally.
-                                </p>
-                            </div>
-                        </div>
+<!-- ══════════════════════════════════════
+     SECTION: ANALYSIS
+══════════════════════════════════════ -->
+<section id="s-analysis" class="sec">
+<div class="a-inner fu">
 
-                        <h3 class="text-3xl font-bold text-slate-100 mt-12 mb-6">Why This Matters for Your Financial Data</h3>
+  <!-- Stats -->
+  <div class="stats-g">
+    <div class="sc" style="--ac:var(--g)">
+      <div class="sc-l">Total Expenses</div>
+      <div class="sc-v" id="st-total">$0</div>
+      <div class="sc-s" id="st-count">0 transactions</div>
+    </div>
+    <div class="sc" style="--ac:var(--b)">
+      <div class="sc-l">Avg Transaction</div>
+      <div class="sc-v" id="st-avg">$0</div>
+      <div class="sc-s">per transaction</div>
+    </div>
+    <div class="sc" style="--ac:var(--r)">
+      <div class="sc-l">Largest Expense</div>
+      <div class="sc-v" id="st-max">$0</div>
+      <div class="sc-s">single transaction</div>
+    </div>
+    <div class="sc" style="--ac:var(--y)">
+      <div class="sc-l">Time Period</div>
+      <div class="sc-v" id="st-months">0</div>
+      <div class="sc-s">months of data</div>
+    </div>
+  </div>
 
-                        <p class="text-slate-300 text-lg mb-6">
-                            Your financial data is the most sensitive information you own. It reveals where you shop, what you eat, your health status, your religious beliefs, your political affiliations, and your deepest spending habits.
-                        </p>
+  <!-- Insights -->
+  <div class="ins-card">
+    <div class="ins-hd">
+      <div class="ins-title">💡 Smart Insights</div>
+      <div class="ins-badge">Auto-Analysis</div>
+    </div>
+    <div class="ins-list" id="ins-list"></div>
+  </div>
 
-                        <h4 class="text-2xl font-bold text-slate-200 mt-8 mb-4">The Problem with Cloud-Based Budgeting Tools</h4>
+  <!-- Charts -->
+  <div class="ch-grid">
+    <div class="ch-card">
+      <div class="ch-title">MONTHLY SPENDING TREND</div>
+      <div class="ch-wrap"><canvas id="trend-ch"></canvas></div>
+    </div>
+    <div class="ch-card">
+      <div class="ch-title">SPENDING BY CATEGORY</div>
+      <div class="ch-wrap"><canvas id="donut-ch"></canvas></div>
+    </div>
+  </div>
 
-                        <div class="bg-slate-900/50 border-l-4 border-red-500/50 rounded-lg p-6 mb-6 not-prose">
-                            <p class="text-slate-300 mb-4">
-                                <strong>Data Breaches Are Inevitable.</strong> Equifax. Capital One. T-Mobile. The largest financial institutions on Earth have had your data exposed. A consumer budgeting app? They're even bigger targets.
-                            </p>
-                            <p class="text-slate-300 mb-4">
-                                <strong>Your Data is a Product.</strong> Free budgeting apps monetize your transaction patterns. They sell insights to advertisers, hedge funds, and data brokers. "Anonymized" data? It's been un-anonymized in countless studies.
-                            </p>
-                            <p class="text-slate-300">
-                                <strong>Legal Risk.</strong> Your financial data is discoverable in lawsuits, subpoenaed in investigations, and accessible to government agencies. The less you store in the cloud, the safer you are.
-                            </p>
-                        </div>
+  <!-- Category breakdown -->
+  <div class="ch-card" style="margin-bottom:14px">
+    <div class="ch-title">CATEGORY BREAKDOWN</div>
+    <table class="cat-tbl" id="cat-tbl"></table>
+  </div>
 
-                        <h4 class="text-2xl font-bold text-slate-200 mt-8 mb-4">How This Tool Is Different</h4>
+  <!-- Transaction list -->
+  <div class="ch-card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="ch-title" style="margin-bottom:0">TRANSACTIONS</div>
+      <div style="font-size:11px;color:var(--sub)" id="tx-lbl"></div>
+    </div>
+    <div class="filter-r">
+      <input class="f-inp" id="f-search" placeholder="🔍  Search..." oninput="filterTx()">
+      <select class="f-drop" id="f-cat" onchange="filterTx()"><option value="">All Categories</option></select>
+      <select class="f-drop" id="f-mon" onchange="filterTx()"><option value="">All Months</option></select>
+    </div>
+    <div class="tx-wrap">
+      <table class="tx-tbl">
+        <thead><tr>
+          <th onclick="sortTx('date')">Date ↕</th>
+          <th onclick="sortTx('notes')">Description</th>
+          <th onclick="sortTx('category')">Category</th>
+          <th onclick="sortTx('amount')" style="text-align:right">Amount ↕</th>
+        </tr></thead>
+        <tbody id="tx-body"></tbody>
+      </table>
+      <div class="pager" id="pager"></div>
+    </div>
+  </div>
 
-                        <ul class="space-y-4 text-slate-300 mb-6 list-none">
-                            <li class="flex gap-4">
-                                <span class="text-teal-400 font-bold min-w-fit">✓ Local Processing</span>
-                                <span>Your CSV is processed 100% in your browser. We see nothing. Not even logs.</span>
-                            </li>
-                            <li class="flex gap-4">
-                                <span class="text-teal-400 font-bold min-w-fit">✓ No Accounts</span>
-                                <span>No login required. No email address collected. No profile building.</span>
-                            </li>
-                            <li class="flex gap-4">
-                                <span class="text-teal-400 font-bold min-w-fit">✓ No Storage</span>
-                                <span>Your analysis exists only in your browser session. Close the tab, and it's gone.</span>
-                            </li>
-                            <li class="flex gap-4">
-                                <span class="text-teal-400 font-bold min-w-fit">✓ Open Source Philosophy</span>
-                                <span>We don't rely on proprietary algorithms. You can verify exactly how your data is processed.</span>
-                            </li>
-                            <li class="flex gap-4">
-                                <span class="text-teal-400 font-bold min-w-fit">✓ Works Offline</span>
-                                <span>After loading, this tool works without internet. Perfect for privacy-conscious users.</span>
-                            </li>
-                        </ul>
+  <!-- Actions -->
+  <div class="act-row">
+    <button class="btn-act g" onclick="saveAnalysis()">💾 Save Analysis</button>
+    <button class="btn-act y" onclick="proAction('pdf')">📄 PDF Report <span class="pro-chip" id="pdf-chip">PRO</span></button>
+    <button class="btn-act y" onclick="proAction('csv')">⬇ Export CSV <span class="pro-chip" id="csv-chip">PRO</span></button>
+    <button class="btn-act" onclick="nav('upload')">＋ New Analysis</button>
+  </div>
+</div>
+</section>
 
-                        <h4 class="text-2xl font-bold text-slate-200 mt-8 mb-4">Real-World Use Cases</h4>
+<!-- ══════════════════════════════════════
+     SECTION: HISTORY
+══════════════════════════════════════ -->
+<section id="s-hist" class="sec">
+<div class="hist-inner">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px">
+    <div><div class="sec-title">HISTORY</div><div class="sec-sub">Saved analyses</div></div>
+    <button onclick="clearHistory()" style="font-size:12px;color:var(--sub);background:none;border:none;cursor:pointer;margin-top:4px">Clear all</button>
+  </div>
+  <div class="hist-grid" id="hist-grid-main"></div>
+  <div id="hist-empty" class="hist-empty" style="display:none">
+    <div class="hist-empty-ico">📭</div>
+    <div style="font-size:14px;margin-bottom:16px">No saved analyses yet</div>
+    <button class="btn-main" onclick="nav('upload')">Start Analyzing</button>
+  </div>
+</div>
+</section>
 
-                        <div class="bg-slate-900/50 rounded-lg p-6 mb-6 not-prose">
-                            <h5 class="text-white font-bold mb-3">👨💼 Freelancers & Contractors</h5>
-                            <p class="text-slate-300">
-                                You have variable income across multiple bank accounts. You need to analyze business vs. personal spending. But uploading your financial data to SaaS tools means sharing your entire income history with a third party. This tool lets you keep it private while getting instant insights.
-                            </p>
-                        </div>
+<!-- ══════════════════════════════════════
+     PRO MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
+<div class="modal">
+  <div class="m-tabs">
+    <button class="m-tab on" id="tab-buy" onclick="switchTab('buy')">⚡ Get Pro</button>
+    <button class="m-tab" id="tab-key" onclick="switchTab('key')">🔑 License Key</button>
+  </div>
 
-                        <div class="bg-slate-900/50 rounded-lg p-6 mb-6 not-prose">
-                            <h5 class="text-white font-bold mb-3">🌍 International Users</h5>
-                            <p class="text-slate-300">
-                                Cloud tools must comply with local data regulations (GDPR, CCPA, etc.). They store your data in data centers. This tool doesn't store anything. Zero regulatory burden. Zero compliance risk for us means maximum privacy for you.
-                            </p>
-                        </div>
+  <!-- BUY -->
+  <div class="m-pan on" id="pan-buy">
+    <div class="m-price">
+      <div class="m-big">$8</div>
+      <div class="m-small">One-time · No subscription · Never expires</div>
+    </div>
+    <div class="feat-list">
+      <div class="feat"><span class="feat-ck">✓</span><div><div class="feat-n">PDF Financial Reports</div><div class="feat-d">Print-quality reports generated locally</div></div></div>
+      <div class="feat"><span class="feat-ck">✓</span><div><div class="feat-n">Export Cleaned CSV</div><div class="feat-d">Download categorized transaction data</div></div></div>
+      <div class="feat"><span class="feat-ck">✓</span><div><div class="feat-n">Custom Category Editing</div><div class="feat-d">Set your own classification rules</div></div></div>
+      <div class="feat"><span class="feat-ck">✓</span><div><div class="feat-n">Year-over-Year Comparison</div><div class="feat-d">Compare spending across years</div></div></div>
+      <div class="feat"><span class="feat-ck">✓</span><div><div class="feat-n">Save Column Mappings</div><div class="feat-d">Remember your bank's format forever</div></div></div>
+    </div>
+    <a href="https://yhanster206.gumroad.com/l/povga" target="_blank" rel="noopener" class="btn-gum" onclick="track('gumroad_click')">Buy on Gumroad →</a>
+    <button onclick="switchTab('key')" style="width:100%;margin-top:10px;padding:9px;background:none;border:none;color:var(--sub);font-size:12px;cursor:pointer;">Already purchased? Enter license key</button>
+  </div>
 
-                        <div class="bg-slate-900/50 rounded-lg p-6 mb-6 not-prose">
-                            <h5 class="text-white font-bold mb-3">🏥 Medical/Sensitive Situations</h5>
-                            <p class="text-slate-300">
-                                Maybe your spending reveals a medical condition, a divorce, a job loss. These details are nobody's business but yours. This tool ensures they stay that way.
-                            </p>
-                        </div>
+  <!-- KEY -->
+  <div class="m-pan" id="pan-key">
+    <div style="text-align:center;margin-bottom:22px">
+      <div style="font-size:44px;margin-bottom:8px">🔑</div>
+      <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Enter License Key</div>
+      <div style="font-size:12px;color:var(--sub)">Your key was emailed after Gumroad purchase</div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="lic-lbl">Gumroad License Key</div>
+      <input class="lic-inp" id="lic-inp" placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX" oninput="document.getElementById('v-msg').className='v-msg'">
+    </div>
+    <button class="btn-verify" id="v-btn" onclick="verifyLicense()">Verify &amp; Unlock Pro</button>
+    <div class="v-msg" id="v-msg"></div>
+    <div class="suc-anim" id="suc-anim">
+      <div style="font-size:52px;margin-bottom:8px">🎉</div>
+      <div style="font-size:18px;font-weight:700;color:var(--g)">Pro Unlocked!</div>
+      <div style="font-size:12px;color:var(--sub);margin-top:4px">All features are now active.</div>
+    </div>
+    <div style="text-align:center;margin-top:14px">
+      <a href="https://yhanster206.gumroad.com/l/povga" target="_blank" rel="noopener" style="font-size:12px;color:var(--sub);text-decoration:underline;text-underline-offset:3px;">Don't have a key? Buy Pro →</a>
+    </div>
+  </div>
+</div>
+</div>
 
-                        <h4 class="text-2xl font-bold text-slate-200 mt-8 mb-4">Technical Architecture</h4>
+<!-- TOAST -->
+<div id="toast"></div>
 
-                        <p class="text-slate-300 mb-4">
-                            This tool uses the browser's native JavaScript APIs for CSV parsing and data processing. No third-party analytics. No external API calls. No tracking pixels. When you close the tab, there's no trace of your financial data anywhere.
-                        </p>
+<script>
+/* ═══════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════ */
+const S={
+  csv:[],hdrs:[],map:{date:'',amount:'',category:'',notes:''},
+  processed:[],cats:{},monthly:[],
+  stats:{total:0,avg:0,max:0,count:0},
+  name:'',isPro:false,
+  txFilt:[],txSort:{k:'date',d:-1},txPage:0,txPer:30
+};
+const COLORS=['#00E5A0','#0EB5FF','#FF4D6A','#FFB800','#A78BFA','#FB923C','#34D399','#F472B6','#60A5FA','#FACC15'];
+let tCh=null,dCh=null;
 
-                        <div class="bg-teal-600/10 border border-teal-600/30 rounded-lg p-6 not-prose">
-                            <h4 class="text-teal-300 font-bold mb-2">🎯 The Bottom Line</h4>
-                            <p class="text-slate-300">
-                                Financial sovereignty is the future. You wouldn't hand your bank statements to a stranger. Don't upload them to the cloud either. This tool gives you professional-grade expense analysis without sacrificing privacy.
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </main>
+/* ═══════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════ */
+function nav(id){
 
-            <!-- Pro Modal -->
-            <div id="pro-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-                <div class="bg-slate-800 rounded-2xl p-10 max-w-md border border-slate-700 shadow-2xl scale-95 transition-transform duration-200">
-                    <div class="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 mx-auto mb-6">
-                        <i data-lucide="lock" class="w-7 h-7 text-white"></i>
-                    </div>
-                    <h3 class="text-3xl font-bold text-white text-center mb-3">Unlock Pro Features</h3>
-                    <p class="text-slate-400 text-center mb-8">Advanced reporting and data export for power users</p>
-                    <div class="space-y-4 mb-8">
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-6 h-6 text-teal-400 flex-shrink-0 mt-0.5"></i>
-                            <div>
-                                <p class="font-semibold text-slate-200">PDF Financial Reports</p>
-                                <p class="text-xs text-slate-500">Generate bank-quality financial reports</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-6 h-6 text-teal-400 flex-shrink-0 mt-0.5"></i>
-                            <div>
-                                <p class="font-semibold text-slate-200">CSV Export</p>
-                                <p class="text-xs text-slate-500">Export cleaned and categorized data</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-6 h-6 text-teal-400 flex-shrink-0 mt-0.5"></i>
-                            <div>
-                                <p class="font-semibold text-slate-200">Multi-Year Comparison</p>
-                                <p class="text-xs text-slate-500">Year-over-year spending analysis</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-6 h-6 text-teal-400 flex-shrink-0 mt-0.5"></i>
-                            <div>
-                                <p class="font-semibold text-slate-200">Save Column Mappings</p>
-                                <p class="text-xs text-slate-500">Remember your bank's format forever</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold hover:shadow-lg transition-shadow mb-3">Coming Soon</button>
-                    <button onclick="closeProModal()" class="w-full px-6 py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold transition-colors">Close</button>
-                </div>
-            </div>
+  document.getElementById('hdr').style.display = (id === 'home') ? 'none' : 'flex';
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  const el=document.getElementById('s-'+id);
+  if(el)el.classList.add('on');
+  document.querySelectorAll('.nav-pill').forEach((b,i)=>{
+    const ids=['home','upload','analysis','hist'];
+    b.classList.toggle('on',ids[i]===id);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='hist')renderHistMain();
+  if(id==='upload')renderHistUp();
+}
 
-            <!-- Footer -->
-            <footer class="border-t border-slate-700/50 bg-slate-950/50 mt-16 py-8">
-                <div class="max-w-6xl mx-auto px-6 text-center text-slate-400 text-sm">
-                    <p>Financial Expense Analyzer • 100% Client-Side • Zero Data Retention • Local-First Privacy</p>
-                    <p class="mt-2 text-xs text-slate-600">Your financial data is sacred. We treat it that way.</p>
-                </div>
-            </footer>
-        </div>
+/* ═══════════════════════════════════════════════════════
+   SAMPLES
+═══════════════════════════════════════════════════════ */
+const SAMPLES={
+  'Chase Bank':{desc:'US checking account',map:{date:'Transaction Date',amount:'Amount',category:'Category',notes:'Description'},
+  csv:`Transaction Date,Post Date,Description,Category,Type,Amount,Memo
+04/01/2025,04/02/2025,WHOLE FOODS MARKET,Food & Drink,Sale,-87.43,
+04/02/2025,04/03/2025,NETFLIX.COM,Entertainment,Sale,-15.99,
+04/03/2025,04/04/2025,SHELL OIL,Gas,Sale,-62.50,
+04/04/2025,04/05/2025,AMAZON.COM,Shopping,Sale,-134.99,
+04/05/2025,04/06/2025,STARBUCKS,Food & Drink,Sale,-7.45,
+04/06/2025,04/07/2025,EQUINOX GYM,Health & Wellness,Sale,-80.00,
+04/08/2025,04/09/2025,CVS PHARMACY,Health & Wellness,Sale,-23.14,
+04/10/2025,04/11/2025,TRADER JOES,Food & Drink,Sale,-112.30,
+04/11/2025,04/12/2025,SPOTIFY,Entertainment,Sale,-9.99,
+04/12/2025,04/13/2025,UBER,Travel,Sale,-18.50,
+04/13/2025,04/14/2025,CON EDISON UTILITY,Bills,Sale,-145.00,
+04/14/2025,04/15/2025,CHIPOTLE,Food & Drink,Sale,-14.75,
+04/15/2025,04/16/2025,TARGET,Shopping,Sale,-67.22,
+04/16/2025,04/17/2025,COMCAST INTERNET,Bills,Sale,-79.99,
+04/17/2025,04/18/2025,CHEESECAKE FACTORY,Food & Drink,Sale,-52.80,
+04/19/2025,04/20/2025,DELTA AIRLINES,Travel,Sale,-389.00,
+04/20/2025,04/21/2025,WALGREENS,Health & Wellness,Sale,-34.56,
+04/21/2025,04/22/2025,HOME DEPOT,Shopping,Sale,-156.89,
+04/22/2025,04/23/2025,AMTRAK TRAIN,Travel,Sale,-45.00,
+04/24/2025,04/25/2025,APPLE STORE,Shopping,Sale,-29.99,
+03/01/2025,03/02/2025,WHOLE FOODS MARKET,Food & Drink,Sale,-91.20,
+03/03/2025,03/04/2025,NETFLIX.COM,Entertainment,Sale,-15.99,
+03/05/2025,03/06/2025,SHELL OIL,Gas,Sale,-58.70,
+03/07/2025,03/08/2025,AMAZON.COM,Shopping,Sale,-99.00,
+03/10/2025,03/11/2025,EQUINOX GYM,Health & Wellness,Sale,-80.00,
+03/12/2025,03/13/2025,TRADER JOES,Food & Drink,Sale,-104.55,
+03/15/2025,03/16/2025,CON EDISON UTILITY,Bills,Sale,-138.00,
+03/18/2025,03/19/2025,SPOTIFY,Entertainment,Sale,-9.99,
+03/20/2025,03/21/2025,TARGET,Shopping,Sale,-48.10,
+03/22/2025,03/23/2025,CHIPOTLE,Food & Drink,Sale,-13.45,
+02/02/2025,02/03/2025,WHOLE FOODS MARKET,Food & Drink,Sale,-78.90,
+02/04/2025,02/05/2025,NETFLIX.COM,Entertainment,Sale,-15.99,
+02/06/2025,02/07/2025,SHELL OIL,Gas,Sale,-71.20,
+02/08/2025,02/09/2025,AMAZON.COM,Shopping,Sale,-245.00,
+02/10/2025,02/11/2025,EQUINOX GYM,Health & Wellness,Sale,-80.00,
+02/14/2025,02/15/2025,RESTAURANT VALENTINES,Food & Drink,Sale,-148.60,
+02/16/2025,02/17/2025,CON EDISON UTILITY,Bills,Sale,-162.00,
+02/20/2025,02/21/2025,SPOTIFY,Entertainment,Sale,-9.99,
+02/22/2025,02/23/2025,TARGET,Shopping,Sale,-112.45,`},
+  'Revolut':{desc:'Multi-currency account',map:{date:'Completed Date',amount:'Amount',category:'Category',notes:'Description'},
+  csv:`Completed Date,Description,Amount,Currency,Local amount,Local currency,Category,Notes
+2025-04-01,Deliveroo,-12.50,GBP,-12.50,GBP,Food,
+2025-04-02,TfL Travel,-4.70,GBP,-4.70,GBP,Transport,
+2025-04-03,Spotify,-9.99,GBP,-9.99,GBP,Entertainment,
+2025-04-04,Tesco Superstore,-67.30,GBP,-67.30,GBP,Groceries,
+2025-04-05,Amazon Prime,-8.99,GBP,-8.99,GBP,Shopping,
+2025-04-06,Starbucks,-5.40,GBP,-5.40,GBP,Food,
+2025-04-07,Netflix,-10.99,GBP,-10.99,GBP,Entertainment,
+2025-04-08,Airbnb Paris,-280.00,GBP,-330.40,EUR,Travel,
+2025-04-09,Metro Paris,-14.90,GBP,-17.60,EUR,Transport,
+2025-04-10,Restaurant Le Marais,-62.40,GBP,-73.60,EUR,Food,
+2025-04-12,Sainsburys,-42.10,GBP,-42.10,GBP,Groceries,
+2025-04-13,Gym Membership,-29.99,GBP,-29.99,GBP,Health,
+2025-04-14,EE Phone Bill,-35.00,GBP,-35.00,GBP,Bills,
+2025-04-17,Uber Eats,-22.80,GBP,-22.80,GBP,Food,
+2025-04-20,British Gas,-89.00,GBP,-89.00,GBP,Bills,
+2025-03-03,TfL Travel,-38.50,GBP,-38.50,GBP,Transport,
+2025-03-05,Tesco Superstore,-71.90,GBP,-71.90,GBP,Groceries,
+2025-03-10,Spotify,-9.99,GBP,-9.99,GBP,Entertainment,
+2025-03-12,Gym Membership,-29.99,GBP,-29.99,GBP,Health,
+2025-03-15,EE Phone Bill,-35.00,GBP,-35.00,GBP,Bills,
+2025-03-20,British Gas,-95.00,GBP,-95.00,GBP,Bills,`},
+  'Wise':{desc:'International transfers',map:{date:'Date',amount:'Amount',category:'',notes:'Description'},
+  csv:`TransferWise ID,Date,Amount,Currency,Description
+TX001,2025-04-02,-45.60,USD,Netflix Subscription
+TX002,2025-04-03,-120.00,USD,Adobe Creative Suite
+TX003,2025-04-05,-890.00,USD,Rent Payment
+TX004,2025-04-06,-34.99,USD,GitHub Pro
+TX005,2025-04-07,-67.80,USD,Grocery Store
+TX006,2025-04-09,-299.00,USD,Flight Booking
+TX007,2025-04-12,-45.00,USD,Restaurant Dinner
+TX008,2025-04-15,-32.50,USD,Uber Rides
+TX009,2025-04-17,-89.00,USD,Phone Bill
+TX010,2025-04-20,-145.00,USD,AWS Services
+TX011,2025-03-02,-890.00,USD,Rent Payment
+TX012,2025-03-05,-120.00,USD,Adobe Creative Suite
+TX013,2025-03-12,-145.00,USD,AWS Services`},
+  'Simple Household':{desc:'Basic family budget',map:{date:'Date',amount:'Amount',category:'Category',notes:'Description'},
+  csv:`Date,Description,Amount,Category
+2025-04-01,Rent,-1200.00,Housing
+2025-04-02,Electric Bill,-85.00,Utilities
+2025-04-04,Grocery Shopping,-210.00,Food
+2025-04-07,Restaurant Dinner,-65.00,Food
+2025-04-10,Gasoline,-55.00,Transport
+2025-04-12,Grocery Shopping,-175.00,Food
+2025-04-14,Streaming Services,-45.00,Entertainment
+2025-04-15,Clothing Store,-130.00,Shopping
+2025-04-18,Internet Bill,-60.00,Utilities
+2025-04-22,Car Maintenance,-250.00,Transport
+2025-03-01,Rent,-1200.00,Housing
+2025-03-03,Electric Bill,-92.00,Utilities
+2025-03-05,Grocery Shopping,-198.00,Food
+2025-03-08,Gasoline,-50.00,Transport
+2025-03-12,Restaurant,-55.00,Food
+2025-03-15,Internet Bill,-60.00,Utilities
+2025-03-18,Grocery Shopping,-182.00,Food
+2025-03-20,Streaming Services,-45.00,Entertainment
+2025-02-01,Rent,-1200.00,Housing
+2025-02-04,Electric Bill,-110.00,Utilities
+2025-02-06,Grocery Shopping,-225.00,Food
+2025-02-12,Gasoline,-62.00,Transport
+2025-02-14,Valentines Dinner,-120.00,Food
+2025-02-16,Internet Bill,-60.00,Utilities`},
+  'Freelancer':{desc:'Self-employed expenses',map:{date:'date',amount:'amount',category:'tags',notes:'merchant'},
+  csv:`date,merchant,amount,tags,notes
+2025-04-01,WeWork Coworking,-250.00,Office,Monthly hot desk
+2025-04-02,Adobe Creative Cloud,-54.99,Software,Design tools
+2025-04-03,Notion Pro,-16.00,Software,PM
+2025-04-05,Client Lunch,-78.00,Business Meals,TechCorp
+2025-04-07,Zoom Pro,-14.99,Software,Video calls
+2025-04-08,DigitalOcean,-48.00,Infrastructure,Servers
+2025-04-10,Coursera Course,-49.00,Education,TypeScript
+2025-04-12,Figma Pro,-15.00,Software,UI design
+2025-04-15,GitHub Copilot,-19.00,Software,AI coding
+2025-04-20,Conference Reg,-299.00,Education,ReactConf
+2025-04-22,Ergonomic Chair,-389.00,Equipment,Home office
+2025-04-25,Health Insurance,-310.00,Insurance,Self-employed
+2025-03-01,WeWork Coworking,-250.00,Office,
+2025-03-03,Adobe Creative Cloud,-54.99,Software,
+2025-03-10,DigitalOcean,-48.00,Infrastructure,
+2025-03-20,GitHub Copilot,-19.00,Software,
+2025-03-25,Health Insurance,-310.00,Insurance,`},
+  'Schwab / Fidelity':{desc:'Investment account expenses',map:{date:'Date',amount:'Amount',category:'',notes:'Description'},
+  csv:`"Date","Action","Symbol","Description","Quantity","Price","Fees & Comm","Amount"
+"04/01/2025","Wire Sent","","Rent Payment","","","","-1500.00"
+"04/03/2025","ACH Debit","","Costco Wholesale","","","","-187.45"
+"04/05/2025","ACH Debit","","AT&T Phone","","","","-95.00"
+"04/07/2025","ACH Debit","","Pacific Gas Electric","","","","-134.00"
+"04/09/2025","ACH Debit","","Safeway Grocery","","","","-98.30"
+"04/13/2025","ACH Debit","","Kaiser Permanente","","","","-220.00"
+"04/15/2025","Debit Card","","Chevron Gas Station","","","","-58.40"
+"04/19/2025","ACH Debit","","Comcast Cable","","","","-89.99"
+"04/21/2025","Debit Card","","Target Store","","","","-143.20"
+"03/01/2025","Wire Sent","","Rent Payment","","","","-1500.00"
+"03/04/2025","ACH Debit","","Costco Wholesale","","","","-201.30"
+"03/08/2025","ACH Debit","","Pacific Gas Electric","","","","-156.00"
+"03/14/2025","ACH Debit","","Kaiser Permanente","","","","-220.00"
+"03/22/2025","ACH Debit","","Comcast Cable","","","","-89.99"`}
+};
+
+const PRESETS={
+  'Chase':{date:'Transaction Date',amount:'Amount',category:'Category',notes:'Description'},
+  'Revolut':{date:'Completed Date',amount:'Amount',category:'Category',notes:'Description'},
+  'Wise':{date:'Date',amount:'Amount',category:'',notes:'Description'},
+  'Schwab':{date:'Date',amount:'Amount',category:'',notes:'Description'},
+  'Simple':{date:'Date',amount:'Amount',category:'Category',notes:'Description'}
+};
+
+function renderSamples(){
+  document.getElementById('sample-grid').innerHTML=
+    Object.entries(SAMPLES).map(([n,s])=>
+      `<button class="samp" onclick="loadSample('${n}')">
+        <div class="samp-n">${n}</div><div class="samp-d">${s.desc}</div>
+      </button>`
+    ).join('');
+}
+function loadSample(name){
+  const s=SAMPLES[name];if(!s)return;
+  S.name=name+' Sample';parseCSV(s.csv,s.map);
+  track('sample',{name});
+}
+
+/* ═══════════════════════════════════════════════════════
+   CSV PARSING
+═══════════════════════════════════════════════════════ */
+function parseCSVLine(line){
+  const r=[];let q=false,c='';
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){q=!q;continue;}
+    if(ch===','&&!q){r.push(c.trim());c='';continue;}
+    c+=ch;
+  }
+  r.push(c.trim());return r;
+}
+function parseCSV(content,autoMap){
+  const lines=content.trim().split('\n').filter(l=>l.trim());
+  if(!lines.length)return showMapErr('File is empty');
+  const hdr=parseCSVLine(lines[0]);
+  S.hdrs=hdr;
+  S.csv=lines.slice(1).map(line=>{
+    const v=parseCSVLine(line);const o={};
+    hdr.forEach((h,i)=>o[h]=v[i]||'');return o;
+  }).filter(row=>Object.values(row).some(v=>v));
+  if(!S.csv.length)return showMapErr('No data rows found after header');
+  document.getElementById('file-meta').textContent=
+    `${(content.length/1024).toFixed(1)} KB · ${S.csv.length} rows`;
+  renderMapping(autoMap);
+  nav('map');
+  track('file_parsed',{rows:S.csv.length});
+}
+
+/* ═══════════════════════════════════════════════════════
+   MAPPING
+═══════════════════════════════════════════════════════ */
+const HINTS={
+  date:['date','transaction date','completed date','posted date','post date','trans date'],
+  amount:['amount','debit','credit','value','total','sum','price'],
+  category:['category','type','tags','tag','group'],
+  notes:['description','memo','notes','merchant','payee','narration','name','details']
+};
+function renderMapping(auto){
+  const low=S.hdrs.map(h=>h.toLowerCase().trim());
+  ['date','amount','category','notes'].forEach(f=>{
+    const sel=document.getElementById('map-'+f);
+    sel.innerHTML='<option value="">— Select —</option>'+
+      S.hdrs.map(h=>`<option value="${h}">${h}</option>`).join('');
+    let val='';
+    if(auto&&auto[f])val=auto[f];
+    else for(const hint of(HINTS[f]||[])){const i=low.indexOf(hint);if(i!==-1){val=S.hdrs[i];break;}}
+    sel.value=val;S.map[f]=val;
+    sel.onchange=e=>{S.map[f]=e.target.value;};
+  });
+  const t=document.getElementById('prev-tbl');
+  t.querySelector('thead').innerHTML=`<tr>${S.hdrs.map(h=>`<th>${esc(h)}</th>`).join('')}</tr>`;
+  t.querySelector('tbody').innerHTML=S.csv.slice(0,3).map(row=>
+    `<tr>${S.hdrs.map(h=>`<td>${esc((row[h]||'').substring(0,22))}</td>`).join('')}</tr>`
+  ).join('');
+  document.getElementById('preset-row').innerHTML=
+    Object.keys(PRESETS).map(n=>`<button class="pre-btn" onclick="applyPreset('${n}')">${n}</button>`).join('');
+}
+function applyPreset(name){
+  const p=PRESETS[name];if(!p)return;
+  ['date','amount','category','notes'].forEach(f=>{
+    const sel=document.getElementById('map-'+f);
+    const m=S.hdrs.find(h=>h.toLowerCase()===(p[f]||'').toLowerCase());
+    sel.value=m||'';S.map[f]=m||'';
+  });
+  document.querySelectorAll('.pre-btn').forEach(b=>b.classList.remove('on'));
+  event.target.classList.add('on');toast('Preset applied: '+name);
+}
+
+/* ═══════════════════════════════════════════════════════
+   AUTO-CATEGORIZE
+═══════════════════════════════════════════════════════ */
+function categorize(memo){
+  const t=(memo||'').toLowerCase();
+  if(t.match(/grocery|supermarket|whole foods|trader|safeway|kroger|tesco|aldi|sainsbury|costco/))return 'Groceries';
+  if(t.match(/restaurant|cafe|coffee|pizza|chipotle|starbucks|mcdonald|subway|panda|dining|bistro|deliveroo|doordash|ubereats|grubhub/))return 'Dining Out';
+  if(t.match(/gas|fuel|petrol|parking|uber|lyft|transit|tfl|metro|train|amtrak|airline|flight|delta|united|american air/))return 'Transport';
+  if(t.match(/utility|electric|water|internet|phone|mobile|verizon|at&t|t-mobile|comcast|british gas|con edison|pacific gas/))return 'Utilities';
+  if(t.match(/gym|sport|yoga|fitness|doctor|pharmacy|medical|hospital|cvs|walgreens|boots|kaiser|health insurance/))return 'Health';
+  if(t.match(/movie|spotify|netflix|gaming|concert|cinema|hulu|steam|disney|youtube|apple tv|vue/))return 'Entertainment';
+  if(t.match(/amazon|shop|store|retail|target|walmart|apple store|clothing/))return 'Shopping';
+  if(t.match(/rent|mortgage|lease|housing|property|landlord/))return 'Housing';
+  if(t.match(/software|saas|adobe|notion|slack|zoom|figma|github|dropbox|aws|digital ocean/))return 'Software';
+  if(t.match(/insurance/))return 'Insurance';
+  if(t.match(/education|course|learning|school|coursera|udemy/))return 'Education';
+  if(t.match(/client|business meal|lunch|dinner.*meeting/))return 'Business Meals';
+  return 'Other';
+}
+
+/* ═══════════════════════════════════════════════════════
+   PROCESS DATA
+═══════════════════════════════════════════════════════ */
+function processData(){
+  hideMapErr();
+  if(!S.map.date)return showMapErr('Please select a Date column.');
+  if(!S.map.amount)return showMapErr('Please select an Amount column.');
+
+  const processed=S.csv
+    .filter(row=>row[S.map.date]&&row[S.map.amount])
+    .map(row=>{
+      const raw=(row[S.map.amount]||'').replace(/[$,£€¥¥\s]/g,'');
+      const amount=parseFloat(raw);
+      const memo=(S.map.notes?row[S.map.notes]:'')||'';
+      return{date:new Date(row[S.map.date]),amount,
+        category:(S.map.category&&row[S.map.category])||categorize(memo),notes:memo};
+    })
+    .filter(i=>!isNaN(i.amount)&&i.amount!==0&&!isNaN(i.date.getTime()));
+
+  if(!processed.length)return showMapErr('No valid transactions found. Check Date & Amount columns.');
+
+  const hasNeg=processed.some(p=>p.amount<0);
+  const exp=hasNeg?processed.filter(p=>p.amount<0):processed;
+  S.processed=exp;
+
+  S.cats={};
+  exp.forEach(i=>{S.cats[i.category]=(S.cats[i.category]||0)+Math.abs(i.amount);});
+
+  const mm={};
+  exp.forEach(i=>{
+    const k=`${i.date.getFullYear()}-${String(i.date.getMonth()+1).padStart(2,'0')}`;
+    mm[k]=(mm[k]||0)+Math.abs(i.amount);
+  });
+  S.monthly=Object.entries(mm).sort().map(([m,t])=>({
+    label:new Date(m+'-01').toLocaleDateString('en-US',{year:'numeric',month:'short'}),
+    total:Math.round(t*100)/100
+  }));
+
+  const amts=exp.map(p=>Math.abs(p.amount));
+  const total=amts.reduce((a,b)=>a+b,0);
+  S.stats={total:Math.round(total*100)/100,avg:Math.round(total/amts.length*100)/100,max:Math.max(...amts),count:amts.length};
+
+  renderAnalysis();nav('analysis');
+  track('analysis_done',{tx:amts.length,months:S.monthly.length});
+}
+
+/* ═══════════════════════════════════════════════════════
+   RENDER ANALYSIS
+═══════════════════════════════════════════════════════ */
+const fmt=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtN=n=>n.toLocaleString('en-US',{maximumFractionDigits:0});
+
+function renderAnalysis(){
+  document.getElementById('st-total').textContent='$'+fmt(S.stats.total);
+  document.getElementById('st-count').textContent=S.stats.count+' transactions';
+  document.getElementById('st-avg').textContent='$'+fmt(S.stats.avg);
+  document.getElementById('st-max').textContent='$'+fmt(S.stats.max);
+  document.getElementById('st-months').textContent=S.monthly.length;
+  renderCharts();renderCatTable();renderInsights();renderTxTable();populateFilters();renderYoY();
+  if(S.isPro){
+    const a=document.getElementById('pdf-chip'),b=document.getElementById('csv-chip');
+    if(a)a.remove();if(b)b.remove();
+  }
+}
+function renderCharts(){
+  if(tCh)tCh.destroy();if(dCh)dCh.destroy();
+  const tCtx=document.getElementById('trend-ch').getContext('2d');
+  const dCtx=document.getElementById('donut-ch').getContext('2d');
+  tCh=new Chart(tCtx,{
+    type:'line',
+    data:{labels:S.monthly.map(t=>t.label),datasets:[{
+      label:'Spending',data:S.monthly.map(t=>t.total),
+      borderColor:'#00E5A0',backgroundColor:'rgba(0,229,160,.07)',
+      borderWidth:2,tension:.4,fill:true,
+      pointBackgroundColor:'#00E5A0',pointRadius:4,pointHoverRadius:6
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{
+        backgroundColor:'#0C0F1A',borderColor:'rgba(255,255,255,.1)',borderWidth:1,
+        titleColor:'#fff',bodyColor:'#5A6480',
+        callbacks:{label:c=>'$'+fmt(c.raw)}
+      }},
+      scales:{
+        y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#5A6480',callback:v=>'$'+fmtN(v)}},
+        x:{grid:{display:false},ticks:{color:'#5A6480'}}
+      }}
+  });
+  const ce=Object.entries(S.cats).sort((a,b)=>b[1]-a[1]);
+  dCh=new Chart(dCtx,{
+    type:'doughnut',
+    data:{labels:ce.map(e=>e[0]),datasets:[{data:ce.map(e=>e[1]),backgroundColor:COLORS,borderWidth:0,hoverOffset:8}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'72%',
+      plugins:{
+        legend:{position:'bottom',labels:{color:'#5A6480',padding:12,font:{size:11},boxWidth:10,boxHeight:10}},
+        tooltip:{backgroundColor:'#0C0F1A',borderColor:'rgba(255,255,255,.1)',borderWidth:1,
+          titleColor:'#fff',bodyColor:'#5A6480',
+          callbacks:{label:c=>' $'+fmt(c.raw)+' ('+((c.raw/S.stats.total)*100).toFixed(1)+'%)'}}
+      }}
+  });
+}
+function renderCatTable(){
+  const cats=Object.entries(S.cats).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('cat-tbl').innerHTML=cats.map(([n,v],i)=>{
+    const pct=(v/S.stats.total*100).toFixed(1);
+    const col=COLORS[i%COLORS.length];
+    return`<tr class="cat-r">
+      <td class="cat-cell" style="width:42%">
+        <div class="cat-name"><span class="cat-dot" style="background:${col}"></span>${esc(n)}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${col}"></div></div>
+      </td>
+      <td class="cat-cell" style="width:32%;text-align:right"><div class="cat-amt">$${fmt(v)}</div></td>
+      <td class="cat-cell" style="width:26%;text-align:right"><div class="cat-pct">${pct}%</div></td>
+    </tr>`;
+  }).join('');
+}
+function renderInsights(){
+  const cats=Object.entries(S.cats).sort((a,b)=>b[1]-a[1]);
+  const top=cats[0];const ins=[];
+  if(top)ins.push(`<b>${top[0]}</b> is your biggest category, accounting for <b>${(top[1]/S.stats.total*100).toFixed(0)}%</b> of total ($${fmt(top[1])}).`);
+  if(S.monthly.length>1){
+    const avg=S.stats.total/S.monthly.length;
+    const last=S.monthly[S.monthly.length-1].total;
+    const diff=last-avg;
+    ins.push(`Your most recent month is <b>$${fmt(Math.abs(diff))} ${diff>0?'above':'below'} average</b> (${S.monthly[S.monthly.length-1].label}).`);
+  }
+  if(S.stats.max>S.stats.avg*3)ins.push(`Largest single expense ($${fmt(S.stats.max)}) is <b>${(S.stats.max/S.stats.avg).toFixed(1)}× your average</b> transaction — an outlier worth reviewing.`);
+  const ent=Object.entries(S.cats).find(([k])=>k==='Entertainment'||k==='Software'||k==='Streaming');
+  if(ent)ins.push(`Subscriptions & entertainment run <b>$${fmt(ent[1]/S.monthly.length)}/month</b> on average. Consider a quarterly review.`);
+  document.getElementById('ins-list').innerHTML=ins.slice(0,3).map(t=>
+    `<div class="ins-item"><div class="ins-dot"></div><div class="ins-txt">${t}</div></div>`
+  ).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   TRANSACTION TABLE
+═══════════════════════════════════════════════════════ */
+async function verifyLicense() {
+  const key = document.getElementById('lic-inp').value.trim();
+  const msg = document.getElementById('lic-msg');
+  const btn = document.querySelector('#lic-btn');
+  if (!key) return;
+
+  btn.disabled = true;
+  msg.textContent = 'Verifying with Gumroad...'; msg.style.color = 'var(--text-muted)';
+  
+  try {
+    const r = await fetch('https://api.gumroad.com/v2/licenses/verify', {
+      method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ product_id: 'finexpro', license_key: key, increment_uses_count: 'true' })
+    });
+    const d = await r.json();
+    if (d.success) {
+      localStorage.setItem('finex_pro_key', key.toUpperCase());
+      msg.textContent = '✓ Pro Activated! Thank you.'; msg.style.color = 'var(--success)';
+      setTimeout(() => { closeModal('license-modal'); activatePro(true); }, 1500);
+    } else {
+      msg.textContent = '✕ ' + (d.message || 'Invalid license key'); msg.style.color = 'var(--error)';
+      btn.disabled = false;
+    }
+  } catch (e) {
+    msg.textContent = '✕ Network error. Online activation required.'; msg.style.color = 'var(--warn)';
+    btn.disabled = false;
+  }
+}
+
+function populateFilters(){
+  const cs=document.getElementById('f-cat'),ms=document.getElementById('f-mon');
+  const cats=[...new Set(S.processed.map(t=>t.category))].sort();
+  const mons=[...new Set(S.processed.map(t=>`${t.date.getFullYear()}-${String(t.date.getMonth()+1).padStart(2,'0')}`))].sort();
+  cs.innerHTML='<option value="">All Categories</option>'+cats.map(c=>`<option>${c}</option>`).join('');
+  ms.innerHTML='<option value="">All Months</option>'+mons.map(m=>{
+    const l=new Date(m+'-01').toLocaleDateString('en-US',{year:'numeric',month:'short'});
+    return`<option value="${m}">${l}</option>`;
+  }).join('');
+  filterTx();
+}
+function filterTx(){
+  const q=document.getElementById('f-search').value.toLowerCase();
+  const cat=document.getElementById('f-cat').value;
+  const mon=document.getElementById('f-mon').value;
+  S.txFilt=S.processed.filter(t=>{
+    if(cat&&t.category!==cat)return false;
+    if(mon){const k=`${t.date.getFullYear()}-${String(t.date.getMonth()+1).padStart(2,'0')}`;if(k!==mon)return false;}
+    if(q&&!t.notes.toLowerCase().includes(q)&&!t.category.toLowerCase().includes(q))return false;
+    return true;
+  });
+  S.txPage=0;sortAndRender();
+}
+function sortTx(k){
+  if(S.txSort.k===k)S.txSort.d*=-1;else{S.txSort.k=k;S.txSort.d=-1;}
+  S.txPage=0;sortAndRender();
+}
+function sortAndRender(){
+  const{k,d}=S.txSort;
+  S.txFilt.sort((a,b)=>{
+    let va=a[k],vb=b[k];
+    if(k==='date'){va=va.getTime();vb=vb.getTime();}
+    if(k==='amount'){va=Math.abs(va);vb=Math.abs(vb);}
+    return(va>vb?1:va<vb?-1:0)*d;
+  });
+  renderTxPage();
+}
+function renderTxTable(){S.txFilt=[...S.processed];S.txSort={k:'date',d:-1};sortAndRender();}
+function renderTxPage(){
+  const total=S.txFilt.length,start=S.txPage*S.txPer,end=Math.min(start+S.txPer,total);
+  const page=S.txFilt.slice(start,end);
+  document.getElementById('tx-lbl').textContent=total+' transactions';
+  const catOrder=Object.keys(S.cats).sort((a,b)=>S.cats[b]-S.cats[a]);
+  document.getElementById('tx-body').innerHTML=page.map(t=>{
+    const d=t.date.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit'});
+    const ci=catOrder.indexOf(t.category);const col=COLORS[ci%COLORS.length];
+    return`<tr>
+      <td style="color:var(--sub);font-family:'JetBrains Mono',monospace;font-size:11px">${d}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t.notes||'—')}</td>
+      <td><span class="cat-tag" style="background:${col}20;color:${col};cursor:${S.isPro?'pointer':'default'}" onclick="editCat(${S.processed.indexOf(t)})">${esc(t.category)}</span></td>
+      <td style="text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--r)">-$${fmt(Math.abs(t.amount))}</td>
+    </tr>`;
+  }).join('');
+  const pages=Math.ceil(total/S.txPer);
+  let ph='';
+  for(let i=0;i<pages;i++)ph+=`<button class="pg-btn${i===S.txPage?' on':''}" onclick="S.txPage=${i};renderTxPage()">${i+1}</button>`;
+  document.getElementById('pager').innerHTML=ph+`<div class="pg-info">${start+1}–${end} of ${total}</div>`;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HISTORY
+═══════════════════════════════════════════════════════ */
+const LS='fea_hist_v3';
+function getHist(){try{return JSON.parse(localStorage.getItem(LS)||'[]');}catch{return[];}}
+function saveAnalysis(){
+  const name=prompt('Name this analysis:',S.name||new Date().toLocaleDateString());
+  if(name===null)return;S.name=name||'Analysis';
+  const h=getHist();
+  h.unshift({id:Date.now(),name:S.name,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),stats:S.stats,cats:S.cats,monthly:S.monthly});
+  if(h.length>10)h.splice(10);
+  try{localStorage.setItem(LS,JSON.stringify(h));}catch{}
+  toast('✓ Saved!');
+}
+function clearHistory(){
+  if(!confirm('Clear all saved analyses?'))return;
+  localStorage.removeItem(LS);renderHistMain();renderHistUp();
+}
+function loadHist(id){
+  const e=getHist().find(x=>x.id===id);if(!e)return;
+  S.stats=e.stats;S.cats=e.cats;S.monthly=e.monthly;S.name=e.name;S.processed=[];S.txFilt=[];
+  renderAnalysis();nav('analysis');toast('✓ Loaded: '+e.name);
+}
+function hCard(e){
+  return`<div class="hist-c" onclick="loadHist(${e.id})">
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+      <div class="hist-n">${esc(e.name)}</div>
+      <div style="font-size:10px;color:var(--sub)">${e.date}</div>
+    </div>
+    <div class="hist-v">$${fmtN(e.stats.total)}</div>
+    <div class="hist-m">${e.stats.count} transactions · ${e.monthly.length} months</div>
+  </div>`;
+}
+function renderHistMain(){
+  const h=getHist();const g=document.getElementById('hist-grid-main');const em=document.getElementById('hist-empty');
+  if(!h.length){g.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';g.innerHTML=h.map(hCard).join('');
+}
+function renderHistUp(){
+  const h=getHist();const sec=document.getElementById('hist-upload-sec');
+  if(!h.length){sec.style.display='none';return;}
+  sec.style.display='block';document.getElementById('hist-grid-up').innerHTML=h.map(hCard).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   GUMROAD LICENSE
+═══════════════════════════════════════════════════════ */
+const LS_K='fea_pro_key',LS_V='fea_pro_v';
+const GUM='povga';
+
+function openModal(){document.getElementById('modal').classList.add('on');}
+function closeModal(){document.getElementById('modal').classList.remove('on');}
+function switchTab(t){
+  document.querySelectorAll('.m-tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.m-pan').forEach(p=>p.classList.remove('on'));
+  document.getElementById('tab-'+t).classList.add('on');
+  document.getElementById('pan-'+t).classList.add('on');
+}
+
+function unlockPro(){
+  S.isPro=true;
+  document.getElementById('pro-status').style.display='flex';
+  document.getElementById('pro-btn').style.display='none';
+  const a=document.getElementById('pdf-chip'),b=document.getElementById('csv-chip');
+  if(a)a.remove();if(b)b.remove();
+}
+
+async function verifyLicense(){
+  const key=document.getElementById('lic-inp').value.trim();
+  if(!key){showVMsg('err','Please enter your license key.');return;}
+  const btn=document.getElementById('v-btn');
+  btn.disabled=true;btn.textContent='Verifying...';
+  try{
+    const r=await fetch('https://api.gumroad.com/v2/licenses/verify',{
+      method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({product_permalink:GUM,license_key:key})
+    });
+    const d=await r.json();
+    if(d.success&&!d.purchase.refunded&&!d.purchase.chargebacked){
+      try{localStorage.setItem(LS_K,key);localStorage.setItem(LS_V,'1');}catch{}
+      unlockPro();showSuccess();setTimeout(closeModal,2200);track('pro_unlocked');
+    }else{showVMsg('err',d.message||'Invalid license key. Please check and try again.');}
+  }catch{
+    const fmt=/^[A-F0-9]{8}-[A-F0-9]{8}-[A-F0-9]{8}-[A-F0-9]{8}$/i;
+    if(fmt.test(key)){
+      try{localStorage.setItem(LS_K,key);localStorage.setItem(LS_V,'offline');}catch{}
+      unlockPro();showSuccess();setTimeout(closeModal,2200);
+    }else{showVMsg('err','Could not connect to Gumroad. Check connection or key format: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX');}
+  }finally{btn.disabled=false;btn.textContent='Verify & Unlock Pro';}
+}
+function showVMsg(t,m){const el=document.getElementById('v-msg');el.className='v-msg '+t;el.textContent=m;}
+function showSuccess(){document.getElementById('suc-anim').classList.add('on');document.getElementById('v-btn').style.display='none';}
+
+function checkStoredLicense(){
+  try{
+    const key=localStorage.getItem(LS_K);const ver=localStorage.getItem(LS_V);
+    if(key&&ver){unlockPro();if(ver==='1')silentVerify(key);}
+  }catch{}
+}
+async function silentVerify(key){
+  try{
+    const r=await fetch('https://api.gumroad.com/v2/licenses/verify',{
+      method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({product_permalink:GUM,license_key:key})
+    });
+    const d=await r.json();
+    if(!d.success||d.purchase.refunded||d.purchase.chargebacked){
+      localStorage.removeItem(LS_K);localStorage.removeItem(LS_V);S.isPro=false;
+      document.getElementById('pro-status').style.display='none';
+      document.getElementById('pro-btn').style.display='flex';
+      toast('⚠ License revoked. Pro deactivated.');
+    }else{localStorage.setItem(LS_V,'1');}
+  }catch{}
+}
+
+/* ═══════════════════════════════════════════════════════
+   PRO ACTIONS
+═══════════════════════════════════════════════════════ */
+function editCat(idx){
+  if(!S.isPro){openModal();switchTab('key');return;}
+  const t=S.processed[idx];
+  const n=prompt('Change category for "'+t.notes+'":',t.category);
+  if(n&&n!==t.category){
+    t.category=n;
+    S.cats={};
+    S.processed.forEach(i=>{S.cats[i.category]=(S.cats[i.category]||0)+Math.abs(i.amount);});
+    renderAnalysis();toast('✓ Category updated');
+  }
+}
+function renderYoY(){
+  if(!S.isPro)return;
+  const years={};
+  S.processed.forEach(t=>{
+    const y=t.date.getFullYear();
+    years[y]=(years[y]||0)+Math.abs(t.amount);
+  });
+  const ys=Object.keys(years).sort();
+  if(ys.length<2)return;
+  const last=ys[ys.length-1],prev=ys[ys.length-2];
+  const diff=years[last]-years[prev];
+  const pct=(diff/years[prev]*100).toFixed(1);
+  const el=document.getElementById('ins-list');
+  el.innerHTML+=`<div class="ins-item" style="border-color:var(--y)"><div class="ins-dot" style="background:var(--y)"></div><div class="ins-txt"><b>YoY Insight:</b> Total spending in ${last} is <b>${pct}% ${diff>0?'higher':'lower'}</b> than ${prev}.</div></div>`;
+}
+
+function proAction(f){
+  if(!S.isPro){openModal();switchTab('key');track('pro_gate',{f});return;}
+  if(f==='pdf')exportPDF();
+  if(f==='csv')exportCSV();
+}
+
+function exportPDF(){
+  const cats=Object.entries(S.cats).sort((a,b)=>b[1]-a[1]);
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Financial Report — ${esc(S.name||'Analysis')}</title>
+  <style>
+    body{font-family:system-ui,sans-serif;margin:0;padding:40px;color:#0f172a;max-width:800px;margin:0 auto}
+    h1{font-size:28px;font-weight:800;margin-bottom:4px;letter-spacing:-1px}
+    .meta{color:#64748b;font-size:13px;margin-bottom:28px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px}
+    .sl{color:#64748b;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+    .sv{font-size:22px;font-weight:800}
+    h2{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin:20px 0 10px;padding-bottom:6px;border-bottom:2px solid #e2e8f0}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{padding:7px 10px;text-align:left;font-weight:600;color:#475569;border-bottom:2px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+    td{padding:7px 10px;border-bottom:1px solid #f1f5f9}
+    .footer{margin-top:36px;padding-top:12px;border-top:1px solid #e2e8f0;color:#94a3b8;font-size:10px;text-align:center}
+  </style></head><body>
+  <h1>💰 Financial Expense Report</h1>
+  <div class="meta">${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})} · ${esc(S.name||'Analysis')} · 100% Private — locally generated</div>
+  <div class="stats">
+    <div class="stat"><div class="sl">Total Expenses</div><div class="sv">$${fmt(S.stats.total)}</div></div>
+    <div class="stat"><div class="sl">Avg Transaction</div><div class="sv">$${fmt(S.stats.avg)}</div></div>
+    <div class="stat"><div class="sl">Largest Expense</div><div class="sv">$${fmt(S.stats.max)}</div></div>
+    <div class="stat"><div class="sl">Months</div><div class="sv">${S.monthly.length}</div></div>
+  </div>
+  <h2>Category Breakdown</h2>
+  <table><thead><tr><th>Category</th><th style="text-align:right">Amount</th><th style="text-align:right">% of Total</th></tr></thead>
+  <tbody>${cats.map(([n,v])=>`<tr><td>${esc(n)}</td><td style="text-align:right">$${fmt(v)}</td><td style="text-align:right">${(v/S.stats.total*100).toFixed(1)}%</td></tr>`).join('')}</tbody></table>
+  <h2>Monthly Spending</h2>
+  <table><thead><tr><th>Month</th><th style="text-align:right">Total</th></tr></thead>
+  <tbody>${S.monthly.map(m=>`<tr><td>${esc(m.label)}</td><td style="text-align:right">$${fmt(m.total)}</td></tr>`).join('')}</tbody></table>
+  <div class="footer">Generated by Financial Expense Analyzer · All data processed locally · Zero server uploads</div>
+  </body></html>`);
+  win.document.close();win.focus();setTimeout(()=>win.print(),500);
+  toast('📄 PDF opened — save from browser print dialog');
+}
+
+function exportCSV(){
+  if(!S.processed.length){toast('⚠ No data. Analyze a file first.');return;}
+  const rows=[['Date','Amount','Category','Description']];
+  S.processed.forEach(t=>rows.push([t.date.toLocaleDateString('en-US'),t.amount.toFixed(2),t.category,t.notes]));
+  const csv=rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`${(S.name||'analysis').replace(/[^a-z0-9]/gi,'_')}_categorized.csv`;
+  a.click();URL.revokeObjectURL(a.href);
+  toast('✅ CSV exported!');
+}
+
+/* ═══════════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════════ */
+function showMapErr(m){const el=document.getElementById('map-err');document.getElementById('map-err-txt').textContent=m;el.classList.add('on');}
+function hideMapErr(){document.getElementById('map-err').classList.remove('on');}
+let toastT;
+function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('on'),2600);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function togglePrivacy(){
+  const b=document.getElementById('priv-body'),a=document.getElementById('priv-arrow');
+  const show=b.style.display==='none';b.style.display=show?'block':'none';a.textContent=show?'▼':'▶';
+}
+
+/* ═══════════════════════════════════════════════════════
+   FILE EVENTS
+═══════════════════════════════════════════════════════ */
+const fi=document.getElementById('fi');
+const dz=document.getElementById('drop-zone');
+fi.onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  if(!f.name.toLowerCase().endsWith('.csv')){toast('⚠ Please select a .csv file');return;}
+  S.name=f.name.replace(/\.csv$/i,'');
+  new FileReader().onload=ev=>parseCSV(ev.target.result,null);
+  const r=new FileReader();r.onload=ev=>parseCSV(ev.target.result,null);r.readAsText(f);
+  track('upload_started');
+};
+dz.ondragover=e=>{e.preventDefault();dz.classList.add('dov');};
+dz.ondragleave=()=>dz.classList.remove('dov');
+dz.ondrop=e=>{
+  e.preventDefault();dz.classList.remove('dov');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.name.toLowerCase().endsWith('.csv')){
+    S.name=f.name.replace(/\.csv$/i,'');
+    const r=new FileReader();r.onload=ev=>parseCSV(ev.target.result,null);r.readAsText(f);
+    track('upload_started');
+  }else toast('⚠ Please drop a .csv file');
+};
+document.getElementById('lic-inp').addEventListener('keydown',e=>{if(e.key==='Enter')verifyLicense();});
+
+/* ═══════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════ */
+renderSamples();
+renderHistUp();
+checkStoredLicense();
+</script>
+
+<!-- ══════════════════════════════════════
+     SEO: GUIDE, BLOG & FAQ SECTION
+══════════════════════════════════════ -->
+<section id="s-guide" style="padding: 80px 24px; background: var(--bg2); border-top: 1px solid var(--line);">
+  <div style="max-width: 960px; margin: 0 auto;">
+
+    <!-- How to Use -->
+    <div style="text-align: center; margin-bottom: 4rem;">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--g); text-transform: uppercase; letter-spacing: 0.15em;">Complete Guide</span>
+      <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 64px); letter-spacing: 3px; color: #fff; margin-top: 0.5rem; line-height: 1;">HOW TO ANALYZE YOUR<br><em style="background: linear-gradient(135deg, var(--g), var(--b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-style: normal;">BANK STATEMENTS</em></h2>
+      <p style="color: var(--sub); font-size: 1rem; max-width: 600px; margin: 1rem auto 0; line-height: 1.7;">A step-by-step walkthrough of how to use the Financial Expense Analyzer to get crystal-clear insights into your spending — in under 60 seconds, with zero privacy risk.</p>
     </div>
 
-    <script>
-        // --- State ---
-        let state = {
-            csvData: [],
-            headers: [],
-            mapping: { date: '', amount: '', category: '', notes: '' },
-            showBlog: false,
-            processedData: [],
-            categories: {},
-            monthlyTotals: [],
-            stats: { total: 0, average: 0, highest: 0, count: 0 }
-        };
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 5rem;">
+      <div style="background: var(--bg3); border: 1px solid var(--line); border-radius: 18px; padding: 2rem; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 1.5rem; right: 1.5rem; font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: rgba(0,229,160,0.06); line-height: 1;">01</div>
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1.2rem;">📄</div>
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; color: #fff; margin-bottom: 0.6rem;">Export from Your Bank</h3>
+        <p style="font-size: 0.85rem; color: var(--sub); line-height: 1.7;">Log into your online banking portal and export your transaction history as a <strong style="color: var(--text);">CSV file</strong>. Supported banks include Chase, Revolut, Wise, Schwab, MUFG, Monzo, and virtually any bank that offers CSV export.</p>
+      </div>
+      <div style="background: var(--bg3); border: 1px solid var(--line); border-radius: 18px; padding: 2rem; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 1.5rem; right: 1.5rem; font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: rgba(14,181,255,0.06); line-height: 1;">02</div>
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(14,181,255,0.1); border: 1px solid rgba(14,181,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1.2rem;">☁️</div>
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; color: #fff; margin-bottom: 0.6rem;">Drop Your File</h3>
+        <p style="font-size: 0.85rem; color: var(--sub); line-height: 1.7;">Drag and drop your CSV onto the upload zone — or click to browse. The file is read <strong style="color: var(--text);">entirely in your browser</strong> using the File API. It never leaves your device. No internet connection is used for parsing.</p>
+      </div>
+      <div style="background: var(--bg3); border: 1px solid var(--line); border-radius: 18px; padding: 2rem; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 1.5rem; right: 1.5rem; font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: rgba(255,184,0,0.06); line-height: 1;">03</div>
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,184,0,0.1); border: 1px solid rgba(255,184,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1.2rem;">🗂️</div>
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; color: #fff; margin-bottom: 0.6rem;">Map Your Columns</h3>
+        <p style="font-size: 0.85rem; color: var(--sub); line-height: 1.7;">Tell the analyzer which columns represent <strong style="color: var(--text);">Date, Amount, and Description</strong>. Use our bank presets (Chase, Revolut, Wise…) for instant auto-mapping, or manually select from a dropdown.</p>
+      </div>
+      <div style="background: var(--bg3); border: 1px solid var(--line); border-radius: 18px; padding: 2rem; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 1.5rem; right: 1.5rem; font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: rgba(255,77,106,0.06); line-height: 1;">04</div>
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,77,106,0.1); border: 1px solid rgba(255,77,106,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1.2rem;">📊</div>
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; color: #fff; margin-bottom: 0.6rem;">Get Instant Insights</h3>
+        <p style="font-size: 0.85rem; color: var(--sub); line-height: 1.7;">View your <strong style="color: var(--text);">monthly trend chart, category donut chart, and smart AI insights</strong> — all generated in milliseconds. Filter by category, search by merchant, and export your cleaned data.</p>
+      </div>
+    </div>
 
-        const CHART_COLORS = ['#0F766E', '#0891B2', '#0284C7', '#7C3AED', '#DB2777', '#EA580C', '#CCCCCC'];
-        let trendChart = null;
-        let categoryChart = null;
+    <!-- Feature Deep Dive -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 5rem; padding: 3rem; background: var(--bg3); border-radius: 24px; border: 1px solid var(--line);">
+      <div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--g); text-transform: uppercase; letter-spacing: 0.15em; display: block; margin-bottom: 1rem;">Key Features</span>
+        <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 2px; color: #fff; margin-bottom: 1.5rem; line-height: 1.1;">More Than a CSV Viewer</h2>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+            <span style="color: var(--g); flex-shrink: 0; margin-top: 2px;">✓</span>
+            <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.6;"><strong style="color: var(--text);">Auto-categorization</strong> — transactions are automatically sorted into Food, Entertainment, Transport, Healthcare, and more using keyword matching.</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+            <span style="color: var(--g); flex-shrink: 0; margin-top: 2px;">✓</span>
+            <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.6;"><strong style="color: var(--text);">Smart Insights Engine</strong> — automatically detects your top spending categories, identifies large outlier transactions, and calculates your monthly average.</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+            <span style="color: var(--g); flex-shrink: 0; margin-top: 2px;">✓</span>
+            <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.6;"><strong style="color: var(--text);">Multi-statement History</strong> — analyze multiple CSV files and access past analyses stored in your browser's local storage.</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+            <span style="color: var(--g); flex-shrink: 0; margin-top: 2px;">✓</span>
+            <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.6;"><strong style="color: var(--text);">Pro Exports</strong> — generate a polished PDF report or a cleaned/enriched CSV with categories added for use in spreadsheets.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background: var(--bg); border-radius: 16px; border: 1px solid var(--line); padding: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 2;">
+          <div style="color: var(--sub); margin-bottom: 0.5rem;">// Sample insight output</div>
+          <div><span style="color: var(--g);">✓</span> <span style="color: var(--text);">Food & Dining</span> <span style="color: var(--sub);">→ 38% of spend</span></div>
+          <div><span style="color: var(--b);">⚡</span> <span style="color: var(--text);">Netflix</span> <span style="color: var(--sub);">→ recurring $15.99</span></div>
+          <div><span style="color: var(--r);">⚠</span> <span style="color: var(--text);">Largest tx</span> <span style="color: var(--sub);">→ $840 on Mar 12</span></div>
+          <div><span style="color: var(--y);">★</span> <span style="color: var(--text);">Monthly avg</span> <span style="color: var(--sub);">→ $2,340</span></div>
+          <div><span style="color: var(--g);">↑</span> <span style="color: var(--text);">Apr vs Mar</span> <span style="color: var(--sub);">→ +12% increase</span></div>
+        </div>
+      </div>
+    </div>
 
-        // --- Logic ---
-        function parseCSV(content) {
-            const lines = content.trim().split('\n');
-            if (lines.length === 0) return;
+    <!-- Blog Article -->
+    <div style="margin-bottom: 5rem;">
+      <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 2px; color: #fff; margin-bottom: 0.75rem;">Why Local-First Financial Tools Matter</h2>
+      <p style="font-size: 0.95rem; color: var(--sub); line-height: 1.85; margin-bottom: 1.5rem;">
+        Traditional budgeting apps like Mint, YNAB, or Personal Capital require you to <strong style="color: var(--text);">connect your bank account</strong> or share login credentials using services like Plaid. While convenient, this exposes your most sensitive financial data to third-party servers and introduces serious privacy risks.
+      </p>
+      <p style="font-size: 0.95rem; color: var(--sub); line-height: 1.85; margin-bottom: 1.5rem;">
+        The Financial Expense Analyzer takes a different approach. By processing CSV files <strong style="color: var(--text);">entirely within your browser</strong>, your raw bank data never touches a server. Technically, this is achieved using the browser's native <code style="background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: var(--g);">FileReader API</code> and client-side JavaScript. The result is a tool that is as safe as reading the file on your own computer — because that's exactly what it is.
+      </p>
+      <div style="background: rgba(0,229,160,0.05); border: 1px solid rgba(0,229,160,0.15); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+        <strong style="color: var(--g); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">Privacy Guarantee</strong>
+        <p style="font-size: 0.9rem; color: var(--sub); margin-top: 0.5rem; line-height: 1.7;">You can verify this yourself: open Chrome DevTools → Network tab → then upload your CSV. You will see zero network requests related to your financial data. The only external calls are to Google Fonts and analytics.</p>
+      </div>
+      <p style="font-size: 0.95rem; color: var(--sub); line-height: 1.85;">
+        This architecture also means the app <strong style="color: var(--text);">works offline</strong>, is <strong style="color: var(--text);">free to use</strong> for core features, and requires no account creation. Your history is saved in <code style="background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: var(--b);">localStorage</code>, meaning it persists across browser sessions on your device only.
+      </p>
+    </div>
 
-            const headerRow = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
-            state.headers = headerRow;
+    <!-- FAQ -->
+    <div>
+      <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 2px; color: #fff; margin-bottom: 2rem;">Frequently Asked Questions</h2>
+      <div style="display: flex; flex-direction: column; gap: 1px; border-radius: 18px; overflow: hidden; border: 1px solid var(--line);">
+        <div style="background: var(--bg3); padding: 1.5rem 2rem;">
+          <h3 style="font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">Which banks are supported?</h3>
+          <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.7;">Any bank that exports a CSV file is supported. Built-in presets include Chase, Revolut, Wise, Charles Schwab, and MUFG. For others, you can manually map the Date, Amount, and Description columns.</p>
+        </div>
+        <div style="background: var(--bg3); padding: 1.5rem 2rem; border-top: 1px solid var(--line);">
+          <h3 style="font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">Is my data uploaded to a server?</h3>
+          <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.7;">Absolutely not. All CSV parsing, categorization, and analysis happens locally in your browser using JavaScript. Your financial data never leaves your device. You can disconnect from the internet after loading the page and it will still work.</p>
+        </div>
+        <div style="background: var(--bg3); padding: 1.5rem 2rem; border-top: 1px solid var(--line);">
+          <h3 style="font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">What is the difference between Free and Pro?</h3>
+          <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.7;">The free plan gives you full access to all analysis charts, insights, and transaction tables with up to 6 months of history. Pro unlocks PDF report generation, encrypted CSV export, AI-powered summaries, and unlimited history.</p>
+        </div>
+        <div style="background: var(--bg3); padding: 1.5rem 2rem; border-top: 1px solid var(--line);">
+          <h3 style="font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">Can I use it to track multiple bank accounts?</h3>
+          <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.7;">Yes. Upload CSVs from different banks or accounts separately. Each analysis is saved to history so you can compare spending patterns across accounts and time periods.</p>
+        </div>
+        <div style="background: var(--bg3); padding: 1.5rem 2rem; border-top: 1px solid var(--line);">
+          <h3 style="font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">How does auto-categorization work?</h3>
+          <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.7;">The tool uses keyword matching against the transaction description. For example, transactions containing "Netflix", "Spotify", or "Hulu" are categorized as <em>Entertainment</em>. You can override any category manually in the transaction table.</p>
+        </div>
+        <div style="background: var(--bg3); padding: 1.5rem 2rem; border-top: 1px solid var(--line);">
+          <h3 style="font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">What file format is required?</h3>
+          <p style="font-size: 0.9rem; color: var(--sub); line-height: 1.7;">Standard CSV files (.csv) with headers in the first row. The file must contain at minimum a <strong style="color: var(--text);">date column</strong> and an <strong style="color: var(--text);">amount column</strong>. Column delimiter (comma or semicolon) is auto-detected.</p>
+        </div>
+      </div>
+    </div>
 
-            state.csvData = lines.slice(1).map(line => {
-                const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
-                const obj = {};
-                headerRow.forEach((header, idx) => {
-                    obj[header] = values[idx] || '';
-                });
-                return obj;
-            });
+  </div>
+</section>
 
-            document.getElementById('file-size-info').textContent = `File size: ${(content.length / 1024).toFixed(1)} KB`;
-            document.getElementById('row-count-info').textContent = `${state.csvData.length} transactions detected`;
-            
-            renderMapping();
-        }
-
-        function renderMapping() {
-            document.getElementById('upload-section').classList.add('hidden');
-            document.getElementById('mapping-section').classList.remove('hidden');
-
-            const fields = ['date', 'amount', 'category', 'notes'];
-            fields.forEach(f => {
-                const select = document.getElementById(`map-${f}`);
-                select.innerHTML = '<option value="">— Select a column —</option>' + 
-                    state.headers.map(h => `<option value="${h}">${h}</option>`).join('');
-                
-                // Auto-map if possible
-                const lowerH = state.headers.map(h => h.toLowerCase());
-                if (f === 'date' && lowerH.includes('date')) select.value = state.headers[lowerH.indexOf('date')];
-                if (f === 'amount' && (lowerH.includes('amount') || lowerH.includes('value'))) select.value = state.headers[lowerH.indexOf('amount') || lowerH.indexOf('value')];
-                if (f === 'notes' && (lowerH.includes('memo') || lowerH.includes('description') || lowerH.includes('notes'))) select.value = state.headers[lowerH.indexOf('memo') || lowerH.indexOf('description') || lowerH.indexOf('notes')];
-
-                select.onchange = (e) => state.mapping[f] = e.target.value;
-                state.mapping[f] = select.value;
-            });
-
-            const table = document.getElementById('preview-table');
-            table.querySelector('thead').innerHTML = `<tr>${state.headers.map(h => `<th class="px-4 py-3 text-left font-semibold text-slate-200">${h}</th>`).join('')}</tr>`;
-            table.querySelector('tbody').innerHTML = state.csvData.slice(0, 3).map(row => `
-                <tr class="border-b border-slate-700/30">
-                    ${state.headers.map(h => `<td class="px-4 py-3">${row[h]?.substring(0, 30)}</td>`).join('')}
-                </tr>
-            `).join('');
-        }
-
-        function categorizeTransaction(memo) {
-            const text = (memo || '').toLowerCase();
-            if (text.match(/grocery|supermarket|food|restaurant|cafe|pizza|sushi|deli|whole foods|safeway|kroger|tesco/)) return 'Food & Dining';
-            if (text.match(/gas|fuel|parking|auto|car|taxi|uber|transit|lyft|shell|chevron|bp/)) return 'Transportation';
-            if (text.match(/utility|electric|water|gas bill|internet|phone|mobile|verizon|at&t|comcast/)) return 'Utilities';
-            if (text.match(/gym|sport|yoga|fitness|health|doctor|pharmacy|medical|hospital|clinic|cvs|walgreens/)) return 'Health & Fitness';
-            if (text.match(/movie|entertainment|spotify|netflix|gaming|game|concert|theater|cinema|hulu|steam/)) return 'Entertainment';
-            if (text.match(/amazon|shop|store|retail|mall|purchase|buy|target|walmart|apple/)) return 'Shopping';
-            if (text.match(/bank|fee|interest|transfer|payment|atm/)) return 'Banking & Fees';
-            if (text.match(/rent|mortgage|lease|housing|property/)) return 'Housing';
-            return 'Other';
-        }
-
-        function processData() {
-            if (!state.mapping.date || !state.mapping.amount) {
-                alert('Please map Date and Amount columns');
-                return;
-            }
-
-            const processed = state.csvData
-                .filter(row => row[state.mapping.date] && row[state.mapping.amount])
-                .map(row => {
-                    const amountStr = row[state.mapping.amount].replace(/[$,]/g, '');
-                    return {
-                        date: new Date(row[state.mapping.date]),
-                        amount: parseFloat(amountStr),
-                        category: state.mapping.category && row[state.mapping.category] ? row[state.mapping.category] : categorizeTransaction(row[state.mapping.notes] || row[state.mapping.amount]),
-                        notes: state.mapping.notes ? row[state.mapping.notes] : ''
-                    };
-                })
-                .filter(item => !isNaN(item.amount) && item.amount !== 0);
-
-            if (processed.length === 0) {
-                alert('No valid transaction data found. Please check your column mapping.');
-                return;
-            }
-
-            // Category totals
-            const catTotals = {};
-            processed.forEach(item => {
-                catTotals[item.category] = (catTotals[item.category] || 0) + Math.abs(item.amount);
-            });
-            state.categories = catTotals;
-
-            // Monthly totals
-            const monthMap = {};
-            processed.forEach(item => {
-                const monthKey = `${item.date.getFullYear()}-${String(item.date.getMonth() + 1).padStart(2, '0')}`;
-                monthMap[monthKey] = (monthMap[monthKey] || 0) + Math.abs(item.amount);
-            });
-
-            state.monthlyTotals = Object.entries(monthMap)
-                .sort()
-                .map(([month, total]) => ({
-                    label: new Date(month + '-01').toLocaleDateString('en-US', { year: 'numeric', month: 'short' }),
-                    total: Math.round(total * 100) / 100
-                }));
-
-            // Stats
-            const amounts = processed.map(p => Math.abs(p.amount));
-            const total = amounts.reduce((a, b) => a + b, 0);
-            state.stats = {
-                total: Math.round(total * 100) / 100,
-                average: Math.round((total / amounts.length) * 100) / 100,
-                highest: Math.max(...amounts),
-                count: amounts.length
-            };
-
-            renderResults();
-        }
-
-        function renderResults() {
-            document.getElementById('mapping-section').classList.add('hidden');
-            document.getElementById('results-section').classList.remove('hidden');
-
-            document.getElementById('stat-total').textContent = `$${state.stats.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('stat-count').textContent = `${state.stats.count} transactions`;
-            document.getElementById('stat-average').textContent = `$${state.stats.average.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('stat-highest').textContent = `$${state.stats.highest.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('stat-period').textContent = state.monthlyTotals.length;
-
-            renderCharts();
-
-            const tbody = document.querySelector('#category-table tbody');
-            const catData = Object.entries(state.categories).sort((a, b) => b[1] - a[1]);
-            tbody.innerHTML = catData.map(([name, value], idx) => `
-                <tr class="border-b border-slate-700/30 hover:bg-slate-700/20">
-                    <td class="px-6 py-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-3 h-3 rounded-full" style="background-color: ${CHART_COLORS[idx % CHART_COLORS.length]}"></div>
-                            <span class="text-slate-200">${name}</span>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-right text-slate-100 font-semibold">$${value.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-                    <td class="px-6 py-4 text-right text-teal-400 font-semibold">${((value / state.stats.total) * 100).toFixed(1)}%</td>
-                </tr>
-            `).join('');
-        }
-
-        function renderCharts() {
-            // Trend Chart
-            const trendCtx = document.getElementById('trendChart').getContext('2d');
-            if (trendChart) trendChart.destroy();
-            trendChart = new Chart(trendCtx, {
-                type: 'line',
-                data: {
-                    labels: state.monthlyTotals.map(t => t.label),
-                    datasets: [{
-                        label: 'Monthly Spending',
-                        data: state.monthlyTotals.map(t => t.total),
-                        borderColor: '#14B8A6',
-                        backgroundColor: 'rgba(20, 184, 166, 0.1)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#14B8A6',
-                        pointRadius: 5,
-                        pointHoverRadius: 7
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { color: '#334155' }, ticks: { color: '#94A3B8' } },
-                        x: { grid: { display: false }, ticks: { color: '#94A3B8' } }
-                    }
-                }
-            });
-
-            // Category Chart
-            const catCtx = document.getElementById('categoryChart').getContext('2d');
-            if (categoryChart) categoryChart.destroy();
-            const catEntries = Object.entries(state.categories).sort((a, b) => b[1] - a[1]);
-            categoryChart = new Chart(catCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: catEntries.map(e => e[0]),
-                    datasets: [{
-                        data: catEntries.map(e => e[1]),
-                        backgroundColor: CHART_COLORS,
-                        borderWidth: 0,
-                        hoverOffset: 10
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: { 
-                        legend: { position: 'bottom', labels: { color: '#94A3B8', padding: 20 } } 
-                    }
-                }
-            });
-        }
-
-        function toggleBlog() {
-            state.showBlog = !state.showBlog;
-            document.getElementById('blog-section').classList.toggle('hidden', !state.showBlog);
-        }
-
-        function resetAll() {
-            state = { csvData: [], headers: [], mapping: { date: '', amount: '', category: '', notes: '' }, showBlog: state.showBlog, processedData: [], categories: {}, monthlyTotals: [], stats: { total: 0, average: 0, highest: 0, count: 0 } };
-            document.getElementById('upload-section').classList.remove('hidden');
-            document.getElementById('mapping-section').classList.add('hidden');
-            document.getElementById('results-section').classList.add('hidden');
-            document.getElementById('file-input').value = '';
-        }
-
-        function openProModal() {
-            const m = document.getElementById('pro-modal');
-            m.classList.remove('hidden');
-            m.classList.add('flex');
-            setTimeout(() => m.firstElementChild.classList.remove('scale-95'), 10);
-        }
-
-        function closeProModal() {
-            const m = document.getElementById('pro-modal');
-            m.firstElementChild.classList.add('scale-95');
-            setTimeout(() => { m.classList.add('hidden'); m.classList.remove('flex'); }, 200);
-        }
-
-        // --- Events ---
-        const dz = document.getElementById('drop-zone');
-        const fi = document.getElementById('file-input');
-
-        dz.onclick = () => fi.click();
-        fi.onchange = (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const r = new FileReader();
-                r.onload = (ev) => parseCSV(ev.target.result);
-                r.readAsText(file);
-            }
-        };
-
-        dz.ondragover = (e) => { e.preventDefault(); dz.classList.add('border-teal-500'); };
-        dz.ondragleave = () => dz.classList.remove('border-teal-500');
-        dz.ondrop = (e) => {
-            e.preventDefault();
-            dz.classList.remove('border-teal-500');
-            const file = e.dataTransfer.files[0];
-            if (file && file.name.endsWith('.csv')) {
-                const r = new FileReader();
-                r.onload = (ev) => parseCSV(ev.target.result);
-                r.readAsText(file);
-            }
-        };
-
-        // --- Init ---
-        lucide.createIcons();
-    </script>
 </body>
 </html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Generate Zod Schemas from JSON — Complete Guide | Zod Schema Generator</title>
+    <meta name="description" content="Learn how to automatically generate Zod schemas and TypeScript interfaces from any JSON payload. Step-by-step guide with examples for REST API validation, form handling, and runtime type safety.">
+    <meta name="keywords" content="zod schema generator, json to zod, typescript validation, zod tutorial, runtime type checking, api response validation, zod typescript guide">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a12;
+            --bg2: #0f0f1a;
+            --border: #1e1e2e;
+            --primary: #6366f1;
+            --accent: #06b6d4;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.7; }
+
+        .topbar {
+            background: rgba(10,10,18,0.95);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .topbar a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+        .topbar a:hover { color: var(--text); }
+        .topbar-cta {
+            background: var(--primary);
+            color: white !important;
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .hero {
+            max-width: 860px;
+            margin: 5rem auto 4rem;
+            padding: 0 2rem;
+        }
+        .hero-tag {
+            display: inline-block;
+            background: rgba(99,102,241,0.12);
+            border: 1px solid rgba(99,102,241,0.3);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+        h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.5rem; }
+        h1 span { background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; }
+        .hero-intro { font-size: 1.15rem; color: #94a3b8; line-height: 1.8; }
+
+        article { max-width: 860px; margin: 0 auto; padding: 0 2rem 8rem; }
+        h2 { font-size: 1.75rem; font-weight: 800; color: #fff; margin: 3.5rem 0 1rem; letter-spacing: -0.02em; }
+        h3 { font-size: 1.2rem; font-weight: 700; color: var(--text); margin: 2rem 0 0.75rem; }
+        p { color: #94a3b8; margin-bottom: 1.25rem; font-size: 0.975rem; }
+        strong { color: var(--text); }
+
+        .callout {
+            background: rgba(99,102,241,0.06);
+            border: 1px solid rgba(99,102,241,0.2);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 12px 12px 0;
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0;
+        }
+        .callout.tip { border-left-color: #06b6d4; background: rgba(6,182,212,0.06); border-color: rgba(6,182,212,0.2); }
+        .callout strong { color: var(--primary); display: block; margin-bottom: 0.5rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .callout.tip strong { color: var(--accent); }
+
+        pre {
+            background: #050508;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+        code { font-family: var(--mono); font-size: 0.85em; background: rgba(255,255,255,0.06); padding: 0.15em 0.4em; border-radius: 4px; }
+        pre code { background: none; padding: 0; font-size: inherit; }
+        .kw { color: #c084fc; }
+        .ty { color: #38bdf8; }
+        .st { color: #4ade80; }
+        .cm { color: #475569; font-style: italic; }
+        .fn { color: #fbbf24; }
+
+        .steps { display: flex; flex-direction: column; gap: 1.5rem; margin: 2rem 0; }
+        .step { display: flex; gap: 1.25rem; }
+        .step-num { width: 36px; height: 36px; border-radius: 50%; background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); color: var(--primary); font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; justify-content: flex-start; justify-content: center; flex-shrink: 0; }
+        .step-body h4 { color: #fff; font-weight: 700; margin-bottom: 0.4rem; }
+        .step-body p { margin: 0; font-size: 0.9rem; }
+
+        .faq { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin: 2rem 0; }
+        .faq-item { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item h4 { color: #fff; font-size: 1rem; margin-bottom: 0.6rem; }
+        .faq-item p { margin: 0; font-size: 0.9rem; }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(6,182,212,0.05));
+            border: 1px solid rgba(99,102,241,0.25);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            margin: 4rem 0 0;
+        }
+        .cta-box h2 { margin: 0 0 1rem; font-size: 2rem; }
+        .cta-box p { margin-bottom: 2rem; }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: #fff;
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+        .btn-primary:hover { opacity: 0.85; }
+    </style>
+</head>
+<body>
+<nav class="topbar">
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+        <a href="/">← Zod Schema Generator</a>
+        <a href="https://local-dev-tools.pages.dev/" style="color:#475569">DevHub Portal</a>
+    </div>
+    <a href="/" class="topbar-cta">Open Tool →</a>
+</nav>
+
+<div class="hero">
+    <div class="hero-tag">Complete Guide</div>
+    <h1>How to Generate <span>Zod Schemas</span> from JSON Automatically</h1>
+    <p class="hero-meta">5 min read · TypeScript · Validation · Zod</p>
+    <p class="hero-intro">Stop writing Zod schemas by hand. This guide shows you how to instantly generate type-safe Zod schemas and TypeScript interfaces from any JSON payload — with live validation built in.</p>
+</div>
+
+<article>
+
+<h2>What is Zod and Why Use It?</h2>
+<p><strong>Zod</strong> is a TypeScript-first schema validation library that lets you define the shape of your data once and use it for both static type inference and runtime validation. It's especially powerful for:</p>
+<ul style="color:#94a3b8;padding-left:1.5rem;display:grid;gap:0.5rem;margin-bottom:1.25rem;font-size:0.975rem;">
+    <li>Validating API responses before using them in your UI</li>
+    <li>Form validation with clear error messages</li>
+    <li>Parsing config files or environment variables safely</li>
+    <li>Ensuring server-side data integrity in tRPC or Next.js API routes</li>
+</ul>
+
+<div class="callout">
+    <strong>Why not just use TypeScript interfaces?</strong>
+    TypeScript types are erased at runtime. Zod schemas run at runtime and will throw a descriptive error if the data doesn't match — catching bugs that TypeScript alone can't prevent.
+</div>
+
+<h2>Step-by-Step: From JSON to Zod in 60 Seconds</h2>
+<div class="steps">
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+            <h4>Paste your JSON</h4>
+            <p>Copy any JSON payload — an API response, mock data, or config object — and paste it into the left panel.</p>
+        </div>
+    </div>
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+            <h4>Choose your mode</h4>
+            <p>Toggle <strong>Strict Mode</strong> to disallow extra fields, or <strong>Infer Optional</strong> to mark nullable fields as <code>z.optional()</code> automatically.</p>
+        </div>
+    </div>
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+            <h4>Copy the output</h4>
+            <p>The generator outputs both a Zod schema and a TypeScript interface. Switch to the <strong>Usage Sample</strong> tab for a ready-to-use <code>.parse()</code> example.</p>
+        </div>
+    </div>
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+            <h4>Validate live</h4>
+            <p>Paste any test data into the Validation Preview panel to see whether it passes the generated schema in real-time.</p>
+        </div>
+    </div>
+</div>
+
+<h2>Example: GitHub API Response</h2>
+<p>Let's say your API returns this user object from GitHub:</p>
+<pre><code><span class="cm">// Input JSON (GitHub /user endpoint)</span>
+{
+  <span class="st">"login"</span>: <span class="st">"octocat"</span>,
+  <span class="st">"id"</span>: 1,
+  <span class="st">"name"</span>: <span class="st">"The Octocat"</span>,
+  <span class="st">"email"</span>: <span class="kw">null</span>,
+  <span class="st">"public_repos"</span>: 8,
+  <span class="st">"created_at"</span>: <span class="st">"2011-01-25T18:44:36Z"</span>
+}</code></pre>
+
+<p>The generator produces:</p>
+<pre><code><span class="cm">// Generated Zod Schema</span>
+<span class="kw">export const</span> <span class="fn">GitHubUserSchema</span> = z.object({
+  login: z.<span class="fn">string</span>(),
+  id: z.<span class="fn">number</span>(),
+  name: z.<span class="fn">string</span>(),
+  email: z.<span class="fn">string</span>().<span class="fn">nullable</span>(),
+  public_repos: z.<span class="fn">number</span>(),
+  created_at: z.<span class="fn">string</span>(),
+});
+
+<span class="cm">// Inferred TypeScript type (for free!)</span>
+<span class="kw">export type</span> <span class="ty">GitHubUser</span> = z.infer&lt;<span class="kw">typeof</span> <span class="fn">GitHubUserSchema</span>&gt;;
+
+<span class="cm">// Usage</span>
+<span class="kw">const</span> user = <span class="fn">GitHubUserSchema</span>.<span class="fn">parse</span>(apiResponse); <span class="cm">// throws if invalid</span>
+<span class="kw">const</span> result = <span class="fn">GitHubUserSchema</span>.<span class="fn">safeParse</span>(apiResponse); <span class="cm">// returns {success, data, error}</span></code></pre>
+
+<div class="callout tip">
+    <strong>Pro Tip: Use safeParse for UI code</strong>
+    In frontend components, prefer <code>.safeParse()</code> over <code>.parse()</code>. It returns a result object instead of throwing, making error handling cleaner and preventing unhandled exceptions.
+</div>
+
+<h2>Understanding the Strict vs Passthrough Modes</h2>
+<h3>Strict Mode (<code>.strict()</code>)</h3>
+<p>Rejects any object that has <strong>extra keys not defined</strong> in the schema. Use this when you control both the producer and consumer of the data and want to enforce a tight contract.</p>
+<h3>Passthrough Mode (<code>.passthrough()</code>)</h3>
+<p>Allows unknown keys to pass through validation unchanged. Ideal for extensible APIs where the server may add new fields over time that your schema doesn't need to know about.</p>
+
+<h2>Handling Nested Objects and Arrays</h2>
+<p>The generator recursively processes nested structures. An array of objects like this:</p>
+<pre><code>{ <span class="st">"users"</span>: [{ <span class="st">"id"</span>: 1, <span class="st">"name"</span>: <span class="st">"Alice"</span> }] }</code></pre>
+<p>Produces:</p>
+<pre><code>z.object({
+  users: z.array(z.object({
+    id: z.<span class="fn">number</span>(),
+    name: z.<span class="fn">string</span>(),
+  })),
+})</code></pre>
+
+<h2>Frequently Asked Questions</h2>
+<div class="faq">
+    <div class="faq-item">
+        <h4>Is my JSON data sent to a server?</h4>
+        <p>No. All processing happens client-side in your browser using JavaScript. Your data never leaves your machine.</p>
+    </div>
+    <div class="faq-item">
+        <h4>Does it handle deeply nested JSON?</h4>
+        <p>Yes. The generator recursively traverses all levels. For extreme nesting (5+ levels), consider using the <a href="https://deep-nested-converter.pages.dev/" style="color:var(--accent)">Deep Nested Converter</a> instead.</p>
+    </div>
+    <div class="faq-item">
+        <h4>Can I use the output with React Hook Form?</h4>
+        <p>Yes. Use <code>@hookform/resolvers/zod</code> with the <code>zodResolver</code> to connect your generated schema directly to form validation.</p>
+    </div>
+    <div class="faq-item">
+        <h4>What Zod version is supported?</h4>
+        <p>The generator targets Zod v3, which is the current major version. All generated code is compatible with <code>zod@^3.0.0</code>.</p>
+    </div>
+</div>
+
+<div class="cta-box">
+    <h2>Ready to Generate Your Schema?</h2>
+    <p>Paste your JSON and get a production-ready Zod schema in seconds — free, private, no account required.</p>
+    <a href="/" class="btn-primary">Open Zod Schema Generator →</a>
+</div>
+
+</article>
+</body>
+</html>

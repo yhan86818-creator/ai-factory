@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #F9FAFB; /* Tailwind gray-50 */
+  --color-foreground: #111827; /* Tailwind gray-900 */
+  --color-primary: #0F172A; /* Slate 900 for primary actions - Apple style */
+  --color-primary-hover: #1E293B;
+  --color-accent: #2563EB; /* Trust Blue for highlights */
+  --color-muted: #F3F4F6; /* Gray 100 */
+  --color-muted-foreground: #6B7280; /* Gray 500 */
+  --color-border: #E5E7EB; /* Gray 200 */
+  --color-card: #FFFFFF;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-feature-settings: "cv11", "ss01";
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    outline: none;
+  }
+}
+
+/* Premium FinTech Card */
+.fintech-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.fintech-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+}
+
+/* Input Fields */
+.fintech-input {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  transition: all 0.2s;
+}
+
+.fintech-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Buttons */
+.btn-primary {
+  @apply bg-primary text-white px-6 py-3 rounded-2xl font-bold transition-all flex items-center justify-center gap-2;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.2);
+}
+.btn-primary:hover {
+  @apply bg-primary-hover transform -translate-y-0.5;
+  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.2);
+}
+
+.btn-secondary {
+  @apply bg-card text-foreground px-6 py-3 rounded-2xl font-bold transition-all border border-border flex items-center justify-center gap-2 shadow-sm;
+}
+.btn-secondary:hover {
+  @apply bg-gray-50;
+}
+
+/* Scrollbar */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Grid dot pattern for background */
+.dot-grid {
+  background-image: radial-gradient(circle, #D1D5DB 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Subtle Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #111827 0%, #2563EB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

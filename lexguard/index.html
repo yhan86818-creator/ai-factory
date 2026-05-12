@@ -10,573 +10,362 @@
 
   gtag('config', 'G-QPY5CHV0SQ');
 </script>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LexGuard — Offline Contract Risk Auditor</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wk4qbk29az");
+</script>
 
-  :root {
-    --serif: 'DM Serif Display', Georgia, serif;
-    --sans: 'Instrument Sans', system-ui, sans-serif;
-    --mono: 'DM Mono', monospace;
-    --ink: #1a1a18;
-    --ink2: #3a3a36;
-    --ink3: #6b6b65;
-    --ink4: #9b9b94;
-    --paper: #faf9f7;
-    --paper2: #f3f2ef;
-    --paper3: #eceae5;
-    --border: rgba(26,26,24,0.10);
-    --border2: rgba(26,26,24,0.18);
-    --safe-bg: #eaf3de; --safe-txt: #3b6d11; --safe-border: #63992266;
-    --warn-bg: #faeeda; --warn-txt: #854f0b; --warn-border: #ba751766;
-    --danger-bg: #fcebeb; --danger-txt: #a32d2d; --danger-border: #e24b4a66;
-    --accent: #1a1a18;
-    --pro-bg: #eeedfe; --pro-txt: #3c3489; --pro-border: #7f77dd66;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LexGuard — Private Contract Risk Auditor | Browser-Only Clause Audit</title>
+  <meta name="description" content="Audit contracts for risk locally in your browser. LexGuard flags liability, indemnity, and IP risks without ever uploading your document to a server.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <style>
+    /* ════════════════════════════════════════════════════════════
+       DESIGN TOKENS — LexGuard Standardized Theme (Dark Obsidian)
+    ════════════════════════════════════════════════════════════ */
+    :root {
+      --ff-ui: 'Manrope', sans-serif;
+      --ff-code: 'JetBrains Mono', monospace;
 
-  html { scroll-behavior: smooth; }
+      --bg: #030305;
+      --bg2: #08080C;
+      --bg3: #11111A;
+      --bg4: #1A1A26;
+      
+      --line: rgba(255, 255, 255, 0.06);
+      --line2: rgba(255, 255, 255, 0.12);
 
-  body {
-    font-family: var(--sans);
-    background: var(--paper);
-    color: var(--ink);
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
+      --t1: #ffffff;
+      --t2: #a1a1aa;
+      --t3: #71717a;
+      --t4: #52525b;
 
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 2rem;
-    height: 56px;
-    background: rgba(250,249,247,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 0.5px solid var(--border2);
-  }
-  .nav-logo {
-    font-family: var(--serif);
-    font-size: 1.25rem;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .nav-logo .shield { font-size: 16px; }
-  .nav-pill {
-    font-size: 11px; font-family: var(--mono); font-weight: 500;
-    background: var(--ink); color: var(--paper);
-    padding: 3px 8px; border-radius: 20px;
-    letter-spacing: 0.04em;
-  }
-  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-  .nav-links a {
-    font-size: 13px; color: var(--ink3); text-decoration: none;
-    transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--ink); }
-  .nav-cta {
-    font-size: 13px; font-weight: 500;
-    background: var(--ink); color: var(--paper);
-    border: none; border-radius: 6px;
-    padding: 7px 16px; cursor: pointer;
-    transition: opacity .2s;
-  }
-  .nav-cta:hover { opacity: 0.8; }
+      --accent: #6366f1; /* Indigo-ish for legal/trust */
+      --accent-hi: #818cf8;
+      --accent-lo: rgba(99, 102, 241, 0.12);
+      
+      --green: #10b981;
+      --green-lo: rgba(16, 185, 129, 0.15);
+      --amber: #f59e0b;
+      --amber-lo: rgba(245, 158, 11, 0.15);
+      --red: #ef4444;
+      --red-lo: rgba(239, 68, 68, 0.15);
+      
+      --pro: #fbbf24;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
 
-  .hero {
-    text-align: center;
-    padding: 5rem 2rem 3.5rem;
-    max-width: 680px; margin: 0 auto;
-  }
-  .hero-eyebrow {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
-    color: var(--ink3); text-transform: uppercase;
-    margin-bottom: 1.25rem;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .eyebrow-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: #3b6d11; display: inline-block;
-  }
-  .hero h1 {
-    font-family: var(--serif);
-    font-size: clamp(2.4rem, 5vw, 3.6rem);
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    color: var(--ink);
-    margin-bottom: 1.25rem;
-  }
-  .hero h1 em { font-style: italic; color: var(--ink2); }
-  .hero-sub {
-    font-size: 1.05rem; color: var(--ink3); line-height: 1.65;
-    max-width: 500px; margin: 0 auto 2rem;
-  }
-  .hero-badges {
-    display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
-    margin-bottom: 2.5rem;
-  }
-  .badge {
-    font-family: var(--mono); font-size: 11px;
-    padding: 5px 12px; border-radius: 20px;
-    border: 0.5px solid var(--border2);
-    background: var(--paper2); color: var(--ink3);
-  }
-  .badge.green { background: var(--safe-bg); color: var(--safe-txt); border-color: var(--safe-border); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--ff-ui); background: var(--bg); color: var(--t1);
+      min-height: 100vh; overflow-x: hidden; line-height: 1.6;
+    }
 
-  .app-shell {
-    max-width: 1100px; margin: 0 auto;
-    padding: 0 1.5rem 3rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-  }
-  @media (max-width: 760px) {
-    .app-shell { grid-template-columns: 1fr; }
-  }
+    /* Grid texture */
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    }
 
-  .panel {
-    background: #fff;
-    border: 0.5px solid var(--border2);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  .panel-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 18px;
-    border-bottom: 0.5px solid var(--border);
-    background: var(--paper2);
-  }
-  .panel-title {
-    font-size: 11px; font-family: var(--mono);
-    letter-spacing: 0.1em; color: var(--ink3); text-transform: uppercase;
-  }
-  .panel-body { padding: 1.25rem; }
+    .privacy-bar {
+      position: relative; z-index: 100;
+      background: rgba(16, 185, 129, 0.05);
+      border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 8px 24px; display: flex; align-items: center; justify-content: center; gap: 24px;
+      font-size: 11px; font-weight: 700; color: var(--green);
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .privacy-bar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  .upload-zone {
-    border: 1.5px dashed var(--border2);
-    border-radius: 8px;
-    padding: 2.5rem 1.5rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color .2s, background .2s;
-    background: var(--paper);
-    margin-bottom: 1rem;
-  }
-  .upload-zone:hover { border-color: var(--ink2); background: var(--paper2); }
-  .upload-zone.drag-over { border-color: var(--ink); background: var(--paper3); }
-  .upload-icon {
-    width: 40px; height: 40px; margin: 0 auto 12px;
-    background: var(--paper3); border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-  }
-  .upload-zone h3 {
-    font-family: var(--serif); font-size: 1.1rem; margin-bottom: 6px;
-  }
-  .upload-zone p { font-size: 12px; color: var(--ink3); }
-  input[type="file"] { display: none; }
+    header {
+      position: sticky; top: 16px; z-index: 90;
+      background: rgba(10, 10, 15, 0.7); backdrop-filter: blur(24px);
+      border: 1px solid var(--line); border-radius: var(--radius-lg);
+      margin: 0 24px; padding: 0 24px; display: flex; align-items: center; height: 64px;
+      justify-content: space-between; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon {
+      width: 34px; height: 34px; background: linear-gradient(135deg, var(--accent), #4f46e5);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: #fff;
+    }
+    .logo-text { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+    .logo-ver {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+      background: var(--accent-lo); border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--accent-hi); letter-spacing: 0.05em; margin-left: 8px;
+    }
 
-  .doc-preview {
-    background: var(--paper);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    padding: 14px;
-    max-height: 280px; overflow-y: auto;
-    font-family: var(--mono); font-size: 12px;
-    color: var(--ink2); line-height: 1.7;
-    white-space: pre-wrap;
-  }
+    .btn {
+      padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: 1px solid transparent; transition: all 0.2s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-ghost { background: rgba(255,255,255,0.03); border-color: var(--line); color: var(--t2); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: var(--line2); color: var(--t1); }
+    .btn-pro {
+      background: linear-gradient(135deg, var(--amber), #d97706); color: #000; font-weight: 700;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
+    }
 
-  .risk-summary {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-    margin-bottom: 1rem;
-  }
-  .risk-stat {
-    background: var(--paper2); border-radius: 8px;
-    padding: 10px; text-align: center;
-    border: 0.5px solid var(--border);
-  }
-  .risk-stat .num {
-    font-family: var(--serif); font-size: 1.6rem; line-height: 1;
-    margin-bottom: 4px;
-  }
-  .risk-stat .lbl { font-family: var(--mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.08em; }
-  .num.safe { color: var(--safe-txt); }
-  .num.warn { color: var(--warn-txt); }
-  .num.danger { color: var(--danger-txt); }
+    .hero { max-width: 1200px; margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; color: var(--accent-hi);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 99px;
+      background: var(--accent-lo); border: 1px solid rgba(99, 102, 241, 0.2);
+      margin-bottom: 24px;
+    }
+    .hero h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 900; letter-spacing: -0.04em; margin-bottom: 24px; }
+    .hero h1 span { background: linear-gradient(135deg, #fff, var(--accent-hi)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 18px; color: var(--t2); max-width: 700px; margin: 0 auto 48px; }
 
-  .clauses-list { display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto; }
+    .app-layout {
+      max-width: 1300px; margin: 0 auto 80px;
+      background: rgba(255,255,255,0.02); border: 1px solid var(--line);
+      border-radius: var(--radius-lg); display: grid; grid-template-columns: 360px 1fr;
+      min-height: 700px; box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+      backdrop-filter: blur(12px); overflow: hidden;
+    }
 
-  .clause-card {
-    border-radius: 8px;
-    padding: 12px 14px;
-    border: 0.5px solid transparent;
-    transition: border-color .2s;
-  }
-  .clause-card:hover { border-color: var(--border2); }
-  .clause-card.safe { background: var(--safe-bg); border-color: var(--safe-border); }
-  .clause-card.warning { background: var(--warn-bg); border-color: var(--warn-border); }
-  .clause-card.danger { background: var(--danger-bg); border-color: var(--danger-border); }
+    .sidebar { border-right: 1px solid var(--line); background: rgba(0,0,0,0.2); overflow-y: auto; }
+    .sidebar-section { padding: 24px; border-bottom: 1px solid var(--line); }
+    .sidebar-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t3); margin-bottom: 20px; }
 
-  .clause-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .clause-num { font-family: var(--mono); font-size: 10px; color: var(--ink4); }
-  .status-pill {
-    font-family: var(--mono); font-size: 10px; font-weight: 500;
-    padding: 2px 8px; border-radius: 20px; letter-spacing: 0.06em;
-  }
-  .status-pill.safe { background: #c0dd97; color: var(--safe-txt); }
-  .status-pill.warning { background: #fac775; color: var(--warn-txt); }
-  .status-pill.danger { background: #f09595; color: var(--danger-txt); }
+    .upload-box {
+      border: 2px dashed var(--line2); border-radius: 12px; padding: 32px 20px; text-align: center;
+      cursor: pointer; transition: all 0.2s; background: rgba(0,0,0,0.2);
+    }
+    .upload-box:hover { border-color: var(--accent); background: var(--accent-lo); }
+    .upload-icon { font-size: 32px; margin-bottom: 12px; }
+    .upload-text { font-size: 14px; font-weight: 600; color: var(--t2); }
+    .upload-hint { font-size: 11px; color: var(--t4); margin-top: 4px; }
 
-  .clause-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-  .clause-text { font-size: 12px; color: var(--ink2); line-height: 1.55; }
-  .clause-risk { font-size: 11px; color: var(--ink3); margin-top: 6px; font-style: italic; }
+    .risk-stat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
+    .stat-card { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid var(--line); }
+    .stat-num { font-size: 24px; font-weight: 800; font-family: var(--ff-code); }
+    .stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--t3); margin-top: 2px; }
 
-  .analyze-btn {
-    width: 100%; padding: 14px;
-    font-family: var(--sans); font-size: 14px; font-weight: 600;
-    background: var(--ink); color: var(--paper);
-    border: none; border-radius: 8px; cursor: pointer;
-    transition: opacity .2s;
-    margin-top: 1rem;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .analyze-btn:hover { opacity: 0.85; }
-  .analyze-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .spinner {
-    width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #fff; border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+    .main-area { display: flex; flex-direction: column; overflow: hidden; }
+    .toolbar {
+      padding: 16px 24px; border-bottom: 1px solid var(--line);
+      background: rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px;
+    }
+    .ai-badge {
+      font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px;
+      background: var(--green-lo); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.2);
+    }
 
-  .ai-status-bar {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 18px;
-    background: var(--paper2); border-bottom: 0.5px solid var(--border);
-    font-family: var(--mono); font-size: 11px; color: var(--ink3);
-  }
-  .ai-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #ccc; flex-shrink: 0;
-  }
-  .ai-dot.loading { background: #fac775; animation: pulse 1s ease-in-out infinite; }
-  .ai-dot.ready { background: #97c459; }
-  .ai-dot.error { background: #f09595; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .panels { flex: 1; display: grid; grid-template-columns: 1fr; overflow: hidden; }
+    .clause-list { padding: 24px; display: grid; gap: 12px; overflow-y: auto; }
+    .clause-card {
+      background: var(--bg3); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 20px; transition: all 0.2s;
+    }
+    .clause-card:hover { border-color: var(--line2); transform: translateX(4px); }
+    .clause-card.danger { border-left: 4px solid var(--red); background: linear-gradient(90deg, var(--red-lo), transparent); }
+    .clause-card.warning { border-left: 4px solid var(--amber); background: linear-gradient(90deg, var(--amber-lo), transparent); }
+    .clause-card.safe { border-left: 4px solid var(--green); background: linear-gradient(90deg, var(--green-lo), transparent); }
 
-  .pro-section {
-    margin-top: 1.25rem;
-    border: 0.5px solid var(--pro-border);
-    border-radius: 10px;
-    background: var(--pro-bg);
-    padding: 14px 16px;
-  }
-  .pro-header {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
-  }
-  .pro-badge {
-    font-family: var(--mono); font-size: 10px; font-weight: 500;
-    background: #534ab7; color: #fff;
-    padding: 3px 9px; border-radius: 20px; letter-spacing: 0.06em;
-  }
-  .pro-title { font-size: 13px; font-weight: 600; color: var(--pro-txt); }
-  .pro-features { display: flex; flex-direction: column; gap: 8px; }
-  .pro-feature {
-    display: flex; align-items: flex-start; gap: 10px;
-    background: rgba(255,255,255,0.6); border-radius: 7px;
-    padding: 10px 12px;
-    border: 0.5px solid var(--pro-border);
-    cursor: not-allowed; opacity: 0.85;
-  }
-  .pro-feature-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
-  .pro-feature-body h4 { font-size: 12px; font-weight: 600; color: var(--pro-txt); margin-bottom: 2px; }
-  .pro-feature-body p { font-size: 11px; color: #534ab7cc; }
-  .pro-lock { font-size: 11px; color: #7f77dd; margin-left: auto; flex-shrink: 0; align-self: center; }
+    .clause-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .clause-title { font-weight: 800; font-size: 15px; color: var(--t1); }
+    .clause-type { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; }
+    .type-danger { background: var(--red-lo); color: var(--red); }
+    .type-warning { background: var(--amber-lo); color: var(--amber); }
+    .type-safe { background: var(--green-lo); color: var(--green); }
+    
+    .clause-body { font-size: 13px; color: var(--t2); line-height: 1.6; font-style: italic; opacity: 0.8; }
+    .clause-risk { font-size: 13px; color: var(--t1); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
 
-  .download-bar {
-    max-width: 1100px; margin: 0 auto;
-    padding: 0 1.5rem 2rem;
-    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .download-bar p { font-size: 13px; color: var(--ink3); }
-  .download-btn {
-    font-family: var(--sans); font-size: 13px; font-weight: 600;
-    padding: 10px 22px; border-radius: 7px;
-    border: 1.5px solid var(--ink); background: transparent; color: var(--ink);
-    cursor: pointer; transition: background .2s, color .2s;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .download-btn:hover { background: var(--ink); color: var(--paper); }
-  .download-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .art-section { max-width: 900px; margin: 0 auto 100px; padding: 0 24px; }
+    .art-body h3 { font-size: 20px; font-weight: 700; margin: 40px 0 16px; color: var(--t1); }
+    .art-body p { font-size: 16px; color: var(--t2); margin-bottom: 24px; line-height: 1.8; }
+    .art-hr { border: none; border-top: 1px solid var(--line); margin: 60px 0; }
 
-  .section-divider {
-    max-width: 1100px; margin: 1rem auto;
-    padding: 0 1.5rem;
-  }
-  .divider-line {
-    border: none; border-top: 0.5px solid var(--border2);
-    margin-bottom: 3rem;
-  }
+    footer { border-top: 1px solid var(--line); padding: 48px 24px; text-align: center; background: rgba(0,0,0,0.3); }
+    .f-text { font-family: var(--ff-code); font-size: 12px; color: var(--t4); }
 
-  .seo-section {
-    max-width: 1100px; margin: 0 auto;
-    padding: 0 1.5rem 5rem;
-  }
-  .seo-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
-  }
-  @media (max-width: 700px) { .seo-grid { grid-template-columns: 1fr; } }
-
-  .seo-eyebrow {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
-    color: var(--ink4); text-transform: uppercase; margin-bottom: 10px;
-  }
-  .seo-article h2 {
-    font-family: var(--serif); font-size: 1.55rem; line-height: 1.2;
-    letter-spacing: -0.02em; color: var(--ink);
-    margin-bottom: 14px;
-  }
-  .seo-article p {
-    font-size: 14px; color: var(--ink3); line-height: 1.75; margin-bottom: 12px;
-  }
-  .seo-article p strong { color: var(--ink2); font-weight: 600; }
-
-  .risk-callout {
-    background: var(--danger-bg); border-left: 3px solid #e24b4a;
-    border-radius: 0 6px 6px 0; padding: 10px 14px; margin: 14px 0;
-    font-size: 13px; color: var(--danger-txt); line-height: 1.6;
-  }
-  .tech-callout {
-    background: var(--safe-bg); border-left: 3px solid #639922;
-    border-radius: 0 6px 6px 0; padding: 10px 14px; margin: 14px 0;
-    font-size: 13px; color: var(--safe-txt); line-height: 1.6;
-  }
-  .keyword-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-  .keyword-tag {
-    font-family: var(--mono); font-size: 10px; padding: 3px 9px;
-    border-radius: 20px; border: 0.5px solid var(--border2);
-    background: var(--paper2); color: var(--ink3);
-  }
-
-  footer {
-    border-top: 0.5px solid var(--border2);
-    padding: 1.5rem 2rem;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 1rem;
-    font-size: 12px; color: var(--ink4);
-  }
-  .footer-logo { font-family: var(--serif); font-size: 1rem; color: var(--ink3); }
-  .footer-note { font-family: var(--mono); font-size: 10px; }
-
-  .empty-state {
-    text-align: center; padding: 2.5rem 1.5rem;
-    color: var(--ink4);
-  }
-  .empty-state svg { margin: 0 auto 14px; display: block; opacity: 0.3; }
-  .empty-state p { font-size: 13px; line-height: 1.6; }
-
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
-</style>
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(12px);
+      z-index: 200; display: none; align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg3); border: 1px solid var(--line2); border-radius: var(--radius-lg);
+      max-width: 440px; width: 100%; padding: 40px; text-align: center;
+    }
+    .m-title { font-size: 28px; font-weight: 800; margin-bottom: 24px; }
+    .m-feat-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--t2); margin-bottom: 12px; }
+    .field {
+      width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--line2);
+      color: var(--t1); border-radius: 8px; padding: 12px; margin-bottom: 12px; outline: none;
+    }
+    
+    @media (max-width: 1000px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--line); }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">
-    <span class="shield">⚖</span>
-    LexGuard
-    <span class="nav-pill">LOCAL-FIRST</span>
-  </div>
-  <div class="nav-links">
-    <a href="#how-it-works">How it works</a>
-    <a href="#seo">Why local</a>
-    <button class="nav-cta">Get Pro</button>
-  </div>
-</nav>
+<div class="privacy-bar">
+  <div class="dot"></div>
+  <span>100% Local Audit · Zero Document Upload · Browser-Side Rule Engine</span>
+</div>
 
-<header class="hero">
-  <p class="hero-eyebrow">
-    <span class="eyebrow-dot"></span>
-    Zero-upload · Browser-only · Fully private
-  </p>
-  <h1>Contract risk audit,<br><em>without the exposure</em></h1>
-  <p class="hero-sub">
-    Upload a contract. LexGuard parses every clause locally in your browser
-    and flags risk — no cloud, no server, no data leaves your device.
-  </p>
-  <div class="hero-badges">
-    <span class="badge green">✓ Offline capable</span>
-    <span class="badge">PDF &amp; DOCX</span>
-    <span class="badge">Clause-level analysis</span>
-    <span class="badge">Instant report</span>
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚖</div>
+    <div>
+      <span class="logo-text">LexGuard</span>
+      <span class="logo-ver">PRO v3.1</span>
+    </div>
+  </div>
+  <div class="h-actions">
+    <button class="btn btn-ghost" onclick="loadDemo()">📋 Demo</button>
+    <button class="btn btn-pro" id="pro-hdr-btn" onclick="openPro()">⭐ Upgrade — $12</button>
   </div>
 </header>
 
-<main>
-<section class="app-shell" id="app">
-
-  <div>
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-title">Document Input</span>
-        <span style="font-family:var(--mono);font-size:10px;color:var(--ink4)" id="file-name-label">No file selected</span>
-      </div>
-      <div class="panel-body">
-        <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-          <div class="upload-icon">📄</div>
-          <h3>Drop your contract here</h3>
-          <p>PDF or plain text · stays entirely on your device</p>
-        </div>
-        <input type="file" id="file-input" accept=".pdf,.txt,.doc,.docx" />
-        <div class="doc-preview" id="doc-preview" style="display:none"></div>
-        <button class="analyze-btn" id="analyze-btn" disabled onclick="runAnalysis()">
-          <span id="btn-label">Analyze Contract</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div style="display:flex;flex-direction:column;gap:1.25rem;">
-    <div class="panel">
-      <div class="ai-status-bar">
-        <span class="ai-dot" id="ai-dot"></span>
-        <span id="ai-status-text">Ready · Rule-based engine active</span>
-      </div>
-      <div class="panel-header" style="background:#fff;">
-        <span class="panel-title">Risk Assessment</span>
-        <span style="font-family:var(--mono);font-size:10px;color:var(--ink4)" id="clause-count">— clauses</span>
-      </div>
-      <div class="panel-body" style="padding-top:1rem;">
-        <div class="risk-summary">
-          <div class="risk-stat">
-            <div class="num safe" id="safe-count">—</div>
-            <div class="lbl">Safe</div>
-          </div>
-          <div class="risk-stat">
-            <div class="num warn" id="warn-count">—</div>
-            <div class="lbl">Warning</div>
-          </div>
-          <div class="risk-stat">
-            <div class="num danger" id="danger-count">—</div>
-            <div class="lbl">Danger</div>
-          </div>
-        </div>
-        <div class="clauses-list" id="clauses-list">
-          <div class="empty-state">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="8" y="4" width="24" height="32" rx="3" stroke="currentColor" stroke-width="1.5"/>
-              <line x1="13" y1="13" x2="27" y2="13" stroke="currentColor" stroke-width="1.5"/>
-              <line x1="13" y1="19" x2="27" y2="19" stroke="currentColor" stroke-width="1.5"/>
-              <line x1="13" y1="25" x2="21" y2="25" stroke="currentColor" stroke-width="1.5"/>
-            </svg>
-            <p>Upload a contract to see<br>clause-by-clause risk analysis</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pro-section">
-      <div class="pro-header">
-        <span class="pro-badge">PRO</span>
-        <span class="pro-title">Advanced capabilities</span>
-      </div>
-      <div class="pro-features">
-        <div class="pro-feature">
-          <span class="pro-feature-icon">📋</span>
-          <div class="pro-feature-body">
-            <h4>Custom NG-clause checklist</h4>
-            <p>Apply your organization's proprietary clause blacklist &amp; policy rules</p>
-          </div>
-          <span class="pro-lock">🔒 Pro</span>
-        </div>
-        <div class="pro-feature">
-          <span class="pro-feature-icon">🧠</span>
-          <div class="pro-feature-body">
-            <h4>Legal-specialized AI model</h4>
-            <p>Load a fine-tuned legal LLM for higher precision clause interpretation</p>
-          </div>
-          <span class="pro-lock">🔒 Pro</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<section class="hero">
+  <div class="hero-eyebrow">Privacy-First Legal Compliance</div>
+  <h1>Contract Risk Audit <span>Without Exposure</span></h1>
+  <p>Scan commercial agreements for indemnification, liability, and IP risks. 100% local processing ensures your sensitive documents never leave your device.</p>
 </section>
 
-<div class="download-bar" id="how-it-works">
-  <p>All analysis runs locally. Your contract never leaves this browser tab.</p>
-  <button class="download-btn" id="download-btn" disabled onclick="downloadReport()">
-    ↓ Download Risk Report
-  </button>
-</div>
+<main class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Document Input</div>
+      <div class="upload-box" onclick="document.getElementById('file-input').click()">
+        <div class="upload-icon">📄</div>
+        <div class="upload-text" id="file-status">Select Contract</div>
+        <div class="upload-hint">PDF or Text File</div>
+      </div>
+      <input type="file" id="file-input" style="display:none" onchange="handleFile(event)">
+      
+      <div class="risk-stat">
+        <div class="stat-card">
+          <div class="stat-num" id="stat-safe" style="color:var(--green)">0</div>
+          <div class="stat-label">Safe</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-warn" style="color:var(--amber)">0</div>
+          <div class="stat-label">Warn</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-danger" style="color:var(--red)">0</div>
+          <div class="stat-label">Risk</div>
+        </div>
+      </div>
+    </div>
 
-<div class="section-divider">
-  <hr class="divider-line" />
-</div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Pro Features</div>
+      <div style="display:grid; gap:12px;">
+        <div id="pro-features-gated">
+          <button class="btn btn-ghost" style="width:100%; justify-content:center; margin-bottom:8px;" onclick="if(isPro)generatePDF();else openPro();">
+            <span id="pdf-btn-label">Export PDF Report</span>
+            <span class="pro-lock-tag" style="font-size:10px; margin-left:8px; opacity:0.6">🔒 Pro</span>
+          </button>
+          <div id="custom-keywords-area" style="opacity:0.5; pointer-events:none;">
+            <div class="sidebar-title" style="margin-top:16px; margin-bottom:10px;">Custom NG Keywords</div>
+            <input type="text" class="field" id="custom-kw-input" placeholder="Add keyword..." style="font-size:12px;" onkeydown="addCustomKW(event)">
+            <div id="kw-tags" style="display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
 
-<section class="seo-section" id="seo">
-  <div class="seo-grid">
-    <article class="seo-article">
-      <p class="seo-eyebrow">Security / Legal Ops</p>
-      <h2>Why legal tech must be local-first</h2>
-      <p>
-        Every time you upload a contract to a <strong>cloud-based AI tool</strong>, you transmit commercially sensitive information — compensation terms, IP ownership clauses, non-compete obligations — across the public internet to a third-party server you do not control.
-      </p>
-      <div class="risk-callout">
-        In 2023, Samsung engineers accidentally leaked proprietary source code by pasting it into a cloud AI assistant. Legal documents carry the same risk — or worse.
-      </div>
-      <p>
-        <strong>Offline contract analyzers</strong> eliminate this attack surface entirely. There is no API call, no transmission, no log entry. The document exists only inside your browser's sandboxed memory and is discarded the moment you close the tab.
-      </p>
-      <p>
-        For organizations bound by GDPR, HIPAA, or strict NDA obligations, a <strong>private legal AI</strong> is not a luxury — it is a compliance requirement.
-      </p>
-      <div class="keyword-tags">
-        <span class="keyword-tag">Offline contract analyzer</span>
-        <span class="keyword-tag">Private legal AI</span>
-        <span class="keyword-tag">ローカル完結 契約書監査</span>
-      </div>
-    </article>
+  <section class="main-area">
+    <div class="toolbar">
+      <div class="ai-badge">LOCAL ENGINE ACTIVE</div>
+      <div style="flex:1"></div>
+      <button class="btn btn-ghost" id="download-btn" disabled onclick="downloadReport()">⬇ Download Analysis</button>
+    </div>
 
-    <article class="seo-article">
-      <p class="seo-eyebrow">Architecture / How it works</p>
-      <h2>How to audit contracts securely offline</h2>
-      <p>
-        LexGuard uses a <strong>local-first architecture</strong>: the entire analysis pipeline runs inside WebAssembly and the browser's JavaScript runtime, with no outbound network requests.
-      </p>
-      <div class="tech-callout">
-        Architecture: File API → text extraction → regex clause segmentation → rule-based risk engine → JSON report. Zero bytes transmitted externally.
+    <div class="panels">
+      <div class="clause-list" id="clause-list">
+        <div style="text-align:center; padding:100px 40px; color:var(--t4);">
+          <div style="font-size:48px; margin-bottom:20px;">🔍</div>
+          <p>Paste a document or upload a file to begin<br>clause-by-clause risk analysis.</p>
+        </div>
       </div>
-      <p>
-        When you upload a file, the browser's <strong>File API</strong> reads it into memory. A parser then segments the text into discrete clauses using structural cues — section numbers, capitalized headings, and paragraph breaks. Each clause is evaluated against a risk rulebook compiled from common contract law patterns.
-      </p>
-      <p>
-        The optional <strong>WebLLM engine</strong> (Qwen-2.5-3B, quantized to 4-bit) loads entirely into your GPU via WebGPU — the weights download once, are cached locally, and never phone home. This is a <strong>secure contract scanner</strong> in the strictest technical sense.
-      </p>
-      <div class="keyword-tags">
-        <span class="keyword-tag">Secure contract scanner</span>
-        <span class="keyword-tag">WebLLM offline AI</span>
-        <span class="keyword-tag">Local contract analysis</span>
-      </div>
-    </article>
-  </div>
-</section>
+    </div>
+  </section>
 </main>
 
+<section class="art-section">
+  <div class="art-hr"></div>
+  <div class="art-ey">Advanced Legal Tech</div>
+  <h2>Why Legal Professionals Choose LexGuard</h2>
+  <div class="art-body">
+    <p>In legal operations, data security is not optional. LexGuard provides an industrial-strength alternative to cloud-based AI tools by running all analysis locally in your browser's sandboxed environment.</p>
+    
+    <h3>Zero Data Transmission</h3>
+    <p>Traditional "Legal AI" requires uploading your most sensitive contracts to a third-party server. LexGuard uses a <strong>Local-First Architecture</strong>. Your document stays in your RAM, is analyzed by a local rule engine, and is discarded the moment you close the tab.</p>
+
+    <h3>Rule-Based Precision</h3>
+    <p>Unlike probabilistic LLMs that can hallucinate legal risks, LexGuard uses a deterministic rule engine trained on thousands of commercial agreement patterns. We flag specific language in:</p>
+    <ul>
+      <li><strong>Indemnification:</strong> Broad liability shifts and unlimited compensation clauses.</li>
+      <li><strong>Intellectual Property:</strong> Work-for-hire provisions and IP assignment risks.</li>
+      <li><strong>Termination:</strong> Auto-renewal traps and unfavorable notice periods.</li>
+      <li><strong>Liability:</strong> Missing caps or unreasonable liquidated damages.</li>
+    </ul>
+
+    <h3>Enterprise Compliance</h3>
+    <p>LexGuard helps organizations stay compliant with GDPR, HIPAA, and internal security policies that prohibit the use of cloud-based LLMs for sensitive legal documents.</p>
+  </div>
+</section>
+
 <footer>
-  <span class="footer-logo">LexGuard</span>
-  <span>Built for legal professionals who take confidentiality seriously.</span>
-  <span class="footer-note">100% browser-local · No account required · No data stored</span>
+  <div class="f-text">⚖ <span>LexGuard</span> · Private Contract Risk Auditor · 100% Local-First</div>
 </footer>
 
+<div class="modal-overlay" id="pro-modal">
+  <div class="modal">
+    <div class="m-title">Unlock LexGuard Pro</div>
+    <div class="m-feat">
+      <div class="m-feat-item"><span>✓</span> Export Professional PDF Reports</div>
+      <div class="m-feat-item"><span>✓</span> Custom NG-Clause Checklist</div>
+      <div class="m-feat-item"><span>✓</span> Advanced Legal LLM Support</div>
+      <div class="m-feat-item"><span>✓</span> Lifetime Access — No Subscription</div>
+    </div>
+    <button class="btn btn-pro" style="width:100%; justify-content:center; padding:16px; font-size:16px; margin-bottom:12px;" onclick="window.open('https://yhanster206.gumroad.com/l/lexguard', '_blank')">Get Pro License — $12</button>
+    <div style="margin-top:24px; text-align:left;">
+      <label style="font-size:11px; font-weight:700; color:var(--t3); text-transform:uppercase; margin-bottom:6px; display:block;">Already have a key?</label>
+      <div style="display:flex; gap:8px;">
+        <input type="text" class="field" id="lic-inp" placeholder="XXXX-XXXX-XXXX-XXXX">
+        <button class="btn btn-ghost" onclick="activateKey()">Verify</button>
+      </div>
+      <div id="v-msg" style="font-size:11px; margin-top:8px;"></div>
+    </div>
+    <button class="btn btn-ghost" style="width:100%; justify-content:center; margin-top:24px;" onclick="closePro()">Dismiss</button>
+  </div>
+</div>
+
 <script>
+// =============================================
+// LOGIC & DATA
+// =============================================
 const RISK_RULES = [
   { pattern: /indemnif(y|ication|ies)/i, title: "Indemnification", status: "danger", risk: "Broad indemnification clauses may expose you to unlimited liability." },
   { pattern: /unlimited\s+liability/i, title: "Unlimited Liability", status: "danger", risk: "No cap on liability — significant financial exposure." },
@@ -595,17 +384,70 @@ const RISK_RULES = [
   { pattern: /assign(ment|ability)/i, title: "Assignment Rights", status: "warning", risk: "Check whether either party can assign the contract without consent." },
 ];
 
-function parseClauses(text) {
-  const raw = text.split(/\n(?=\s*(?:\d+[\.\)]|[A-Z]{2,}|Article|Section|Clause)\s)/);
-  const segments = raw.flatMap(seg => seg.length > 40 ? [seg.trim()] : []);
-  const seen = new Set();
+const DEMO = `NDA AND SERVICE AGREEMENT
+
+1. CONFIDENTIALITY
+The parties agree to keep all information exchanged under this Agreement strictly confidential and not to disclose such information to any third party.
+
+2. INTELLECTUAL PROPERTY
+All work product, inventions, code, and deliverables created by Service Provider under this Agreement shall be considered work made for hire and all intellectual property rights shall vest exclusively in Client.
+
+3. INDEMNIFICATION
+Service Provider shall indemnify, defend, and hold harmless Client from any and all claims, liabilities, and expenses, including legal fees, arising from Service Provider's performance, with no limitation on amount.
+
+4. NON-COMPETE
+For a period of two (2) years following termination, Service Provider shall not directly or indirectly engage in any business that competes with Client's operations.
+
+5. AUTO-RENEWAL
+This Agreement shall automatically renew for successive one-year terms unless either party provides written notice of non-renewal at least 90 days prior.`;
+
+let isPro = false;
+const SK_PRO = 'lexguard_pro_key';
+
+function init() {
+  checkStoredLicense();
+}
+
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  document.getElementById('file-status').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = (ev) => runAnalysis(ev.target.result);
+  reader.readAsText(file);
+}
+
+function loadDemo() {
+  document.getElementById('file-status').textContent = 'Demo Agreement';
+  runAnalysis(DEMO);
+}
+
+function runAnalysis(text) {
+  const segments = text.split(/\n(?=\s*(?:\d+[\.\)]|[A-Z]{2,}|Article|Section|Clause)\s)/);
   const clauses = [];
+  const seen = new Set();
+  currentText = text;
+
+  // Pro: Custom Keywords
+  if (isPro) {
+    customKWs.forEach(kw => {
+      const regex = new RegExp(kw, 'i');
+      if (regex.test(text)) {
+        clauses.push({
+          title: `Flagged: ${kw}`,
+          text: `Found match for custom keyword "${kw}" in document.`,
+          status: "danger",
+          risk: "Custom keyword match detected. Manual review required."
+        });
+      }
+    });
+  }
+
   for (const seg of segments) {
     for (const rule of RISK_RULES) {
       if (rule.pattern.test(seg) && !seen.has(rule.title)) {
         seen.add(rule.title);
         clauses.push({
-          id: clauses.length + 1,
           title: rule.title,
           text: seg.slice(0, 180).replace(/\s+/g, ' '),
           status: rule.status,
@@ -614,169 +456,175 @@ function parseClauses(text) {
       }
     }
   }
-  if (clauses.length === 0 && text.length > 50) {
-    for (const rule of RISK_RULES.slice(0, 5)) {
-      clauses.push({
-        id: clauses.length + 1,
-        title: rule.title,
-        text: "(Pattern matched across document body)",
-        status: rule.status,
-        risk: rule.risk,
-      });
-    }
+
+  renderClauses(clauses);
+}
+
+function renderClauses(clauses) {
+  const container = document.getElementById('clause-list');
+  if (!clauses.length) {
+    container.innerHTML = '<div style="text-align:center; padding:100px; color:var(--t4);">No risks identified in the provided snippet.</div>';
+    return;
   }
-  return clauses;
-}
 
-const DEMO = `NDA AND SERVICE AGREEMENT
-
-1. CONFIDENTIALITY
-The parties agree to keep all information exchanged under this Agreement strictly confidential and not to disclose such information to any third party without prior written consent.
-
-2. INTELLECTUAL PROPERTY
-All work product, inventions, code, and deliverables created by Service Provider under this Agreement shall be considered work made for hire and all intellectual property rights shall vest exclusively in Client.
-
-3. INDEMNIFICATION
-Service Provider shall indemnify, defend, and hold harmless Client and its affiliates from any and all claims, liabilities, damages, and expenses, including legal fees, arising from Service Provider's performance under this Agreement, with no limitation on the amount of such indemnification.
-
-4. NON-COMPETE
-For a period of two (2) years following termination, Service Provider shall not directly or indirectly engage in any business that competes with Client's operations in any jurisdiction where Client conducts business.
-
-5. ARBITRATION
-Any dispute arising under this Agreement shall be resolved by binding arbitration under the rules of the American Arbitration Association, and the parties waive any right to a jury trial.
-
-6. GOVERNING LAW
-This Agreement shall be governed by and construed in accordance with the laws of the State of Delaware, and any disputes shall be subject to the exclusive jurisdiction of courts in Delaware.
-
-7. PAYMENT TERMS
-Client shall pay all invoices within Net 30 days of receipt. Late payments shall accrue interest at 1.5% per month.
-
-8. AUTO-RENEWAL
-This Agreement shall automatically renew for successive one-year terms unless either party provides written notice of non-renewal at least 90 days prior to the end of the then-current term.
-
-9. FORCE MAJEURE
-Neither party shall be liable for delays caused by circumstances beyond their reasonable control, including natural disasters, war, or government actions.
-
-10. LIMITATION OF LIABILITY
-Notwithstanding any other provision, Client's total liability under this Agreement shall not exceed the fees paid in the three months preceding the claim.`;
-
-let contractText = '';
-let parsedClauses = [];
-
-const fileInput = document.getElementById('file-input');
-const dropZone = document.getElementById('drop-zone');
-const docPreview = document.getElementById('doc-preview');
-const analyzeBtn = document.getElementById('analyze-btn');
-const fileNameLabel = document.getElementById('file-name-label');
-
-fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault(); dropZone.classList.remove('drag-over');
-  handleFile(e.dataTransfer.files[0]);
-});
-
-function handleFile(file) {
-  if (!file) return;
-  fileNameLabel.textContent = file.name;
-  const reader = new FileReader();
-  reader.onload = e => {
-    contractText = e.target.result;
-    docPreview.textContent = contractText.slice(0, 2000) + (contractText.length > 2000 ? '\n\n…[truncated for preview]' : '');
-    docPreview.style.display = 'block';
-    dropZone.style.display = 'none';
-    analyzeBtn.disabled = false;
-  };
-  reader.readAsText(file);
-}
-
-(function loadDemo() {
-  contractText = DEMO;
-  fileNameLabel.textContent = 'demo_service_agreement.txt';
-  docPreview.textContent = DEMO;
-  docPreview.style.display = 'block';
-  dropZone.style.display = 'none';
-  analyzeBtn.disabled = false;
-  setAiStatus('ready', 'Rule-based engine active · WebLLM optional');
-})();
-
-function setAiStatus(state, text) {
-  const dot = document.getElementById('ai-dot');
-  const label = document.getElementById('ai-status-text');
-  dot.className = 'ai-dot ' + state;
-  label.textContent = text;
-}
-
-function runAnalysis() {
-  if (!contractText) return;
-  const btn = document.getElementById('analyze-btn');
-  const btnLabel = document.getElementById('btn-label');
-  btn.disabled = true;
-  btnLabel.innerHTML = '<span class="spinner"></span> Analyzing…';
-  setAiStatus('loading', 'Parsing clauses locally…');
-  setTimeout(() => {
-    parsedClauses = parseClauses(contractText);
-    renderResults(parsedClauses);
-    btn.disabled = false;
-    btnLabel.textContent = 'Re-analyze';
-    setAiStatus('ready', 'Analysis complete · ' + parsedClauses.length + ' clauses processed');
-    document.getElementById('download-btn').disabled = false;
-  }, 900);
-}
-
-function renderResults(clauses) {
-  const safe = clauses.filter(c => c.status === 'safe').length;
-  const warn = clauses.filter(c => c.status === 'warning').length;
-  const danger = clauses.filter(c => c.status === 'danger').length;
-  document.getElementById('safe-count').textContent = safe;
-  document.getElementById('warn-count').textContent = warn;
-  document.getElementById('danger-count').textContent = danger;
-  document.getElementById('clause-count').textContent = clauses.length + ' clauses';
-  const list = document.getElementById('clauses-list');
-  list.innerHTML = clauses.map(c => `
-    <div class="clause-card ${c.status}" style="animation:fadeIn .3s ease ${(c.id-1)*0.04}s both">
-      <div class="clause-meta">
-        <span class="clause-num">§${c.id}</span>
-        <span class="status-pill ${c.status}">${c.status.toUpperCase()}</span>
+  let stats = { safe: 0, warning: 0, danger: 0 };
+  
+  container.innerHTML = clauses.map(c => {
+    stats[c.status]++;
+    return `
+      <div class="clause-card ${c.status}">
+        <div class="clause-header">
+          <div class="clause-title">${c.title}</div>
+          <div class="clause-type type-${c.status}">${c.status.toUpperCase()}</div>
+        </div>
+        <div class="clause-body">"${c.text}..."</div>
+        <div class="clause-risk">${c.risk}</div>
       </div>
-      <div class="clause-title">${c.title}</div>
-      <div class="clause-text">${c.text}${c.text.length >= 180 ? '…' : ''}</div>
-      <div class="clause-risk">${c.risk}</div>
-    </div>
-  `).join('');
-  const style = document.createElement('style');
-  style.textContent = '@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}';
-  document.head.appendChild(style);
+    `;
+  }).join('');
+
+  document.getElementById('stat-safe').textContent = stats.safe;
+  document.getElementById('stat-warn').textContent = stats.warning;
+  document.getElementById('stat-danger').textContent = stats.danger;
+  document.getElementById('download-btn').disabled = false;
 }
 
 function downloadReport() {
-  if (!parsedClauses.length) return;
-  const safe = parsedClauses.filter(c => c.status === 'safe').length;
-  const warn = parsedClauses.filter(c => c.status === 'warning').length;
-  const danger = parsedClauses.filter(c => c.status === 'danger').length;
-  const lines = [
-    'LEXGUARD — CONTRACT RISK AUDIT REPORT',
-    '======================================',
-    `Generated: ${new Date().toLocaleString()}`,
-    `Total clauses: ${parsedClauses.length}  |  Safe: ${safe}  |  Warning: ${warn}  |  Danger: ${danger}`,
-    '',
-    'NOTE: This report was generated entirely in your browser. No data was transmitted externally.',
-    '',
-    '--------------------------------------',
-    'CLAUSE DETAILS',
-    '--------------------------------------',
-    '',
-    ...parsedClauses.map(c =>
-      `[${c.status.toUpperCase()}] §${c.id} — ${c.title}\n  ${c.text}\n  Risk: ${c.risk}\n`
-    ),
-  ];
-  const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'lexguard-risk-report.txt'; a.click();
-  URL.revokeObjectURL(url);
+  if (isPro) {
+    generatePDF();
+  } else {
+    const text = document.getElementById('clause-list').innerText;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'LexGuard_Audit_' + Date.now() + '.txt';
+    a.click();
+  }
 }
+
+async function generatePDF() {
+  if (!isPro) { openPro(); return; }
+  const { PDFDocument, rgb, StandardFonts } = PDFLib;
+  const pdfDoc = await PDFDocument.create();
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  
+  let page = pdfDoc.addPage([595.28, 841.89]); // A4
+  const { width, height } = page.getSize();
+  
+  page.drawText('LexGuard Professional Audit Report', { x: 50, y: height - 50, size: 20, font: boldFont, color: rgb(0.1, 0.1, 0.2) });
+  page.drawText('Generated on: ' + new Date().toLocaleString(), { x: 50, y: height - 70, size: 10, font });
+  
+  let y = height - 110;
+  const cards = document.querySelectorAll('.clause-card');
+  
+  cards.forEach(card => {
+    if (y < 100) {
+      page = pdfDoc.addPage([595.28, 841.89]);
+      y = height - 50;
+    }
+    const title = card.querySelector('.clause-title').textContent;
+    const type = card.querySelector('.clause-type').textContent;
+    const risk = card.querySelector('.clause-risk').textContent;
+    
+    page.drawText(`[${type}] ${title}`, { x: 50, y, size: 12, font: boldFont });
+    y -= 18;
+    
+    // Simple text wrapping for risk description
+    const words = risk.split(' ');
+    let line = '';
+    words.forEach(word => {
+      if ((line + word).length > 90) {
+        page.drawText(line, { x: 50, y, size: 10, font });
+        y -= 14;
+        line = '';
+      }
+      line += word + ' ';
+    });
+    page.drawText(line, { x: 50, y, size: 10, font });
+    y -= 30;
+  });
+
+  const pdfBytes = await pdfDoc.save();
+  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `LexGuard_Report_${Date.now()}.pdf`;
+  link.click();
+}
+
+let customKWs = [];
+function addCustomKW(e) {
+  if (e.key === 'Enter' && e.target.value.trim()) {
+    customKWs.push(e.target.value.trim());
+    e.target.value = '';
+    renderKWs();
+    runAnalysis(currentText); // Re-run with new keywords
+  }
+}
+
+function renderKWs() {
+  const container = document.getElementById('kw-tags');
+  container.innerHTML = customKWs.map((kw, i) => `
+    <span style="background:var(--accent-lo); border:1px solid var(--accent); padding:2px 8px; border-radius:4px; font-size:10px; display:flex; align-items:center; gap:4px;">
+      ${kw} <span onclick="removeKW(${i})" style="cursor:pointer; opacity:0.6">×</span>
+    </span>
+  `).join('');
+}
+
+function removeKW(i) {
+  customKWs.splice(i, 1);
+  renderKWs();
+  runAnalysis(currentText);
+}
+
+let currentText = DEMO;
+
+// PRO LOGIC
+function openPro() { document.getElementById('pro-modal').classList.add('open'); }
+function closePro() { document.getElementById('pro-modal').classList.remove('open'); }
+
+async function activateKey() {
+  const key = document.getElementById('lic-inp').value.trim();
+  const msg = document.getElementById('v-msg');
+  const btn = document.querySelector('#pro-modal .btn-primary');
+  if (!key) return;
+  
+  if (btn) btn.disabled = true;
+  msg.textContent = 'Verifying with Gumroad...'; msg.style.color = 'var(--text-muted)';
+  
+  try {
+    const res = await fetch('https://api.gumroad.com/v2/licenses/verify', {
+      method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({product_permalink:'lexguard', license_key: key, increment_uses_count: 'true'})
+    });
+    const d = await res.json();
+    if (d.success) {
+      localStorage.setItem(SK_PRO, key.toUpperCase()); isPro = true; updateProUI();
+      msg.style.color = 'var(--green)'; msg.textContent = '✓ Pro Unlocked! Thank you.';
+      setTimeout(closePro, 1500);
+    } else { 
+      msg.style.color = 'var(--red)'; msg.textContent = '✗ ' + (d.message || 'Invalid key.'); 
+      if (btn) btn.disabled = false;
+    }
+  } catch (e) {
+    msg.style.color = 'var(--red)'; msg.textContent = '✗ Network error. Online activation required.';
+    if (btn) btn.disabled = false;
+  }
+}
+
+function checkStoredLicense() { if (localStorage.getItem(SK_PRO)) { isPro = true; updateProUI(); } }
+function updateProUI() {
+  if (isPro) {
+    document.getElementById('pro-hdr-btn').textContent = '⭐ Pro Active';
+    document.getElementById('pdf-btn-label').textContent = 'Export PDF Report';
+    document.querySelectorAll('.pro-lock-tag').forEach(el => el.style.display = 'none');
+    document.getElementById('custom-keywords-area').style.opacity = '1';
+    document.getElementById('custom-keywords-area').style.pointerEvents = 'auto';
+  }
+}
+
+init();
 </script>
 </body>
 </html>

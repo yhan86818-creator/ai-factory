@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Response Types — Standardize your API Failures</title>
+    <meta name="description" content="Generate standardized TypeScript definitions for API errors, validation failures, and pattern-based result types.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="badge-error">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            Robust Error Handling
+        </div>
+        <h1>Error Response Types</h1>
+        <p class="subtitle">Quickly define type-safe error structures for your frontend and backend communication.</p>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <div class="section-title">Error Presets</div>
+            <div class="preset-list">
+                <button class="preset-btn active" data-preset="standard">Standard API Error</button>
+                <button class="preset-btn" data-preset="validation">Validation Error</button>
+                <button class="preset-btn" data-preset="auth">Authentication Error</button>
+                <button class="preset-btn" data-preset="result">Result<T, E> Pattern</button>
+                <button class="preset-btn" data-preset="either">Either Pattern</button>
+            </div>
+
+            <div class="section-title">Configuration</div>
+            <div class="config-group">
+                <label class="config-label">Error Codes (one per line)</label>
+                <textarea id="error-codes" placeholder="NOT_FOUND&#10;UNAUTHORIZED&#10;FORBIDDEN"></textarea>
+            </div>
+
+            <div class="config-group">
+                <label class="config-label">Interface Name</label>
+                <input type="text" id="interface-name" value="ApiError">
+            </div>
+
+            <div class="config-group">
+                <label class="config-label">Export Style</label>
+                <select id="export-style">
+                    <option value="export">export type</option>
+                    <option value="interface">export interface</option>
+                    <option value="none">const (local only)</option>
+                </select>
+            </div>
+        </aside>
+
+        <section class="content">
+            <div class="section-title">Generated TypeScript</div>
+            <div class="code-output">
+                <button class="btn-copy" id="btn-copy">Copy</button>
+                <code id="output-code"></code>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2026 DevHub · Professional Error Handling Utilities
+    </footer>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script src="app.js"></script>
+</body>
+</html>

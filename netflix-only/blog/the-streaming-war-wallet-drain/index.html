@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${post.title} | ${originalTitle} Blog</title>
+  <meta name="description" content="${post.excerpt}">
+  <meta name="keywords" content="netflix cost calculator, streaming subscription tracker, disney plus cost, family plan split calculator, video streaming budget, cord cutting calculator">
+  <meta name="google-site-verification" content="dyitLt80YqDWnYz6__XIEwhrunV4U1-KU8ODTGzuK_s" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0000;
+      --bg2: #160000;
+      --bg3: #1e0505;
+      --border: rgba(255,255,255,0.07);
+      --border-red: rgba(229,9,20,0.25);
+      --primary: #e50914;
+      --accent: #ff4d57;
+      --text: #ffe4e4;
+      --muted: #6b7280;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    .amb { position: fixed; border-radius: 50%; pointer-events: none; filter: blur(150px); }
+    .amb1 { width: 700px; height: 700px; background: rgba(229,9,20,0.06); top: -200px; right: -150px; }
+    .amb2 { width: 500px; height: 500px; background: rgba(255,77,87,0.04); bottom: -150px; left: -100px; }
+
+    .privacy-bar {
+      background: rgba(255,255,255,0.04); border-bottom: 1px solid var(--border);
+      color: var(--muted); font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em; text-align: center; padding: 0.5rem;
+      position: sticky; top: 0; z-index: 101;
+    }
+    .privacy-bar strong { color: var(--text); }
+    nav {
+      position: sticky; top: 30px; z-index: 100;
+      background: rgba(10,0,0,0.9); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-weight: 900; font-size: 1rem; color: #fff; }
+    .logo span { color: var(--accent); }
+    .nav-link { color: var(--muted); font-size: 0.8rem; text-decoration: none; font-weight: 600; transition: color 0.2s; }
+    .nav-link:hover { color: var(--text); }
+    .nav-cta { background: var(--primary); color: #fff; padding: 0.4rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-decoration: none; }
+
+    .hero { text-align: center; padding: 5rem 2rem 3rem; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(229,9,20,0.1); border: 1px solid var(--border-red);
+      color: var(--accent); font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 2rem;
+    }
+    h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 7rem); letter-spacing: 3px; color: #fff; line-height: 1; margin-bottom: 1.5rem; }
+    h1 em { font-style: normal; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { color: var(--muted); font-size: 1rem; max-width: 500px; margin: 0 auto 2rem; line-height: 1.8; }
+    .guide-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid var(--border-red); color: var(--accent);
+      padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+      text-decoration: none; transition: all 0.2s; background: rgba(229,9,20,0.06); margin-bottom: 2rem;
+    }
+    .guide-link:hover { background: rgba(229,9,20,0.12); }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+    /* Presets */
+    .section-label { font-size: 0.7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; }
+    .preset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.75rem; margin-bottom: 2rem; }
+    .preset-btn {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.25rem 0.75rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      cursor: pointer; transition: all 0.2s; text-align: center;
+    }
+    .preset-btn:hover { border-color: rgba(229,9,20,0.4); background: rgba(229,9,20,0.04); transform: translateY(-2px); }
+    .preset-btn .ico { font-size: 1.8rem; }
+    .preset-btn .name { font-size: 0.78rem; font-weight: 700; color: #fff; }
+    .preset-btn.custom-btn { border-style: dashed; }
+
+    /* Main layout */
+    .main-grid { display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; }
+    @media(max-width:768px) { .main-grid { grid-template-columns: 1fr; } }
+
+    .list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .list-title { font-weight: 800; color: #fff; }
+    .count-badge { background: var(--bg2); border: 1px solid var(--border); color: var(--muted); font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 20px; }
+
+    #empty-state { text-align: center; padding: 3rem 2rem; border: 2px dashed var(--border); border-radius: 16px; }
+
+    .service-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.1rem 1.25rem; margin-bottom: 0.75rem;
+      transition: all 0.2s;
+    }
+    .service-card:hover { border-color: var(--border-red); }
+    .service-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem; }
+    .service-icon { font-size: 1.5rem; }
+    .service-name { font-weight: 700; color: #fff; }
+    .service-price { font-family: 'JetBrains Mono', monospace; color: var(--muted); font-size: 0.8rem; }
+    .service-share { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-weight: 700; }
+    .del-btn { background: none; border: none; color: var(--muted); cursor: pointer; padding: 0.2rem; transition: color 0.2s; }
+    .del-btn:hover { color: var(--accent); }
+    .members-row { display: flex; align-items: center; gap: 0.75rem; }
+    .members-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    input[type="number"] {
+      width: 60px; text-align: center; padding: 0.35rem 0.5rem;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: #fff; border-radius: 8px; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem; font-weight: 700; outline: none; transition: border-color 0.2s;
+    }
+    input[type="number"]:focus { border-color: var(--primary); }
+
+    /* Summary */
+    .summary-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; position: sticky; top: 100px; overflow: hidden; }
+    .summary-card::before { content:''; position:absolute; top:-60px; right:-60px; width:180px; height:180px; background:rgba(229,9,20,0.05); border-radius:50%; }
+    .sum-label { font-size: 0.65rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+    .sum-val { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+    .sum-monthly { font-size: 3.5rem; color: #fff; line-height: 1; margin-bottom: 1.5rem; }
+    .sum-row { padding-top: 1.25rem; border-top: 1px solid var(--border); margin-top: 1.25rem; }
+    .sum-yearly { font-size: 1.8rem; color: var(--muted); }
+    .sum-person { font-size: 2.5rem; color: var(--accent); margin-top: 0.25rem; }
+    .sum-person-label { font-size: 0.7rem; color: var(--muted); font-family: 'Inter', sans-serif; font-weight: 500; margin-top: 0.25rem; }
+    .send-btn { width: 100%; margin-top: 1.5rem; background: var(--primary); color: #fff; padding: 0.9rem; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: opacity 0.2s; }
+    .send-btn:hover { opacity: 0.85; }
+
+    /* SEO */
+    .seo { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; border-top: 1px solid var(--border); }
+    .seo h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,5vw,3rem); letter-spacing: 2px; color: #fff; margin-bottom: 1rem; }
+    .seo p { color: var(--muted); line-height: 1.85; margin-bottom: 1.2rem; font-size: 0.95rem; }
+    .seo strong { color: var(--text); }
+    .faq { border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-top: 3rem; }
+    .faq-item { padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item h4 { color: #fff; font-weight: 700; margin-bottom: 0.5rem; }
+    .faq-item p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+    .related { margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--border); text-align: center; }
+    .related-links { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1.25rem; }
+    .related-link { background: var(--bg2); border: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; font-weight: 600; padding: 0.5rem 1.2rem; border-radius: 20px; text-decoration: none; transition: all 0.2s; }
+    .related-link:hover { color: var(--accent); border-color: var(--border-red); }
+    footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.75rem; }
+  </style>
+  <script src="/blogPosts.js"></script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "The Streaming Trap: Why We Keep Paying for Services We Never Watch",
+          "description": "From Netflix to Disney+. Uncovering the trap of multi-subscriptions and the devastating cost of 'silent subsidies' among family members.",
+          "datePublished": "May 8, 2026",
+          "author": { "@type": "Person", "name": "Streaming Auditor" }
+        }
+        </script>
+</head>
+<body>
+<div class="amb amb1"></div>
+<div class="amb amb2"></div>
+
+<div class="privacy-bar">🛡️ <strong>100% Client-Side Only</strong> — Your data never leaves your browser</div>
+
+<nav>
+  <div class="logo">Streaming <span>Only</span></div>
+  <div style="display:flex;align-items:center;gap:1.5rem;">
+    <a href="//guide.html" class="nav-link">📖 Guide</a>
+    <a href="https://incinerator-c3z.pages.dev" target="_blank" class="nav-link">Incinerator</a>
+    <a href="//guide.html" class="nav-cta">Read Guide →</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">🎬 Video Stream Auditor</div>
+  <h1>Streaming<br><em>Only</em></h1>
+  <p class="hero-sub">Netflix, Disney+, Prime Video — track them all in one place. Calculate yearly costs and family plan splits with zero data collection.</p>
+  <a href="//guide.html" class="guide-link">📖 Read the usage guide →</a>
+</div>
+
+<div class="container">
+  <div class="section-label">Quick Add Presets</div>
+  <div class="preset-grid">
+    <button class="preset-btn" onclick="addPreset('Netflix','🍿',15.49)"><div class="ico">🍿</div><div class="name">Netflix</div></button>
+    <button class="preset-btn" onclick="addPreset('Disney+','🏰',7.99)"><div class="ico">🏰</div><div class="name">Disney+</div></button>
+    <button class="preset-btn" onclick="addPreset('Prime Video','📦',14.99)"><div class="ico">📦</div><div class="name">Amazon Prime</div></button>
+    <button class="preset-btn" onclick="addPreset('Hulu','🟢',7.99)"><div class="ico">🟢</div><div class="name">Hulu</div></button>
+    <button class="preset-btn" onclick="addPreset('YouTube Premium','🔴',13.99)"><div class="ico">🔴</div><div class="name">YouTube Premium</div></button>
+    <button class="preset-btn" onclick="addPreset('Apple TV+','🍎',9.99)"><div class="ico">🍎</div><div class="name">Apple TV+</div></button>
+    <button class="preset-btn" onclick="addPreset('U-NEXT','🔵',14.99)"><div class="ico">🔵</div><div class="name">U-NEXT</div></button>
+    <button class="preset-btn custom-btn" onclick="addCustom()"><div class="ico" style="color:var(--muted)">＋</div><div class="name" style="color:var(--muted)">Custom</div></button>
+  </div>
+
+  <div class="main-grid">
+    <div>
+      <div class="list-header">
+        <div class="list-title">Your Services</div>
+        <span id="sub-count" class="count-badge">0 Added</span>
+      </div>
+      <div id="sub-list">
+        <div id="empty-state">
+          <p style="color:var(--muted);font-size:0.9rem;">Select a preset above to start tracking.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div style="position:relative;z-index:1;">
+        <div class="sum-label">Total Monthly</div>
+        <div class="sum-val sum-monthly" id="total-monthly">$0.00</div>
+        <div class="sum-row">
+          <div class="sum-label">Total Yearly</div>
+          <div class="sum-val sum-yearly" id="total-yearly">$0.00</div>
+        </div>
+        <div class="sum-row">
+          <div class="sum-label">Your Share (Avg Split)</div>
+          <div class="sum-val sum-person" id="total-per-person">$0.00</div>
+          <div class="sum-person-label">Based on family plan member inputs</div>
+        </div>
+        <button class="send-btn" onclick="sendToIncinerator()">
+          Send to Incinerator
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="seo">
+  <h2>The "Streaming Only" Problem</h2>
+  <p>We live in the era of streaming fragmentation. What used to be one cable bill is now 5, 10, or 15 different monthly subscriptions. Netflix, Disney+, Prime Video, HBO Max, YouTube Premium — it's easy to lose track of the cumulative cost until you're spending <strong>$150+/month on content alone.</strong></p>
+  <p>Streaming Only is a specialized auditor for video entertainment. It lets you quickly calculate the annual impact of your "entertainment tax" and — crucially — factor in <strong>Family Plan Splits</strong>. If you share an account with 3 people, your personal burn rate is different from the invoice total. Enter the number of members per service and get your actual share instantly.</p>
+
+  <div class="faq">
+    <div class="faq-item">
+      <h4>Can I add custom streaming services?</h4>
+      <p>Yes. Use the "Custom" preset button to add any service not in the presets. Enter the service name and monthly price.</p>
+    </div>
+    <div class="faq-item">
+      <h4>How does the family plan split work?</h4>
+      <p>For each service, input the number of members sharing the plan. Your share = total monthly price ÷ members. The "Your Share" total sums these divisions across all services.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Does this connect to Netflix or any streaming account?</h4>
+      <p>No. This is a manual auditing tool. No API connections, no account linking, no data transmission. Enter your subscriptions manually to maintain 100% privacy.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What does "Send to Incinerator" do?</h4>
+      <p>It opens Incinerator — the full subscription audit suite — so you can do a comprehensive review of all your services, not just streaming ones.</p>
+    </div>
+  </div>
+
+  <div class="related">
+    <p style="color:var(--muted);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;">Related Tools</p>
+    <div class="related-links">
+      <a href="https://csv-auto-import.pages.dev" class="related-link">📂 CSV Auto Import</a>
+      <a href="https://free-trial-tracker.pages.dev" class="related-link">🔔 Free Trial Tracker</a>
+      <a href="https://subscription-simulator-ev7.pages.dev" class="related-link">📈 Sub Simulator</a>
+      <a href="https://incinerator-c3z.pages.dev" class="related-link">🔥 Incinerator</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- BLOG LIST SECTION -->
+<section id="blog-section" style="max-width:900px; margin:40px auto; padding:40px 24px; border-top:1px solid rgba(255,255,255,0.1);">
+    <h2 style="font-size:2rem; margin-bottom:1rem; color:#fff;">Financial Insights & Privacy</h2>
+    <div id="lp-blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;"></div>
+</section>
+
+<footer>© 2026 Streaming Only · 100% Client-Side · Zero Data Collection</footer>
+
+<script>
+  let subscriptions = JSON.parse(localStorage.getItem('netflix_only_subs') || '[]');
+  const subList = document.getElementById('sub-list');
+  const emptyState = document.getElementById('empty-state');
+  const subCount = document.getElementById('sub-count');
+  function save(){localStorage.setItem('netflix_only_subs',JSON.stringify(subscriptions));render();}
+  function addPreset(name,ico,price){subscriptions.push({id:Date.now(),name,ico,price,members:1});save();}
+  function addCustom(){
+    const name=prompt('Service Name:');const price=parseFloat(prompt('Monthly Price:'));
+    if(name&&!isNaN(price))addPreset(name,'🎬',price);
+  }
+  function updateMembers(id,val){
+    const s=subscriptions.find(x=>x.id===id);
+    if(s){s.members=Math.max(1,parseInt(val)||1);save();}
+  }
+  function deleteSub(id){subscriptions=subscriptions.filter(s=>s.id!==id);save();}
+  function render(){
+    if(!subscriptions.length){
+      subList.innerHTML='';subList.appendChild(emptyState);emptyState.style.display='block';
+      updateTotals(0,0);subCount.innerText='0 Added';return;
+    }
+    emptyState.style.display='none';
+    subCount.innerText=`${subscriptions.length} Added`;
+    let totalM=0,totalP=0;
+    subList.innerHTML=subscriptions.map(s=>{
+      totalM+=s.price;totalP+=(s.price/s.members);
+      return `
+        <div class="service-card">
+          <div class="service-top">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <div class="service-icon">${s.ico||'🎬'}</div>
+              <div>
+                <div class="service-name">${s.name}</div>
+                <div class="service-price">$${s.price.toFixed(2)}/mo</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <div class="service-share">$${(s.price/s.members).toFixed(2)}<span style="color:var(--muted);font-size:0.7rem;font-weight:400;">/share</span></div>
+              <button class="del-btn" onclick="deleteSub(${s.id})">✕</button>
+            </div>
+          </div>
+          <div class="members-row">
+            <span class="members-label">Members sharing:</span>
+            <input type="number" value="${s.members}" min="1" max="99" onchange="updateMembers(${s.id},this.value)">
+          </div>
+        </div>`;
+    }).join('');
+    updateTotals(totalM,totalP);
+  }
+  function updateTotals(m,p){
+    document.getElementById('total-monthly').innerText=`$${m.toFixed(2)}`;
+    document.getElementById('total-yearly').innerText=`$${(m*12).toFixed(2)}`;
+    document.getElementById('total-per-person').innerText=`$${p.toFixed(2)}`;
+  }
+  function sendToIncinerator(){window.open('https://incinerator-c3z.pages.dev','_blank');}
+  render();
+</script>
+
+<!-- BLOG VIEW -->
+<div id="blog-view" style="display: none; background-color: #000; min-height: 100vh; padding-top: 80px; color: #fff; font-family: sans-serif;">
+    <nav style="position:fixed; top:0; width:100%; z-index:50; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div style="max-width:800px; margin:0 auto; padding:0 24px; height:70px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:20px; font-weight:bold; cursor:pointer;" onclick="hideBlog()">← Back</div>
+        </div>
+    </nav>
+    <div style="max-width:800px; margin:0 auto; padding:40px 24px;" id="blog-content">
+            <div style="color:#f97316; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px;">Financial Insights</div>
+            <h1 style="font-size:3rem; font-weight:bold; margin-bottom:24px; line-height:1.2; color:#fff;">The Streaming Trap: Why We Keep Paying for Services We Never Watch</h1>
+            <div style="color:#a1a1aa; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+                By Streaming Auditor • May 8, 2026
+            </div>
+            <div style="font-size:1.1rem; line-height:1.8; color:#d4d4d8;">
+                
+      <h2>1. The "I'll Watch It Eventually" Trap: A Psychological Warfare</h2>
+      <p>The streaming landscape is completely fragmented. Gone are the days when a single Netflix subscription covered all your entertainment needs. Today, we are forced into the "Streaming Wars," subscribing to Disney+, Hulu, Max, and Prime Video just to catch specific exclusive shows. But the real battlefield isn't your TV screen—it's your psychology.</p>
+      <p>The financial impact of this fragmentation is staggering. Because each service costs a seemingly harmless "$10 to $20 a month," the psychological barrier to subscribing is extremely low. This is known as "micro-transaction friction reduction." We think, "It's just the price of a lunch," but we forget that lunch only happens once, whereas a subscription happens forever until you manually stop it.</p>
+      <p>Streaming companies rely on what behavioral economists call "Choice Overload" and "Status Quo Bias." When you have too many choices, you often choose nothing, and when you are already subscribed, your default state is to stay subscribed. They weaponize your procrastination to fund their massive content budgets.</p>
+      
+      <div style="background: rgba(229,9,20,0.1); border-left: 4px solid #e50914; padding: 20px; margin: 30px 0;">
+        <h3 style="margin-top: 0; color: #fff;">【Detailed Case Study】 The $180 Procrastination Tax</h3>
+        <p>Let's look at a common failure scenario. Alex, an IT professional earning a good salary, signed up for Hulu and Paramount+ during the holidays just to binge-watch two exclusive series that his coworkers were talking about.</p>
+        <p>After finishing the shows over a long weekend in December, Alex thought, "There are a few movies on here I want to watch, I'll cancel it next week." But work got busy in January, and the weekends were filled with other activities. He didn't even open the apps for months.</p>
+        <p>"I'll watch it this weekend." "I'll cancel it when I have time." This cycle of procrastination continued until Alex finally checked his credit card statements six months later while preparing for a mortgage application. Without logging in a single time since December, Alex had spent nearly $30 a month on two unused services. By June, he had burned roughly <strong>$180</strong> into thin air. This wasn't just money; it was 18 hours of his labor gone for absolutely zero utility. This is the "forgetfulness tax" that multi-billion dollar corporations bank on.</p>
+      </div>
+
+      <h2>2. The "Silent Subsidy" in Family Plans: The Social Friction</h2>
+      <p>The issue is further complicated by Family Plans and account sharing. It is incredibly common to share a Netflix or Spotify account with family members, roommates, or distant friends. On the surface, it seems like a win-win: split the cost and everyone saves money.</p>
+      <p>However, the social dynamics often lead to a "Manager's Burden." Usually, one person acts as the "manager," paying the full $20+ bill on their credit card with a verbal agreement that everyone else will send their share. But how many people actually collect those $4 or $5 micro-payments every single month? Who wants to be the person "pestering" their sister for five dollars?</p>
+      <p>"It's too small to ask for." "It's too much of a hassle to Venmo $5." "I'll just ask them next time I see them." Consequently, the manager ends up silently subsidizing everyone else's entertainment. Over a year, a $15/month subsidy becomes $180. Over five years, that's nearly $1,000. You are bleeding money to support the entertainment habits of others without anyone even realizing the scale of the sacrifice.</p>
+
+      <h2>3. The Technical Solution: Taking Control with the Streaming Only Tool</h2>
+      <p>To escape this "Streaming Poverty," you need absolute clarity. You must visualize exactly how much you are paying, who you are sharing it with, and what your "True Share" actually is. You need to move from "I think I spend about $50" to "I know I spend exactly $84.50, and $30 of that is for other people." This is exactly what the <strong>Streaming Only</strong> tool is built for.</p>
+      <p>This tool isn't just a calculator; it's an audit system for your digital life. It forces you to confront the numbers that the streaming companies want to keep hidden in your bank statement. Here is how you perform a deep audit:</p>
+
+      <div style="background: #111; border: 1px solid #333; border-radius: 12px; padding: 25px; margin: 30px 0;">
+        <h3 style="margin-top: 0; color: #ff4d57; border-bottom: 1px solid #333; padding-bottom: 10px;">🛠️ Streaming Only Audit: Step-by-Step Guide</h3>
+        <ol style="padding-left: 20px; line-height: 1.8;">
+          <li><strong>Quick Add Presets:</strong> Start by clicking the services you currently pay for (🍿 Netflix, 🏰 Disney+, etc.) from the "Quick Add Presets" bar. This populates the data instantly with current market rates.</li>
+          <li><strong>Custom Services:</strong> Don't forget the niche services. Do you have a Crunchyroll subscription for that one anime? A Shudder sub for horror month? Click "+ Custom" to manually enter the name and monthly cost.</li>
+          <li><strong>Adjust Members Sharing:</strong> This is the most important step for social transparency. In each service card, adjust the "Members sharing" counter. If you pay for a Netflix Premium plan shared by 4 people, set it to 4.</li>
+          <li><strong>Real-Time Auditing:</strong> Look at the Summary panel. It instantly calculates your "Total Monthly" and "Total Yearly" costs. But focus on <strong>"Your Share"</strong>. If your total is $100 but your share is $25, you are paying a $75 "Social Subsidy" every month. That's $900 a year. Is that friendship worth $900 a year in cash?</li>
+          <li><strong>Incinerate the Waste:</strong> Look at the Yearly cost column. If you see a service costing you $240/year and you only used it twice, cancel it immediately. Use the "✕" button on the card to remove it from your projected life.</li>
+        </ol>
+      </div>
+
+      <h2>4. 100% Privacy by Design: Why Local-First Matters</h2>
+      <p>There are countless budgeting apps out there (like Mint, Monarch, or YNAB) that ask you to link your bank accounts and credit cards. They claim to help you "save money," but at what cost? You are handing over your entire financial history, your spending locations, and your personal habits to a third-party corporation that stores this data in a cloud database vulnerable to breaches.</p>
+      <p>Handing over your entire life just to track a Netflix bill is a massive, asymmetric privacy risk. This is why we built <strong>Streaming Only</strong> to be 100% local-first. This tool runs entirely in your browser's memory. Your financial data, the services you use, and your sharing habits never leave your device. You can disconnect your internet, and the tool will still work perfectly. You can open your browser's Network tab and verify that zero packets are sent to any external server. We believe financial clarity should not require a privacy sacrifice.</p>
+
+      <h2>5. The Compounding Benefits for Your Future Self</h2>
+      <p>It might seem like saving "just $15 a month" is negligible, but this micro-optimization has a massive, compounding impact on your future self. When you cut a subscription, you aren't just saving money today; you are reclaiming your future financial freedom.</p>
+      <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h4 style="margin-top:0; color: #fff;">💡 Future Benefits: A Deep Dive into Your Freedom</h4>
+        <p><strong>1. Wealth Accumulation via Compound Interest:</strong><br>
+        If you cancel $30 worth of unused streaming services and redirect that money into an S&P 500 index fund (assuming a 7% average return), in 10 years, that "small" $30/month will grow to over <strong>$5,200</strong>. In 20 years, it's <strong>$15,600</strong>. You are literally gifting your future self a high-end vacation or a significant emergency fund just by clicking "Cancel" on a service you don't even use today.</p>
+        <p><strong>2. Freedom from "Decision Fatigue" and "Choice Paralysis":</strong><br>
+        Having five streaming apps on your TV creates immense decision fatigue. We've all spent 45 minutes scrolling through tiles only to end up watching nothing. This is "Choice Paralysis." By incinerating unused apps, you adopt an "On-Demand" lifestyle: only subscribing when a show you truly care about is released. Your future self will have a clearer mind, less screen-time anxiety, and more intentional, high-quality leisure time.</p>
+        <p><strong>3. Eliminating Financial Resentment and Social Friction:</strong><br>
+        Visualizing the "Silent Subsidy" gives you the hard, objective data needed to have healthy conversations with family or roommates about splitting costs fairly. You no longer have to guess or feel like a "beggar" asking for $5; you can show them the audit. This protects your future relationships from the lingering, unspoken resentment that often destroys friendships over time.</p>
+        <p><strong>4. Reclaiming Cognitive Space:</strong><br>
+        Every subscription is a mental thread. "Did the payment go through?" "Am I getting my money's worth?" "When does it renew?" When you have 15 subscriptions, you have 15 of these threads. By cutting down to the essentials, you reclaim cognitive space to focus on things that actually matter—your career, your family, or your health.</p>
+      </div>
+
+      <p>Incinerating just one useless subscription today is the highest ROI investment you can make for your future. It's a 100% guaranteed return with zero risk. Click the presets above, expose your true streaming costs, and start reclaiming your financial future right now. Your future self is waiting for that $15,000.</p>
+    
+            </div>
+        </div>
+</div>
+
+
+<script>
+function showBlog(id) {
+    const post = window.blogPosts.find(p => p.id === id);
+    if (!post) return;
+    
+    // Hide all main body children except blog-view and scripts
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+            child.dataset.oldDisplay = child.style.display;
+            child.style.display = 'none';
+        }
+    });
+    
+    document.getElementById('blog-view').style.display = 'block';
+    
+    const content = `
+        <div style="color:#f97316; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px;">${post.category}</div>
+        <h1 style="font-size:3rem; font-weight:bold; margin-bottom:24px; line-height:1.2;">${post.title}</h1>
+        <div style="color:#a1a1aa; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+            By ${post.author} • ${post.date}
+        </div>
+        <div style="font-size:1.1rem; line-height:1.8; color:#d4d4d8;">
+            ${post.content}
+        </div>
+    `;
+    document.getElementById('blog-content').innerHTML = content;
+    window.scrollTo(0, 0);
+    if (history.state?.id !== id) history.pushState({view: 'blog', id}, '', '/blog/' + id);
+}
+
+function hideBlog() {
+    document.getElementById('blog-view').style.display = 'none';
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.dataset.oldDisplay !== undefined) {
+            child.style.display = child.dataset.oldDisplay;
+        }
+    });
+    window.scrollTo(0, 0);
+    if (window.location.pathname.startsWith('/blog/')) history.pushState({view: 'main'}, '', '/');
+}
+
+window.addEventListener('popstate', (e) => {
+    if (window.location.pathname.startsWith('/blog/')) { showBlog(window.location.pathname.replace('/blog/', '')); } else { hideBlog(); }
+});
+
+function initBlog() {
+    const grid = document.getElementById('lp-blog-grid');
+    if (grid && window.blogPosts) {
+        grid.innerHTML = window.blogPosts.map(post => `
+            <a href="//blog/${post.id}" onclick="event.preventDefault(); showBlog('${post.id}');" style="display:block; text-decoration:none; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px; cursor:pointer; transition:all 0.2s;">
+                <div style="color:#f97316; font-size:10px; font-weight:bold; text-transform:uppercase; margin-bottom:12px;">${post.category}</div>
+                <h3 style="color:#fff; font-size:1.2rem; font-weight:bold; margin-bottom:12px;">${post.title}</h3>
+                <p style="color:#a1a1aa; font-size:14px; line-height:1.5;">${post.excerpt}</p>
+            </a>
+        `).join('');
+    }
+    if (window.location.pathname.startsWith('/blog/')) { showBlog(window.location.pathname.replace('/blog/', '')); }
+}
+document.addEventListener('DOMContentLoaded', initBlog);
+// If already loaded
+if (document.readyState === 'interactive' || document.readyState === 'complete') initBlog();
+
+            // SSG INITIALIZATION OVERRIDE
+            document.addEventListener('DOMContentLoaded', () => {
+                Array.from(document.body.children).forEach(child => {
+                    if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+                        child.dataset.oldDisplay = child.style.display || '';
+                        child.style.display = 'none';
+                    }
+                });
+                const bv = document.getElementById('blog-view');
+                if(bv) bv.style.display = 'block';
+            });
+        </script>
+
+</body>
+</html>

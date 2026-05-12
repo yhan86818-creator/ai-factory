@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${post.title} | ${originalTitle} Blog</title>
+  <meta name="description" content="${post.excerpt}">
+  <meta name="google-site-verification" content="dyitLt80YqDWnYz6__XIEwhrunV4U1-KU8ODTGzuK_s" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #f8fafc; /* slate-50 */
+      color: #334155; /* slate-700 */
+      font-family: 'Inter', sans-serif;
+    }
+    .tool-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0; /* slate-200 */
+      transition: all 0.3s ease;
+    }
+    .tool-card:hover {
+      border-color: #cbd5e1; /* slate-300 */
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    }
+    .tool-ico {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: #f1f5f9; /* slate-100 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    .tool-card:hover .tool-ico {
+      transform: scale(1.05);
+    }
+    .btn-visit {
+      margin-top: auto;
+      padding: 12px 16px;
+      background: #f1f5f9; /* slate-100 */
+      color: #64748b; /* slate-500 */
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .tool-card:hover .btn-visit {
+      background: #4f46e5; /* indigo-600 */
+      color: #ffffff;
+    }
+  </style>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "The Privacy Manifesto: Why Your Financial Data Should Never Leave Your Device",
+          "description": "In an age of constant surveillance, your financial habits are your last biography. Discover the philosophy of Local-First finance and how to reclaim your data sovereignty.",
+          "datePublished": "May 8, 2026",
+          "author": { "@type": "Person", "name": "Privacy Advocate" }
+        }
+        </script>
+</head>
+<body class="selection:bg-indigo-100">
+
+  <div class="max-w-7xl mx-auto px-6 py-24">
+    
+    <!-- Hero Section -->
+    <header class="text-center mb-24">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-500 text-[11px] font-bold tracking-wider uppercase mb-8 shadow-sm">
+        🛡️ Privacy-First Finance Suite
+      </div>
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900">
+        Manage Wealth.<br>Keep Your Privacy.
+      </h1>
+      <p class="text-slate-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+        A premium collection of web tools designed for one purpose: helping you manage money without ever compromising your data.
+        <strong class="text-slate-800 font-bold block mt-2">100% Client-Side. No Cloud. No Tracking.</strong>
+      </p>
+    </header>
+
+    <!-- Grid of Tools -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-32">
+      
+      <!-- Incinerator -->
+      <a href="https://incinerator-c3z.pages.dev/" class="tool-card p-8 rounded-3xl flex flex-col group shadow-sm" target="_blank">
+        <div class="tool-ico">🔥</div>
+        <h2 class="text-xl font-bold mb-3 text-slate-900">Incinerator</h2>
+        <p class="text-slate-500 text-sm leading-relaxed mb-8">Visualize your subscription "burn rate." Audit recurring costs and incinerate wasteful spending for good.</p>
+        <div class="btn-visit uppercase tracking-widest">
+          Open Tool
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <!-- Expense Analyzer -->
+      <a href="https://expense-analyzer-browser.pages.dev/" class="tool-card p-8 rounded-3xl flex flex-col group shadow-sm" target="_blank">
+        <div class="tool-ico">📊</div>
+        <h2 class="text-xl font-bold mb-3 text-slate-900">Expense Analyzer</h2>
+        <p class="text-slate-500 text-sm leading-relaxed mb-8">Drop your bank statements and instantly visualize spending categories. 100% browser-only analysis.</p>
+        <div class="btn-visit uppercase tracking-widest">
+          Open Tool
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <!-- CSV Auto Import -->
+      <a href="https://csv-auto-import.pages.dev/" class="tool-card p-8 rounded-3xl flex flex-col group shadow-sm" target="_blank">
+        <div class="tool-ico">🔍</div>
+        <h2 class="text-xl font-bold mb-3 text-slate-900">CSV Auto Import</h2>
+        <p class="text-slate-500 text-sm leading-relaxed mb-8">Automatically detect subscriptions from bank CSVs using AI-powered keyword matching without manual entry.</p>
+        <div class="btn-visit uppercase tracking-widest">
+          Open Tool
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <!-- Sub Simulator -->
+      <a href="https://subscription-simulator-ev7.pages.dev/" class="tool-card p-8 rounded-3xl flex flex-col group shadow-sm" target="_blank">
+        <div class="tool-ico">📈</div>
+        <h2 class="text-xl font-bold mb-3 text-slate-900">Sub Simulator</h2>
+        <p class="text-slate-500 text-sm leading-relaxed mb-8">Predict your total wealth drain over 1, 2, or 3 years. Visualize the cumulative impact of "small" monthly fees.</p>
+        <div class="btn-visit uppercase tracking-widest">
+          Open Tool
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <!-- Upcoming Renewals -->
+      <a href="https://upcoming-renewals.pages.dev/" class="tool-card p-8 rounded-3xl flex flex-col group shadow-sm" target="_blank">
+        <div class="tool-ico">⏰</div>
+        <h2 class="text-xl font-bold mb-3 text-slate-900">Renewals Alert</h2>
+        <p class="text-slate-500 text-sm leading-relaxed mb-8">A high-visibility countdown for your next billing cycles. Never miss a trial expiry or renewal date again.</p>
+        <div class="btn-visit uppercase tracking-widest">
+          Open Tool
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <!-- Free Trial Tracker -->
+      <a href="https://free-trial-tracker.pages.dev/" class="tool-card p-8 rounded-3xl flex flex-col group shadow-sm" target="_blank">
+        <div class="tool-ico">🔔</div>
+        <h2 class="text-xl font-bold mb-3 text-slate-900">Trial Tracker</h2>
+        <p class="text-slate-500 text-sm leading-relaxed mb-8">Dedicated tracking for free trials. Get minute-by-minute countdowns and cancel before the first charge.</p>
+        <div class="btn-visit uppercase tracking-widest">
+          Open Tool
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <!-- Netflix Only -->
+      <a href="https://netflix-only.pages.dev/" class="tool-card p-8 rounded-3xl flex flex-col group shadow-sm" target="_blank">
+        <div class="tool-ico">🎬</div>
+        <h2 class="text-xl font-bold mb-3 text-slate-900">Netflix Only</h2>
+        <p class="text-slate-500 text-sm leading-relaxed mb-8">Specialized auditor for streaming giants. Includes family plan split logic to find your real personal cost.</p>
+        <div class="btn-visit uppercase tracking-widest">
+          Open Tool
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <!-- SecurePDF -->
+      <a href="https://secure-pdf-browser.pages.dev/" class="tool-card p-8 rounded-3xl flex flex-col group shadow-sm" target="_blank">
+        <div class="tool-ico">📄</div>
+        <h2 class="text-xl font-bold mb-3 text-slate-900">SecurePDF</h2>
+        <p class="text-slate-500 text-sm leading-relaxed mb-8">Merge, split, and compress sensitive financial PDFs. No server uploads. Absolute local security.</p>
+        <div class="btn-visit uppercase tracking-widest">
+          Open Tool
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <!-- Category Burner -->
+      <a href="https://category-burner.pages.dev/" class="tool-card p-8 rounded-3xl flex flex-col group shadow-sm" target="_blank">
+        <div class="tool-ico">🏷️</div>
+        <h2 class="text-xl font-bold mb-3 text-slate-900">Category Burner</h2>
+        <p class="text-slate-500 text-sm leading-relaxed mb-8">Segment your subscriptions into high-level categories. Discover which areas are draining your wealth and incinerate segments in bulk.</p>
+        <div class="btn-visit uppercase tracking-widest">
+          Open Tool
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+    </div>
+
+    <!-- Privacy Manifesto -->
+    <section class="max-w-4xl mx-auto pt-16 pb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div>
+          <h2 class="text-3xl font-bold mb-8 text-slate-900">Your data is yours.<br>Period.</h2>
+          <div class="space-y-6 text-slate-600 leading-relaxed text-sm">
+            <p>
+              In an age where financial apps demand to link directly to your bank account and track your every move, we take a different approach. We believe managing money shouldn't require surrendering your personal data to a cloud database.
+            </p>
+            <p>
+              Every tool in the <strong>Privacy Money Suite</strong> operates on a 100% local-first principle. No accounts. No tracking. No cookies. No data collection.
+            </p>
+          </div>
+        </div>
+        <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm">
+          <h3 class="text-slate-900 font-bold mb-6 flex items-center gap-2">
+            Why use our suite?
+          </h3>
+          <ul class="space-y-4 text-sm text-slate-600">
+            <li class="flex gap-4">
+              <span class="text-indigo-600 font-bold">01.</span>
+              <span><strong>Zero Latency:</strong> Since everything runs in your browser, there's no waiting for servers.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="text-indigo-600 font-bold">02.</span>
+              <span><strong>Bank Grade:</strong> By not connecting to your bank, we eliminate the risk of account compromise.</span>
+            </li>
+            <li class="flex gap-4">
+              <span class="text-indigo-600 font-bold">03.</span>
+              <span><strong>Always Free:</strong> No subscription fees for our privacy tools. Use them forever, privately.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center pt-16 mt-8 border-t border-slate-200">
+      <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Privacy-First Money Suite · 2026</p>
+    </footer>
+
+    <!-- BLOG LIST SECTION -->
+    <section id="blog-section" class="max-w-4xl mx-auto pt-16 pb-16 border-t border-slate-200 mt-16">
+      <h2 class="text-3xl font-bold mb-8 text-slate-900 text-center">Financial Insights & Privacy</h2>
+      <div id="lp-blog-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </section>
+
+  </div>
+
+  <!-- BLOG VIEW -->
+  <div id="blog-view" style="display: none; background-color: #0f172a; min-height: 100vh; padding-top: 80px; color: #f8fafc; font-family: 'Inter', sans-serif;">
+      <nav style="position:fixed; top:0; width:100%; z-index:50; background:rgba(15,23,42,0.9); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);">
+          <div style="max-width:800px; margin:0 auto; padding:0 24px; height:70px; display:flex; align-items:center; justify-content:space-between;">
+              <div style="font-size:18px; font-weight:bold; cursor:pointer; color:#94a3b8;" onclick="hideBlog()">← Back to Tools</div>
+          </div>
+      </nav>
+      <div style="max-width:800px; margin:0 auto; padding:40px 24px;" id="blog-content">
+            <div style="color:#f97316; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px;">Philosophy</div>
+            <h1 style="font-size:3rem; font-weight:bold; margin-bottom:24px; line-height:1.2; color:#fff;">The Privacy Manifesto: Why Your Financial Data Should Never Leave Your Device</h1>
+            <div style="color:#a1a1aa; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+                By Privacy Advocate • May 8, 2026
+            </div>
+            <div style="font-size:1.1rem; line-height:1.8; color:#d4d4d8;">
+                
+      <h2>1. The Eroding Sovereignty of Personal Finance: The Invisible Surveillance</h2>
+      <p>We live in an era where "convenience" has become the primary currency of the digital world. We trade our most intimate data for a few seconds of saved time. Nowhere is this trade-off more dangerous, yet more invisible, than in the world of personal finance. Every time you tap your card, every time you log into a budgeting app, and every time you "connect your bank account" for a better interest rate, you are contributing to a digital biography that you do not own and cannot control.</p>
+      <p>Your financial habits are a high-resolution map of your life. They show where you eat, what doctors you visit, what medications you take, what political causes you support, and how you spend your leisure time. In the hands of a corporation, this isn't just data—it's a predictive model of your future behavior. This is "Surveillance Capitalism" at its most potent. Companies use this data to determine your creditworthiness, your insurance premiums, and even the prices you are shown for products online.</p>
+      <p>The core problem is that we have accepted a "Cloud-First" reality as the only option. We have been told that to manage money effectively, we *must* upload our data to a server. We have been told that automation requires a sacrifice of privacy. **This is a lie.** The Privacy Money Suite was born from a single, radical realization: You can have professional-grade financial tools without ever letting a single transaction leave your machine.</p>
+
+      <div style="background: rgba(79,70,229,0.1); border-left: 4px solid #4f46e5; padding: 25px; margin: 30px 0;">
+        <h3 style="margin-top: 0; color: #fff;">【The Reality of Data Aggregation】 The Hidden Cost of Plaid</h3>
+        <p>Most modern finance apps (like Mint, Rocket Money, or YNAB) use a middleman service like Plaid to "sync" your bank data. While Plaid makes connection easy, it acts as a massive centralized honey-pot of financial information. When you use these apps, you aren't just trusting the app creator; you are trusting every intermediary in the chain.</p>
+        <p>If any of these servers are breached, your entire financial history—years of transactions across multiple banks—is exposed to the dark web. Furthermore, these companies often have terms of service that allow them to sell "anonymized" versions of your data to researchers and advertisers. But in the world of big data, "anonymized" is a myth; a few unique transactions (like your specific rent amount or a niche hobby purchase) are enough to re-identify you with 99% accuracy. This is the "Privacy Tax" you pay for the convenience of cloud-sync.</p>
+      </div>
+
+      <h2>2. The Myth of "Bank-Grade Security" in the Cloud</h2>
+      <p>Marketing departments love the phrase "Bank-Grade Security." It's designed to make you feel safe while handing over your passwords. But "Bank-Grade" only refers to the encryption of the data *in transit*. It doesn't tell you how the data is stored on the other end, who has access to the database internally, or what happens when the company is acquired or goes bankrupt.</p>
+      <p>True security isn't about better encryption; it's about <strong>Data Minimization</strong>. The most secure data is the data that was never collected in the first place. If a company doesn't have your bank statement, they cannot leak it. If they don't have your name, they cannot lose it. By moving the "Computation Engine" from the cloud to your local browser, we eliminate the entire category of "Cloud Data Breach" from your life.</p>
+
+      <h2>3. The Local-First Revolution: Bringing the Power Home</h2>
+      <p>The **Privacy Money Suite** is built on the philosophy of "Local-First" software. This means that the application logic—the code that calculates your interest, detects your subscriptions, and projects your wealth—runs entirely within your browser's JavaScript engine. Your browser acts as a secure, isolated vault.</p>
+      <p>When you drop a CSV statement into our tools, the file is read into your computer's RAM. It is processed locally, and the results are rendered to your screen. The moment you refresh the page or close the tab, that data vanishes from the RAM. It never touches a hard drive on a server. It never crosses a network interface. You get the speed of a modern web app with the privacy of an offline Excel spreadsheet.</p>
+
+      <h2>4. Deep Dive into the Suite: A Unified Defense Strategy</h2>
+      <p>Privacy isn't just about hiding; it's about empowerment. The tools in this suite are designed to work together to give you a 360-degree view of your financial health without the surveillance. Here is how you can use the suite as a unified defense system:</p>
+
+      <div style="background: #111; border: 1px solid #333; border-radius: 12px; padding: 25px; margin: 30px 0;">
+        <h3 style="margin-top: 0; color: #4f46e5; border-bottom: 1px solid #333; padding-bottom: 10px;">🛠️ The Unified Privacy Workflow</h3>
+        <ol style="padding-left: 20px; line-height: 1.8;">
+          <li><strong>Audit the Past with CSV Auto Import:</strong> Start by downloading your last three statements. Drop them into the **CSV Auto Import** tool. It uses a database of 200+ patterns to identify every "vampire" subscription you've forgotten. It's an instant autopsy of your wasteful spending.</li>
+          <li><strong>Visualize the Future with Sub Simulator:</strong> Take the total monthly cost found in step 1 and plug it into the **Subscription Simulator**. Watch the 3-year and 5-year cost curves. This provides the "Shock Therapy" needed to actually hit the cancel button.</li>
+          <li><strong>Defend the Present with Trial Tracker & Renewals:</strong> For the services you choose to keep, log them into the **Upcoming Renewals** and **Free Trial Tracker**. This creates an "Early Warning System" that ensures no charge ever catches you off guard again.</li>
+          <li><strong>Analyze the Whole with Expense Analyzer:</strong> For a complete view of your lifestyle, use the **Expense Analyzer** to categorize your total spending (Groceries, Rent, Travel). See exactly where your wealth is leaking without ever creating an account.</li>
+        </ol>
+      </div>
+
+      <h2>5. Reclaiming Your Time: The High Cost of Manual Labor</h2>
+      <p>Many privacy advocates suggest using manual Excel spreadsheets. While private, this approach is extremely time-consuming and prone to human error. Most people give up after two months because the "Maintenance Cost" is too high. This leads to a return to intrusive cloud apps out of sheer exhaustion.</p>
+      <p>Our mission is to provide **Automated Privacy**. We want to give you the 5-second insights of a cloud app with the zero-leak security of an offline file. By automating the parsing and categorization locally, we lower the "Friction of Privacy" until it is actually easier to be private than it is to be tracked.</p>
+
+      <h2>6. The Compounding Benefits for Your Future Self</h2>
+      <p>Adopting a privacy-first financial lifestyle isn't just a political statement; it has tangible, compounding benefits for your long-term wealth and mental health. When you own your data, you own your future.</p>
+      <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h4 style="margin-top:0; color: #fff;">💡 Future Benefits: The Peace of Data Sovereignty</h4>
+        <p><strong>1. Absolute Security from Identity Theft:</strong><br>
+        By not having your data in centralized cloud databases, you are "off the radar" for the next massive financial data breach. Your future self will sleep soundly while others are spending weeks freezing credit reports and fighting fraudulent charges.</p>
+        <p><strong>2. Unbiased Financial Future:</strong><br>
+        Algorithms are increasingly used to determine your "Economic Worth." By keeping your data private, you prevent these black-box models from unfairly profiling you based on your habits. You maintain an "unscanned" reputation, allowing you to be judged on your actual merits, not your transaction history.</p>
+        <p><strong>3. Maximum Financial Velocity:</strong><br>
+        By using the suite's simulators and auditors to cut waste, you redirect capital toward assets that actually grow. A $50/month reduction in waste, invested at 8%, becomes **$92,000** over 30 years. Privacy is literally profitable.</p>
+        <p><strong>4. Psychological Freedom from Targeted Manipulation:</strong><br>
+        Advertisers use your financial data to know exactly when you are most vulnerable (e.g., right after a large purchase or a life event). By denying them this data, you break the cycle of targeted consumerism. Your future self will make decisions based on internal values, not external manipulation.</p>
+      </div>
+
+      <h2>7. Conclusion: The Power is in Your Browser</h2>
+      <p>The "Cloud" is just someone else's computer. You have a powerful computer sitting on your desk or in your pocket. It is more than capable of managing your financial life without assistance from a corporate server. The **Privacy Money Suite** is your toolkit for reclaiming that power.</p>
+      <p>Start today. Download a statement, open a tool, and see the truth for yourself. Your data belongs to you. Your money belongs to you. Your future belongs to you. Keep it that way.</p>
+    
+            </div>
+        </div>
+  </div>
+
+  <script src="/blogPosts.js"></script>
+  <script>
+  function showBlog(id) {
+      const post = window.blogPosts.find(p => p.id === id);
+      if (!post) return;
+      
+      Array.from(document.body.children).forEach(child => {
+          if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+              child.dataset.oldDisplay = child.style.display || '';
+              child.style.display = 'none';
+          }
+      });
+      
+      document.getElementById('blog-view').style.display = 'block';
+      
+      const content = `
+          <div style="color:#4f46e5; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px; letter-spacing:0.1em;">${post.category}</div>
+          <h1 style="font-size:3rem; font-weight:800; margin-bottom:24px; line-height:1.2; color:#fff; letter-spacing:-0.02em;">${post.title}</h1>
+          <div style="color:#94a3b8; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+              By ${post.author} • ${post.date}
+          </div>
+          <div style="font-size:1.1rem; line-height:1.8; color:#cbd5e1;">
+              ${post.content}
+          </div>
+      `;
+      document.getElementById('blog-content').innerHTML = content;
+      window.scrollTo(0, 0);
+      if (history.state?.id !== id) history.pushState({view: 'blog', id}, '', '/blog/' + id);
+  }
+
+  function hideBlog() {
+      document.getElementById('blog-view').style.display = 'none';
+      Array.from(document.body.children).forEach(child => {
+          if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.dataset.oldDisplay !== undefined) {
+              child.style.display = child.dataset.oldDisplay;
+          }
+      });
+      window.scrollTo(0, 0);
+      if (window.location.pathname.startsWith('/blog/')) history.pushState({view: 'main'}, '', '/');
+  }
+
+  window.addEventListener('popstate', (e) => {
+      if (window.location.pathname.startsWith('/blog/')) { showBlog(window.location.pathname.replace('/blog/', '')); } else { hideBlog(); }
+  });
+
+  function initBlog() {
+      const grid = document.getElementById('lp-blog-grid');
+      if (grid && window.blogPosts) {
+          grid.innerHTML = window.blogPosts.map(post => `
+              <a href="//blog/${post.id}" onclick="event.preventDefault(); showBlog('${post.id}');" class="bg-white border border-slate-200 rounded-3xl p-8 hover:border-slate-300 transition-all shadow-sm hover:shadow-md block text-left">
+                  <div class="text-indigo-600 text-[10px] font-bold uppercase tracking-widest mb-4">${post.category}</div>
+                  <h3 class="text-slate-900 text-xl font-bold mb-3">${post.title}</h3>
+                  <p class="text-slate-500 text-sm leading-relaxed mb-0">${post.excerpt}</p>
+              </a>
+          `).join('');
+      }
+      if (window.location.pathname.startsWith('/blog/')) { showBlog(window.location.pathname.replace('/blog/', '')); }
+  }
+  document.addEventListener('DOMContentLoaded', initBlog);
+  if (document.readyState === 'interactive' || document.readyState === 'complete') initBlog();
+  
+            // SSG INITIALIZATION OVERRIDE
+            document.addEventListener('DOMContentLoaded', () => {
+                Array.from(document.body.children).forEach(child => {
+                    if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+                        child.dataset.oldDisplay = child.style.display || '';
+                        child.style.display = 'none';
+                    }
+                });
+                const bv = document.getElementById('blog-view');
+                if(bv) bv.style.display = 'block';
+            });
+        </script>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Pagination Strategies Explained — Offset, Cursor & Infinite Scroll Guide | Pagination Response</title>
+    <meta name="description" content="Learn the differences between offset, cursor, and page-based pagination. Includes TypeScript type definitions, React Query infinite scroll implementation, and real-world examples from GitHub, Stripe, and Notion APIs.">
+    <meta name="keywords" content="api pagination typescript, cursor pagination, offset pagination, infinite scroll typescript, react query infinite scroll, github pagination, stripe list api, notion cursor, paginated response types">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --bg2: #0f172a;
+            --border: #1e293b;
+            --accent: #38bdf8;
+            --accent2: #0ea5e9;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.7; }
+
+        .topbar {
+            background: rgba(2,6,23,0.96); border-bottom: 1px solid var(--border);
+            padding: 0.75rem 2rem; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);
+        }
+        .topbar a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+        .topbar a:hover { color: var(--text); }
+        .topbar-cta { background: var(--accent); color: #000 !important; padding: 0.4rem 1rem; border-radius: 8px; font-weight: 800; font-size: 0.8rem; font-family: var(--mono); }
+
+        .hero { max-width: 860px; margin: 5rem auto 4rem; padding: 0 2rem; }
+        .hero-tag { display: inline-block; background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.35rem 0.9rem; border-radius: 20px; margin-bottom: 1.5rem; font-family: var(--mono); }
+        h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.5rem; color: #fff; }
+        h1 span { background: linear-gradient(to right, var(--accent), #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; font-family: var(--mono); }
+        .hero-intro { font-size: 1.1rem; color: #7dd3fc; line-height: 1.8; }
+
+        article { max-width: 860px; margin: 0 auto; padding: 0 2rem 8rem; }
+        h2 { font-size: 1.65rem; font-weight: 800; color: #fff; margin: 3.5rem 0 1rem; letter-spacing: -0.02em; }
+        h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin: 2rem 0 0.75rem; }
+        p { color: #7dd3fc; margin-bottom: 1.25rem; font-size: 0.975rem; }
+        strong { color: #fff; }
+
+        .callout { background: rgba(56,189,248,0.05); border: 1px solid rgba(56,189,248,0.18); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+        .callout.warn { border-left-color: #f59e0b; background: rgba(245,158,11,0.05); border-color: rgba(245,158,11,0.2); }
+        .callout strong { color: var(--accent); display: block; margin-bottom: 0.5rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; }
+        .callout.warn strong { color: #f59e0b; }
+
+        pre { background: #010409; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; overflow-x: auto; margin: 1.5rem 0; font-family: var(--mono); font-size: 0.85rem; line-height: 1.8; }
+        code { font-family: var(--mono); font-size: 0.85em; background: rgba(56,189,248,0.08); padding: 0.15em 0.4em; border-radius: 4px; color: var(--accent); }
+        pre code { background: none; padding: 0; color: #bae6fd; }
+        .kw { color: #c084fc; } .ty { color: #38bdf8; } .st { color: #4ade80; } .cm { color: #1e3a5f; font-style: italic; } .fn { color: #fbbf24; }
+
+        .compare-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0; }
+        .compare-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; }
+        .compare-card h4 { color: #fff; font-size: 0.95rem; margin-bottom: 0.5rem; }
+        .compare-card .pros { color: #4ade80; font-size: 0.82rem; margin-bottom: 0.5rem; }
+        .compare-card .cons { color: #f87171; font-size: 0.82rem; }
+        .compare-badge { font-family: var(--mono); font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; display: inline-block; }
+        .b-offset { background: rgba(56,189,248,0.12); color: var(--accent); }
+        .b-cursor { background: rgba(129,140,248,0.12); color: #818cf8; }
+        .b-page { background: rgba(251,191,36,0.12); color: #fbbf24; }
+
+        .faq { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin: 2rem 0; }
+        .faq-item { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item h4 { color: #fff; font-size: 1rem; margin-bottom: 0.6rem; }
+        .faq-item p { margin: 0; font-size: 0.9rem; }
+
+        .cta-box { background: rgba(56,189,248,0.05); border: 1px solid rgba(56,189,248,0.2); border-radius: 24px; padding: 3rem; text-align: center; margin: 4rem 0 0; }
+        .cta-box h2 { margin: 0 0 1rem; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: #000; padding: 0.9rem 2rem; border-radius: 12px; font-weight: 800; text-decoration: none; font-size: 1rem; font-family: var(--mono); transition: opacity 0.2s; }
+        .btn-primary:hover { opacity: 0.85; }
+    </style>
+</head>
+<body>
+<nav class="topbar">
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+        <a href="/">← Pagination Response</a>
+        <a href="https://local-dev-tools.pages.dev/" style="color:#374151">DevHub Portal</a>
+    </div>
+    <a href="/" class="topbar-cta">Open Tool →</a>
+</nav>
+
+<div class="hero">
+    <div class="hero-tag">⚡ Data Flow Guide</div>
+    <h1>API Pagination Strategies: <span>Offset, Cursor & Infinite Scroll</span> Explained</h1>
+    <p class="hero-meta">9 min read · API Design · TypeScript · React Query · GitHub · Stripe</p>
+    <p class="hero-intro">Choosing the wrong pagination strategy can tank your app's performance at scale. This guide explains offset, cursor, and page-based pagination with TypeScript types, real-world API examples, and a React Query implementation for infinite scroll.</p>
+</div>
+
+<article>
+
+<h2>Why Pagination Matters More Than You Think</h2>
+<p>Every list endpoint in your application is either paginated correctly or it's a future performance disaster waiting to happen. Returning 10,000 records in a single request doesn't just slow down your UI — it puts a massive strain on your database, increases server costs, and makes your app nearly unusable on mobile.</p>
+
+<p>Equally important: the <strong>shape of your pagination response</strong> directly affects how complex your frontend data fetching logic becomes. A poorly designed response type forces awkward state management, difficult cache invalidation, and brittle infinite scroll implementations.</p>
+
+<h2>Comparing the Three Strategies</h2>
+<div class="compare-grid">
+    <div class="compare-card">
+        <div class="compare-badge b-offset">Offset / Limit</div>
+        <h4>Offset Pagination</h4>
+        <p class="pros">✓ Simple to implement<br>✓ Easy "jump to page N"<br>✓ Works with SQL OFFSET</p>
+        <p class="cons">✗ Slow at high offsets<br>✗ Skips/duplicates on inserts<br>✗ No stable cursor</p>
+    </div>
+    <div class="compare-card">
+        <div class="compare-badge b-cursor">Cursor Based</div>
+        <h4>Cursor Pagination</h4>
+        <p class="pros">✓ Stable at any scale<br>✓ No duplicates<br>✓ Ideal for feeds/streams</p>
+        <p class="cons">✗ Can't jump to page N<br>✗ Complex to implement<br>✗ Cursor must be opaque</p>
+    </div>
+    <div class="compare-card">
+        <div class="compare-badge b-page">Page / Size</div>
+        <h4>Page-based</h4>
+        <p class="pros">✓ Intuitive for users<br>✓ Total pages visible<br>✓ Good for tables/grids</p>
+        <p class="cons">✗ Same perf issues as offset<br>✗ Complex server queries<br>✗ Not suited for streams</p>
+    </div>
+</div>
+
+<h2>TypeScript Types for Each Strategy</h2>
+
+<h3>1. Offset Pagination</h3>
+<pre><code><span class="kw">export interface</span> <span class="ty">PaginatedResponse</span>&lt;T&gt; {
+  items: T[];
+  totalCount: <span class="ty">number</span>;
+  offset: <span class="ty">number</span>;
+  limit: <span class="ty">number</span>;
+  hasNextPage: <span class="ty">boolean</span>;
+}
+
+<span class="cm">// Usage</span>
+<span class="kw">const</span> response: <span class="ty">PaginatedResponse</span>&lt;<span class="ty">User</span>&gt; = <span class="kw">await</span> <span class="fn">fetchUsers</span>({ offset: 20, limit: 10 });
+<span class="kw">const</span> totalPages = Math.<span class="fn">ceil</span>(response.totalCount / response.limit);</code></pre>
+
+<h3>2. Cursor-Based Pagination (GitHub / Stripe style)</h3>
+<pre><code><span class="kw">export interface</span> <span class="ty">CursorPaginatedResponse</span>&lt;T&gt; {
+  items: T[];
+  nextCursor: <span class="ty">string</span> | <span class="kw">null</span>;
+  hasMore: <span class="ty">boolean</span>;
+  pageSize: <span class="ty">number</span>;
+}
+
+<span class="cm">// Fetching the next page</span>
+<span class="kw">async function</span> <span class="fn">fetchNextPage</span>(cursor: <span class="ty">string</span> | <span class="kw">null</span>) {
+  <span class="kw">if</span> (!cursor) <span class="kw">return null</span>; <span class="cm">// end of list</span>
+  <span class="kw">return</span> <span class="fn">fetchUsers</span>({ after: cursor, limit: 50 });
+}</code></pre>
+
+<h3>3. Infinite Scroll (React Query compatible)</h3>
+<pre><code><span class="kw">export interface</span> <span class="ty">InfiniteScrollResponse</span>&lt;T&gt; {
+  items: T[];
+  nextPage: <span class="ty">number</span> | <span class="kw">null</span>; <span class="cm">// null means no more pages</span>
+  isLoading: <span class="ty">boolean</span>;
+  hasMore: <span class="ty">boolean</span>;
+}
+
+<span class="cm">// With React Query useInfiniteQuery:</span>
+<span class="kw">const</span> { data, fetchNextPage, hasNextPage } = <span class="fn">useInfiniteQuery</span>({
+  queryKey: [<span class="st">'posts'</span>],
+  queryFn: ({ pageParam = <span class="kw">null</span> }) =&gt; <span class="fn">fetchPosts</span>(pageParam),
+  getNextPageParam: (lastPage) =&gt; lastPage.nextPage, <span class="cm">// ← type-safe!</span>
+});</code></pre>
+
+<div class="callout">
+    <strong>⚡ Pro Tip: Always Include hasMore</strong>
+    Even with cursor-based pagination, include a <code>hasMore: boolean</code> field. This prevents an extra round-trip request to discover the end of the list and simplifies your UI logic significantly.
+</div>
+
+<h2>Real World API Examples</h2>
+
+<h3>GitHub API (Link Header)</h3>
+<pre><code><span class="kw">export interface</span> <span class="ty">GitHubSearchResponse</span>&lt;T&gt; {
+  items: T[];
+  total_count: <span class="ty">number</span>;
+  incomplete_results: <span class="ty">boolean</span>;
+  <span class="cm">// Pagination info comes in the "Link" response header:</span>
+  <span class="cm">// Link: &lt;url&gt;; rel="next", &lt;url&gt;; rel="last"</span>
+}</code></pre>
+
+<h3>Stripe API (has_more)</h3>
+<pre><code><span class="kw">export interface</span> <span class="ty">StripeList</span>&lt;T&gt; {
+  object: <span class="st">'list'</span>;
+  url: <span class="ty">string</span>;
+  has_more: <span class="ty">boolean</span>;
+  data: T[];
+}
+
+<span class="cm">// Fetch next page using the last item's ID as cursor:</span>
+<span class="fn">stripe.customers.list</span>({ starting_after: lastCustomer.id, limit: 100 });</code></pre>
+
+<h3>Notion API (next_cursor)</h3>
+<pre><code><span class="kw">export interface</span> <span class="ty">NotionList</span>&lt;T&gt; {
+  object: <span class="st">'list'</span>;
+  results: T[];
+  next_cursor: <span class="ty">string</span> | <span class="kw">null</span>;
+  has_more: <span class="ty">boolean</span>;
+}</code></pre>
+
+<div class="callout warn">
+    <strong>⚠ Database Performance Note</strong>
+    SQL OFFSET queries get slower as the offset grows because the database must scan all skipped rows. For large datasets, always prefer cursor-based pagination using an indexed column (like <code>id</code> or <code>created_at</code>) for the cursor value.
+</div>
+
+<h2>Implementing Infinite Scroll with IntersectionObserver</h2>
+<p>The most performant infinite scroll implementation uses the browser's <code>IntersectionObserver</code> API to detect when a sentinel element enters the viewport:</p>
+
+<pre><code><span class="kw">const</span> sentinelRef = <span class="fn">useRef</span>&lt;<span class="ty">HTMLDivElement</span>&gt;(<span class="kw">null</span>);
+
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="kw">const</span> observer = <span class="kw">new</span> <span class="fn">IntersectionObserver</span>(
+    (entries) =&gt; {
+      <span class="kw">if</span> (entries[0].isIntersecting && hasNextPage) {
+        <span class="fn">fetchNextPage</span>(); <span class="cm">// type-safe: knows nextPage type from your PaginatedResponse</span>
+      }
+    },
+    { threshold: 0.1 }
+  );
+
+  <span class="kw">if</span> (sentinelRef.current) observer.<span class="fn">observe</span>(sentinelRef.current);
+  <span class="kw">return</span> () =&gt; observer.<span class="fn">disconnect</span>();
+}, [hasNextPage, fetchNextPage]);</code></pre>
+
+<h2>Frequently Asked Questions</h2>
+<div class="faq">
+    <div class="faq-item">
+        <h4>Which strategy should I use for a Twitter-like feed?</h4>
+        <p>Cursor-based pagination is mandatory for real-time feeds. New posts arrive constantly, so an offset-based approach would skip or duplicate content as new items are inserted at the top.</p>
+    </div>
+    <div class="faq-item">
+        <h4>What should I use for an admin data table?</h4>
+        <p>Page-based or offset pagination with a <code>totalPages</code> count. Users need to jump to specific pages and see how many records exist — cursor pagination doesn't support this.</p>
+    </div>
+    <div class="faq-item">
+        <h4>How do I encode a cursor?</h4>
+        <p>Typically, cursors are base64-encoded strings containing a unique record identifier (like the database primary key or a combination of <code>id</code> + <code>created_at</code>). Never expose raw database IDs directly.</p>
+    </div>
+    <div class="faq-item">
+        <h4>Is <code>useInfiniteQuery</code> compatible with these types?</h4>
+        <p>Yes. React Query's <code>useInfiniteQuery</code> and TanStack Query v5's <code>useSuspenseInfiniteQuery</code> both work seamlessly with the generated types. The <code>getNextPageParam</code> function is fully type-safe when your response type includes <code>nextCursor</code> or <code>nextPage</code>.</p>
+    </div>
+    <div class="faq-item">
+        <h4>Should the cursor be server-side or client-side?</h4>
+        <p>Always server-side. The server generates and validates the cursor. The client treats it as an opaque string and passes it back unchanged. This prevents cursor manipulation and keeps pagination logic encapsulated.</p>
+    </div>
+</div>
+
+<div class="cta-box">
+    <h2>Generate Your Pagination Types</h2>
+    <p style="color:#7dd3fc;margin-bottom:2rem;">Select your strategy, pick a preset (GitHub, Stripe, Notion), and copy ready-to-use TypeScript in seconds.</p>
+    <a href="/" class="btn-primary">Open Pagination Generator →</a>
+</div>
+
+</article>
+</body>
+</html>

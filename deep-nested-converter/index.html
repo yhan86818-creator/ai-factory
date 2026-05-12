@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="dyitLt80YqDWnYz6__XIEwhrunV4U1-KU8ODTGzuK_s" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Nested Converter — Advanced JSON to TypeScript</title>
+    <meta name="description" content="A specialized conversion tool for extremely deep nested JSON structures. Handles recursion, circular references, and massive payloads.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="blogPosts.js"></script>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <div style="background: rgba(16,185,129,0.08); border-bottom: 1px solid rgba(16,185,129,0.25); padding: 0.75rem 2rem; text-align: center; position: relative; z-index: 10;">
+        <a href="https://json-to-ts-converter.pages.dev/" style="color: #a7f3d0; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; font-weight: 600; font-family: 'JetBrains Mono', monospace;">
+            <span style="background: var(--accent); color: #000; padding: 3px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em;">↗ Related</span>
+            Need a simpler converter without recursion handling?
+            <span style="color: var(--accent); font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem; border-bottom: 1px dashed var(--accent);">
+                → JSON to TS Converter
+            </span>
+        </a>
+    </div>
+
+    <header>
+        <div class="title-badge">Professional Grade</div>
+        <h1>Deep Nested Converter</h1>
+        <p class="subtitle">Architect-level utility for converting complex, multi-layered JSON into optimized TypeScript types with recursion and circular detection.</p>
+        <a href="/guide.html" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:1rem;color:#6ee7b7;font-size:0.82rem;font-weight:700;text-decoration:none;border:1px solid rgba(16,185,129,0.3);padding:0.35rem 0.9rem;border-radius:4px;background:rgba(16,185,129,0.07);font-family:'JetBrains Mono',monospace;">// READ_FULL_GUIDE →</a>
+    </header>
+
+    <main>
+        <section class="panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Source Payload (JSON)
+                </div>
+                <div class="depth-indicator" id="input-depth">Max Depth: 0</div>
+            </div>
+            <textarea id="json-input" placeholder="Drop your deep JSON structure here..." spellcheck="false"></textarea>
+        </section>
+
+        <section class="panel" style="border-left: 1px solid var(--border-dim);">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    TypeScript Definition
+                </div>
+                <button class="btn-convert" id="btn-copy">Copy Code</button>
+            </div>
+            <div class="output-area" id="ts-output"></div>
+        </section>
+    </main>
+
+    <article style="max-width: 1400px; margin: 4rem auto; padding: 0 2rem; border-top: 1px solid var(--border-dim); padding-top: 4rem;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 6rem;">
+            <div>
+                <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 2rem; color: #fff;">Managing Deep Structural Complexity in Modern APIs</h2>
+                <p style="color: var(--text-dim); line-height: 1.8; margin-bottom: 2rem; font-size: 1.05rem;">
+                    As APIs grow in scale, data structures often exceed the manageable depth of standard type generators. Legacy tools struggle with recursion, circular references, and "type explosion" when dealing with 5+ levels of nesting. The <strong>Deep Nested Converter</strong> was built to solve this exact problem for architects and senior engineers.
+                </p>
+
+                <h3 style="color: var(--accent); margin-bottom: 1rem; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">Key Technical Features</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+                    <div>
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Circular Reference Shield</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Detects loops in your JSON where an object refers back to itself, preventing infinite recursion in your TypeScript definitions.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Smart Recursion Detection</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Automatically identifies structural duplicates across different levels and collapses them into clean, recursive type definitions.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Level Annotations</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Inserts visual cues and comments for each nesting level, making it easy to map generated code back to your original payload.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Optimized Naming</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Uses intelligent heuristics to name child interfaces based on keys, maintaining readability even at 10+ levels deep.</p>
+                    </div>
+                </div>
+            </div>
+
+            <aside style="background: var(--bg-surface); padding: 2rem; border-radius: 1rem; border: 1px solid var(--border-dim);">
+                <h3 style="color: #fff; margin-bottom: 1.5rem; font-size: 1rem;">Quick Start Guide</h3>
+                <ul style="padding: 0; list-style: none; display: grid; gap: 1.5rem;">
+                    <li style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <span style="color: var(--accent); font-weight: 900; font-family: var(--mono-font);">01.</span>
+                        <p style="font-size: 0.85rem; color: var(--text-dim);">Paste your complex JSON payload into the source panel. High-depth maps will trigger a glowing indicator.</p>
+                    </li>
+                    <li style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <span style="color: var(--accent); font-weight: 900; font-family: var(--mono-font);">02.</span>
+                        <p style="font-size: 0.85rem; color: var(--text-dim);">Toggle 'Auto-Recursion' if your data has tree-like or self-referential properties.</p>
+                    </li>
+                    <li style="display: flex; gap: 1rem; align-items: flex-start;">
+                        <span style="color: var(--accent); font-weight: 900; font-family: var(--mono-font);">03.</span>
+                        <p style="font-size: 0.85rem; color: var(--text-dim);">Review the generated interfaces. Use the 'Layer Annotations' to verify mapping correctness.</p>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </article>
+
+    <div class="controls">
+        <label class="control-item">
+            <input type="checkbox" id="check-recursive" checked>
+            <span>Auto-Recursion</span>
+        </label>
+        <label class="control-item">
+            <input type="checkbox" id="check-comments" checked>
+            <span>Layer Annotations</span>
+        </label>
+        <label class="control-item">
+            <input type="checkbox" id="check-strict" checked>
+            <span>Strict Types</span>
+        </label>
+        <div style="width: 1px; height: 20px; background: var(--border-dim);"></div>
+        <button class="btn-convert" id="btn-load-sample">Load Deep Sample</button>
+    </div>
+
+    <div id="toast" style="position: fixed; top: 2rem; right: 2rem; background: var(--accent); color: #000; padding: 0.75rem 1.5rem; border-radius: 4px; font-weight: 700; display: none; z-index: 1000;">Copied!</div>
+
+    <script src="app.js"></script>
+
+<!-- BLOG LIST SECTION -->
+<section id="blog-section" style="max-width:900px; margin:40px auto; padding:40px 24px; border-top:1px solid rgba(255,255,255,0.1);">
+    <h2 style="font-size:2rem; margin-bottom:1rem; color:#fff;">Engineering Insights & Privacy</h2>
+    <div id="lp-blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;"></div>
+</section>
+
+
+<!-- BLOG VIEW -->
+<div id="blog-view" style="display: none; background-color: #000; min-height: 100vh; padding-top: 80px; color: #fff; font-family: sans-serif;">
+    <nav style="position:fixed; top:0; width:100%; z-index:50; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div style="max-width:800px; margin:0 auto; padding:0 24px; height:70px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:20px; font-weight:bold; cursor:pointer;" onclick="hideBlog()">← Back</div>
+        </div>
+    </nav>
+    <div style="max-width:800px; margin:0 auto; padding:40px 24px;" id="blog-content"></div>
+</div>
+
+
+<script>
+function showBlog(id) {
+    const post = window.blogPosts.find(p => p.id === id);
+    if (!post) return;
+    
+    // Hide all main body children except blog-view and scripts
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+            child.dataset.oldDisplay = child.style.display;
+            child.style.display = 'none';
+        }
+    });
+    
+    document.getElementById('blog-view').style.display = 'block';
+    
+    const content = `
+        <div style="color:#f97316; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px;">${post.category}</div>
+        <h1 style="font-size:3rem; font-weight:bold; margin-bottom:24px; line-height:1.2;">${post.title}</h1>
+        <div style="color:#a1a1aa; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+            By ${post.author} • ${post.date}
+        </div>
+        <div style="font-size:1.1rem; line-height:1.8; color:#d4d4d8;">
+            ${post.content}
+        </div>
+    `;
+    document.getElementById('blog-content').innerHTML = content;
+    window.scrollTo(0, 0);
+    if (history.state?.id !== id) history.pushState({view: 'blog', id}, '', '#blog=' + id);
+}
+
+function hideBlog() {
+    document.getElementById('blog-view').style.display = 'none';
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.dataset.oldDisplay !== undefined) {
+            child.style.display = child.dataset.oldDisplay;
+        }
+    });
+    window.scrollTo(0, 0);
+    if (history.state?.view === 'blog') history.pushState({view: 'main'}, '', window.location.pathname);
+}
+
+window.addEventListener('popstate', (e) => {
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    } else {
+        hideBlog();
+    }
+});
+
+function initBlog() {
+    const grid = document.getElementById('lp-blog-grid');
+    if (grid && window.blogPosts) {
+        grid.innerHTML = window.blogPosts.map(post => `
+            <div onclick="showBlog('${post.id}')" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px; cursor:pointer; transition:all 0.2s;">
+                <div style="color:#f97316; font-size:10px; font-weight:bold; text-transform:uppercase; margin-bottom:12px;">${post.category}</div>
+                <h3 style="color:#fff; font-size:1.2rem; font-weight:bold; margin-bottom:12px;">${post.title}</h3>
+                <p style="color:#a1a1aa; font-size:14px; line-height:1.5;">${post.excerpt}</p>
+            </div>
+        `).join('');
+    }
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    }
+}
+document.addEventListener('DOMContentLoaded', initBlog);
+// If already loaded
+if (document.readyState === 'interactive' || document.readyState === 'complete') initBlog();
+</script>
+
+</body>
+</html>

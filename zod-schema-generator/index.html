@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="dyitLt80YqDWnYz6__XIEwhrunV4U1-KU8ODTGzuK_s" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zod Schema Generator | JSON to TypeScript & Zod</title>
+    <meta name="description" content="Generate Zod schemas and TypeScript types from JSON instantly. Premium tool for type-safe developers.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <script src="blogPosts.js"></script>
+</head>
+<body>
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div style="background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, rgba(6,182,212,0.15) 100%); border-bottom: 1px solid rgba(99,102,241,0.3); padding: 0.75rem 2rem; text-align: center;">
+        <a href="https://json-to-ts-converter.pages.dev/" style="color: #e0e7ff; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; font-weight: 600;">
+            <span style="background: var(--primary); color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Related Tool</span>
+            Looking for a simple JSON → TypeScript converter?
+            <span style="color: var(--accent-cyan); font-weight: 800; display: inline-flex; align-items: center; gap: 0.3rem;">
+                Try JSON to TS Converter
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+        </a>
+    </div>
+
+    <header>
+        <h1>Zod Schema Generator</h1>
+        <p>Transform raw JSON into robust, type-safe Zod schemas and TypeScript interfaces.</p>
+        <a href="/guide.html" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.75rem;color:#a5b4fc;font-size:0.82rem;font-weight:600;text-decoration:none;border:1px solid rgba(99,102,241,0.3);padding:0.35rem 0.9rem;border-radius:20px;background:rgba(99,102,241,0.08);">📖 Read Full Guide & Tutorial →</a>
+    </header>
+
+    <main>
+        <div class="card">
+            <div class="card-header">
+                <h2>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Input JSON
+                </h2>
+                <button class="btn btn-ghost" id="btn-load-sample">Load Sample</button>
+            </div>
+            <div class="card-body">
+                <textarea id="json-input" placeholder="Paste your JSON here..." spellcheck="false"></textarea>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="tabs">
+                    <div class="tab active" data-tab="zod">Zod Schema</div>
+                    <div class="tab" data-tab="ts">TypeScript</div>
+                    <div class="tab" data-tab="usage">Usage Sample</div>
+                </div>
+                <button class="btn btn-primary" id="btn-copy">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="controls">
+                    <div class="setting-group">
+                        <label class="switch">
+                            <input type="checkbox" id="check-strict">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Strict Mode</span>
+                    </div>
+                    <div class="setting-group">
+                        <label class="switch">
+                            <input type="checkbox" id="check-optional" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span>Infer Optional</span>
+                    </div>
+                    <div class="setting-group">
+                        <label class="switch">
+                            <input type="checkbox" id="check-passthrough">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Passthrough</span>
+                    </div>
+                </div>
+                <div id="output-zod" class="code-display active"></div>
+                <div id="output-ts" class="code-display" style="display:none;"></div>
+                <div id="output-usage" class="code-display" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+
+    </main>
+
+    <section class="guide-section" style="max-width: 1200px; margin: 0 auto; padding: 4rem 1rem; color: var(--text-muted); border-top: 1px solid var(--glass-border);">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+            <div>
+                <h2 style="color: white; margin-bottom: 1.5rem; font-size: 1.5rem;">How to Use the Zod Schema Generator</h2>
+                <ol style="padding-left: 1.25rem; display: grid; gap: 1rem; font-size: 0.95rem;">
+                    <li><strong>Paste JSON</strong>: Drop your raw JSON data into the left-side input panel.</li>
+                    <li><strong>Configure Settings</strong>: Toggle <em>Strict Mode</em> to enforce exact shapes or <em>Infer Optional</em> to handle nullable fields.</li>
+                    <li><strong>Review Results</strong>: Instantly see the generated Zod schema and its matching TypeScript type.</li>
+                    <li><strong>Verify Live</strong>: Use the <em>Validation Preview</em> to ensure the generated schema correctly parses your input.</li>
+                    <li><strong>Copy & Implement</strong>: Use the <em>Usage Sample</em> tab to get a head start on your implementation.</li>
+                </ol>
+            </div>
+            <div>
+                <h2 style="color: white; margin-bottom: 1.5rem; font-size: 1.5rem;">Why Convert JSON to Zod?</h2>
+                <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.7;">
+                    Writing Zod schemas manually for large JSON payloads is tedious and error-prone. This tool automates the process, ensuring your frontend is always in sync with your backend data.
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 1rem; border: 1px solid var(--glass-border);">
+                        <h3 style="color: var(--primary); font-size: 0.9rem; margin-bottom: 0.5rem;">Type Safety</h3>
+                        <p style="font-size: 0.8rem;">Bridge the gap between raw API data and your TypeScript logic with runtime validation.</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 1rem; border: 1px solid var(--glass-border);">
+                        <h3 style="color: var(--primary); font-size: 0.9rem; margin-bottom: 0.5rem;">Zero Latency</h3>
+                        <p style="font-size: 0.8rem;">100% browser-side processing. Your data never leaves your machine.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 4rem; text-align: center;">
+            <h2 style="color: white; margin-bottom: 2rem;">Frequently Asked Questions</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; text-align: left;">
+                <div>
+                    <h3 style="color: white; font-size: 1rem; margin-bottom: 0.5rem;">Is my data sent to a server?</h3>
+                    <p style="font-size: 0.9rem;">No. All transformations and validations happen locally in your browser. This tool is private by design.</p>
+                </div>
+                <div>
+                    <h3 style="color: white; font-size: 1rem; margin-bottom: 0.5rem;">Does it support nested objects?</h3>
+                    <p style="font-size: 0.9rem;">Yes, it recursively traverses deep objects and arrays to generate nested <code>z.object()</code> and <code>z.array()</code> definitions.</p>
+                </div>
+                <div>
+                    <h3 style="color: white; font-size: 1rem; margin-bottom: 0.5rem;">Can I use it for API responses?</h3>
+                    <p style="font-size: 0.9rem;">Absolutely. It's perfect for creating schemas for REST API responses, ensuring your app handles data predictably.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="max-width: 1200px; margin: 0 auto; padding: 0 1rem 4rem;">
+        <div class="card">
+            <div class="card-header">
+                <h2>Validation Preview</h2>
+            </div>
+            <div class="card-body" style="padding: 1rem;">
+                <div id="validation-status" style="margin-bottom: 1rem; padding: 1rem; border-radius: 0.5rem; background: rgba(0,0,0,0.2); font-family: monospace;">
+                    Waiting for input...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+<!-- BLOG LIST SECTION -->
+<section id="blog-section" style="max-width:900px; margin:40px auto; padding:40px 24px; border-top:1px solid rgba(255,255,255,0.1);">
+    <h2 style="font-size:2rem; margin-bottom:1rem; color:#fff;">Engineering Insights & Privacy</h2>
+    <div id="lp-blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;"></div>
+</section>
+
+<footer>
+        <p>&copy; 2026 Zod Schema Generator. 100% Client-side & Private.</p>
+    </footer>
+
+    <div id="toast" class="copy-toast">Copied to clipboard!</div>
+
+    <script src="https://unpkg.com/zod/lib/index.umd.js"></script>
+    <script src="app.js"></script>
+
+<!-- BLOG VIEW -->
+<div id="blog-view" style="display: none; background-color: #000; min-height: 100vh; padding-top: 80px; color: #fff; font-family: sans-serif;">
+    <nav style="position:fixed; top:0; width:100%; z-index:50; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div style="max-width:800px; margin:0 auto; padding:0 24px; height:70px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:20px; font-weight:bold; cursor:pointer;" onclick="hideBlog()">← Back</div>
+        </div>
+    </nav>
+    <div style="max-width:800px; margin:0 auto; padding:40px 24px;" id="blog-content"></div>
+</div>
+
+
+<script>
+function showBlog(id) {
+    const post = window.blogPosts.find(p => p.id === id);
+    if (!post) return;
+    
+    // Hide all main body children except blog-view and scripts
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+            child.dataset.oldDisplay = child.style.display;
+            child.style.display = 'none';
+        }
+    });
+    
+    document.getElementById('blog-view').style.display = 'block';
+    
+    const content = `
+        <div style="color:#f97316; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px;">${post.category}</div>
+        <h1 style="font-size:3rem; font-weight:bold; margin-bottom:24px; line-height:1.2;">${post.title}</h1>
+        <div style="color:#a1a1aa; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+            By ${post.author} • ${post.date}
+        </div>
+        <div style="font-size:1.1rem; line-height:1.8; color:#d4d4d8;">
+            ${post.content}
+        </div>
+    `;
+    document.getElementById('blog-content').innerHTML = content;
+    window.scrollTo(0, 0);
+    if (history.state?.id !== id) history.pushState({view: 'blog', id}, '', '#blog=' + id);
+}
+
+function hideBlog() {
+    document.getElementById('blog-view').style.display = 'none';
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.dataset.oldDisplay !== undefined) {
+            child.style.display = child.dataset.oldDisplay;
+        }
+    });
+    window.scrollTo(0, 0);
+    if (history.state?.view === 'blog') history.pushState({view: 'main'}, '', window.location.pathname);
+}
+
+window.addEventListener('popstate', (e) => {
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    } else {
+        hideBlog();
+    }
+});
+
+function initBlog() {
+    const grid = document.getElementById('lp-blog-grid');
+    if (grid && window.blogPosts) {
+        grid.innerHTML = window.blogPosts.map(post => `
+            <div onclick="showBlog('${post.id}')" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px; cursor:pointer; transition:all 0.2s;">
+                <div style="color:#f97316; font-size:10px; font-weight:bold; text-transform:uppercase; margin-bottom:12px;">${post.category}</div>
+                <h3 style="color:#fff; font-size:1.2rem; font-weight:bold; margin-bottom:12px;">${post.title}</h3>
+                <p style="color:#a1a1aa; font-size:14px; line-height:1.5;">${post.excerpt}</p>
+            </div>
+        `).join('');
+    }
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    }
+}
+document.addEventListener('DOMContentLoaded', initBlog);
+// If already loaded
+if (document.readyState === 'interactive' || document.readyState === 'complete') initBlog();
+</script>
+
+</body>
+</html>

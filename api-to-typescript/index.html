@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="dyitLt80YqDWnYz6__XIEwhrunV4U1-KU8ODTGzuK_s" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API to TypeScript — Professional REST Response Converter</title>
+    <meta name="description" content="Instantly convert REST API responses to clean, production-ready TypeScript interfaces and types. Support for pagination, arrays, and complex nested objects.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        indigo: {
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .code-editor {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: none;
+            background: #0f172a;
+            color: #e2e8f0;
+            border: 1px solid #1e293b;
+        }
+        .code-editor:focus {
+            outline: 2px solid #4f46e5;
+            outline-offset: -2px;
+        }
+        .btn-tab {
+            transition: all 0.2s ease;
+        }
+        .btn-tab.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        
+        .premium-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+  <script src="blogPosts.js"></script>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold italic text-lg">T</div>
+            <h1 class="text-lg font-extrabold tracking-tight text-slate-900">API to TypeScript<span class="text-indigo-600">.</span></h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button onclick="copyAll()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700 transition flex items-center gap-2">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                Copy TS
+            </button>
+            <a href="https://local-dev-tools.pages.dev" class="text-slate-400 hover:text-slate-900 transition p-2">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        
+        <!-- Sidebar / Controls -->
+        <aside class="w-full lg:w-80 bg-slate-50 border-r border-slate-200 overflow-y-auto p-6 flex flex-col gap-8">
+            
+            <!-- 1. Presets -->
+            <div>
+                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-4">Presets</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="loadPreset('User')" class="bg-white border border-slate-200 py-2.5 rounded-lg text-xs font-bold text-slate-600 hover:border-indigo-600 hover:text-indigo-600 transition">User</button>
+                    <button onclick="loadPreset('Product')" class="bg-white border border-slate-200 py-2.5 rounded-lg text-xs font-bold text-slate-600 hover:border-indigo-600 hover:text-indigo-600 transition">Product</button>
+                    <button onclick="loadPreset('Order')" class="bg-white border border-slate-200 py-2.5 rounded-lg text-xs font-bold text-slate-600 hover:border-indigo-600 hover:text-indigo-600 transition">Order</button>
+                    <button onclick="loadPreset('Dashboard')" class="bg-white border border-slate-200 py-2.5 rounded-lg text-xs font-bold text-slate-600 hover:border-indigo-600 hover:text-indigo-600 transition">Dashboard</button>
+                </div>
+            </div>
+
+            <!-- 2. Structure -->
+            <div>
+                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-4">Response Structure</h3>
+                <div class="flex flex-col gap-2">
+                    <button id="btn-mode-single" onclick="setMode('single')" class="btn-tab active w-full py-3 px-4 rounded-xl border border-slate-200 bg-white text-xs font-bold text-left flex items-center justify-between">
+                        Single Object <span>{}</span>
+                    </button>
+                    <button id="btn-mode-array" onclick="setMode('array')" class="btn-tab w-full py-3 px-4 rounded-xl border border-slate-200 bg-white text-xs font-bold text-left flex items-center justify-between">
+                        List / Array <span>[]</span>
+                    </button>
+                    <button id="btn-mode-paged" onclick="setMode('paged')" class="btn-tab w-full py-3 px-4 rounded-xl border border-slate-200 bg-white text-xs font-bold text-left flex items-center justify-between">
+                        Paginated <span>⚙️</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Settings -->
+            <div>
+                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-4">Generation Options</h3>
+                <div class="space-y-4">
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" id="opt-optional" onchange="convert()" class="w-4 h-4 rounded text-indigo-600">
+                        <span class="text-xs font-semibold text-slate-600 group-hover:text-slate-900">Make all fields optional (?)</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" id="opt-null" onchange="convert()" class="w-4 h-4 rounded text-indigo-600">
+                        <span class="text-xs font-semibold text-slate-600 group-hover:text-slate-900">Allow Nullable types (| null)</span>
+                    </label>
+                    <div class="pt-4 border-t border-slate-200">
+                        <div class="flex bg-slate-200 p-1 rounded-lg">
+                            <button id="btn-out-interface" onclick="setOut('interface')" class="btn-tab active flex-1 py-1.5 rounded-md text-[10px] font-black uppercase tracking-wider">Interface</button>
+                            <button id="btn-out-type" onclick="setOut('type')" class="btn-tab flex-1 py-1.5 rounded-md text-[10px] font-black uppercase tracking-wider">Type</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Advanced -->
+            <div class="mt-auto">
+                <button onclick="openLegacyConverter()" class="w-full bg-slate-900 text-white py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] hover:bg-black transition-all flex items-center justify-center gap-2">
+                    <span>⚡</span> Standard JSON to TS
+                </button>
+                <p class="text-[10px] text-slate-400 mt-4 text-center leading-relaxed">
+                    Local conversion. No data leaves your machine. <br/> Works with any JSON schema.
+                </p>
+            </div>
+        </aside>
+
+        <!-- Editor View -->
+        <div class="flex-1 flex flex-col min-h-[400px]">
+            <div class="flex-1 flex flex-col lg:flex-row">
+                <!-- Input -->
+                <div class="flex-1 flex flex-col border-b lg:border-b-0 lg:border-r border-slate-200 relative">
+                    <div class="h-10 bg-white border-b border-slate-200 flex items-center px-4 justify-between">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">JSON Input</span>
+                        <span class="text-[10px] font-mono text-indigo-600 font-bold" id="json-status">Valid JSON</span>
+                    </div>
+                    <textarea id="json-input" class="flex-1 code-editor p-6 outline-none custom-scroll" spellcheck="false" placeholder='{ "id": 1, "name": "John Doe" }'></textarea>
+                </div>
+                <!-- Output -->
+                <div class="flex-1 flex flex-col relative bg-slate-900">
+                    <div class="h-10 bg-slate-800 flex items-center px-4 justify-between">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-300">TypeScript Output</span>
+                        <button onclick="copyAll()" class="text-indigo-400 hover:text-indigo-300 text-[10px] font-black uppercase tracking-widest">Copy</button>
+                    </div>
+                    <pre id="ts-output" class="flex-1 p-6 font-mono text-[13px] text-emerald-400 overflow-auto custom-scroll leading-relaxed"></pre>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        let mode = 'single'; // single, array, paged
+        let outputType = 'interface'; // interface, type
+        
+        const PRESETS = {
+            User: { id: 1, uuid: "550e8400-e29b-41d4-a716-446655440000", username: "johndoe_dev", profile: { firstName: "John", lastName: "Doe", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John" }, email: "john@example.com", role: "ADMIN", isActive: true, lastLogin: "2024-05-01T12:00:00Z", metadata: { loginCount: 42, theme: "dark" } },
+            Product: { id: "prod_01", slug: "premium-mechanical-keyboard", title: "CyberDeck K-900", price: 189.50, currency: "USD", stock: 12, category: { id: "cat_mech", name: "Keyboards" }, tags: ["mechanical", "gaming", "rgb"], specifications: { switches: "Cherry MX Brown", layout: "ANSI 65%", backlight: "RGB" }, ratings: { average: 4.8, count: 124 } },
+            Order: { orderId: "ORD-9921", customerId: 1024, items: [{ productId: "prod_01", quantity: 1, price: 189.50 }, { productId: "prod_05", quantity: 2, price: 12.00 }], totalAmount: 213.50, status: "SHIPPED", shippingAddress: { street: "123 Dev Lane", city: "Codeville", country: "LogicLand" }, createdAt: "2024-05-06T15:00:00Z" },
+            Dashboard: { overview: { totalUsers: 12500, activeNow: 42, revenueMonthly: 145000 }, chartData: [{ date: "2024-05-01", value: 450 }, { date: "2024-05-02", value: 480 }], topFeatures: ["API Explorer", "Schema Validator"], alerts: [{ type: "INFO", message: "Backup completed" }] }
+        };
+
+        const jsonInput = document.getElementById('json-input');
+        const tsOutput = document.getElementById('ts-output');
+        const jsonStatus = document.getElementById('json-status');
+
+        jsonInput.addEventListener('input', convert);
+
+        function loadPreset(name) {
+            jsonInput.value = JSON.stringify(PRESETS[name], null, 4);
+            convert();
+        }
+
+        function setMode(m) {
+            mode = m;
+            document.querySelectorAll('[id^="btn-mode-"]').forEach(el => el.classList.remove('active'));
+            document.getElementById(`btn-mode-${m}`).classList.add('active');
+            convert();
+        }
+
+        function setOut(type) {
+            outputType = type;
+            document.querySelectorAll('[id^="btn-out-"]').forEach(el => el.classList.remove('active'));
+            document.getElementById(`btn-out-${type}`).classList.add('active');
+            convert();
+        }
+
+        function convert() {
+            const raw = jsonInput.value.trim();
+            if (!raw) {
+                tsOutput.textContent = "";
+                return;
+            }
+
+            try {
+                let obj = JSON.parse(raw);
+                jsonStatus.textContent = "Valid JSON";
+                jsonStatus.className = "text-[10px] font-mono text-indigo-600 font-bold";
+
+                let result = "";
+                const useOptional = document.getElementById('opt-optional').checked;
+                const useNull = document.getElementById('opt-null').checked;
+
+                if (mode === 'array') {
+                    if (!Array.isArray(obj)) obj = [obj];
+                    result = generateInterfaces(obj[0], "ResponseItem", useOptional, useNull);
+                    result += `\n${outputType === 'interface' ? 'interface' : 'type'} APIResponse = ResponseItem[];`;
+                } else if (mode === 'paged') {
+                    result = generateInterfaces(obj, "ResponseData", useOptional, useNull);
+                    result += `\n${outputType === 'interface' ? 'interface' : 'type'} PaginatedResponse = {\n    data: ResponseData[];\n    meta: {\n        total: number;\n        page: number;\n        limit: number;\n        totalPages: number;\n    };\n};`;
+                } else {
+                    result = generateInterfaces(obj, "APIResponse", useOptional, useNull);
+                }
+
+                tsOutput.textContent = result;
+            } catch (e) {
+                jsonStatus.textContent = "Invalid JSON";
+                jsonStatus.className = "text-[10px] font-mono text-red-500 font-bold";
+            }
+        }
+
+        function generateInterfaces(obj, rootName, optional, nulls) {
+            const interfaces = new Map();
+            
+            function walk(val, name) {
+                if (val === null) return "any";
+                const type = typeof val;
+                
+                if (type === "string") return "string";
+                if (type === "number") return "number";
+                if (type === "boolean") return "boolean";
+                
+                if (Array.isArray(val)) {
+                    if (val.length === 0) return "any[]";
+                    const itemType = walk(val[0], name + "Item");
+                    return `${itemType}[]`;
+                }
+                
+                if (type === "object") {
+                    const interfaceName = name.charAt(0).toUpperCase() + name.slice(1);
+                    let body = outputType === 'interface' ? `interface ${interfaceName} {\n` : `type ${interfaceName} = {\n`;
+                    
+                    for (const key in val) {
+                        const subType = walk(val[key], key);
+                        const suffix = optional ? "?" : "";
+                        const nullSuffix = (nulls && val[key] === null) ? " | null" : "";
+                        body += `    ${key}${suffix}: ${subType}${nullSuffix};\n`;
+                    }
+                    
+                    body += "}";
+                    interfaces.set(interfaceName, body);
+                    return interfaceName;
+                }
+                
+                return "any";
+            }
+
+            walk(obj, rootName);
+            return Array.from(interfaces.values()).reverse().join("\n\n");
+        }
+
+        function copyAll() {
+            const text = tsOutput.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('button[onclick="copyAll()"]');
+                const oldText = btn.innerHTML;
+                btn.innerHTML = "✓ Copied";
+                setTimeout(() => btn.innerHTML = oldText, 2000);
+            });
+        }
+
+        function openLegacyConverter() {
+            window.open("https://json-to-ts-converter.pages.dev/", "_blank");
+        }
+
+        // Initialize
+        loadPreset('User');
+    </script>
+
+<!-- BLOG LIST SECTION -->
+<section id="blog-section" style="max-width:900px; margin:40px auto; padding:40px 24px; border-top:1px solid rgba(255,255,255,0.1);">
+    <h2 style="font-size:2rem; margin-bottom:1rem; color:#fff;">Engineering Insights & Privacy</h2>
+    <div id="lp-blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;"></div>
+</section>
+
+
+<!-- BLOG VIEW -->
+<div id="blog-view" style="display: none; background-color: #000; min-height: 100vh; padding-top: 80px; color: #fff; font-family: sans-serif;">
+    <nav style="position:fixed; top:0; width:100%; z-index:50; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div style="max-width:800px; margin:0 auto; padding:0 24px; height:70px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:20px; font-weight:bold; cursor:pointer;" onclick="hideBlog()">← Back</div>
+        </div>
+    </nav>
+    <div style="max-width:800px; margin:0 auto; padding:40px 24px;" id="blog-content"></div>
+</div>
+
+
+<script>
+function showBlog(id) {
+    const post = window.blogPosts.find(p => p.id === id);
+    if (!post) return;
+    
+    // Hide all main body children except blog-view and scripts
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+            child.dataset.oldDisplay = child.style.display;
+            child.style.display = 'none';
+        }
+    });
+    
+    document.getElementById('blog-view').style.display = 'block';
+    
+    const content = `
+        <div style="color:#f97316; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px;">${post.category}</div>
+        <h1 style="font-size:3rem; font-weight:bold; margin-bottom:24px; line-height:1.2;">${post.title}</h1>
+        <div style="color:#a1a1aa; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+            By ${post.author} • ${post.date}
+        </div>
+        <div style="font-size:1.1rem; line-height:1.8; color:#d4d4d8;">
+            ${post.content}
+        </div>
+    `;
+    document.getElementById('blog-content').innerHTML = content;
+    window.scrollTo(0, 0);
+    if (history.state?.id !== id) history.pushState({view: 'blog', id}, '', '#blog=' + id);
+}
+
+function hideBlog() {
+    document.getElementById('blog-view').style.display = 'none';
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.dataset.oldDisplay !== undefined) {
+            child.style.display = child.dataset.oldDisplay;
+        }
+    });
+    window.scrollTo(0, 0);
+    if (history.state?.view === 'blog') history.pushState({view: 'main'}, '', window.location.pathname);
+}
+
+window.addEventListener('popstate', (e) => {
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    } else {
+        hideBlog();
+    }
+});
+
+function initBlog() {
+    const grid = document.getElementById('lp-blog-grid');
+    if (grid && window.blogPosts) {
+        grid.innerHTML = window.blogPosts.map(post => `
+            <div onclick="showBlog('${post.id}')" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px; cursor:pointer; transition:all 0.2s;">
+                <div style="color:#f97316; font-size:10px; font-weight:bold; text-transform:uppercase; margin-bottom:12px;">${post.category}</div>
+                <h3 style="color:#fff; font-size:1.2rem; font-weight:bold; margin-bottom:12px;">${post.title}</h3>
+                <p style="color:#a1a1aa; font-size:14px; line-height:1.5;">${post.excerpt}</p>
+            </div>
+        `).join('');
+    }
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    }
+}
+document.addEventListener('DOMContentLoaded', initBlog);
+// If already loaded
+if (document.readyState === 'interactive' || document.readyState === 'complete') initBlog();
+</script>
+
+</body>
+</html>

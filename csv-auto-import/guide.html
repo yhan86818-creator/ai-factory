@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Detect Hidden Subscriptions from Bank CSV Statements | CSV Auto Import Guide</title>
+    <meta name="description" content="Step-by-step guide to finding forgotten subscriptions in your bank statement. Learn how CSV Auto Import scans 200+ patterns locally to detect Netflix, Spotify, Adobe and more — without uploading your data.">
+    <meta name="keywords" content="find subscriptions in bank statement, csv subscription detector, bank statement analysis, recurring charges finder, subscription audit guide">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#05080f; --bg2:#0c1120; --border:rgba(255,255,255,0.07); --accent:#818cf8; --primary:#6366f1; --text:#e2e8f0; --muted:#64748b; --mono:'JetBrains Mono',monospace; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.7; }
+        nav { background:rgba(5,8,15,0.95); border-bottom:1px solid var(--border); padding:0 2rem; height:56px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; backdrop-filter:blur(12px); }
+        nav a { color:var(--muted); text-decoration:none; font-size:0.85rem; font-weight:600; transition:color 0.2s; }
+        nav a:hover { color:var(--text); }
+        .nav-cta { background:var(--primary); color:#fff !important; padding:0.4rem 1rem; border-radius:8px; font-weight:700; font-size:0.8rem; }
+        .hero { max-width:860px; margin:5rem auto 4rem; padding:0 2rem; }
+        .tag { display:inline-block; background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.3); color:var(--accent); font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:0.35rem 0.9rem; border-radius:20px; margin-bottom:1.5rem; }
+        h1 { font-size:clamp(2rem,5vw,3.2rem); font-weight:900; letter-spacing:-0.03em; line-height:1.1; color:#fff; margin-bottom:1.5rem; }
+        h1 span { color:var(--accent); }
+        .meta { color:var(--muted); font-size:0.85rem; font-family:var(--mono); margin-bottom:2rem; }
+        .intro { font-size:1.05rem; color:#a5b4fc; line-height:1.85; }
+        article { max-width:860px; margin:0 auto; padding:0 2rem 8rem; }
+        h2 { font-size:1.6rem; font-weight:800; color:#fff; margin:3.5rem 0 1rem; letter-spacing:-0.02em; }
+        h3 { font-size:1.05rem; font-weight:700; color:var(--text); margin:2rem 0 0.6rem; }
+        p { color:#a5b4fc; margin-bottom:1.2rem; font-size:0.97rem; }
+        strong { color:#fff; }
+        ul { color:#a5b4fc; padding-left:1.5rem; margin-bottom:1.5rem; display:grid; gap:0.5rem; font-size:0.95rem; }
+        li strong { color:#fff; }
+        code { font-family:var(--mono); font-size:0.85em; background:rgba(99,102,241,0.08); padding:0.15em 0.4em; border-radius:4px; color:var(--accent); }
+        pre { background:#010409; border:1px solid var(--border); border-radius:12px; padding:1.5rem; overflow-x:auto; font-family:var(--mono); font-size:0.85rem; line-height:1.8; color:#bae6fd; margin:1.5rem 0; }
+        .steps { display:grid; gap:1rem; margin:2rem 0; }
+        .step { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:1.5rem; display:flex; gap:1.25rem; }
+        .step-num { font-family:var(--mono); font-weight:900; color:var(--primary); font-size:1.4rem; line-height:1; flex-shrink:0; }
+        .step h3 { margin:0 0 0.4rem; font-size:0.95rem; color:#fff; }
+        .step p { margin:0; font-size:0.88rem; }
+        .callout { background:rgba(99,102,241,0.05); border:1px solid rgba(99,102,241,0.18); border-left:3px solid var(--primary); border-radius:0 12px 12px 0; padding:1.25rem 1.5rem; margin:2rem 0; }
+        .callout strong { color:var(--accent); display:block; margin-bottom:0.4rem; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.12em; }
+        .faq { border:1px solid var(--border); border-radius:18px; overflow:hidden; margin-top:2rem; }
+        .faq-item { padding:1.5rem 2rem; border-bottom:1px solid var(--border); }
+        .faq-item:last-child { border-bottom:none; }
+        .faq-item h4 { color:#fff; font-weight:700; margin-bottom:0.5rem; }
+        .faq-item p { margin:0; font-size:0.9rem; }
+        .cta { background:rgba(99,102,241,0.05); border:1px solid rgba(99,102,241,0.2); border-radius:22px; padding:3rem; text-align:center; margin:4rem 0 0; }
+        .cta h2 { margin:0 0 1rem; font-size:1.8rem; }
+        .cta p { margin-bottom:2rem; }
+        .btn { display:inline-flex; align-items:center; gap:0.5rem; background:var(--primary); color:#fff; padding:0.9rem 2rem; border-radius:12px; font-weight:700; text-decoration:none; transition:opacity 0.2s; }
+        .btn:hover { opacity:0.85; }
+    </style>
+</head>
+<body>
+<nav>
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+        <a href="/">← CSV Auto Import</a>
+        <a href="https://incinerator-c3z.pages.dev" style="color:#374151">Incinerator</a>
+    </div>
+    <a href="/" class="nav-cta">Open Tool →</a>
+</nav>
+
+<div class="hero">
+    <div class="tag">📂 CSV Auto Import — Usage Guide</div>
+    <h1>How to Find <span>Hidden Subscriptions</span> in Your Bank Statement</h1>
+    <p class="meta">8 min read · Privacy Finance · Browser Tools · No-Cloud Analysis</p>
+    <p class="intro">Most people are overpaying for subscriptions they've forgotten about. This guide shows you exactly how to export your bank CSV, detect every recurring charge using our local keyword engine, and export findings to Incinerator for a full audit.</p>
+</div>
+
+<article>
+<h2>Why "Vampire" Subscriptions Are Hard to Spot</h2>
+<p>Subscription services are engineered to stay invisible. They charge small amounts, use obscure billing descriptors (ever seen <code>APNITMN*SERVICES</code> on your statement?), and time renewals to your paycheck so they blend in with normal spending. The average person has <strong>3-5 subscriptions they've completely forgotten about.</strong></p>
+<p>Traditional budgeting apps require Open Banking access — handing a third party your bank credentials 24/7. CSV Auto Import offers the same detection power with zero data exposure.</p>
+
+<h2>Step-by-Step: Export and Analyze Your Bank Statement</h2>
+<div class="steps">
+    <div class="step"><div class="step-num">01</div><div><h3>Export a CSV from your bank</h3><p>Log into online banking → Statements → Download / Export → Select CSV format. Chase, Revolut, Wise, MUFG, Shinsei, Rakuten Card — all support this. Choose a 3-month window to catch quarterly charges.</p></div></div>
+    <div class="step"><div class="step-num">02</div><div><h3>Drop the file into the upload zone</h3><p>Drag and drop your CSV onto the tool, or click "Browse Files." The file is parsed locally by PapaParse — no network request is made. Your banking data stays in your browser's RAM.</p></div></div>
+    <div class="step"><div class="step-num">03</div><div><h3>Review the detected matches</h3><p>The tool flags every row containing a subscription keyword. Check each match — you may find services you forgot existed. Uncheck false positives (like "RENEWAL" appearing in a non-subscription transaction).</p></div></div>
+    <div class="step"><div class="step-num">04</div><div><h3>Export to Incinerator</h3><p>Click "Bulk Add to Incinerator" to send your confirmed subscriptions to the Incinerator audit suite for ongoing tracking and cancellation planning.</p></div></div>
+</div>
+
+<div class="callout">
+    <strong>🔒 Zero-Upload Verified</strong>
+    Open DevTools → Network tab, then upload your CSV. You'll see zero outbound requests containing your financial data. The detection engine runs 100% client-side.
+</div>
+
+<h2>How the Keyword Detection Works</h2>
+<p>The tool matches each CSV row against a curated database of 200+ global patterns:</p>
+<ul>
+    <li><strong>Branded names:</strong> Netflix, Spotify, Adobe, AWS, OpenAI, Midjourney, Notion, Figma, Canva, GitHub</li>
+    <li><strong>Generic patterns:</strong> "Subscription," "Membership," "Recurring," "Premium," "Renewal," "Annual"</li>
+    <li><strong>Japanese banks:</strong> 三菱UFJ, 三井住友, みずほ, 楽天カード, Revolut</li>
+</ul>
+<p>The detection is case-insensitive and works regardless of column order in your CSV.</p>
+
+<pre>// Detection logic (simplified):
+const row = "2024-03-15, SPOTIFY PREMIUM, -14.99, USD"
+const match = KEYWORDS.some(k => row.toUpperCase().includes(k))
+// → true (matches "SPOTIFY")
+</pre>
+
+<h2>Tips for Better Detection</h2>
+<ul>
+    <li><strong>Use a 3-month window</strong> to catch quarterly subscriptions that won't appear in a single month.</li>
+    <li><strong>Check the "Unknown Date" rows</strong> — these are matches where date parsing failed, but the subscription keyword was still detected.</li>
+    <li><strong>Review small amounts</strong> (under $5) — trial conversions often start at minimal prices before escalating.</li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<div class="faq">
+    <div class="faq-item"><h4>Is my bank CSV data safe?</h4><p>Yes. PapaParse reads the file in your browser's RAM. No server upload occurs. Refreshing the page clears everything — nothing is persisted.</p></div>
+    <div class="faq-item"><h4>Which bank formats are supported?</h4><p>Any standard CSV. The smart-detection algorithm handles varying column orders automatically — Date, Amount, and Description can be in any position.</p></div>
+    <div class="faq-item"><h4>What if my subscription uses an obscure billing name?</h4><p>The generic patterns ("Subscription," "Membership," "Recurring") catch most non-branded charges. For anything unusual, scan the "Potential Match" list for unfamiliar recurring amounts.</p></div>
+    <div class="faq-item"><h4>Can I detect annual or quarterly charges?</h4><p>Yes — upload a 12-month statement to catch annual renewals. The keyword match doesn't depend on charge frequency.</p></div>
+</div>
+
+<div class="cta">
+    <h2>Find Your Hidden Subscriptions Now</h2>
+    <p style="color:#a5b4fc;margin-bottom:2rem;">Drop your bank CSV and get a full subscription audit in under 30 seconds.</p>
+    <a href="/" class="btn">Open CSV Auto Import →</a>
+</div>
+</article>
+</body>
+</html>

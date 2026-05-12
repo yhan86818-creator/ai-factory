@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="dyitLt80YqDWnYz6__XIEwhrunV4U1-KU8ODTGzuK_s" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagination Response — Infinite Scroll & Paging Type Generator</title>
+    <meta name="description" content="Generate optimized TypeScript definitions for Offset, Cursor, and Page-based pagination. Support for GitHub, Stripe, and Notion API patterns.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="blogPosts.js"></script>
+</head>
+<body>
+    <div style="background: rgba(56,189,248,0.07); border-bottom: 1px solid rgba(56,189,248,0.25); padding: 0.75rem 2rem; text-align: center;">
+        <a href="https://json-to-ts-converter.pages.dev/" style="color: #bae6fd; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; font-weight: 600;">
+            <span style="background: var(--accent-blue); color: #000; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">⚡ Related Tool</span>
+            Want to convert raw JSON into TypeScript types instantly?
+            <span style="color: var(--accent-blue); font-weight: 800; display: inline-flex; align-items: center; gap: 0.3rem;">
+                Try JSON to TS Converter
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+        </a>
+    </div>
+
+    <header>
+        <div class="badge-pagination">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"></path></svg>
+            Data Flow Optimization
+        </div>
+        <h1>Pagination Response</h1>
+        <p class="subtitle">Architect-grade paging types for lists, tables, and infinite scrolling feeds.</p>
+        <a href="/guide.html" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.75rem;color:#7dd3fc;font-size:0.82rem;font-weight:600;text-decoration:none;border:1px solid rgba(56,189,248,0.3);padding:0.35rem 0.9rem;border-radius:20px;background:rgba(56,189,248,0.07);">⚡ Read Pagination Strategy Guide →</a>
+    </header>
+
+    <main>
+        <aside class="config-panel">
+            <div class="section-title">Paging Strategy</div>
+            <div class="type-selector">
+                <button class="type-btn active" data-type="offset">Offset / Limit</button>
+                <button class="type-btn" data-type="cursor">Cursor Based</button>
+                <button class="type-btn" data-type="page">Page / Size</button>
+                <button class="type-btn" data-type="infinite">Infinite Scroll</button>
+            </div>
+
+            <div class="section-title">Common Presets</div>
+            <div class="input-group">
+                <select id="preset-select">
+                    <option value="custom">Custom Configuration</option>
+                    <option value="github">GitHub API (Link Header)</option>
+                    <option value="stripe">Stripe (Has More)</option>
+                    <option value="notion">Notion (Next Cursor)</option>
+                </select>
+            </div>
+
+            <div class="section-title">Data Entity</div>
+            <div class="input-group">
+                <label>Generic Type Name</label>
+                <input type="text" id="entity-name" value="T" placeholder="e.g. User, Product">
+            </div>
+
+            <div class="section-title">Interface Name</div>
+            <div class="input-group">
+                <label>Response Wrapper</label>
+                <input type="text" id="wrapper-name" value="PaginatedResponse">
+            </div>
+        </aside>
+
+        <section class="output-container">
+            <div class="code-card">
+                <div class="card-header">
+                    <h3>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        TypeScript Interface
+                    </h3>
+                    <button class="btn-copy" id="btn-copy-ts">Copy</button>
+                </div>
+                <div class="code-area" id="output-ts"></div>
+            </div>
+
+            <div class="code-card">
+                <div class="card-header">
+                    <h3>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Mock Response Example
+                    </h3>
+                    <button class="btn-copy" id="btn-copy-json">Copy</button>
+                </div>
+                <div class="code-area" id="output-json"></div>
+            </div>
+        </section>
+    </main>
+
+    <article style="max-width: 1000px; margin: 4rem auto; padding: 4rem 2rem; border-top: 1px solid var(--border);">
+        <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 3rem; text-align: center; background: linear-gradient(to right, #fff, var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Mastering API Pagination Strategies</h2>
+        
+        <div style="display: grid; gap: 4rem;">
+            <section>
+                <h3 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.25rem;">1. Offset vs. Cursor Pagination</h3>
+                <p style="color: var(--text-dim); line-height: 1.8; margin-bottom: 1.5rem;">
+                    <strong>Offset pagination</strong> is simple to implement but suffers from performance degradation as the offset increases. It's best for small datasets where "Total Page" counts are required.
+                </p>
+                <p style="color: var(--text-dim); line-height: 1.8;">
+                    <strong>Cursor pagination</strong> (Keyset pagination) is the gold standard for infinite scrolling and large datasets. By using a pointer to a specific record (the cursor), it ensures stable performance regardless of the data size and prevents duplicate items when data is added/removed between requests.
+                </p>
+            </section>
+
+            <section>
+                <h3 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.25rem;">2. Infinite Scrolling with React Query</h3>
+                <p style="color: var(--text-dim); line-height: 1.8; margin-bottom: 1.5rem;">
+                    To implement infinite scrolling using <code>useInfiniteQuery</code>, you need a response structure that includes a <code>nextCursor</code> or <code>nextPage</code> indicator. Our "Infinite Scroll" strategy generates exactly the shape required for modern data fetching libraries.
+                </p>
+                <div style="background: rgba(56, 189, 248, 0.05); border: 1px dashed var(--accent-blue); padding: 1.5rem; border-radius: 1rem; font-size: 0.85rem; color: var(--accent-blue);">
+                    <strong>Tip:</strong> Always include <code>hasMore: boolean</code> in your response to easily determine if the UI should show a "Load More" button or an observer target.
+                </div>
+            </section>
+
+            <section>
+                <h3 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.25rem;">3. Why Standardize Your Response?</h3>
+                <ul style="color: var(--text-dim); line-height: 1.8; padding-left: 1.5rem; display: grid; gap: 1rem;">
+                    <li><strong>Predictability</strong>: Frontend components can rely on a consistent key naming convention across all paginated endpoints.</li>
+                    <li><strong>Type Safety</strong>: Using generic types like <code>PaginatedResponse&lt;T&gt;</code> ensures your item data is always correctly typed.</li>
+                    <li><strong>DX (Developer Experience)</strong>: New developers can understand your API's paging logic instantly through standardized metadata fields.</li>
+                </ul>
+            </section>
+        </div>
+    </article>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script src="app.js"></script>
+
+<!-- BLOG LIST SECTION -->
+<section id="blog-section" style="max-width:900px; margin:40px auto; padding:40px 24px; border-top:1px solid rgba(255,255,255,0.1);">
+    <h2 style="font-size:2rem; margin-bottom:1rem; color:#fff;">Engineering Insights & Privacy</h2>
+    <div id="lp-blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;"></div>
+</section>
+
+
+<!-- BLOG VIEW -->
+<div id="blog-view" style="display: none; background-color: #000; min-height: 100vh; padding-top: 80px; color: #fff; font-family: sans-serif;">
+    <nav style="position:fixed; top:0; width:100%; z-index:50; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div style="max-width:800px; margin:0 auto; padding:0 24px; height:70px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:20px; font-weight:bold; cursor:pointer;" onclick="hideBlog()">← Back</div>
+        </div>
+    </nav>
+    <div style="max-width:800px; margin:0 auto; padding:40px 24px;" id="blog-content"></div>
+</div>
+
+
+<script>
+function showBlog(id) {
+    const post = window.blogPosts.find(p => p.id === id);
+    if (!post) return;
+    
+    // Hide all main body children except blog-view and scripts
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+            child.dataset.oldDisplay = child.style.display;
+            child.style.display = 'none';
+        }
+    });
+    
+    document.getElementById('blog-view').style.display = 'block';
+    
+    const content = `
+        <div style="color:#f97316; font-weight:bold; font-size:12px; text-transform:uppercase; margin-bottom:16px;">${post.category}</div>
+        <h1 style="font-size:3rem; font-weight:bold; margin-bottom:24px; line-height:1.2;">${post.title}</h1>
+        <div style="color:#a1a1aa; font-size:14px; margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1);">
+            By ${post.author} • ${post.date}
+        </div>
+        <div style="font-size:1.1rem; line-height:1.8; color:#d4d4d8;">
+            ${post.content}
+        </div>
+    `;
+    document.getElementById('blog-content').innerHTML = content;
+    window.scrollTo(0, 0);
+    if (history.state?.id !== id) history.pushState({view: 'blog', id}, '', '#blog=' + id);
+}
+
+function hideBlog() {
+    document.getElementById('blog-view').style.display = 'none';
+    Array.from(document.body.children).forEach(child => {
+        if (child.id !== 'blog-view' && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.dataset.oldDisplay !== undefined) {
+            child.style.display = child.dataset.oldDisplay;
+        }
+    });
+    window.scrollTo(0, 0);
+    if (history.state?.view === 'blog') history.pushState({view: 'main'}, '', window.location.pathname);
+}
+
+window.addEventListener('popstate', (e) => {
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    } else {
+        hideBlog();
+    }
+});
+
+function initBlog() {
+    const grid = document.getElementById('lp-blog-grid');
+    if (grid && window.blogPosts) {
+        grid.innerHTML = window.blogPosts.map(post => `
+            <div onclick="showBlog('${post.id}')" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px; cursor:pointer; transition:all 0.2s;">
+                <div style="color:#f97316; font-size:10px; font-weight:bold; text-transform:uppercase; margin-bottom:12px;">${post.category}</div>
+                <h3 style="color:#fff; font-size:1.2rem; font-weight:bold; margin-bottom:12px;">${post.title}</h3>
+                <p style="color:#a1a1aa; font-size:14px; line-height:1.5;">${post.excerpt}</p>
+            </div>
+        `).join('');
+    }
+    if (window.location.hash.startsWith('#blog=')) {
+        showBlog(window.location.hash.replace('#blog=', ''));
+    }
+}
+document.addEventListener('DOMContentLoaded', initBlog);
+// If already loaded
+if (document.readyState === 'interactive' || document.readyState === 'complete') initBlog();
+</script>
+
+</body>
+</html>

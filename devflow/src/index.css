@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+  --color-primary: #6366f1;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #27272a;
+  --color-secondary-foreground: #fafafa;
+  --color-accent: #f43f5e;
+  --color-accent-foreground: #ffffff;
+  --color-card: #111113;
+  --color-card-foreground: #fafafa;
+  --color-border: #27272a;
+  --color-muted-foreground: #a1a1aa;
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  --animate-fade-in: fadeIn 0.3s ease-out;
+  --animate-slide-up: slideUp 0.4s ease-out;
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes slideUp {
+    0% { transform: translateY(10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+}
+
+/* Theme Overrides */
+.theme-midnight {
+  --color-background: #000000;
+  --color-card: #0a0a0a;
+  --color-primary: #8b5cf6;
+  --color-accent: #d946ef;
+}
+
+.theme-slate {
+  --color-background: #0f172a;
+  --color-card: #1e293b;
+  --color-primary: #38bdf8;
+  --color-accent: #2dd4bf;
+}
+
+.theme-forest {
+  --color-background: #061006;
+  --color-card: #0d1e0d;
+  --color-primary: #22c55e;
+  --color-accent: #eab308;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full hover:bg-muted-foreground/50 transition-colors;
+}
+
+/* Glassmorphism utility */
+.glass {
+  @apply bg-card/60 backdrop-blur-xl border border-white/5;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold tracking-tight;
+}
+
+/* Form Styles */
+input, textarea, select {
+  @apply bg-secondary border border-border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all;
+}
+
+button {
+  @apply cursor-pointer transition-all active:scale-95;
+}
+
+.btn-primary {
+  @apply bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 shadow-lg shadow-primary/20;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-secondary-foreground px-4 py-2 rounded-lg font-medium hover:bg-secondary/80 border border-border;
+}
+
+.btn-ghost {
+  @apply hover:bg-secondary/50 text-muted-foreground hover:text-foreground px-4 py-2 rounded-lg transition-colors;
+}
+
+/* Code Highlighting overrides */
+pre code {
+  @apply rounded-xl !bg-[#0d1117] !p-6 block overflow-x-auto;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

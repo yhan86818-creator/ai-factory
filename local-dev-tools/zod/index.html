@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zod Schema Generator | JSON to TypeScript & Zod</title>
+    <meta name="description" content="Generate Zod schemas and TypeScript types from JSON instantly. Premium tool for type-safe developers.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <header>
+        <h1>Zod Schema Generator</h1>
+        <p>Transform raw JSON into robust, type-safe Zod schemas and TypeScript interfaces.</p>
+    </header>
+
+    <main>
+        <div class="card">
+            <div class="card-header">
+                <h2>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Input JSON
+                </h2>
+                <button class="btn btn-ghost" id="btn-load-sample">Load Sample</button>
+            </div>
+            <div class="card-body">
+                <textarea id="json-input" placeholder="Paste your JSON here..." spellcheck="false"></textarea>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="tabs">
+                    <div class="tab active" data-tab="zod">Zod Schema</div>
+                    <div class="tab" data-tab="ts">TypeScript</div>
+                    <div class="tab" data-tab="usage">Usage Sample</div>
+                </div>
+                <button class="btn btn-primary" id="btn-copy">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="controls">
+                    <div class="setting-group">
+                        <label class="switch">
+                            <input type="checkbox" id="check-strict">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Strict Mode</span>
+                    </div>
+                    <div class="setting-group">
+                        <label class="switch">
+                            <input type="checkbox" id="check-optional" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span>Infer Optional</span>
+                    </div>
+                    <div class="setting-group">
+                        <label class="switch">
+                            <input type="checkbox" id="check-passthrough">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Passthrough</span>
+                    </div>
+                </div>
+                <div id="output-zod" class="code-display active"></div>
+                <div id="output-ts" class="code-display" style="display:none;"></div>
+                <div id="output-usage" class="code-display" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+
+    <section style="max-width: 1200px; margin: 0 auto; padding: 0 1rem 4rem;">
+        <div class="card">
+            <div class="card-header">
+                <h2>Validation Preview</h2>
+            </div>
+            <div class="card-body" style="padding: 1rem;">
+                <div id="validation-status" style="margin-bottom: 1rem; padding: 1rem; border-radius: 0.5rem; background: rgba(0,0,0,0.2); font-family: monospace;">
+                    Waiting for input...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Zod Schema Generator. 100% Client-side & Private.</p>
+    </footer>
+
+    <div id="toast" class="copy-toast">Copied to clipboard!</div>
+
+    <script src="https://unpkg.com/zod/lib/index.umd.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,712 +1,2662 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F9DN1552YJ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG to Component — Optimized React, Vue & React Native Converter</title>
+<meta name="description" content="Free, 100% private SVG to React/Vue/RN converter. Clean SVGs with SVGO and generate production-ready TypeScript components instantly. No server uploads, zero tracking.">
+<meta name="keywords" content="SVG to React component, SVG to Vue component, SVG to React Native, online SVG optimizer, svg to jsx, svg to tsx, svg to vue sfc, svg converter free, react icon component, currentColor svg, svgr alternative, svg to component online">
+<meta name="twitter:card" content="summary_large_image">
 
-      gtag('config', 'G-F9DN1552YJ');
-    </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZTJQ2YJ2L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SVG to Component — Optimized React & Vue Icons</title>
-    <meta name="description" content="Convert SVG to optimized React or Vue components instantly. Clean attributes, standardize styling, and reduce file size with our secure, local-only tool.">
-    <meta name="keywords" content="svg to react, svg to vue, icon component generator, svg optimizer, react icon component, vue icon component">
+  gtag('config', 'G-1ZTJQ2YJ2L');
+</script>
 
-    
-    <!-- Scripts -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        body { 
-            font-family: 'JetBrains Mono', monospace;
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 2px; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body class="bg-neutral-950 text-neutral-200">
+<style>
+/* ── DESIGN TOKENS ─────────────────────────────────────────── */
+:root {
+  --font-ui: 'Outfit', system-ui, sans-serif;
+  --font-code: 'IBM Plex Mono', 'Cascadia Code', monospace;
 
-    <div class="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 relative">
-        <!-- Minimal grid background -->
-        <div class="fixed inset-0 opacity-[0.02] pointer-events-none" style="background-image: linear-gradient(0deg, transparent 24%, rgba(255,255,255,.1) 25%, rgba(255,255,255,.1) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.1) 75%, rgba(255,255,255,.1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255,255,255,.1) 25%, rgba(255,255,255,.1) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.1) 75%, rgba(255,255,255,.1) 76%, transparent 77%, transparent); background-size: 50px 50px;"></div>
+  /* Accent: electric indigo */
+  --accent: #6366f1;
+  --accent-bright: #818cf8;
+  --accent-dim: rgba(99,102,241,0.12);
+  --accent-border: rgba(99,102,241,0.3);
+  --accent-glow: 0 0 20px rgba(99,102,241,0.25);
 
-        <div class="relative z-10">
-            <!-- Header -->
-            <header class="border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-xl sticky top-0 z-20">
-                <div class="max-w-7xl mx-auto px-6 py-6">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <div class="flex items-center gap-3 mb-2">
-                                <div class="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-sm flex items-center justify-center">
-                                    <i data-lucide="code-2" class="w-5 h-5 text-neutral-950 font-bold"></i>
-                                </div>
-                                <h1 class="text-3xl font-bold text-neutral-50 tracking-tight">SVG to Component</h1>
-                            </div>
-                            <p class="text-neutral-500 text-sm">Convert SVG to optimized React/Vue components instantly</p>
-                        </div>
-                        <button onclick="toggleDocs()" class="flex items-center gap-2 px-4 py-2 rounded-md border border-neutral-700 hover:border-neutral-600 hover:bg-neutral-900 text-neutral-300 transition-colors text-sm">
-                            <i data-lucide="book-open" class="w-4 h-4"></i>
-                            Docs
-                        </button>
-                    </div>
-                </div>
-            </header>
+  /* Secondary: emerald */
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,0.1);
+  --green-border: rgba(52,211,153,0.25);
 
-            <!-- Main Content -->
-            <main class="max-w-7xl mx-auto px-6 py-10">
-                <!-- Controls -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-                    <div>
-                        <label class="block text-xs font-semibold text-neutral-400 mb-2 uppercase tracking-wider">Framework</label>
-                        <select id="framework-select" onchange="updateFramework(this.value)" class="w-full px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-neutral-100 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30">
-                            <option value="react">React (JSX)</option>
-                            <option value="vue">Vue 3 (SFC)</option>
-                        </select>
-                    </div>
+  /* Danger */
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.1);
 
-                    <div>
-                        <label class="block text-xs font-semibold text-neutral-400 mb-2 uppercase tracking-wider">Component Name</label>
-                        <input type="text" id="component-name" value="Icon" oninput="updateComponentName(this.value)" placeholder="IconName" class="w-full px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-neutral-100 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30">
-                    </div>
+  /* Warn */
+  --amber: #fbbf24;
+  --amber-dim: rgba(251,191,36,0.1);
 
-                    <div class="flex items-end gap-3">
-                        <label class="flex-1 flex items-center gap-2 cursor-pointer px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 hover:border-neutral-600 transition-colors">
-                            <input type="checkbox" id="typescript-check" checked onchange="updateTS(this.checked)" class="w-4 h-4 rounded">
-                            <span class="text-xs font-semibold text-neutral-300">TypeScript</span>
-                        </label>
-                        <button onclick="document.getElementById('file-input').click()" class="flex-1 px-3 py-2 rounded-md bg-amber-600 hover:bg-amber-700 text-neutral-50 text-sm font-semibold transition-colors">Upload SVG</button>
-                        <input type="file" accept=".svg" id="file-input" class="hidden" onchange="handleFile(this.files[0])">
-                    </div>
-                </div>
+  /* Pro */
+  --pro: #a78bfa;
+  --pro-dim: rgba(167,139,250,0.1);
+  --pro-border: rgba(167,139,250,0.25);
 
-                <!-- Editor & Preview Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-                    <!-- SVG Input -->
-                    <div class="flex flex-col">
-                        <div class="mb-3 flex items-center justify-between">
-                            <h2 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider">SVG Input</h2>
-                            <span class="text-xs text-neutral-500">Paste or drag-drop</span>
-                        </div>
-                        <textarea id="svg-input" oninput="handleInput(this.value)" placeholder='<svg viewBox="0 0 24 24">
-  <!-- Your SVG content here -->
-</svg>' class="flex-1 h-64 px-4 py-3 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-100 text-xs focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 resize-none font-mono"></textarea>
-                        <div id="stats-container" class="hidden mt-3 p-3 rounded-md bg-neutral-800/50 border border-neutral-700 text-xs text-neutral-400">
-                            <div class="flex justify-between items-center">
-                                <span id="stat-original">Original: 0 KB</span>
-                                <span id="stat-optimized" class="text-green-500">Optimized: 0 KB</span>
-                                <span id="stat-reduction" class="text-amber-500 font-semibold">0% smaller</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Code Output -->
-                    <div class="flex flex-col">
-                        <div class="mb-3 flex items-center justify-between">
-                            <h2 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider">Generated Code</h2>
-                            <div class="flex gap-2">
-                                <button onclick="copyCode()" id="copy-btn" class="flex items-center gap-1 px-3 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-semibold transition-colors">
-                                    <i data-lucide="copy" class="w-3 h-3"></i>
-                                    <span>Copy</span>
-                                </button>
-                                <button onclick="downloadCode()" id="download-btn" disabled class="flex items-center gap-1 px-3 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 disabled:opacity-50 text-neutral-300 text-xs font-semibold transition-colors">
-                                    <i data-lucide="download" class="w-3 h-3"></i>
-                                    Download
-                                </button>
-                            </div>
-                        </div>
-                        <pre id="code-output" class="flex-1 h-64 px-4 py-3 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-100 text-xs overflow-auto font-mono">// Paste SVG to generate component code</pre>
-                    </div>
-                </div>
-
-                <!-- SVG Preview -->
-                <div id="preview-container" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10 fade-in">
-                    <div>
-                        <h2 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider mb-3">SVG Preview</h2>
-                        <div id="svg-preview" class="h-64 rounded-md bg-neutral-900 border border-neutral-800 p-8 flex items-center justify-center overflow-auto"></div>
-                    </div>
-
-                    <div>
-                        <h2 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider mb-3">Component Test</h2>
-                        <div class="h-64 rounded-md bg-neutral-900 border border-neutral-800 p-8 flex flex-col items-center justify-center gap-8">
-                            <div class="space-y-4 w-full text-center">
-                                <div>
-                                    <p class="text-xs text-neutral-500 mb-3">Default (24px)</p>
-                                    <div id="preview-default" class="flex justify-center text-neutral-50"></div>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-neutral-500 mb-3">Large (48px)</p>
-                                    <div id="preview-large" class="flex justify-center text-amber-500"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Docs Section -->
-                <div id="docs-section" class="hidden mt-16 bg-neutral-900/50 backdrop-blur border border-neutral-800 rounded-lg p-12 animate-fade-in">
-                    <article class="prose prose-invert max-w-none">
-                        <h2 class="text-4xl font-bold text-neutral-50 mb-8">Best Practices for SVG Icons in React</h2>
-
-                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-8 mb-8 not-prose">
-                            <p class="text-neutral-300 text-lg">
-                                SVG icons are the modern standard for responsive, scalable UI elements. Learn how to convert, optimize, and integrate them into your React applications for optimal performance.
-                            </p>
-                        </div>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">1. Why SVG Over Icon Fonts?</h3>
-                        <p class="text-neutral-400 mb-4">
-                            Icon fonts were the standard a decade ago, but SVG has clear advantages: smaller file sizes, better accessibility, easier to style with CSS, and no FOUT (flash of unstyled text) issues. Modern React projects should use SVG exclusively.
-                        </p>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">File Size Comparison</h4>
-                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
-                            <li><strong>Icon Font:</strong> 50-100 KB (loads entire font for few icons)</li>
-                            <li><strong>Individual SVG:</strong> 1-5 KB per icon</li>
-                            <li><strong>Optimized SVG as JSX:</strong> 0.5-2 KB (inline, no HTTP requests)</li>
-                        </ul>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">2. Optimization Techniques</h3>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Remove Unnecessary Attributes</h4>
-                        <p class="text-neutral-400 mb-4">
-                            Design tools export SVG with presentation attributes you don't need: width, height, fill colors, editor metadata. This converter removes them automatically.
-                        </p>
-
-                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-6 font-mono text-sm not-prose">
-                            <p class="text-neutral-500 mb-2">Before:</p>
-                            <code class="text-neutral-300 block mb-4">
-                                &lt;svg width="24" height="24" viewBox="0 0 24 24" fill="#333" xmlns="..."&gt;
-                            </code>
-                            <p class="text-neutral-500 mb-2">After:</p>
-                            <code class="text-neutral-300">
-                                &lt;svg viewBox="0 0 24 24" fill="currentColor"&gt;
-                            </code>
-                        </div>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Use currentColor for Theming</h4>
-                        <p class="text-neutral-400 mb-4">
-                            By setting fill to "currentColor", SVGs inherit text color from their parent. This enables single-source icons that work with light/dark modes and custom color schemes without duplicates.
-                        </p>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">3. React Component Best Practices</h3>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Prop-Based Configuration</h4>
-                        <p class="text-neutral-400 mb-4">
-                            Icons should accept props for size, color, and className. This pattern is consistent with Lucide, Heroicons, and other modern icon libraries.
-                        </p>
-
-                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-6 font-mono text-sm not-prose">
-                            <code class="text-neutral-300">
-                                export const CheckIcon: React.FC&lt;IconProps&gt; = ({ 
-                                  size = 24, 
-                                  color = 'currentColor' 
-                                }) =&gt; (
-                                  &lt;svg width={size} height={size} viewBox="0 0 24 24"&gt;
-                                    &lt;path d="..." stroke={color} /&gt;
-                                  &lt;/svg&gt;
-                                );
-                            </code>
-                        </div>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Default to currentColor</h4>
-                        <p class="text-neutral-400 mb-6">
-                            This lets the icon inherit color from its parent element, matching text color automatically. Users can override with the color prop when needed.
-                        </p>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">4. Optimizing SVG Assets for Performance</h3>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Inline vs. External</h4>
-                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
-                            <li><strong>Inline (JSX):</strong> Best for design system icons. Zero HTTP requests. Inline bundle optimization.</li>
-                            <li><strong>External (.svg):</strong> Use for large, complex illustrations. Cacheable. Better for multiple pages.</li>
-                            <li><strong>Sprite Sheets:</strong> Legacy approach. Avoid unless supporting very old browsers.</li>
-                        </ul>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Build-Time Optimization</h4>
-                        <p class="text-neutral-400 mb-4">
-                            Use SVGO (SVG Optimizer) in your build pipeline to compress all SVGs automatically. Most designs export with unnecessary metadata that SVGO strips safely.
-                        </p>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Lazy Loading</h4>
-                        <p class="text-neutral-400 mb-6">
-                            For icon libraries with hundreds of icons, use dynamic imports and code-splitting. Load icon components on-demand rather than bundling everything upfront.
-                        </p>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">5. Accessibility Considerations</h3>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">Decorative vs. Semantic Icons</h4>
-                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
-                            <li><strong>Decorative:</strong> Icon next to text. Add aria-hidden="true". Screen readers skip it.</li>
-                            <li><strong>Semantic:</strong> Icon as button or standalone. Add role and aria-label props.</li>
-                        </ul>
-
-                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-6 font-mono text-sm not-prose">
-                            <p class="text-neutral-500 mb-2">Decorative icon:</p>
-                            <code class="text-neutral-300 block mb-4">
-                                &lt;CheckIcon aria-hidden="true" /&gt; Success
-                            </code>
-                            <p class="text-neutral-500 mb-2">Semantic icon button:</p>
-                            <code class="text-neutral-300">
-                                &lt;button aria-label="Delete"&gt;&lt;TrashIcon /&gt;&lt;/button&gt;
-                            </code>
-                        </div>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">6. Common Pitfalls to Avoid</h3>
-
-                        <ul class="list-disc list-inside text-neutral-400 space-y-3 mb-6">
-                            <li><strong>Forgetting viewBox:</strong> Always include viewBox. Width/height are optional but viewBox is mandatory for scaling.</li>
-                            <li><strong>Hardcoded colors:</strong> Avoid fill="#FFF" or stroke="black". Use currentColor or pass as props.</li>
-                            <li><strong>Missing aria-labels:</strong> Icon buttons are invisible to screen readers without proper labels.</li>
-                            <li><strong>Overly complex SVG:</strong> Simplify paths. Use SVGO. Every extra node impacts performance.</li>
-                            <li><strong>No fallbacks:</strong> Provide title tags for important icons. &lt;title&gt;Settings&lt;/title&gt;</li>
-                        </ul>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">7. Design System Integration</h3>
-
-                        <p class="text-neutral-400 mb-4">
-                            Build a centralized icon component library with consistent sizing (16px, 24px, 32px), colors, and props. This ensures consistency across your application and makes icon updates trivial.
-                        </p>
-
-                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-8 font-mono text-sm not-prose">
-                            <code class="text-neutral-300">
-                                // icons/index.ts<br>
-                                export { CheckIcon } from './Check';<br>
-                                export { AlertIcon } from './Alert';<br>
-                                export { SearchIcon } from './Search';<br><br>
-                                // Usage<br>
-                                import { CheckIcon, AlertIcon } from '@/icons';<br><br>
-                                &lt;CheckIcon size={24} color="#10b981" /&gt;
-                            </code>
-                        </div>
-
-                        <div class="bg-neutral-950 border-l-4 border-amber-500 rounded-lg p-6 my-8 not-prose">
-                            <p class="text-neutral-300">
-                                <strong>Pro Tip:</strong> Use TypeScript interfaces for icon props. Enable IntelliSense for developers using your icon library. Type-safe icons = fewer bugs.
-                            </p>
-                        </div>
-                    </article>
-
-                    <article class="mt-16 pt-16 border-t border-neutral-800">
-                        <h2 class="text-4xl font-bold text-neutral-50 mb-8">Optimizing SVG Assets for Performance</h2>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">File Size Matters</h3>
-
-                        <p class="text-neutral-400 mb-6">
-                            Even small icons add up. A design system with 200 icons can be 50-100 KB unoptimized. Every KB affects:
-                        </p>
-
-                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
-                            <li>Bundle size (slower initial load)</li>
-                            <li>Runtime memory usage (slower parsing)</li>
-                            <li>Mobile performance (more data transfer)</li>
-                        </ul>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">Optimization Techniques</h3>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">1. Use SVGO Aggressively</h4>
-                        <p class="text-neutral-400 mb-4">
-                            SVGO (SVG Optimizer) removes metadata, optimizes paths, and collapses groups. It can reduce file size by 50-70% without visual loss.
-                        </p>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">2. Remove Unused Attributes</h4>
-                        <ul class="list-disc list-inside text-neutral-400 space-y-2 mb-6">
-                            <li>editor metadata (sodipodi, illustrator namespaces)</li>
-                            <li>presentation attributes (use CSS instead)</li>
-                            <li>transform attributes (flatten into paths)</li>
-                        </ul>
-
-                        <h4 class="text-xl font-bold text-neutral-200 mt-8 mb-3">3. Minify SVG Content</h4>
-                        <p class="text-neutral-400 mb-6">
-                            Remove whitespace, shorten path data, use single-letter attributes. In JSX, whitespace is removed by the bundler anyway.
-                        </p>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">Performance Metrics</h3>
-
-                        <div class="bg-neutral-950 border border-neutral-800 rounded-lg p-6 mb-8 not-prose">
-                            <table class="w-full text-sm text-neutral-300">
-                                <thead class="border-b border-neutral-700">
-                                    <tr>
-                                        <th class="text-left py-3">Metric</th>
-                                        <th class="text-left py-3">Unoptimized</th>
-                                        <th class="text-left py-3">Optimized</th>
-                                        <th class="text-left py-3">Improvement</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b border-neutral-700">
-                                        <td class="py-3">Single Icon Size</td>
-                                        <td>3.2 KB</td>
-                                        <td>0.8 KB</td>
-                                        <td class="text-green-500">75%</td>
-                                    </tr>
-                                    <tr class="border-b border-neutral-700">
-                                        <td class="py-3">Library (200 icons)</td>
-                                        <td>640 KB</td>
-                                        <td>160 KB</td>
-                                        <td class="text-green-500">75%</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-3">Parse Time (gzip)</td>
-                                        <td>45ms</td>
-                                        <td>12ms</td>
-                                        <td class="text-green-500">73%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <h3 class="text-2xl font-bold text-neutral-100 mt-12 mb-6">Best Tool for the Job</h3>
-
-                        <p class="text-neutral-400 mb-8">
-                            This converter handles the essentials: camelCase conversion, currentColor substitution, and viewBox preservation. For maximum optimization, pipe the output through SVGO afterward.
-                        </p>
-
-                        <div class="bg-amber-900/20 border border-amber-700/50 rounded-lg p-6 not-prose">
-                            <p class="text-neutral-300">
-                                <strong>Workflow:</strong> Export SVG from Figma → Paste in converter → Copy React component → Optionally run SVGO on the SVG content → Commit to repo.
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </main>
-
-            <!-- Pro Modal -->
-            <div id="pro-modal" class="fixed inset-0 bg-neutral-950/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-                <div class="bg-neutral-900 rounded-lg p-10 max-w-md border border-neutral-800 shadow-2xl scale-95 transition-transform duration-200">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-md bg-amber-600 mx-auto mb-6">
-                        <i data-lucide="lock" class="w-6 h-6 text-neutral-50"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-neutral-50 text-center mb-2">Pro Features Coming</h3>
-                    <p class="text-neutral-400 text-center mb-8 text-sm">Unlock advanced workflows for professional developers</p>
-                    <div class="space-y-4 mb-8">
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
-                            <div>
-                                <p class="font-semibold text-neutral-200 text-sm">Bulk Conversion</p>
-                                <p class="text-xs text-neutral-500">Upload multiple SVGs, get Zip with components</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
-                            <div>
-                                <p class="font-semibold text-neutral-200 text-sm">SVGO Configuration</p>
-                                <p class="text-xs text-neutral-500">Fine-tune optimization settings</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
-                            <div>
-                                <p class="font-semibold text-neutral-200 text-sm">Design System Templates</p>
-                                <p class="text-xs text-neutral-500">Predefined patterns for Storybook</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
-                            <div>
-                                <p class="font-semibold text-neutral-200 text-sm">CLI Integration</p>
-                                <p class="text-xs text-neutral-500">Batch convert via command-line</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button onclick="closeProModal()" class="w-full px-4 py-3 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-semibold transition-colors">Close</button>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer class="border-t border-neutral-800 bg-neutral-950 mt-16 py-8">
-                <div class="max-w-7xl mx-auto px-6 text-center text-neutral-500 text-xs">
-                    <p>SVG to Component Converter • 100% Client-Side • No Data Collection</p>
-                    <p class="mt-2">For designers and developers who value speed and simplicity</p>
-                </div>
-            </footer>
-        </div>
-    </div>
-
-    <script>
-        // --- State ---
-        let state = {
-            svgInput: '',
-            framework: 'react',
-            useTypeScript: true,
-            componentName: 'Icon',
-            generatedCode: '',
-            svgPreview: '',
-            showDocs: false
-        };
-
-        // --- Logic ---
-        function optimizeSVG(svgString) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(svgString, 'image/svg+xml');
-            if (doc.documentElement.tagName === 'parsererror') return null;
-
-            const svgElement = doc.documentElement;
-            const keepAttrs = ['viewBox', 'xmlns', 'width', 'height'];
-            Array.from(svgElement.attributes).forEach(attr => {
-                if (!keepAttrs.includes(attr.name) && !attr.name.startsWith('xmlns')) {
-                    svgElement.removeAttribute(attr.name);
-                }
-            });
-
-            const processElement = (el) => {
-                Array.from(el.attributes).forEach(attr => {
-                    const attrName = attr.name;
-                    if (attrName === 'stroke-width') { el.setAttribute('strokeWidth', attr.value); el.removeAttribute('stroke-width'); }
-                    else if (attrName === 'stroke-linecap') { el.setAttribute('strokeLinecap', attr.value); el.removeAttribute('stroke-linecap'); }
-                    else if (attrName === 'stroke-linejoin') { el.setAttribute('strokeLinejoin', attr.value); el.removeAttribute('stroke-linejoin'); }
-                    else if (attrName === 'fill-rule') { el.setAttribute('fillRule', attr.value); el.removeAttribute('fill-rule'); }
-                    else if (attrName === 'clip-path') { el.setAttribute('clipPath', attr.value); el.removeAttribute('clip-path'); }
-                });
-
-                if (el.hasAttribute('fill') && el.getAttribute('fill') !== 'none') {
-                    if (el.getAttribute('fill') !== 'currentColor') el.setAttribute('fill', 'currentColor');
-                }
-                if (el.tagName === 'svg') { el.removeAttribute('width'); el.removeAttribute('height'); }
-                Array.from(el.children).forEach(child => processElement(child));
-            };
-            processElement(svgElement);
-
-            const serializer = new XMLSerializer();
-            const optimizedSvg = serializer.serializeToString(svgElement);
-            return {
-                svg: optimizedSvg,
-                stats: {
-                    originalSize: svgString.length,
-                    optimizedSize: optimizedSvg.length,
-                    reduction: Math.max(0, Math.round(((svgString.length - optimizedSvg.length) / svgString.length) * 100))
-                }
-            };
-        }
-
-        function generateCode(optimizedSvg) {
-            if (!optimizedSvg) return '';
-            
-            // Extract inner content of SVG to replace the dummy path
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(optimizedSvg, 'image/svg+xml');
-            const innerContent = Array.from(doc.documentElement.children).map(c => new XMLSerializer().serializeToString(c)).join('\n    ');
-            const viewBox = doc.documentElement.getAttribute('viewBox') || '0 0 24 24';
-
-            if (state.framework === 'react') {
-                if (state.useTypeScript) {
-                    return `interface ${state.componentName}Props {
-  size?: number;
-  color?: string;
-  className?: string;
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
 }
 
-export const ${state.componentName}: React.FC<${state.componentName}Props> = ({ 
-  size = 24, 
-  color = 'currentColor',
-  className = ''
-}) => (
-  <svg
+[data-theme="dark"] {
+  --bg: #09090b;
+  --bg-2: #0f0f12;
+  --bg-3: #18181b;
+  --bg-4: #1f1f24;
+  --border: #27272a;
+  --border-2: #3f3f46;
+  --text: #fafafa;
+  --text-2: #a1a1aa;
+  --text-3: #52525b;
+  --text-4: #3f3f46;
+  --surface: rgba(255,255,255,0.03);
+  --surface-hover: rgba(255,255,255,0.06);
+  --code-bg: #0d0d10;
+  --shadow: 0 1px 3px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+[data-theme="light"] {
+  --bg: #fafafa;
+  --bg-2: #f4f4f5;
+  --bg-3: #e4e4e7;
+  --bg-4: #d4d4d8;
+  --border: #e4e4e7;
+  --border-2: #d4d4d8;
+  --text: #09090b;
+  --text-2: #52525b;
+  --text-3: #a1a1aa;
+  --text-4: #d4d4d8;
+  --surface: rgba(0,0,0,0.02);
+  --surface-hover: rgba(0,0,0,0.04);
+  --code-bg: #f4f4f5;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+/* ── RESET & BASE ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background 0.2s, color 0.2s;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+
+/* ── NOISE TEXTURE OVERLAY ──────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── TYPOGRAPHY ────────────────────────────────────────────── */
+.mono { font-family: var(--font-code); }
+.label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-3);
+}
+
+/* ── HEADER ────────────────────────────────────────────────── */
+#header {
+  position: sticky; top: 0; z-index: 90;
+  background: rgba(9,9,11,0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  height: 52px;
+  display: flex; align-items: center;
+}
+[data-theme="light"] #header { background: rgba(250,250,250,0.88); }
+
+.header-inner {
+  max-width: 1440px; margin: 0 auto; padding: 0 20px;
+  width: 100%; display: flex; align-items: center; gap: 12px;
+}
+.logo {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 15px; font-weight: 700; color: var(--text);
+  text-decoration: none; flex-shrink: 0;
+}
+.logo-icon {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--accent), #8b5cf6);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.logo-name { letter-spacing: -0.02em; }
+.logo-name span { color: var(--accent-bright); }
+
+.header-spacer { flex: 1; }
+
+.header-actions { display: flex; align-items: center; gap: 6px; }
+
+/* ── BUTTONS ───────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: var(--radius);
+  font-size: 12px; font-weight: 600; font-family: var(--font-ui);
+  cursor: pointer; border: 1px solid transparent;
+  transition: all 0.15s; letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+.btn-ghost { background: transparent; border-color: var(--border); color: var(--text-2); }
+.btn-ghost:hover { background: var(--surface-hover); border-color: var(--border-2); color: var(--text); }
+
+.btn-accent { background: var(--accent); border-color: var(--accent); color: white; font-weight: 700; }
+.btn-accent:hover { background: var(--accent-bright); border-color: var(--accent-bright); box-shadow: var(--accent-glow); }
+.btn-accent:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+.btn-pro { background: var(--pro-dim); border-color: var(--pro-border); color: var(--pro); }
+.btn-pro:hover { background: rgba(167,139,250,0.18); }
+
+.btn-danger { background: var(--red-dim); border-color: rgba(248,113,113,0.25); color: var(--red); }
+.btn-danger:hover { background: rgba(248,113,113,0.18); }
+
+.btn-success { background: var(--green-dim); border-color: var(--green-border); color: var(--green); }
+
+.btn-icon {
+  padding: 6px; width: 30px; height: 30px;
+  justify-content: center;
+}
+.btn-icon svg { width: 14px; height: 14px; }
+
+.btn-sm { padding: 4px 9px; font-size: 11px; }
+.btn-lg { padding: 10px 20px; font-size: 13px; }
+
+/* Pro badge inline */
+.pro-pill {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 3px;
+  background: var(--pro-dim); border: 1px solid var(--pro-border); color: var(--pro);
+}
+
+/* ── LAYOUT SHELL ──────────────────────────────────────────── */
+#app {
+  max-width: 1440px; margin: 0 auto;
+  padding: 20px;
+  position: relative; z-index: 1;
+}
+
+<!-- PRIVACY NOTICE -->
+<div id="privacy-bar">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+  <span><strong>100% Privacy First:</strong> Your SVGs and components never leave your browser. Zero tracking. Zero server uploads. Verify in DevTools.</span>
+</div>
+
+<!-- HERO INTRO -->
+<div style="margin-bottom:32px; padding:40px; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-xl); position:relative; overflow:hidden; box-shadow:var(--shadow-lg);">
+  <div style="position:absolute; top:0; right:0; width:300px; height:300px; background:radial-gradient(circle at 100% 0%, var(--accent-dim), transparent); pointer-events:none;"></div>
+  
+  <h1 style="font-size:clamp(28px, 4vw, 48px); font-weight:800; letter-spacing:-0.04em; margin-bottom:16px; line-height:1.1;">SVG TO <span>COMPONENT</span></h1>
+  <p style="font-size:16px; color:var(--text-2); max-width:700px; margin-bottom:32px; line-height:1.7;">
+    Transform raw SVG code into production-ready React, Vue 3, or React Native components instantly. Optimized, typed, and private by design.
+  </p>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:40px; margin-bottom:40px; text-align:left;">
+    <div>
+      <h3 style="font-size:14px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">What can you do?</h3>
+      <p style="font-size:14px; color:var(--text-2); line-height:1.6;">SVG to Component is a developer-first utility to bridge the gap between design and code. It cleans up bloated SVGs using SVGO and wraps them in high-quality React/Vue components with support for TypeScript, forwardRef, and "currentColor" theming.</p>
+    </div>
+    <div>
+      <h3 style="font-size:14px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Privacy Strength</h3>
+      <p style="font-size:14px; color:var(--text-2); line-height:1.6;">We value your intellectual property. Our tool runs entirely in your browser memory. Your SVG source code and generated components never touch our servers, making it safe for sensitive corporate design systems.</p>
+    </div>
+  </div>
+
+  <!-- Best For -->
+  <div style="padding-top:24px; border-top:1px solid var(--border);">
+    <h3 style="font-size:14px; font-weight:700; color:var(--pro); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Best For & Use Cases</h3>
+    <p style="font-size:14px; color:var(--text-2); line-height:1.6;">Perfect for frontend engineers building icon systems, UI designers prototyping in React/Vue, and developers migrating from legacy icon fonts to SVG components. Use it to bulk-convert Figma exports into a themeable icon library.</p>
+  </div>
+</div>
+
+<!-- HOW TO USE & FAQ -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:32px;">
+  <!-- How to Use -->
+  <div style="background:var(--bg-2); padding:32px; border:1px solid var(--border); border-radius:var(--radius-xl);">
+    <h2 style="font-size:18px; font-weight:800; margin-bottom:20px; color:var(--text);">HOW TO USE</h2>
+    <div style="display:flex; flex-direction:column; gap:16px;">
+      <div style="display:flex; gap:12px;">
+        <div style="font-weight:800; color:var(--accent-bright); font-family:var(--font-code);">01</div>
+        <div><strong style="color:var(--text);">INPUT:</strong> Paste SVG code or search integrated icon sets.</div>
+      </div>
+      <div style="display:flex; gap:12px;">
+        <div style="font-weight:800; color:var(--accent-bright); font-family:var(--font-code);">02</div>
+        <div><strong style="color:var(--text);">OPTIMIZE:</strong> Toggle SVGO and framework settings (TS, forwardRef).</div>
+      </div>
+      <div style="display:flex; gap:12px;">
+        <div style="font-weight:800; color:var(--accent-bright); font-family:var(--font-code);">03</div>
+        <div><strong style="color:var(--text);">PREVIEW:</strong> Check theming and scaling in the live preview panel.</div>
+      </div>
+      <div style="display:flex; gap:12px;">
+        <div style="font-weight:800; color:var(--accent-bright); font-family:var(--font-code);">04</div>
+        <div><strong style="color:var(--text);">COPY:</strong> Grab your code or download a ZIP for bulk conversion.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div style="background:var(--bg-2); padding:32px; border:1px solid var(--border); border-radius:var(--radius-xl);">
+    <h2 style="font-size:18px; font-weight:800; margin-bottom:20px; color:var(--text);">FAQ</h2>
+    <div style="display:flex; flex-direction:column; gap:16px;">
+      <div>
+        <h4 style="font-size:13px; color:var(--accent-bright); margin-bottom:4px; font-weight:700;">Does it support TypeScript?</h4>
+        <p style="font-size:12px; color:var(--text-2);">Yes. We generate clean TSX/Vue code with appropriate types for props and refs automatically.</p>
+      </div>
+      <div>
+        <h4 style="font-size:13px; color:var(--accent-bright); margin-bottom:4px; font-weight:700;">Is there a file size limit?</h4>
+        <p style="font-size:12px; color:var(--text-2);">No arbitrary limit. Since it runs in your browser memory, it depends on your device's RAM—typically up to 50MB per SVG.</p>
+      </div>
+      <div>
+        <h4 style="font-size:13px; color:var(--accent-bright); margin-bottom:4px; font-weight:700;">What is the "Pro" plan?</h4>
+        <p style="font-size:12px; color:var(--text-2);">Pro unlocks bulk conversion (ZIP export), custom SVGO presets, and advanced React Native optimizations for a one-time fee.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Japanese Content Section -->
+<div style="margin-bottom:32px; padding:32px; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-xl); text-align:left; line-height:1.8;">
+  <h3 style="font-size:18px; font-weight:800; color:var(--text); margin-bottom:16px;">日本語でのSVGコンポーネント化 (SVG to React/Vue in Japan)</h3>
+  <p style="font-size:14px; color:var(--text-2); line-height:1.7;">
+    SVG to Componentは、日本のフロントエンドエンジニアやUIデザイナーの業務効率を大幅に向上させます。Figmaなどのデザインツールから書き出したSVGコードを、React (TSX) や Vue (SFC) のコンポーネントへ一瞬で変換できます。SVGOによるコード最適化はもちろん、TypeScriptの型定義や `forwardRef` の付与、`currentColor` によるテーマ対応も自動で行います。ブラウザ内完結のローカル処理により、社外秘のデザイン資産も安全に扱うことが可能です。
+  </p>
+  <p style="font-size:12px; color:var(--text-3); margin-top:16px; font-family:var(--font-code);">
+    Keywords: SVG React 変換, SVG Vue 変換, SVG アイコン コンポーネント化, TypeScript SVG, Figma 連携
+  </p>
+  
+  <!-- Related Tools -->
+  <div style="margin-top:32px; padding-top:24px; border-top:1px solid var(--border); text-align:center;">
+    <h4 style="font-size:11px; color:var(--text-3); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1.5rem;">Other Privacy-First Developer Tools</h4>
+    <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+      <a href="https://json-to-ts-converter.pages.dev" target="_blank" rel="noopener" style="padding:10px 16px; background:var(--bg-3); border:1px solid var(--border); border-radius:var(--radius); text-decoration:none; color:var(--text-2); font-size:12px; font-weight:600; display:flex; align-items:center; gap:8px; transition:all 0.15s;">
+        <span>📦</span> JSON to TS
+      </a>
+      <a href="https://citation-formatter-browser.pages.dev" target="_blank" rel="noopener" style="padding:10px 16px; background:var(--bg-3); border:1px solid var(--border); border-radius:var(--radius); text-decoration:none; color:var(--text-2); font-size:12px; font-weight:600; display:flex; align-items:center; gap:8px; transition:all 0.15s;">
+        <span>📖</span> Citation Formatter
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- SAMPLE DATA EXPLANATION -->
+<div style="margin-bottom:32px; padding:24px; background:var(--bg-3); border:1px solid var(--border); border-radius:var(--radius-lg); text-align:center;">
+  <h3 style="font-size:14px; font-weight:700; margin-bottom:12px; color:var(--text);">Integrated Icon Presets</h3>
+  <p style="font-size:12px; color:var(--text-2); margin-bottom:16px;">
+    We've integrated popular icon sets like <strong>Lucide</strong>, <strong>Heroicons</strong>, and <strong>Feather</strong>. 
+    Use these as high-quality sample data to see how our converter handles clean, industry-standard SVG paths.
+  </p>
+</div>
+
+/* ── SAMPLE GALLERY ────────────────────────────────────────── */
+#gallery-section { margin-bottom: 16px; }
+.gallery-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.gallery-grid {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.sample-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 11px; border-radius: var(--radius);
+  background: var(--bg-3); border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.13s;
+  font-size: 11px; font-weight: 500; color: var(--text-2);
+  font-family: var(--font-ui);
+}
+.sample-btn .sicon { width: 18px; height: 18px; color: var(--text-3); transition: color 0.13s; flex-shrink: 0; }
+.sample-btn:hover { border-color: var(--accent); color: var(--text); background: var(--accent-dim); }
+.sample-btn:hover .sicon { color: var(--accent-bright); }
+
+/* Icon search row */
+#icon-search-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px;
+}
+#icon-search-input {
+  flex: 1; max-width: 280px;
+  padding: 7px 12px 7px 34px;
+  border-radius: var(--radius);
+  background: var(--bg-3); border: 1px solid var(--border);
+  color: var(--text); font-size: 12px; font-family: var(--font-ui);
+  outline: none; transition: border-color 0.15s;
+  position: relative;
+}
+#icon-search-input:focus { border-color: var(--accent); }
+.search-wrap { position: relative; display: inline-flex; align-items: center; }
+.search-wrap svg { position: absolute; left: 10px; width: 14px; height: 14px; color: var(--text-3); pointer-events: none; }
+
+.icon-set-tabs { display: flex; gap: 4px; }
+.iset-btn {
+  padding: 5px 10px; border-radius: var(--radius-sm);
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  background: var(--bg-3); border: 1px solid var(--border); color: var(--text-3);
+  font-family: var(--font-ui); transition: all 0.13s;
+}
+.iset-btn.active { background: var(--accent-dim); border-color: var(--accent-border); color: var(--accent-bright); }
+.iset-btn:hover:not(.active) { border-color: var(--border-2); color: var(--text-2); }
+
+/* ── MAIN 3-COLUMN LAYOUT ──────────────────────────────────── */
+#main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* ── PANEL CARDS ───────────────────────────────────────────── */
+.panel {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--border);
+  min-height: 42px;
+  flex-shrink: 0;
+}
+.panel-title {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 600; color: var(--text-2);
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dot-svg { background: #f59e0b; }
+.dot-preview { background: var(--green); }
+.dot-code { background: var(--accent); }
+.dot-rn { background: #06b6d4; }
+
+.panel-actions { display: flex; align-items: center; gap: 5px; }
+
+/* ── INPUT PANEL ───────────────────────────────────────────── */
+#svg-input {
+  flex: 1;
+  width: 100%; min-height: 300px;
+  padding: 14px;
+  background: var(--code-bg);
+  border: none; outline: none; resize: none;
+  font-family: var(--font-code); font-size: 12px; line-height: 1.65;
+  color: var(--text); tab-size: 2;
+  caret-color: var(--accent);
+}
+#svg-input::placeholder { color: var(--text-4); font-style: italic; }
+#svg-input:focus { background: var(--bg); }
+
+.drop-active { border-color: var(--accent) !important; background: var(--accent-dim) !important; }
+
+/* Stats strip */
+#stats-strip {
+  display: flex; align-items: center; gap: 0;
+  border-top: 1px solid var(--border);
+  background: var(--bg-3);
+  flex-shrink: 0;
+}
+.stat-cell {
+  flex: 1; padding: 7px 12px;
+  display: flex; flex-direction: column; gap: 1px;
+  border-right: 1px solid var(--border);
+}
+.stat-cell:last-child { border-right: none; }
+.stat-label { font-size: 9px; color: var(--text-3); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.stat-value { font-size: 12px; font-weight: 600; font-family: var(--font-code); color: var(--text); }
+.stat-value.green { color: var(--green); }
+.stat-value.accent { color: var(--accent-bright); }
+
+/* Error banner */
+#error-banner {
+  display: none;
+  padding: 10px 14px;
+  background: var(--red-dim); border-top: 1px solid rgba(248,113,113,0.2);
+  font-size: 11px; font-family: var(--font-code); color: #fca5a5; line-height: 1.6;
+}
+#error-banner.show { display: block; }
+
+/* ── SVGO OPTIONS ──────────────────────────────────────────── */
+#svgo-options {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-3);
+  flex-shrink: 0;
+}
+.svgo-row {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;
+}
+.svgo-row:last-child { margin-bottom: 0; }
+.svgo-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-3); align-self: center; flex-shrink: 0;
+  margin-right: 2px;
+}
+
+/* Toggle pill */
+.toggle-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 9px; border-radius: 99px;
+  font-size: 10px; font-weight: 600; cursor: pointer;
+  background: var(--bg-4); border: 1px solid var(--border);
+  color: var(--text-3); user-select: none; transition: all 0.13s;
+  font-family: var(--font-ui);
+}
+.toggle-pill input { display: none; }
+.toggle-pill.on { background: var(--accent-dim); border-color: var(--accent-border); color: var(--accent-bright); }
+.toggle-pill.on .pill-dot { background: var(--accent); }
+.pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-2); transition: background 0.13s; }
+.toggle-pill:hover { border-color: var(--border-2); }
+.toggle-pill.pro-gate { opacity: 0.6; }
+.toggle-pill.pro-gate:hover { opacity: 1; border-color: var(--pro-border); color: var(--pro); }
+
+/* ── PREVIEW PANEL ─────────────────────────────────────────── */
+.preview-body {
+  flex: 1;
+  display: flex; flex-direction: column;
+  background: var(--code-bg);
+}
+.preview-main {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Checkerboard bg for transparency */
+.preview-main::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(45deg, var(--bg-3) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--bg-3) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--bg-3) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--bg-3) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  opacity: 0.3;
+}
+#preview-svg-main { position: relative; z-index: 1; }
+
+.preview-sizes {
+  display: flex; align-items: flex-end; justify-content: center; gap: 20px;
+  padding: 16px 20px; border-top: 1px solid var(--border);
+  background: var(--bg-3);
+  flex-shrink: 0;
+}
+.size-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.size-icon { display: flex; justify-content: center; }
+.size-label { font-size: 9px; color: var(--text-3); font-family: var(--font-code); }
+
+/* Before/After comparison */
+#before-after {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.ba-cell {
+  padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.ba-cell:first-child { border-right: 1px solid var(--border); }
+.ba-head { display: flex; align-items: center; justify-content: space-between; }
+.ba-title { font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-3); }
+.ba-size { font-size: 11px; font-weight: 600; font-family: var(--font-code); color: var(--text-2); }
+.ba-size.good { color: var(--green); }
+.ba-bar { height: 3px; border-radius: 99px; background: var(--border); overflow: hidden; margin-top: 4px; }
+.ba-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+.ba-fill.before { background: var(--text-3); }
+.ba-fill.after  { background: var(--green); }
+.reduction-badge {
+  font-size: 10px; font-weight: 700; font-family: var(--font-code);
+  padding: 1px 7px; border-radius: 3px;
+}
+.reduction-great { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+.reduction-ok    { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(251,191,36,0.25); }
+.reduction-none  { background: var(--bg-4); color: var(--text-3); border: 1px solid var(--border); }
+
+/* Empty state */
+.preview-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 40px 20px;
+  color: var(--text-4); text-align: center;
+}
+.preview-empty svg { width: 36px; height: 36px; opacity: 0.3; }
+.preview-empty p { font-size: 12px; }
+
+/* ── OUTPUT PANEL ──────────────────────────────────────────── */
+.output-tabs {
+  display: flex; gap: 2px;
+  padding: 6px 10px;
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.out-tab {
+  padding: 4px 10px; border-radius: var(--radius-sm);
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  background: transparent; border: 1px solid transparent; color: var(--text-3);
+  font-family: var(--font-ui); transition: all 0.12s;
+  display: flex; align-items: center; gap: 4px;
+}
+.out-tab.active { background: var(--bg-4); border-color: var(--border); color: var(--text); }
+.out-tab:hover:not(.active) { color: var(--text-2); }
+.out-tab svg { width: 12px; height: 12px; }
+
+#code-output {
+  flex: 1;
+  padding: 14px;
+  background: var(--code-bg);
+  color: #c9d1d9;
+  font-family: var(--font-code); font-size: 11.5px; line-height: 1.65;
+  overflow: auto; white-space: pre;
+  min-height: 300px;
+}
+
+/* ── OPTIONS BAR ───────────────────────────────────────────── */
+#options-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.opt-group {
+  display: flex; align-items: center; gap: 6px;
+}
+.opt-sep { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
+
+/* Framework selector tabs */
+.fw-tabs { display: flex; gap: 3px; }
+.fw-tab {
+  padding: 5px 10px; border-radius: var(--radius-sm);
+  font-size: 11px; font-weight: 700; cursor: pointer;
+  background: var(--bg-3); border: 1px solid var(--border); color: var(--text-3);
+  font-family: var(--font-ui); transition: all 0.12s;
+  display: flex; align-items: center; gap: 5px;
+}
+.fw-tab svg { width: 13px; height: 13px; }
+.fw-tab.active { background: var(--accent-dim); border-color: var(--accent-border); color: var(--accent-bright); }
+.fw-tab:hover:not(.active) { border-color: var(--border-2); color: var(--text-2); }
+.fw-tab[data-fw="rn"].active { background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); color: #67e8f9; }
+
+/* Name input */
+.name-input {
+  padding: 5px 10px; border-radius: var(--radius-sm);
+  background: var(--bg-3); border: 1px solid var(--border); color: var(--text);
+  font-size: 12px; font-family: var(--font-code); outline: none;
+  transition: border-color 0.15s; width: 130px;
+}
+.name-input:focus { border-color: var(--accent); }
+
+/* ── HISTORY ───────────────────────────────────────────────── */
+#history-section {
+  margin-bottom: 12px; display: none;
+}
+.history-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.history-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.history-card {
+  padding: 8px 11px;
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius); cursor: pointer; transition: all 0.13s;
+  display: flex; align-items: center; gap: 8px;
+}
+.history-card:hover { border-color: var(--accent-border); background: var(--accent-dim); }
+.hcard-icon { width: 24px; height: 24px; color: var(--text-3); flex-shrink: 0; }
+.hcard-info { min-width: 0; }
+.hcard-name { font-size: 11px; font-weight: 600; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
+.hcard-time { font-size: 9px; color: var(--text-3); }
+
+/* ── MULTI-FORMAT COPY ─────────────────────────────────────── */
+#multi-copy-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+  flex-wrap: wrap;
+}
+.copy-multi-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 13px; border-radius: var(--radius);
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  background: var(--bg-3); border: 1px solid var(--border); color: var(--text-2);
+  font-family: var(--font-ui); transition: all 0.13s;
+}
+.copy-multi-btn:hover { border-color: var(--accent-border); color: var(--accent-bright); background: var(--accent-dim); }
+.copy-multi-btn svg { width: 12px; height: 12px; }
+
+/* ── BULK SECTION ──────────────────────────────────────────── */
+#bulk-section {
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden;
+  margin-bottom: 12px; box-shadow: var(--shadow);
+}
+.bulk-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--bg-3); border-bottom: 1px solid var(--border);
+}
+.bulk-title { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text); }
+.bulk-body { padding: 14px; }
+.bulk-drop {
+  border: 2px dashed var(--border-2); border-radius: var(--radius);
+  padding: 28px 20px; text-align: center;
+  cursor: pointer; transition: all 0.13s;
+  background: var(--bg-3);
+}
+.bulk-drop:hover, .bulk-drop.drag-over {
+  border-color: var(--accent); background: var(--accent-dim);
+}
+.bulk-drop p { font-size: 12px; color: var(--text-2); margin-bottom: 4px; }
+.bulk-drop small { font-size: 11px; color: var(--text-3); }
+#bulk-file-list { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+.bfile-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px; border-radius: var(--radius-sm);
+  background: var(--bg-3); border: 1px solid var(--border);
+  font-size: 11px; font-family: var(--font-code);
+}
+.bfile-name { flex: 1; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bfile-size { color: var(--text-3); font-size: 10px; }
+.bfile-status { font-size: 10px; }
+.bfile-status.ok { color: var(--green); }
+.bfile-status.err { color: var(--red); }
+.bulk-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+
+/* Free tier badge on bulk */
+.free-limit-badge {
+  font-size: 10px; padding: 2px 8px; border-radius: 3px;
+  background: var(--green-dim); border: 1px solid var(--green-border); color: var(--green);
+}
+
+/* ── PRO LOCK OVERLAY ──────────────────────────────────────── */
+.pro-lock-wrap { position: relative; }
+.pro-lock-overlay {
+  position: absolute; inset: 0;
+  background: rgba(9,9,11,0.7); backdrop-filter: blur(3px);
+  border-radius: inherit;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; z-index: 5;
+  border: 1px solid var(--pro-border);
+}
+.pro-lock-overlay p { font-size: 12px; color: var(--text-2); text-align: center; max-width: 200px; }
+
+/* ── MODAL ─────────────────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+  z-index: 200; display: none;
+  align-items: center; justify-content: center; padding: 20px;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: var(--bg-2); border: 1px solid var(--border-2);
+  border-radius: var(--radius-xl); max-width: 420px; width: 100%;
+  overflow: hidden; animation: modalIn 0.22s ease;
+  box-shadow: var(--shadow-lg);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.modal-top {
+  background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.08));
+  border-bottom: 1px solid var(--border);
+  padding: 28px 24px 22px; text-align: center;
+}
+.modal-icon { font-size: 28px; margin-bottom: 10px; }
+.modal-title { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: var(--text); margin-bottom: 4px; }
+.modal-sub { font-size: 12px; color: var(--text-2); }
+.modal-price { display: flex; align-items: baseline; gap: 3px; justify-content: center; margin-top: 12px; }
+.price-sym { font-size: 16px; color: var(--text-2); font-family: var(--font-code); }
+.price-num { font-size: 44px; font-weight: 800; letter-spacing: -0.06em; color: var(--text); font-family: var(--font-code); }
+.price-per { font-size: 11px; color: var(--text-3); }
+
+.modal-body { padding: 20px 24px 24px; }
+.modal-features { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 18px; }
+.mfeat {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 10px; border-radius: var(--radius);
+  background: var(--bg-3); border: 1px solid var(--border);
+  font-size: 11px; color: var(--text-2);
+}
+.mfeat-check { color: var(--green); font-size: 12px; flex-shrink: 0; }
+.modal-buy-btn {
+  width: 100%; padding: 13px;
+  background: var(--accent); border: none; border-radius: var(--radius);
+  font-size: 13px; font-weight: 700; color: white; cursor: pointer;
+  transition: all 0.15s; margin-bottom: 8px; font-family: var(--font-ui);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.modal-buy-btn:hover { background: var(--accent-bright); box-shadow: var(--accent-glow); }
+hr.modal-hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+.modal-key-label { display: block; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
+.modal-key-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.key-input {
+  flex: 1; padding: 9px 12px; border-radius: var(--radius);
+  background: var(--bg-3); border: 1px solid var(--border-2); color: var(--text);
+  font-size: 12px; font-family: var(--font-code); outline: none;
+  transition: border-color 0.15s; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.key-input:focus { border-color: var(--accent); }
+.key-input.err { border-color: var(--red); }
+.key-input.ok  { border-color: var(--green); }
+.key-msg { font-size: 11px; min-height: 16px; font-family: var(--font-code); }
+.key-msg.err { color: var(--red); }
+.key-msg.ok  { color: var(--green); }
+.key-msg.info { color: var(--text-3); }
+.modal-cancel {
+  width: 100%; padding: 8px; background: none; border: none;
+  font-size: 11px; color: var(--text-3); cursor: pointer;
+  font-family: var(--font-ui); margin-top: 6px; transition: color 0.13s;
+}
+.modal-cancel:hover { color: var(--text-2); }
+
+/* Pro active view */
+.modal-pro-active { display: none; text-align: center; }
+.modal-pro-active.show { display: block; }
+.deactivate-btn {
+  font-size: 10px; color: var(--text-3); background: none; border: none;
+  cursor: pointer; text-decoration: underline; margin-top: 12px; font-family: var(--font-ui);
+}
+.deactivate-btn:hover { color: var(--red); }
+
+/* ── TOAST ─────────────────────────────────────────────────── */
+#toast-container {
+  position: fixed; bottom: 24px; right: 24px; z-index: 300;
+  display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+}
+.toast {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; border-radius: var(--radius);
+  background: var(--bg-2); border: 1px solid var(--border-2);
+  font-size: 12px; color: var(--text);
+  box-shadow: var(--shadow-lg);
+  animation: toastIn 0.25s ease;
+  max-width: 300px;
+}
+.toast svg { width: 14px; height: 14px; flex-shrink: 0; }
+.toast.success { border-color: var(--green-border); }
+.toast.success svg { color: var(--green); }
+.toast.error { border-color: rgba(248,113,113,0.3); }
+.toast.error svg { color: var(--red); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: none; } }
+
+/* ── FEATURE CARDS ─────────────────────────────────────────── */
+#feature-cards {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  margin-bottom: 20px;
+}
+.feat-card {
+  padding: 16px; border-radius: var(--radius-lg);
+  background: var(--bg-2); border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.feat-card-icon {
+  width: 32px; height: 32px; border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 10px; font-size: 16px;
+}
+.feat-card h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.feat-card p { font-size: 11px; color: var(--text-2); line-height: 1.6; }
+
+/* ── DOCS ──────────────────────────────────────────────────── */
+#docs-section {
+  display: none;
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius-xl); padding: 36px; margin-bottom: 20px;
+}
+#docs-section.show { display: block; }
+
+/* ── FOOTER ────────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg-2); padding: 32px 20px;
+  margin-top: 20px; position: relative; z-index: 1;
+}
+.footer-inner {
+  max-width: 1440px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-bottom: 24px;
+}
+.footer-col h5 { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 10px; letter-spacing: 0.05em; text-transform: uppercase; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.footer-col li { font-size: 11px; color: var(--text-3); }
+.footer-col a { color: var(--text-3); text-decoration: none; transition: color 0.13s; }
+.footer-col a:hover { color: var(--accent-bright); }
+.footer-bottom {
+  max-width: 1440px; margin: 0 auto;
+  border-top: 1px solid var(--border); padding-top: 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; color: var(--text-3);
+}
+
+/* ── MOBILE TABS (bottom nav on mobile) ─────────────────────── */
+#mobile-tabs {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 80;
+  background: var(--bg-2); border-top: 1px solid var(--border);
+  padding: 6px 16px;
+  gap: 4px;
+}
+.mobile-tab {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px; border-radius: var(--radius-sm); cursor: pointer;
+  background: none; border: none; font-family: var(--font-ui);
+  transition: all 0.12s; color: var(--text-3);
+}
+.mobile-tab.active { color: var(--accent-bright); }
+.mobile-tab svg { width: 18px; height: 18px; }
+.mobile-tab span { font-size: 9px; font-weight: 600; }
+
+/* ── RESPONSIVE ────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  #main-grid { grid-template-columns: 1fr 1fr; }
+  #output-panel { grid-column: 1 / -1; }
+  #feature-cards { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  #app { padding: 12px 12px 80px; }
+  #main-grid { grid-template-columns: 1fr; }
+  #output-panel { grid-column: auto; }
+  #feature-cards { grid-template-columns: 1fr 1fr; }
+  #options-bar { gap: 6px; }
+  .fw-tabs { flex-wrap: wrap; }
+  #mobile-tabs { display: flex; }
+  .panel { display: none; }
+  .panel.mobile-active { display: flex; }
+  .modal-features { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 20px; }
+  #icon-search-row { flex-wrap: wrap; }
+  #multi-copy-row { gap: 6px; }
+  .gallery-grid { gap: 4px; }
+  .sample-btn { font-size: 10px; padding: 5px 9px; }
+}
+@media (max-width: 480px) {
+  #feature-cards { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .header-inner { gap: 8px; }
+}
+
+/* ── THEME TRANSITION ──────────────────────────────────────── */
+*, body, .panel, #header { transition: background-color 0.2s, border-color 0.2s, color 0.2s; }
+
+/* ── SYNTAX HIGHLIGHT (simple) ─────────────────────────────── */
+.hl-kw { color: #ff7b72; }
+.hl-fn { color: #d2a8ff; }
+.hl-str { color: #a5d6ff; }
+.hl-num { color: #79c0ff; }
+.hl-type { color: #ffa657; }
+.hl-cmt { color: #6e7681; }
+</style>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- PRO MODAL -->
+<div class="modal-backdrop" id="pro-modal">
+  <div class="modal">
+    <div id="modal-buy-view">
+      <div class="modal-top">
+        <div class="modal-icon">✦</div>
+        <div class="modal-title">Unlock Pro</div>
+        <div class="modal-sub">One-time payment · No subscription · Lifetime access</div>
+        <div class="modal-price">
+          <span class="price-sym">$</span>
+          <span class="price-num">8</span>
+          <span class="price-per">/ once · lifetime</span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-features">
+          <div class="mfeat"><span class="mfeat-check">✓</span> Bulk ZIP export</div>
+          <div class="mfeat"><span class="mfeat-check">✓</span> index.ts generation</div>
+          <div class="mfeat"><span class="mfeat-check">✓</span> Advanced SVGO config</div>
+          <div class="mfeat"><span class="mfeat-check">✓</span> Storybook stories</div>
+          <div class="mfeat"><span class="mfeat-check">✓</span> Custom templates</div>
+          <div class="mfeat"><span class="mfeat-check">✓</span> Advanced TS types</div>
+        </div>
+        <button class="modal-buy-btn" onclick="gotoGumroad()">
+          <svg viewBox="0 0 14 14" fill="currentColor"><path d="M7 0C3.13 0 0 3.13 0 7s3.13 7 7 7 7-3.13 7-7S10.87 0 7 0zm3.5 7.7H7v1.4H5.6V5.6H7v.7h3.5v1.4z"/></svg>
+          Buy on Gumroad — $8.00 →
+        </button>
+        <hr class="modal-hr">
+        <span class="modal-key-label">Already have a license key?</span>
+        <div class="modal-key-row">
+          <input type="text" id="key-input" class="key-input mono" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="39">
+          <button class="btn btn-accent" id="activate-btn" onclick="activateLicense()">Activate</button>
+        </div>
+        <div class="key-msg info" id="key-msg"></div>
+        <button class="modal-cancel" onclick="closeProModal()">Continue with free version</button>
+      </div>
+    </div>
+    <div class="modal-pro-active" id="modal-pro-active-view">
+      <div class="modal-top" style="border-bottom:none;">
+        <div class="modal-icon">🎉</div>
+        <div class="modal-title" style="color:var(--green);">Pro Active</div>
+        <div class="modal-sub" id="pro-key-display"></div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-features">
+          <div class="mfeat"><span class="mfeat-check">✓</span> Bulk ZIP export</div>
+          <div class="mfeat"><span class="mfeat-check">✓</span> index.ts generation</div>
+          <div class="mfeat"><span class="mfeat-check">✓</span> Advanced SVGO</div>
+          <div class="mfeat"><span class="mfeat-check">✓</span> Storybook export</div>
+        </div>
+        <button class="modal-cancel" onclick="closeProModal()">Close</button>
+        <br>
+        <button class="deactivate-btn" onclick="deactivatePro()">Deactivate on this device</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">⬡</div>
+      <span class="logo-name">SVG<span>to</span>Component</span>
+    </a>
+    <div class="header-spacer"></div>
+    <div class="header-actions">
+      <button class="btn btn-ghost btn-icon" id="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light mode">
+        <svg id="theme-icon-dark" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/><path d="M8 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" opacity="0"/><path d="M6 8a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/></svg>
+        <svg id="theme-icon-light" viewBox="0 0 16 16" fill="currentColor" style="display:none;"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v1.5a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v1.5a.5.5 0 0 1-1 0V13.5A.5.5 0 0 1 8 13z"/></svg>
+      </button>
+      <button class="btn btn-ghost" onclick="toggleDocs()">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="1" width="10" height="12" rx="1"/><path d="M4 4h6M4 7h6M4 10h4"/></svg>
+        Docs
+      </button>
+      <button class="btn btn-ghost" onclick="bulkConvert()">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4h12M1 7h12M1 10h12"/></svg>
+        Bulk
+      </button>
+      <button class="btn btn-pro" id="upgrade-btn" onclick="openProModal()">
+        <svg viewBox="0 0 14 14" fill="currentColor"><path d="M7 1l1.5 3.5 3.5.5-2.5 2.5.5 3.5-3-1.5-3 1.5.5-3.5-2.5-2.5 3.5-.5z"/></svg>
+        Pro — $8
+      </button>
+      <span class="pro-pill" id="pro-active-pill" style="display:none;">✦ PRO</span>
+    </div>
+  </div>
+</header>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- Privacy Notice -->
+  <div id="privacy-bar">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1L2 3v4c0 3 2.5 5.5 5 6 2.5-.5 5-3 5-6V3L7 1z"/></svg>
+    <span><strong>100% Client-Side & Private</strong> — Your SVGs never leave your browser. No server, no uploads, no data collection.</span>
+  </div>
+
+  <!-- Icon Search + Sample Gallery -->
+  <div id="gallery-section">
+    <div id="icon-search-row">
+      <div class="search-wrap">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"/><path d="M10 10l2.5 2.5"/></svg>
+        <input type="text" id="icon-search-input" placeholder="Search icons… (Lucide, Heroicons, Tabler)" oninput="filterIcons(this.value)">
+      </div>
+      <div class="icon-set-tabs">
+        <button class="iset-btn active" onclick="setIconSet('lucide',this)">Lucide</button>
+        <button class="iset-btn" onclick="setIconSet('heroicons',this)">Heroicons</button>
+        <button class="iset-btn" onclick="setIconSet('tabler',this)">Tabler</button>
+      </div>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+
+  <!-- History -->
+  <div id="history-section">
+    <div class="history-bar">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="label">Recent</span>
+        <span id="history-count" style="font-size:10px;padding:1px 7px;border-radius:99px;background:var(--bg-3);border:1px solid var(--border);color:var(--text-3);"></span>
+      </div>
+      <button class="btn btn-ghost btn-sm btn-danger" onclick="clearHistory()">Clear all</button>
+    </div>
+    <div class="history-grid" id="history-grid"></div>
+  </div>
+
+  <!-- Options Bar -->
+  <div id="options-bar">
+    <!-- Framework -->
+    <div class="opt-group">
+      <span class="label" style="flex-shrink:0;">Output</span>
+      <div class="fw-tabs">
+        <button class="fw-tab active" data-fw="react" onclick="setFw('react',this)">
+          <svg viewBox="0 0 14 14" fill="currentColor"><circle cx="7" cy="7" r="1.5"/><ellipse cx="7" cy="7" rx="6" ry="2.5" fill="none" stroke="currentColor" stroke-width="1"/><ellipse cx="7" cy="7" rx="6" ry="2.5" fill="none" stroke="currentColor" stroke-width="1" transform="rotate(60 7 7)"/><ellipse cx="7" cy="7" rx="6" ry="2.5" fill="none" stroke="currentColor" stroke-width="1" transform="rotate(120 7 7)"/></svg>
+          React
+        </button>
+        <button class="fw-tab" data-fw="vue" onclick="setFw('vue',this)">
+          <svg viewBox="0 0 14 14" fill="currentColor"><path d="M7 12L1 2h3l3 5 3-5h3L7 12z" opacity="0.7"/><path d="M7 12L4 7h3l3 5H7z" opacity="0.4"/></svg>
+          Vue 3
+        </button>
+        <button class="fw-tab" data-fw="rn" onclick="setFw('rn',this)">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="1" width="8" height="12" rx="1.5"/><path d="M5.5 11.5h3"/></svg>
+          RN
+        </button>
+      </div>
+    </div>
+    <div class="opt-sep"></div>
+    <!-- Name -->
+    <div class="opt-group">
+      <span class="label" style="flex-shrink:0;">Name</span>
+      <input type="text" id="comp-name" class="name-input mono" value="Icon" oninput="onNameChange(this.value)">
+    </div>
+    <div class="opt-sep"></div>
+    <!-- Toggles -->
+    <div class="opt-group" style="flex-wrap:wrap;gap:5px;">
+      <label class="toggle-pill on" id="pill-ts" title="TypeScript output">
+        <input type="checkbox" id="opt-ts" checked onchange="regen()">
+        <span class="pill-dot"></span>TypeScript
+      </label>
+      <label class="toggle-pill" id="pill-fwd" title="Wrap with React.forwardRef">
+        <input type="checkbox" id="opt-fwd" onchange="regen()">
+        <span class="pill-dot"></span>forwardRef
+      </label>
+      <label class="toggle-pill" id="pill-aria" title="Add aria-hidden for decorative use">
+        <input type="checkbox" id="opt-aria" onchange="regen()">
+        <span class="pill-dot"></span>aria-hidden
+      </label>
+      <label class="toggle-pill on" id="pill-memo" title="Wrap with React.memo">
+        <input type="checkbox" id="opt-memo" checked onchange="regen()">
+        <span class="pill-dot"></span>memo
+      </label>
+    </div>
+    <div class="opt-sep" style="margin-left:auto;"></div>
+    <!-- Upload -->
+    <button class="btn btn-ghost btn-sm" onclick="document.getElementById('file-upload').click()">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 9V1M4 4L7 1l3 3M1 11v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
+      Upload SVG
+    </button>
+    <input type="file" id="file-upload" accept=".svg" style="display:none" onchange="handleFileUpload(this)">
+  </div>
+
+  <!-- 3-Column Main Grid -->
+  <div id="main-grid">
+    <!-- INPUT PANEL -->
+    <div class="panel mobile-active" id="input-panel">
+      <div class="panel-head">
+        <div class="panel-title">
+          <span class="dot dot-svg"></span>
+          SVG Input
+        </div>
+        <div class="panel-actions">
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="clearInput()" title="Clear">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l10 10M12 2L2 12"/></svg>
+          </button>
+          <button class="btn btn-ghost btn-sm" id="load-last-btn" onclick="loadLast()" style="display:none;">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4a6 6 0 1 1 0 6"/><path d="M1 1v3h3"/></svg>
+            Last
+          </button>
+        </div>
+      </div>
+
+      <textarea id="svg-input" placeholder='<svg viewBox="0 0 24 24">
+  <!-- Paste SVG here, drag-drop, or click a sample above -->
+</svg>' spellcheck="false" oninput="handleSvgInput(this.value)"></textarea>
+
+      <div id="error-banner"></div>
+
+      <!-- SVGO Options (Free: basic, Pro: advanced) -->
+      <div id="svgo-options">
+        <div class="svgo-row">
+          <span class="svgo-label">Optimize</span>
+          <label class="toggle-pill on" id="pill-currentColor">
+            <input type="checkbox" id="svgo-currentColor" checked onchange="handleSvgInput(document.getElementById('svg-input').value)">
+            <span class="pill-dot"></span>currentColor
+          </label>
+          <label class="toggle-pill on" id="pill-removeXmlns">
+            <input type="checkbox" id="svgo-removeXmlns" checked onchange="handleSvgInput(document.getElementById('svg-input').value)">
+            <span class="pill-dot"></span>Strip xmlns
+          </label>
+          <label class="toggle-pill on" id="pill-removeDims">
+            <input type="checkbox" id="svgo-removeDims" checked onchange="handleSvgInput(document.getElementById('svg-input').value)">
+            <span class="pill-dot"></span>Remove w/h
+          </label>
+          <label class="toggle-pill" id="pill-removeComments">
+            <input type="checkbox" id="svgo-removeComments" onchange="handleSvgInput(document.getElementById('svg-input').value)">
+            <span class="pill-dot"></span>Strip comments
+          </label>
+          <label class="toggle-pill" id="pill-collapseGroups">
+            <input type="checkbox" id="svgo-collapseGroups" onchange="handleSvgInput(document.getElementById('svg-input').value)">
+            <span class="pill-dot"></span>Collapse groups
+          </label>
+        </div>
+        <div class="svgo-row">
+          <span class="svgo-label">Pro</span>
+          <label class="toggle-pill pro-gate" onclick="!isPro() && openProModal()">
+            <input type="checkbox" id="svgo-removeTitle" disabled onchange="handleSvgInput(document.getElementById('svg-input').value)">
+            <span class="pill-dot"></span>Remove title/desc
+            <span class="pro-pill" style="font-size:8px;padding:1px 4px;">PRO</span>
+          </label>
+          <label class="toggle-pill pro-gate" onclick="!isPro() && openProModal()">
+            <input type="checkbox" id="svgo-mergePathOps" disabled onchange="handleSvgInput(document.getElementById('svg-input').value)">
+            <span class="pill-dot"></span>Merge path ops
+            <span class="pro-pill" style="font-size:8px;padding:1px 4px;">PRO</span>
+          </label>
+          <label class="toggle-pill pro-gate" onclick="!isPro() && openProModal()">
+            <input type="checkbox" id="svgo-convertColors" disabled onchange="handleSvgInput(document.getElementById('svg-input').value)">
+            <span class="pill-dot"></span>Convert colors
+            <span class="pro-pill" style="font-size:8px;padding:1px 4px;">PRO</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Stats Strip -->
+      <div id="stats-strip">
+        <div class="stat-cell">
+          <span class="stat-label">Original</span>
+          <span class="stat-value mono" id="stat-orig">—</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-label">Optimized</span>
+          <span class="stat-value mono green" id="stat-opt">—</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-label">Saved</span>
+          <span class="stat-value mono accent" id="stat-pct">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PREVIEW PANEL -->
+    <div class="panel" id="preview-panel">
+      <div class="panel-head">
+        <div class="panel-title">
+          <span class="dot dot-preview"></span>
+          Live Preview
+        </div>
+        <div class="panel-actions">
+          <div style="display:flex;align-items:center;gap:5px;">
+            <span style="font-size:10px;color:var(--text-3);">Color</span>
+            <input type="color" id="preview-color" value="#ffffff" oninput="updatePreviewColor(this.value)"
+              style="width:24px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:2px;background:var(--bg-3);border:1px solid var(--border);">
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-body">
+        <!-- Empty state -->
+        <div class="preview-empty" id="preview-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+          <p>Paste an SVG to see the preview</p>
+        </div>
+
+        <!-- Preview main -->
+        <div class="preview-main" id="preview-main" style="display:none;">
+          <div id="preview-svg-main"></div>
+        </div>
+
+        <!-- Size variants -->
+        <div class="preview-sizes" id="preview-sizes" style="display:none;">
+          <div class="size-item">
+            <div class="size-icon" id="sz-16" style="color:var(--preview-color, white);"></div>
+            <span class="size-label">16px</span>
+          </div>
+          <div class="size-item">
+            <div class="size-icon" id="sz-24" style="color:var(--preview-color, white);"></div>
+            <span class="size-label">24px</span>
+          </div>
+          <div class="size-item">
+            <div class="size-icon" id="sz-32" style="color:var(--preview-color, white);"></div>
+            <span class="size-label">32px</span>
+          </div>
+          <div class="size-item">
+            <div class="size-icon" id="sz-48" style="color:var(--preview-color, white);"></div>
+            <span class="size-label">48px</span>
+          </div>
+        </div>
+
+        <!-- Before / After comparison -->
+        <div id="before-after" style="display:none;">
+          <div class="ba-cell">
+            <div class="ba-head">
+              <span class="ba-title">Before</span>
+              <span class="ba-size" id="ba-before-size">—</span>
+            </div>
+            <div class="ba-bar"><div class="ba-fill before" id="ba-before-fill" style="width:100%;"></div></div>
+          </div>
+          <div class="ba-cell">
+            <div class="ba-head">
+              <span class="ba-title">After</span>
+              <span class="ba-size good" id="ba-after-size">—</span>
+            </div>
+            <div class="ba-bar"><div class="ba-fill after" id="ba-after-fill" style="width:0%;"></div></div>
+            <div style="margin-top:4px;text-align:right;">
+              <span class="reduction-badge reduction-none" id="reduction-badge">0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTPUT PANEL -->
+    <div class="panel" id="output-panel">
+      <div class="panel-head">
+        <div class="panel-title">
+          <span class="dot dot-code" id="out-dot"></span>
+          <span id="out-title">Generated Code</span>
+        </div>
+        <div class="panel-actions">
+          <button class="btn btn-ghost btn-sm" id="copy-btn" onclick="copyCode()">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="9" rx="1"/><path d="M2 10H1a1 1 0 01-1-1V1a1 1 0 011-1h8a1 1 0 011 1v1"/></svg>
+            <span id="copy-label">Copy</span>
+          </button>
+          <button class="btn btn-ghost btn-sm" id="dl-btn" onclick="downloadCode()" disabled>
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v8M4 7l3 3 3-3M1 12h12"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Tabs -->
+      <div class="output-tabs" id="output-tabs">
+        <button class="out-tab active" data-tab="component" onclick="setOutTab('component',this)">Component</button>
+        <button class="out-tab" data-tab="usage" onclick="setOutTab('usage',this)">Usage</button>
+        <button class="out-tab" data-tab="storybook" onclick="isPro() ? setOutTab('storybook',this) : openProModal()">
+          Storybook
+          <span class="pro-pill" style="font-size:8px;">PRO</span>
+        </button>
+        <button class="out-tab" data-tab="index" onclick="isPro() ? setOutTab('index',this) : openProModal()">
+          index.ts
+          <span class="pro-pill" style="font-size:8px;">PRO</span>
+        </button>
+      </div>
+
+      <pre id="code-output">// Paste SVG or click a sample to generate component code</pre>
+    </div>
+  </div>
+
+  <!-- Multi-format copy row -->
+  <div id="multi-copy-row">
+    <span class="label" style="flex-shrink:0;">Copy as</span>
+    <button class="copy-multi-btn" onclick="copyFormat('react-ts')">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="9" rx="1"/><path d="M2 10H1a1 1 0 01-1-1V1a1 1 0 011-1h8a1 1 0 011 1v1"/></svg>
+      React TSX
+    </button>
+    <button class="copy-multi-btn" onclick="copyFormat('react-js')">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="9" rx="1"/><path d="M2 10H1a1 1 0 01-1-1V1a1 1 0 011-1h8a1 1 0 011 1v1"/></svg>
+      React JSX
+    </button>
+    <button class="copy-multi-btn" onclick="copyFormat('vue-ts')">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="9" rx="1"/><path d="M2 10H1a1 1 0 01-1-1V1a1 1 0 011-1h8a1 1 0 011 1v1"/></svg>
+      Vue SFC
+    </button>
+    <button class="copy-multi-btn" onclick="copyFormat('rn')">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="9" rx="1"/><path d="M2 10H1a1 1 0 01-1-1V1a1 1 0 011-1h8a1 1 0 011 1v1"/></svg>
+      React Native
+    </button>
+    <div style="flex:1;"></div>
+    <button class="btn btn-ghost btn-sm" onclick="exportHistory()">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v8M4 7l3 3 3-3M1 12h12"/></svg>
+      Export history
+    </button>
+  </div>
+
+  <!-- Bulk Conversion -->
+  <div id="bulk-section">
+    <div class="bulk-head">
+      <div class="bulk-title">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="5" height="5" rx="1"/><rect x="8" y="1" width="5" height="5" rx="1"/><rect x="1" y="8" width="5" height="5" rx="1"/><rect x="8" y="8" width="5" height="5" rx="1"/></svg>
+        Bulk Conversion
+        <span class="free-limit-badge" id="bulk-limit-badge">Free: up to 10 files</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span id="bulk-pro-actions" style="display:none;gap:6px;align-items:center;">
+          <button class="btn btn-ghost btn-sm" onclick="generateIndexTs()">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h8M3 7h6M3 10h4"/><rect x="1" y="1" width="12" height="12" rx="1"/></svg>
+            index.ts
+          </button>
+        </span>
+        <button class="btn btn-ghost btn-sm" id="export-zip-btn" onclick="exportZip()" disabled>
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 1H3a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V5L9 1z"/><path d="M9 1v4h4"/></svg>
+          Export ZIP
+        </button>
+      </div>
+    </div>
+    <div class="bulk-body">
+      <div class="bulk-drop" id="bulk-drop" onclick="document.getElementById('bulk-upload').click()">
+        <p>Drop multiple SVG files here or click to browse</p>
+        <small>Each file converts to its own component · Free: up to 10 files · Pro: unlimited</small>
+        <input type="file" id="bulk-upload" accept=".svg" multiple style="display:none" onchange="handleBulkFiles(this.files)">
+      </div>
+      <div id="bulk-file-list"></div>
+    </div>
+  </div>
+
+  <!-- Feature Highlights -->
+  <div id="feature-cards">
+    <div class="feat-card">
+      <div class="feat-card-icon" style="background:var(--accent-dim);">⚡</div>
+      <h4>Instant Conversion</h4>
+      <p>React JSX/TSX, Vue 3 SFC, and React Native — all from the same SVG. No build step.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-card-icon" style="background:var(--green-dim);">🔒</div>
+      <h4>100% Private</h4>
+      <p>All processing happens in your browser. Your SVGs never reach any server.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-card-icon" style="background:rgba(251,191,36,0.1);">🎨</div>
+      <h4>SVGO Optimization</h4>
+      <p>currentColor theming, attribute cleanup, and size reduction — with live before/after stats.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-card-icon" style="background:var(--pro-dim);">✦</div>
+      <h4>Pro Features</h4>
+      <p>Bulk ZIP export, Storybook stories, index.ts generation, advanced SVGO. One-time $8.</p>
+    </div>
+  </div>
+
+  <!-- Docs -->
+  <div id="docs-section">
+    <h2 style="font-size:24px;font-weight:800;letter-spacing:-0.03em;margin-bottom:20px;">Best Practices: SVG Icons in React</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+      <div>
+        <h3 style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--accent-bright);">1. The currentColor pattern</h3>
+        <p style="font-size:13px;color:var(--text-2);line-height:1.8;margin-bottom:12px;">Replace all hardcoded fill/stroke values with <code style="font-family:var(--font-code);color:var(--accent-bright);background:var(--bg-3);padding:1px 5px;border-radius:3px;">currentColor</code> to inherit from the parent's CSS <code style="font-family:var(--font-code);color:var(--accent-bright);background:var(--bg-3);padding:1px 5px;border-radius:3px;">color</code>. This makes icons trivially themeable.</p>
+        <h3 style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--accent-bright);">2. forwardRef for design systems</h3>
+        <p style="font-size:13px;color:var(--text-2);line-height:1.8;">Wrap with <code style="font-family:var(--font-code);color:var(--accent-bright);background:var(--bg-3);padding:1px 5px;border-radius:3px;">React.forwardRef</code> so consumers can attach refs for tooltips, popover anchors, and focus management without wrapper divs.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--accent-bright);">3. Accessibility</h3>
+        <p style="font-size:13px;color:var(--text-2);line-height:1.8;margin-bottom:12px;">Decorative icons (beside a text label) should have <code style="font-family:var(--font-code);color:var(--accent-bright);background:var(--bg-3);padding:1px 5px;border-radius:3px;">aria-hidden="true"</code>. Semantic icons (sole button content) need <code style="font-family:var(--font-code);color:var(--accent-bright);background:var(--bg-3);padding:1px 5px;border-radius:3px;">aria-label</code>.</p>
+        <h3 style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--accent-bright);">4. React Native differences</h3>
+        <p style="font-size:13px;color:var(--text-2);line-height:1.8;">RN uses <code style="font-family:var(--font-code);color:var(--accent-bright);background:var(--bg-3);padding:1px 5px;border-radius:3px;">react-native-svg</code> with PascalCase elements (<code style="font-family:var(--font-code);color:var(--accent-bright);background:var(--bg-3);padding:1px 5px;border-radius:3px;">Svg</code>, <code style="font-family:var(--font-code);color:var(--accent-bright);background:var(--bg-3);padding:1px 5px;border-radius:3px;">Path</code>, <code style="font-family:var(--font-code);color:var(--accent-bright);background:var(--bg-3);padding:1px 5px;border-radius:3px;">Circle</code>). This converter handles the transformation automatically.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /#app -->
+
+<!-- Mobile bottom nav -->
+<div id="mobile-tabs">
+  <button class="mobile-tab active" data-panel="input-panel" onclick="switchMobileTab('input-panel',this)">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="14" height="14" rx="2"/><path d="M7 8h6M7 12h4"/></svg>
+    <span>Input</span>
+  </button>
+  <button class="mobile-tab" data-panel="preview-panel" onclick="switchMobileTab('preview-panel',this)">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><path d="M6 10l3 3 5-5"/></svg>
+    <span>Preview</span>
+  </button>
+  <button class="mobile-tab" data-panel="output-panel" onclick="switchMobileTab('output-panel',this)">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3h10a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M7 7h6M7 10h6M7 13h4"/></svg>
+    <span>Code</span>
+  </button>
+</div>
+
+<!-- Other Tools -->
+<div style="margin-top: 4rem; border-top: 1px solid var(--border); padding-top: 3rem; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem; margin-bottom: 4rem;">
+  <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 2rem; letter-spacing: -0.02em;">OTHER PRIVATE BROWSER TOOLS</div>
+  <style>
+    .tool-lnk { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; border-radius: 12px; background: var(--bg-2); border: 1px solid var(--border); text-decoration: none; transition: all 0.2s ease; }
+    .tool-lnk:hover { border-color: var(--accent); background: var(--bg-3); transform: translateY(-2px); }
+    .tool-lnk-ico { font-size: 1.75rem; }
+    .tool-lnk-t { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.125rem; }
+    .tool-lnk-s { font-size: 0.8rem; color: var(--text-2); line-height: 1.4; }
+  </style>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+    <a href="https://json-to-ts-converter.pages.dev" target="_blank" rel="noopener" class="tool-lnk">
+      <div class="tool-lnk-ico">🔧</div>
+      <div><div class="tool-lnk-t">JSON to TS</div><div class="tool-lnk-s">Transform JSON to TypeScript interfaces instantly</div></div>
+    </a>
+    <a href="https://citation-formatter-browser.pages.dev" target="_blank" rel="noopener" class="tool-lnk">
+      <div class="tool-lnk-ico">📚</div>
+      <div><div class="tool-lnk-t">Citation Formatter</div><div class="tool-lnk-s">Private APA/MLA/Chicago citation generator</div></div>
+    </a>
+    <a href="https://batch-regex-browser.pages.dev" target="_blank" rel="noopener" class="tool-lnk">
+      <div class="tool-lnk-ico">🔍</div>
+      <div><div class="tool-lnk-t">Batch Regex</div><div class="tool-lnk-s">Bulk text processing, cleaning & data extraction</div></div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h5>SVG to Component</h5>
+      <ul>
+        <li>Free browser-based converter</li>
+        <li>No server, no uploads</li>
+        <li>React · Vue 3 · React Native</li>
+        <li>TypeScript support</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Outputs</h5>
+      <ul>
+        <li>→ React JSX / TSX</li>
+        <li>→ React TSX + forwardRef</li>
+        <li>→ Vue 3 SFC (JS/TS)</li>
+        <li>→ React Native (react-native-svg)</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Free Features</h5>
+      <ul>
+        <li>→ Live preview + size variants</li>
+        <li>→ SVGO optimization</li>
+        <li>→ Bulk ZIP (up to 10 files)</li>
+        <li>→ Multi-format copy</li>
+        <li>→ Conversion history</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Pro — $8 Lifetime</h5>
+      <ul>
+        <li>→ <a href="https://yhanster206.gumroad.com/l/svizwa" target="_blank">Unlimited bulk ZIP</a></li>
+        <li>→ index.ts auto-generation</li>
+        <li>→ Storybook stories</li>
+        <li>→ Advanced SVGO settings</li>
+        <li>→ Custom templates</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>SVG to Component · 100% Client-Side · No Data Collection</span>
+    <a href="https://yhanster206.gumroad.com/l/svizwa" target="_blank" style="color:var(--pro);">Pro — $8 Lifetime →</a>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// SAMPLES — Lucide, Heroicons, Tabler icon sets (subset)
+// ══════════════════════════════════════════════════════════════
+const ICON_SETS = {
+  lucide: [
+    { name:'Check',      svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' },
+    { name:'X',          svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>' },
+    { name:'ArrowRight', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' },
+    { name:'Search',     svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' },
+    { name:'Menu',       svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>' },
+    { name:'User',       svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' },
+    { name:'Home',       svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' },
+    { name:'Settings',   svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' },
+    { name:'Heart',      svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' },
+    { name:'Star',       svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' },
+    { name:'Bell',       svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>' },
+    { name:'Mail',       svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' },
+  ],
+  heroicons: [
+    { name:'AcademicCap',  svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>' },
+    { name:'Bolt',         svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>' },
+    { name:'ChartBar',     svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>' },
+    { name:'Cloud',        svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/></svg>' },
+    { name:'Code',         svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>' },
+    { name:'Cube',         svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/></svg>' },
+  ],
+  tabler: [
+    { name:'Activity',   svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 12 6 12 9 4 12 20 15 12 18 12 21 12"/></svg>' },
+    { name:'Aperture',   svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="3.6" y1="15" x2="14.15" y2="15"/><line x1="3.6" y1="9" x2="20.4" y2="9"/><line x1="11.5" y1="3.52" x2="7.5" y2="20.48"/><line x1="16.5" y1="3.52" x2="12.5" y2="20.48"/></svg>' },
+    { name:'Atom',       svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><ellipse cx="12" cy="12" rx="9" ry="4"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(120 12 12)"/></svg>' },
+    { name:'Compass',    svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>' },
+    { name:'Diamond',    svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.7 10.3a2.41 2.41 0 000 3.41l7.59 7.59a2.41 2.41 0 003.41 0l7.59-7.59a2.41 2.41 0 000-3.41l-7.59-7.59a2.41 2.41 0 00-3.41 0L2.7 10.3z"/></svg>' },
+    { name:'Flame',      svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2-2.96 0-7-1-8 0 3.038-1.773 4.741-3 6-1.226 1.26-2 3.24-2 5a6 6 0 1 0 12 0c0-1.532-1.056-3.94-2-5-1.786 3-2.791 3-4 2z"/></svg>' },
+  ],
+};
+
+let currentIconSet = 'lucide';
+let allIcons = [...ICON_SETS.lucide];
+let filteredIcons = [...allIcons];
+
+// ══════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════
+const state = {
+  svgInput: '',
+  optimizedSvg: '',
+  framework: 'react',
+  useTS: true,
+  useForwardRef: false,
+  useAriaHidden: false,
+  useMemo: true,
+  componentName: 'Icon',
+  generatedCode: '',
+  currentTab: 'component',
+  bulkFiles: [],
+  previewColor: '#ffffff',
+};
+
+// ══════════════════════════════════════════════════════════════
+// PRO LICENSE
+// ══════════════════════════════════════════════════════════════
+const PRO_KEY = 'svgcomp_pro_v2';
+const GUMROAD_URL = 'https://yhanster206.gumroad.com/l/svizwa';
+
+function isPro() { return !!localStorage.getItem(PRO_KEY); }
+
+function openProModal() {
+  document.getElementById('pro-modal').classList.add('open');
+  if (isPro()) {
+    document.getElementById('modal-buy-view').style.display = 'none';
+    document.getElementById('modal-pro-active-view').classList.add('show');
+    const k = localStorage.getItem(PRO_KEY) || '';
+    document.getElementById('pro-key-display').textContent = 'Key: ' + k.slice(0,8) + '••••••••••••';
+  } else {
+    document.getElementById('modal-buy-view').style.display = '';
+    document.getElementById('modal-pro-active-view').classList.remove('show');
+  }
+}
+function closeProModal() { document.getElementById('pro-modal').classList.remove('open'); }
+function gotoGumroad() { window.open(GUMROAD_URL, '_blank', 'noopener'); }
+
+async function activateLicense() {
+  const input = document.getElementById('key-input');
+  const btn = document.getElementById('activate-btn');
+  const msg = document.getElementById('key-msg');
+  const key = input.value.trim();
+  if (!key) return;
+
+  btn.disabled = true;
+  msg.textContent = 'Verifying with Gumroad...'; msg.className = 'key-msg info';
+  input.classList.remove('err','ok');
+
+  try {
+    const r = await fetch('https://api.gumroad.com/v2/licenses/verify', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({ product_id:'svizwa', license_key:key.trim(), increment_uses_count:'true' })
+    });
+    const d = await r.json();
+    if (d.success) {
+      localStorage.setItem(PRO_KEY, key.trim().toUpperCase());
+      input.classList.add('ok');
+      msg.textContent = '✓ Pro activated!';
+      msg.className = 'key-msg ok';
+      setTimeout(() => { applyProUI(); closeProModal(); showToast('✦ Pro features unlocked!','success'); regen(); }, 1200);
+    } else {
+      input.classList.add('err');
+      msg.textContent = '✕ ' + (d.message || 'Invalid key');
+      msg.className = 'key-msg err';
+      btn.disabled = false;
+    }
+  } catch {
+    msg.textContent = '✕ Network error. Online activation required.';
+    msg.className = 'key-msg err';
+    btn.disabled = false;
+  }
+}
+
+function deactivatePro() {
+  if (!confirm('Deactivate Pro on this device?')) return;
+  localStorage.removeItem(PRO_KEY);
+  applyProUI(); closeProModal();
+  showToast('Pro deactivated','error');
+}
+
+function applyProUI() {
+  const pro = isPro();
+  document.getElementById('upgrade-btn').style.display = pro ? 'none' : '';
+  document.getElementById('pro-active-pill').style.display = pro ? '' : 'none';
+
+  // Pro SVGO
+  ['svgo-removeTitle','svgo-mergePathOps','svgo-convertColors'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = !pro;
+  });
+  document.querySelectorAll('.toggle-pill.pro-gate').forEach(p => {
+    if (pro) p.classList.remove('pro-gate');
+  });
+
+  // Bulk limit badge
+  const badge = document.getElementById('bulk-limit-badge');
+  if (badge) badge.style.display = pro ? 'none' : '';
+  const proActions = document.getElementById('bulk-pro-actions');
+  if (proActions) proActions.style.display = pro ? 'flex' : 'none';
+}
+
+// ══════════════════════════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════════════════════════
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  html.dataset.theme = next;
+  localStorage.setItem('svgcomp_theme', next);
+  document.getElementById('theme-icon-dark').style.display = next === 'dark' ? '' : 'none';
+  document.getElementById('theme-icon-light').style.display = next === 'light' ? '' : 'none';
+}
+
+// ══════════════════════════════════════════════════════════════
+// GALLERY
+// ══════════════════════════════════════════════════════════════
+function setIconSet(set, btn) {
+  currentIconSet = set;
+  allIcons = [...ICON_SETS[set]];
+  document.querySelectorAll('.iset-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterIcons(document.getElementById('icon-search-input').value);
+}
+
+function filterIcons(q) {
+  const lq = q.trim().toLowerCase();
+  filteredIcons = lq ? allIcons.filter(i => i.name.toLowerCase().includes(lq)) : [...allIcons];
+  renderGallery();
+}
+
+function renderGallery() {
+  const grid = document.getElementById('gallery-grid');
+  grid.innerHTML = filteredIcons.map((ic,i) => `
+    <button class="sample-btn" onclick="loadSample(${filteredIcons.indexOf(ic)})">
+      <span class="sicon">${ic.svg}</span>
+      ${ic.name}
+    </button>
+  `).join('');
+}
+
+function loadSample(i) {
+  const ic = filteredIcons[i];
+  if (!ic) return;
+  const name = ic.name + 'Icon';
+  document.getElementById('svg-input').value = ic.svg;
+  document.getElementById('comp-name').value = name;
+  state.componentName = name;
+  handleSvgInput(ic.svg);
+  document.getElementById('svg-input').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ══════════════════════════════════════════════════════════════
+// HISTORY
+// ══════════════════════════════════════════════════════════════
+const HIST_KEY = 'svgcomp_hist_v2';
+const MAX_HIST = 8;
+
+function getHistory() { try { return JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); } catch { return []; } }
+function saveHistory() {
+  if (!state.svgInput || state.svgInput.length < 15) return;
+  let h = getHistory().filter(x => x.svg !== state.svgInput);
+  h.unshift({ svg: state.svgInput, name: state.componentName, ts: Date.now() });
+  h = h.slice(0, MAX_HIST);
+  try { localStorage.setItem(HIST_KEY, JSON.stringify(h)); } catch {}
+  renderHistory();
+}
+function clearHistory() {
+  try { localStorage.removeItem(HIST_KEY); } catch {}
+  renderHistory();
+}
+function loadFromHistory(i) {
+  const h = getHistory()[i];
+  if (!h) return;
+  document.getElementById('svg-input').value = h.svg;
+  document.getElementById('comp-name').value = h.name;
+  state.componentName = h.name;
+  handleSvgInput(h.svg);
+}
+function loadLast() { loadFromHistory(0); }
+
+function ago(ts) {
+  const d = Date.now()-ts;
+  if (d < 60000) return 'just now';
+  if (d < 3600000) return Math.floor(d/60000)+'m ago';
+  if (d < 86400000) return Math.floor(d/3600000)+'h ago';
+  return Math.floor(d/86400000)+'d ago';
+}
+
+function renderHistory() {
+  const h = getHistory();
+  const sec = document.getElementById('history-section');
+  const grid = document.getElementById('history-grid');
+  const cnt = document.getElementById('history-count');
+  const lb = document.getElementById('load-last-btn');
+  if (!h.length) { sec.style.display = 'none'; lb.style.display = 'none'; return; }
+  sec.style.display = '';
+  lb.style.display = '';
+  cnt.textContent = h.length;
+  grid.innerHTML = h.map((item,i) => `
+    <button class="history-card" onclick="loadFromHistory(${i})">
+      <span class="hcard-icon">${item.svg.replace('<svg ','<svg style="width:24px;height:24px;" ')}</span>
+      <div class="hcard-info">
+        <div class="hcard-name">${item.name}</div>
+        <div class="hcard-time">${ago(item.ts)}</div>
+      </div>
+    </button>
+  `).join('');
+}
+
+function exportHistory() {
+  const h = getHistory();
+  if (!h.length) { showToast('No history to export','error'); return; }
+  const blob = new Blob([JSON.stringify(h, null, 2)], {type:'application/json'});
+  dl(URL.createObjectURL(blob), 'svg-component-history.json');
+  showToast('History exported as JSON','success');
+}
+
+// ══════════════════════════════════════════════════════════════
+// SVG OPTIMIZATION
+// ══════════════════════════════════════════════════════════════
+function getOpt(id) { const el = document.getElementById(id); return el && el.checked; }
+
+function optimizeSVG(svgString) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(svgString, 'image/svg+xml');
+  if (doc.documentElement.tagName === 'parsererror') return null;
+  const svgEl = doc.documentElement;
+
+  // Remove root presentation attrs except viewBox
+  const keepRoot = ['viewBox','xmlns','width','height'];
+  Array.from(svgEl.attributes).forEach(a => {
+    if (!keepRoot.includes(a.name) && !a.name.startsWith('xmlns')) svgEl.removeAttribute(a.name);
+  });
+
+  // Remove xmlns if option set
+  if (getOpt('svgo-removeXmlns')) svgEl.removeAttribute('xmlns');
+
+  // Remove width/height if option set
+  if (getOpt('svgo-removeDims')) { svgEl.removeAttribute('width'); svgEl.removeAttribute('height'); }
+
+  // Remove title/desc (Pro)
+  if (getOpt('svgo-removeTitle') && isPro()) {
+    doc.querySelectorAll('title,desc').forEach(el => el.remove());
+  }
+
+  // Remove comments
+  if (getOpt('svgo-removeComments')) {
+    const walk = doc.createTreeWalker(doc, 128);
+    const rm = [];
+    while(walk.nextNode()) rm.push(walk.currentNode);
+    rm.forEach(n => n.parentNode?.removeChild(n));
+  }
+
+  // Collapse empty groups
+  if (getOpt('svgo-collapseGroups')) {
+    doc.querySelectorAll('g').forEach(g => {
+      if (!g.children.length && !Array.from(g.attributes).length) g.remove();
+    });
+  }
+
+  const attrMap = {
+    'stroke-width':'strokeWidth','stroke-linecap':'strokeLinecap','stroke-linejoin':'strokeLinejoin',
+    'fill-rule':'fillRule','clip-path':'clipPath','fill-opacity':'fillOpacity',
+    'stroke-dasharray':'strokeDasharray','stroke-dashoffset':'strokeDashoffset',
+    'stroke-miterlimit':'strokeMiterlimit',
+  };
+
+  function processEl(el) {
+    Object.entries(attrMap).forEach(([from,to]) => {
+      if (el.hasAttribute(from)) {
+        el.setAttribute(to, el.getAttribute(from));
+        el.removeAttribute(from);
+      }
+    });
+    if (getOpt('svgo-currentColor')) {
+      if (el.hasAttribute('fill') && el.getAttribute('fill') !== 'none' && el.getAttribute('fill') !== 'currentColor')
+        el.setAttribute('fill','currentColor');
+      if (el.hasAttribute('stroke') && el.getAttribute('stroke') !== 'none' && el.getAttribute('stroke') !== 'currentColor')
+        el.setAttribute('stroke','currentColor');
+    }
+    Array.from(el.children).forEach(processEl);
+  }
+  processEl(svgEl);
+
+  const out = new XMLSerializer().serializeToString(svgEl);
+  return {
+    svg: out,
+    stats: {
+      orig: svgString.length,
+      opt: out.length,
+      pct: Math.max(0, Math.round((1 - out.length/svgString.length)*100)),
+    }
+  };
+}
+
+// ══════════════════════════════════════════════════════════════
+// CODE GENERATION
+// ══════════════════════════════════════════════════════════════
+function pascalCase(s) {
+  return (s||'Icon').replace(/[-_\s]+(.)/g,(_,c)=>c.toUpperCase()).replace(/^(.)/,c=>c.toUpperCase()).replace(/[^a-zA-Z0-9]/g,'') || 'Icon';
+}
+
+function getInnerContent(svgStr) {
+  const doc = new DOMParser().parseFromString(svgStr,'image/svg+xml');
+  return Array.from(doc.documentElement.children).map(c=>new XMLSerializer().serializeToString(c)).join('\n    ');
+}
+
+function getViewBox(svgStr) {
+  const doc = new DOMParser().parseFromString(svgStr,'image/svg+xml');
+  return doc.documentElement.getAttribute('viewBox') || '0 0 24 24';
+}
+
+function generateReact(svgStr, opts) {
+  const inner = getInnerContent(svgStr);
+  const vb = getViewBox(svgStr);
+  const name = pascalCase(state.componentName);
+  const ts = opts.ts, fwd = opts.fwd && state.framework === 'react', memo = opts.memo, aria = opts.aria;
+
+  const ariaAttr = aria ? '\n    aria-hidden="true"' : '';
+  const svgJsx = `  <svg
     width={size}
     height={size}
-    viewBox="${viewBox}"
+    viewBox="${vb}"
     fill="none"
     stroke={color}
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
+    className={className}${ariaAttr}
+    {...rest}
   >
-    ${innerContent}
-  </svg>
-);`;
-                } else {
-                    return `export const ${state.componentName} = ({ size = 24, color = 'currentColor', className = '' }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="${viewBox}"
-    fill="none"
-    stroke={color}
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    ${innerContent}
-  </svg>
-);`;
-                }
-            } else {
-                if (state.useTypeScript) {
-                    return '<script setup lang="ts">\n' + 
-`interface Props {
+    ${inner}
+  </svg>`;
+
+  let code = '';
+  if (ts) {
+    code += `import React from 'react';\n\n`;
+    code += `export interface ${name}Props extends React.SVGProps<SVGSVGElement> {\n`;
+    code += `  size?: number;\n  color?: string;\n  className?: string;\n}\n\n`;
+    if (fwd) {
+      code += `const ${name}Comp = React.forwardRef<SVGSVGElement, ${name}Props>(\n`;
+      code += `  ({ size = 24, color = 'currentColor', className = '', ...rest }, ref) => (\n`;
+      code += `${svgJsx.replace('<svg', '<svg\n    ref={ref}')}\n  )\n);\n`;
+      code += `${name}Comp.displayName = '${name}';\n\n`;
+      code += memo ? `export const ${name} = React.memo(${name}Comp);\n` : `export const ${name} = ${name}Comp;\n`;
+    } else {
+      const inner2 = `const ${name}Comp: React.FC<${name}Props> = ({ size = 24, color = 'currentColor', className = '', ...rest }) => (\n${svgJsx}\n);\n`;
+      code += inner2;
+      code += memo ? `\nexport const ${name} = React.memo(${name}Comp);\n` : `\nexport const ${name} = ${name}Comp;\n`;
+    }
+  } else {
+    code += `import React from 'react';\n\n`;
+    if (fwd) {
+      code += `const ${name}Comp = React.forwardRef(\n`;
+      code += `  ({ size = 24, color = 'currentColor', className = '', ...rest }, ref) => (\n`;
+      code += `${svgJsx.replace('<svg', '<svg\n    ref={ref}')}\n  )\n);\n`;
+      code += `${name}Comp.displayName = '${name}';\n\n`;
+      code += memo ? `export const ${name} = React.memo(${name}Comp);\n` : `export const ${name} = ${name}Comp;\n`;
+    } else {
+      code += `const ${name}Comp = ({ size = 24, color = 'currentColor', className = '', ...rest }) => (\n${svgJsx}\n);\n`;
+      code += memo ? `\nexport const ${name} = React.memo(${name}Comp);\n` : `\nexport const ${name} = ${name}Comp;\n`;
+    }
+  }
+  return code;
+}
+
+function generateVue(svgStr, opts) {
+  const inner = getInnerContent(svgStr).replace(/strokeWidth/g,'stroke-width').replace(/strokeLinecap/g,'stroke-linecap').replace(/strokeLinejoin/g,'stroke-linejoin').replace(/fillRule/g,'fill-rule').replace(/clipPath/g,'clip-path').replace(/fillOpacity/g,'fill-opacity');
+  const vb = getViewBox(svgStr);
+  const name = pascalCase(state.componentName);
+  const ts = opts.ts, aria = opts.aria;
+  const ariaAttr = aria ? '\n    aria-hidden="true"' : '';
+
+  if (ts) {
+    return `<script setup lang="ts">
+interface Props {
   size?: number;
   color?: string;
   class?: string;
 }
-
 withDefaults(defineProps<Props>(), {
   size: 24,
-  color: 'currentColor'
+  color: 'currentColor',
 });
-` + '<' + '/script>\n\n' +
-`<template>
+<\/script>
+
+<template>
   <svg
     :width="size"
     :height="size"
-    viewBox="${viewBox}"
+    viewBox="${vb}"
     fill="none"
     :stroke="color"
     stroke-width="2"
     stroke-linecap="round"
-    stroke-linejoin="round"
+    stroke-linejoin="round"${ariaAttr}
     :class="$attrs.class"
-    xmlns="http://www.w3.org/2000/svg"
   >
-    ${innerContent}
+    ${inner}
   </svg>
 </template>`;
-                } else {
-                    return `<template>
+  }
+  return `<template>
   <svg
     :width="size"
     :height="size"
-    viewBox="${viewBox}"
+    viewBox="${vb}"
     fill="none"
     :stroke="color"
     stroke-width="2"
     stroke-linecap="round"
-    stroke-linejoin="round"
+    stroke-linejoin="round"${ariaAttr}
     :class="$attrs.class"
-    xmlns="http://www.w3.org/2000/svg"
   >
-    ${innerContent}
+    ${inner}
   </svg>
-</template>\n\n` + 
-'<script>\n' +
-`export default {
+</template>
+
+<script>
+export default {
+  name: '${name}',
   props: {
     size: { type: Number, default: 24 },
-    color: { type: String, default: 'currentColor' }
-  }
+    color: { type: String, default: 'currentColor' },
+  },
 };
-` + '<' + '/script>';
-                }
-            }
-        }
+<\/script>`;
+}
 
-        function handleInput(val) {
-            state.svgInput = val;
-            const optimized = optimizeSVG(val);
-            if (optimized) {
-                state.svgPreview = optimized.svg;
-                state.generatedCode = generateCode(optimized.svg);
-                renderOutput(optimized.stats);
-            } else {
-                state.svgPreview = '';
-                state.generatedCode = '';
-                renderOutput(null);
-            }
-        }
+function generateRN(svgStr, opts) {
+  const doc = new DOMParser().parseFromString(svgStr,'image/svg+xml');
+  const vb = doc.documentElement.getAttribute('viewBox') || '0 0 24 24';
+  const name = pascalCase(state.componentName);
+  const ts = opts.ts;
 
-        function handleFile(file) {
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                document.getElementById('svg-input').value = e.target.result;
-                handleInput(e.target.result);
-            };
-            reader.readAsText(file);
-        }
+  // Convert SVG elements to RN svg equivalents
+  function convertEl(el) {
+    if (el.nodeType !== 1) return '';
+    const tag = el.tagName;
+    const rnTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+    const attrs = Array.from(el.attributes).map(a => {
+      let k = a.name, v = a.value;
+      // camelCase for RN
+      k = k.replace(/-(.)/g, (_,c) => c.toUpperCase());
+      if (v === 'currentColor') v = '{color}';
+      else if (!isNaN(v)) v = `{${v}}`;
+      else v = `"${v}"`;
+      return `${k}=${v}`;
+    }).join(' ');
+    const children = Array.from(el.children).map(convertEl).join('\n      ');
+    if (children) return `<${rnTag} ${attrs}>\n      ${children}\n    </${rnTag}>`;
+    return `<${rnTag} ${attrs}/>`;
+  }
 
-        function updateFramework(val) { state.framework = val; handleInput(state.svgInput); }
-        function updateComponentName(val) { state.componentName = val.replace(/\s+/g, ''); handleInput(state.svgInput); }
-        function updateTS(val) { state.useTypeScript = val; handleInput(state.svgInput); }
+  const children = Array.from(doc.documentElement.children).map(convertEl).join('\n    ');
 
-        function toggleDocs() {
-            state.showDocs = !state.showDocs;
-            document.getElementById('docs-section').classList.toggle('hidden', !state.showDocs);
-        }
+  if (ts) {
+    return `import React from 'react';
+import Svg, { ${getUsedRNElements(svgStr)} } from 'react-native-svg';
 
-        async function copyCode() {
-            if (!state.generatedCode) return;
-            await navigator.clipboard.writeText(state.generatedCode);
-            const btn = document.getElementById('copy-btn');
-            const span = btn.querySelector('span');
-            const original = span.textContent;
-            span.textContent = 'Copied!';
-            setTimeout(() => span.textContent = original, 2000);
-        }
+interface ${name}Props {
+  size?: number;
+  color?: string;
+}
 
-        function downloadCode() {
-            const ext = state.useTypeScript ? (state.framework === 'react' ? 'tsx' : 'vue') : (state.framework === 'react' ? 'jsx' : 'vue');
-            const blob = new Blob([state.generatedCode], { type: 'text/plain' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `${state.componentName}.${ext}`;
-            a.click();
-        }
+export const ${name}: React.FC<${name}Props> = ({ size = 24, color = 'currentColor' }) => (
+  <Svg width={size} height={size} viewBox="${vb}" fill="none">
+    ${children}
+  </Svg>
+);`;
+  }
+  return `import React from 'react';
+import Svg, { ${getUsedRNElements(svgStr)} } from 'react-native-svg';
 
-        function openProModal() {
-            const m = document.getElementById('pro-modal');
-            m.classList.remove('hidden');
-            m.classList.add('flex');
-            setTimeout(() => m.firstElementChild.classList.remove('scale-95'), 10);
-        }
+export const ${name} = ({ size = 24, color = 'currentColor' }) => (
+  <Svg width={size} height={size} viewBox="${vb}" fill="none">
+    ${children}
+  </Svg>
+);`;
+}
 
-        function closeProModal() {
-            const m = document.getElementById('pro-modal');
-            m.firstElementChild.classList.add('scale-95');
-            setTimeout(() => { m.classList.add('hidden'); m.classList.remove('flex'); }, 200);
-        }
+function getUsedRNElements(svgStr) {
+  const els = ['Path','Rect','Circle','Ellipse','Line','Polyline','Polygon','G','Defs','ClipPath','Mask','Use'];
+  const doc = new DOMParser().parseFromString(svgStr,'image/svg+xml');
+  const found = new Set();
+  function walk(el) {
+    const tag = el.tagName;
+    const rn = tag.charAt(0).toUpperCase()+tag.slice(1);
+    if (els.includes(rn)) found.add(rn);
+    Array.from(el.children).forEach(walk);
+  }
+  walk(doc.documentElement);
+  return [...found].join(', ') || 'Path';
+}
 
-        // --- Render ---
-        function renderOutput(stats) {
-            const codeOut = document.getElementById('code-output');
-            codeOut.textContent = state.generatedCode || '// Paste SVG to generate component code';
-            document.getElementById('download-btn').disabled = !state.generatedCode;
+function generateUsage() {
+  const name = pascalCase(state.componentName);
+  const fw = state.framework;
+  if (fw === 'rn') {
+    return `// Usage in React Native
+import { ${name} } from './${name}';
 
-            const statsContainer = document.getElementById('stats-container');
-            if (stats) {
-                statsContainer.classList.remove('hidden');
-                document.getElementById('stat-original').textContent = `Original: ${(stats.originalSize / 1024).toFixed(2)} KB`;
-                document.getElementById('stat-optimized').textContent = `Optimized: ${(stats.optimizedSize / 1024).toFixed(2)} KB`;
-                document.getElementById('stat-reduction').textContent = `${stats.reduction}% smaller`;
-            } else {
-                statsContainer.classList.add('hidden');
-            }
+// Default
+<${name} />
 
-            const previewContainer = document.getElementById('preview-container');
-            if (state.svgPreview) {
-                previewContainer.classList.remove('hidden');
-                document.getElementById('svg-preview').innerHTML = state.svgPreview;
-                document.getElementById('preview-default').innerHTML = state.svgPreview.replace(/<svg/, '<svg style="width: 24px; height: 24px;"');
-                document.getElementById('preview-large').innerHTML = state.svgPreview.replace(/<svg/, '<svg style="width: 48px; height: 48px;"');
-            } else {
-                previewContainer.classList.add('hidden');
-            }
-        }
+// Custom size and color
+<${name} size={32} color="#6366f1" />`;
+  }
+  if (fw === 'vue') {
+    return `<!-- Usage in Vue 3 -->
+<script setup>
+import ${name} from './${name}.vue';
+<\/script>
 
-        // --- Init ---
-        lucide.createIcons();
-    </script>
+<template>
+  <!-- Default -->
+  <${name} />
+
+  <!-- Custom size and color -->
+  <${name} :size="32" color="#6366f1" />
+
+  <!-- Decorative (aria-hidden) -->
+  <${name} aria-hidden="true" class="w-5 h-5" />
+</template>`;
+  }
+  return `// Usage in React
+import { ${name} } from './${name}';
+
+// Default
+<${name} />
+
+// Custom size and color
+<${name} size={32} color="#6366f1" />
+
+// With className (Tailwind)
+<${name} size={20} className="text-indigo-500" />
+
+// Decorative
+<${name} aria-hidden="true" className="w-5 h-5" />`;
+}
+
+function generateStorybook() {
+  const name = pascalCase(state.componentName);
+  return `import type { Meta, StoryObj } from '@storybook/react';
+import { ${name} } from './${name}';
+
+const meta: Meta<typeof ${name}> = {
+  title: 'Icons/${name}',
+  component: ${name},
+  tags: ['autodocs'],
+  argTypes: {
+    size:  { control: { type: 'range', min: 12, max: 96, step: 4 } },
+    color: { control: 'color' },
+  },
+};
+export default meta;
+
+type Story = StoryObj<typeof ${name}>;
+
+export const Default: Story = {};
+export const Large: Story = { args: { size: 48, color: '#6366f1' } };
+export const Small: Story  = { args: { size: 16 } };
+export const AllSizes: Story = {
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 16, alignItems: 'flex-end' }}>
+      {[12, 16, 20, 24, 32, 48].map(s => <${name} key={s} {...args} size={s} />)}
+    </div>
+  ),
+};`;
+}
+
+function generateIndexTs() {
+  const name = pascalCase(state.componentName);
+  const ext = state.framework === 'vue' ? 'vue' : (state.useTS ? 'tsx' : 'jsx');
+  return `// Auto-generated index.ts
+// Add more exports as you build your icon library
+
+export { ${name} } from './${name}';
+// export { AnotherIcon } from './AnotherIcon';
+
+// Re-export all
+export type { ${name}Props } from './${name}';`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// MAIN REGEN
+// ══════════════════════════════════════════════════════════════
+const opts = () => ({
+  ts: getOpt('opt-ts'),
+  fwd: getOpt('opt-fwd'),
+  aria: getOpt('opt-aria'),
+  memo: getOpt('opt-memo'),
+});
+
+function regen() {
+  if (!state.optimizedSvg) return;
+  state.useTS = getOpt('opt-ts');
+  state.useForwardRef = getOpt('opt-fwd');
+  state.useAriaHidden = getOpt('opt-aria');
+  state.useMemo = getOpt('opt-memo');
+  setOutputTab(state.currentTab);
+}
+
+function setOutputTab(tab) {
+  state.currentTab = tab;
+  const codeEl = document.getElementById('code-output');
+  const titleEl = document.getElementById('out-title');
+  const dotEl = document.getElementById('out-dot');
+
+  if (!state.optimizedSvg) return;
+
+  let code = '';
+  if (tab === 'component') {
+    if (state.framework === 'vue') code = generateVue(state.optimizedSvg, opts());
+    else if (state.framework === 'rn') code = generateRN(state.optimizedSvg, opts());
+    else code = generateReact(state.optimizedSvg, opts());
+    const fw = {react:'React TSX',vue:'Vue SFC',rn:'React Native'}[state.framework];
+    titleEl.textContent = `${fw} Component`;
+    dotEl.className = 'dot ' + (state.framework==='rn' ? 'dot-rn' : 'dot-code');
+  } else if (tab === 'usage') {
+    code = generateUsage();
+    titleEl.textContent = 'Usage Example';
+    dotEl.className = 'dot dot-preview';
+  } else if (tab === 'storybook') {
+    code = isPro() ? generateStorybook() : '// Pro feature — unlock at yhanster206.gumroad.com/l/svizwa';
+    titleEl.textContent = 'Storybook Story';
+    dotEl.className = 'dot dot-code';
+  } else if (tab === 'index') {
+    code = isPro() ? generateIndexTs() : '// Pro feature — unlock at yhanster206.gumroad.com/l/svizwa';
+    titleEl.textContent = 'index.ts';
+    dotEl.className = 'dot dot-code';
+  }
+
+  state.generatedCode = code;
+  codeEl.textContent = code;
+  document.getElementById('dl-btn').disabled = !code;
+}
+
+// ══════════════════════════════════════════════════════════════
+// INPUT HANDLING
+// ══════════════════════════════════════════════════════════════
+let inputDebounce = null;
+let historyDebounce = null;
+
+function handleSvgInput(val) {
+  state.svgInput = val;
+  clearTimeout(inputDebounce);
+  inputDebounce = setTimeout(() => processInput(val), 80);
+}
+
+function processInput(val) {
+  const errEl = document.getElementById('error-banner');
+  errEl.classList.remove('show');
+
+  if (!val.trim()) {
+    state.optimizedSvg = '';
+    state.generatedCode = '';
+    document.getElementById('code-output').textContent = '// Paste SVG or click a sample to generate component code';
+    document.getElementById('dl-btn').disabled = true;
+    hidePreview();
+    clearStats();
+    return;
+  }
+
+  const result = optimizeSVG(val);
+  if (!result) {
+    errEl.textContent = '✕ Invalid SVG — check for malformed tags, missing quotes, or unclosed elements.';
+    errEl.classList.add('show');
+    hidePreview(); clearStats();
+    return;
+  }
+
+  state.optimizedSvg = result.svg;
+  updateStats(result.stats);
+  updatePreview(result.svg);
+  setOutputTab(state.currentTab);
+
+  clearTimeout(historyDebounce);
+  historyDebounce = setTimeout(() => saveHistory(), 2000);
+}
+
+function clearStats() {
+  document.getElementById('stat-orig').textContent = '—';
+  document.getElementById('stat-opt').textContent = '—';
+  document.getElementById('stat-pct').textContent = '—';
+  document.getElementById('before-after').style.display = 'none';
+}
+
+function updateStats(s) {
+  const fmt = b => b < 1024 ? b+'B' : (b/1024).toFixed(2)+'KB';
+  document.getElementById('stat-orig').textContent = fmt(s.orig);
+  document.getElementById('stat-opt').textContent = fmt(s.opt);
+  document.getElementById('stat-pct').textContent = s.pct+'% smaller';
+
+  document.getElementById('ba-before-size').textContent = fmt(s.orig);
+  document.getElementById('ba-after-size').textContent = fmt(s.opt);
+  document.getElementById('ba-before-fill').style.width = '100%';
+  document.getElementById('ba-after-fill').style.width = Math.round((s.opt/s.orig)*100)+'%';
+
+  const badge = document.getElementById('reduction-badge');
+  badge.textContent = s.pct+'% smaller';
+  badge.className = 'reduction-badge ' + (s.pct>25?'reduction-great':s.pct>5?'reduction-ok':'reduction-none');
+
+  document.getElementById('before-after').style.display = '';
+}
+
+// ══════════════════════════════════════════════════════════════
+// PREVIEW
+// ══════════════════════════════════════════════════════════════
+function injectSize(svgStr, size) {
+  return svgStr.replace('<svg ', `<svg style="width:${size}px;height:${size}px;display:block;" `);
+}
+
+function updatePreview(svgStr) {
+  document.getElementById('preview-empty').style.display = 'none';
+  document.getElementById('preview-main').style.display = '';
+  document.getElementById('preview-sizes').style.display = '';
+
+  const color = state.previewColor;
+  const colored = (s) => s; // currentColor inherits
+
+  document.getElementById('preview-svg-main').innerHTML = injectSize(svgStr, 80);
+  document.getElementById('preview-svg-main').style.color = color;
+
+  [16,24,32,48].forEach(sz => {
+    const el = document.getElementById('sz-'+sz);
+    if (el) { el.innerHTML = injectSize(svgStr, sz); el.style.color = color; }
+  });
+}
+
+function hidePreview() {
+  document.getElementById('preview-empty').style.display = '';
+  document.getElementById('preview-main').style.display = 'none';
+  document.getElementById('preview-sizes').style.display = 'none';
+  document.getElementById('before-after').style.display = 'none';
+}
+
+function updatePreviewColor(color) {
+  state.previewColor = color;
+  if (!state.optimizedSvg) return;
+  const mainEl = document.getElementById('preview-svg-main');
+  if (mainEl) mainEl.style.color = color;
+  [16,24,32,48].forEach(sz => {
+    const el = document.getElementById('sz-'+sz);
+    if (el) el.style.color = color;
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+// OUTPUT ACTIONS
+// ══════════════════════════════════════════════════════════════
+function setFw(fw, btn) {
+  state.framework = fw;
+  document.querySelectorAll('.fw-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // forwardRef only for React
+  const fwdPill = document.getElementById('pill-fwd');
+  const memoPill = document.getElementById('pill-memo');
+  if (fwdPill) fwdPill.style.opacity = fw !== 'react' ? '0.4' : '';
+  if (memoPill) memoPill.style.opacity = fw !== 'react' ? '0.4' : '';
+
+  // Reset to component tab when switching
+  document.querySelectorAll('.out-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.out-tab[data-tab="component"]').classList.add('active');
+  state.currentTab = 'component';
+
+  regen();
+}
+
+function setOutTab(tab, btn) {
+  document.querySelectorAll('.out-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  setOutputTab(tab);
+}
+
+function onNameChange(val) {
+  state.componentName = pascalCase(val) || 'Icon';
+  if (state.optimizedSvg) regen();
+}
+
+async function copyCode() {
+  if (!state.generatedCode) return;
+  await navigator.clipboard.writeText(state.generatedCode);
+  const lbl = document.getElementById('copy-label');
+  lbl.textContent = 'Copied!';
+  document.getElementById('copy-btn').classList.add('btn-success');
+  showToast('Code copied to clipboard','success');
+  setTimeout(() => { lbl.textContent = 'Copy'; document.getElementById('copy-btn').classList.remove('btn-success'); }, 2000);
+}
+
+async function copyFormat(fmt) {
+  if (!state.optimizedSvg) { showToast('Paste an SVG first','error'); return; }
+  const o = opts();
+  let code = '';
+  if (fmt === 'react-ts') { const prev = o.ts; o.ts=true; code=generateReact(state.optimizedSvg,o); o.ts=prev; }
+  else if (fmt === 'react-js') { const prev = o.ts; o.ts=false; code=generateReact(state.optimizedSvg,o); o.ts=prev; }
+  else if (fmt === 'vue-ts') code = generateVue(state.optimizedSvg,{...o,ts:true});
+  else if (fmt === 'rn') code = generateRN(state.optimizedSvg,o);
+
+  await navigator.clipboard.writeText(code);
+  showToast(`${fmt.toUpperCase()} copied!`,'success');
+}
+
+function downloadCode() {
+  const ext = {react:'tsx',vue:'vue',rn:'tsx'}[state.framework];
+  const name = state.componentName;
+  const blob = new Blob([state.generatedCode],{type:'text/plain'});
+  dl(URL.createObjectURL(blob), `${name}.${ext}`);
+}
+
+function dl(url, filename) {
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearInput() {
+  document.getElementById('svg-input').value = '';
+  state.svgInput = '';
+  state.optimizedSvg = '';
+  state.generatedCode = '';
+  document.getElementById('code-output').textContent = '// Paste SVG or click a sample to generate component code';
+  document.getElementById('dl-btn').disabled = true;
+  document.getElementById('error-banner').classList.remove('show');
+  hidePreview(); clearStats();
+}
+
+function handleFileUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const svgEl = document.getElementById('svg-input');
+    svgEl.value = e.target.result;
+    // Auto-name from filename
+    const name = pascalCase(file.name.replace('.svg',''));
+    document.getElementById('comp-name').value = name + 'Icon';
+    state.componentName = name + 'Icon';
+    handleSvgInput(e.target.result);
+  };
+  reader.readAsText(file);
+}
+
+// ══════════════════════════════════════════════════════════════
+// BULK CONVERSION
+// ══════════════════════════════════════════════════════════════
+const FREE_LIMIT = 10;
+let bulkFiles = [];
+
+function handleBulkFiles(fileList) {
+  const svgFiles = Array.from(fileList).filter(f => f.name.endsWith('.svg'));
+  if (!svgFiles.length) { showToast('Please select .svg files','error'); return; }
+
+  const limit = isPro() ? Infinity : FREE_LIMIT;
+  if (svgFiles.length > limit) {
+    showToast(`Free tier: up to ${FREE_LIMIT} files. Upgrade to Pro for unlimited.`,'error');
+    return;
+  }
+
+  bulkFiles = svgFiles;
+  renderBulkList();
+  document.getElementById('export-zip-btn').disabled = false;
+}
+
+function renderBulkList() {
+  const list = document.getElementById('bulk-file-list');
+  list.innerHTML = bulkFiles.map((f,i) => `
+    <div class="bfile-row">
+      <span class="bfile-name">${f.name}</span>
+      <span class="bfile-size">${(f.size/1024).toFixed(1)}KB</span>
+      <span class="bfile-status" id="bfstat-${i}">ready</span>
+    </div>
+  `).join('');
+}
+
+async function exportZip() {
+  if (!bulkFiles.length) return;
+  const zip = new JSZip();
+  const folder = zip.folder('svg-components');
+  const names = [];
+
+  for (let i = 0; i < bulkFiles.length; i++) {
+    const f = bulkFiles[i];
+    const stat = document.getElementById('bfstat-'+i);
+    if (stat) { stat.textContent = 'converting…'; stat.className = 'bfile-status'; }
+    try {
+      const text = await f.text();
+      const opt = optimizeSVG(text);
+      if (!opt) throw new Error('Invalid SVG');
+      const compName = pascalCase(f.name.replace('.svg',''));
+      names.push(compName);
+      const prevName = state.componentName;
+      state.componentName = compName;
+      const code = state.framework === 'vue' ? generateVue(opt.svg, opts())
+                 : state.framework === 'rn'  ? generateRN(opt.svg, opts())
+                 : generateReact(opt.svg, opts());
+      state.componentName = prevName;
+      const ext = state.framework === 'vue' ? 'vue' : (getOpt('opt-ts') ? 'tsx' : 'jsx');
+      folder.file(`${compName}.${ext}`, code);
+      if (stat) { stat.textContent = '✓ done'; stat.className = 'bfile-status ok'; }
+    } catch(e) {
+      if (stat) { stat.textContent = '✕ error'; stat.className = 'bfile-status err'; }
+    }
+  }
+
+  // index.ts if Pro
+  if (isPro() && names.length) {
+    const ext = state.framework === 'vue' ? 'vue' : (getOpt('opt-ts') ? 'tsx' : 'jsx');
+    folder.file('index.ts', names.map(n=>`export { ${n} } from './${n}';`).join('\n')+'\n');
+  }
+
+  const blob = await zip.generateAsync({type:'blob'});
+  dl(URL.createObjectURL(blob), 'svg-components.zip');
+  showToast(`Exported ${bulkFiles.length} components as ZIP`,'success');
+}
+
+async function generateIndexTs() {
+  if (!bulkFiles.length && !state.generatedCode) { showToast('Add files first','error'); return; }
+  const names = bulkFiles.length
+    ? bulkFiles.map(f => pascalCase(f.name.replace('.svg','')))
+    : [pascalCase(state.componentName)];
+  const content = names.map(n=>`export { ${n} } from './${n}';`).join('\n')+'\n';
+  const blob = new Blob([content],{type:'text/plain'});
+  dl(URL.createObjectURL(blob), 'index.ts');
+  showToast('index.ts downloaded','success');
+}
+
+// Drag & drop on bulk zone
+const bulkDrop = document.getElementById('bulk-drop');
+bulkDrop.addEventListener('dragover', e => { e.preventDefault(); bulkDrop.classList.add('drag-over'); });
+bulkDrop.addEventListener('dragleave', () => bulkDrop.classList.remove('drag-over'));
+bulkDrop.addEventListener('drop', e => {
+  e.preventDefault(); bulkDrop.classList.remove('drag-over');
+  handleBulkFiles(e.dataTransfer.files);
+});
+
+// Drag & drop on textarea
+const svgTextarea = document.getElementById('svg-input');
+svgTextarea.addEventListener('dragover', e => { e.preventDefault(); svgTextarea.classList.add('drop-active'); });
+svgTextarea.addEventListener('dragleave', () => svgTextarea.classList.remove('drop-active'));
+svgTextarea.addEventListener('drop', e => {
+  e.preventDefault(); svgTextarea.classList.remove('drop-active');
+  const file = e.dataTransfer.files[0];
+  if (file && file.name.endsWith('.svg')) {
+    const r = new FileReader();
+    r.onload = ev => { svgTextarea.value = ev.target.result; handleSvgInput(ev.target.result); };
+    r.readAsText(file);
+  } else {
+    const txt = e.dataTransfer.getData('text');
+    if (txt) { svgTextarea.value = txt; handleSvgInput(txt); }
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+// TOGGLE PILLS (sync state)
+// ══════════════════════════════════════════════════════════════
+document.querySelectorAll('.toggle-pill').forEach(pill => {
+  const cb = pill.querySelector('input[type="checkbox"]');
+  if (!cb) return;
+  function sync() {
+    pill.classList.toggle('on', cb.checked);
+  }
+  sync();
+  cb.addEventListener('change', sync);
+  pill.addEventListener('click', e => {
+    if (e.target === cb) return; // don't double-toggle
+  });
+});
+
+// ══════════════════════════════════════════════════════════════
+// MOBILE TABS
+// ══════════════════════════════════════════════════════════════
+function switchMobileTab(panelId, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('mobile-active'));
+  document.querySelectorAll('.mobile-tab').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById(panelId);
+  if (panel) panel.classList.add('mobile-active');
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════
+// DOCS
+// ══════════════════════════════════════════════════════════════
+function toggleDocs() {
+  const d = document.getElementById('docs-section');
+  d.classList.toggle('show');
+}
+
+// ══════════════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════════════
+function showToast(msg, type='success') {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icon = type==='success'
+    ? '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 7l4 4 6-7"/></svg>'
+    : '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2v6M7 10v1.5"/></svg>';
+  t.innerHTML = icon + msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+// ══════════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if ((e.metaKey||e.ctrlKey) && e.key==='Enter') { e.preventDefault(); copyCode(); }
+  if (e.key==='Escape') closeProModal();
+});
+document.getElementById('key-input').addEventListener('keydown', e => { if(e.key==='Enter') activateLicense(); });
+document.getElementById('pro-modal').addEventListener('click', e => { if(e.target===document.getElementById('pro-modal')) closeProModal(); });
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+(function init() {
+  // Theme
+  const savedTheme = localStorage.getItem('svgcomp_theme') || 'dark';
+  document.documentElement.dataset.theme = savedTheme;
+  if (savedTheme === 'light') {
+    document.getElementById('theme-icon-dark').style.display = 'none';
+    document.getElementById('theme-icon-light').style.display = '';
+  }
+
+  renderGallery();
+  renderHistory();
+  applyProUI();
+
+  // Initial panel for mobile
+  if (window.innerWidth <= 768) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('mobile-active'));
+    document.getElementById('input-panel').classList.add('mobile-active');
+  } else {
+    document.querySelectorAll('.panel').forEach(p => p.classList.add('mobile-active'));
+  }
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.add('mobile-active'));
+    }
+  });
+})();
+
+async function bulkConvert() {
+  if (!isPro()) { openProModal(); return; }
+  const input = document.createElement('input');
+  input.type = 'file'; input.multiple = true; input.accept = '.svg';
+  input.onchange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+    
+    showToast(`Processing ${files.length} SVGs...`, 'info');
+    try {
+      if (typeof JSZip === 'undefined') {
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+      }
+      const zip = new JSZip();
+      const fw = state.framework;
+      const ext = fw === 'vue' ? 'vue' : (state.useTS ? 'tsx' : 'jsx');
+      
+      for (const file of files) {
+        const text = await file.text();
+        const optimized = optimizeSVG(text);
+        if (!optimized) continue;
+        
+        const compName = pascalCase(file.name.replace('.svg', ''));
+        let code = '';
+        if (fw === 'vue') code = generateVue(optimized, opts());
+        else if (fw === 'rn') code = generateRN(optimized, opts());
+        else code = generateReact(optimized, opts());
+        
+        zip.file(`${compName}.${ext}`, code);
+      }
+      
+      const content = await zip.generateAsync({type: "blob"});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(content);
+      a.download = `components-${Date.now()}.zip`;
+      a.click();
+      showToast('✓ ZIP exported!', 'success');
+    } catch (err) {
+      console.error(err);
+      showToast('✕ ZIP generation failed.', 'err');
+    }
+  };
+  input.click();
+}
+
+function loadScript(url) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = url; s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+async function deactivatePro() {
+  if (confirm('Deactivate Pro on this device?')) {
+    localStorage.removeItem(PRO_KEY);
+    location.reload();
+  }
+}
+</script>
 </body>
 </html>

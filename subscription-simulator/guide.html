@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Much Do Your Subscriptions Really Cost? 3-Year Simulation Guide</title>
+    <meta name="description" content="Learn how to project your subscription spending over 1, 2, and 3 years. Includes psychology of monthly fees, opportunity cost calculations, and how to identify your highest-ROI cancellation targets.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#030d09; --bg2:#071a10; --border:rgba(255,255,255,0.07); --accent:#34d399; --primary:#10b981; --text:#d1fae5; --muted:#6b7280; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.7; }
+        nav { background:rgba(3,13,9,0.95); border-bottom:1px solid var(--border); padding:0 2rem; height:56px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; backdrop-filter:blur(12px); }
+        nav a { color:var(--muted); text-decoration:none; font-size:0.85rem; font-weight:600; }
+        .nav-cta { background:var(--primary); color:#000 !important; padding:0.4rem 1rem; border-radius:8px; font-weight:800; font-size:0.8rem; }
+        .hero { max-width:860px; margin:5rem auto 4rem; padding:0 2rem; }
+        .tag { display:inline-block; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); color:var(--accent); font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:0.35rem 0.9rem; border-radius:20px; margin-bottom:1.5rem; }
+        h1 { font-size:clamp(2rem,5vw,3rem); font-weight:900; letter-spacing:-0.03em; color:#fff; margin-bottom:1.5rem; }
+        h1 span { color:var(--accent); }
+        .meta { color:var(--muted); font-size:0.85rem; margin-bottom:2rem; }
+        .intro { font-size:1.05rem; color:#6ee7b7; line-height:1.85; }
+        article { max-width:860px; margin:0 auto; padding:0 2rem 8rem; }
+        h2 { font-size:1.5rem; font-weight:800; color:#fff; margin:3rem 0 1rem; }
+        p { color:#6ee7b7; margin-bottom:1.2rem; font-size:0.97rem; }
+        strong { color:#fff; }
+        ul,ol { color:#6ee7b7; padding-left:1.5rem; margin-bottom:1.5rem; display:grid; gap:0.6rem; font-size:0.95rem; }
+        .cost-table { width:100%; border-collapse:collapse; margin:2rem 0; font-size:0.9rem; }
+        .cost-table th { background:var(--bg2); border:1px solid var(--border); padding:0.75rem 1rem; color:var(--muted); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; text-align:left; }
+        .cost-table td { border:1px solid var(--border); padding:0.75rem 1rem; color:#fff; }
+        .cost-table tr:nth-child(even) td { background:rgba(255,255,255,0.02); }
+        .hi { color:var(--accent); font-weight:700; }
+        .callout { background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.18); border-left:3px solid var(--primary); border-radius:0 12px 12px 0; padding:1.25rem 1.5rem; margin:2rem 0; }
+        .callout strong { color:var(--accent); display:block; margin-bottom:0.4rem; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.12em; }
+        .faq { border:1px solid var(--border); border-radius:18px; overflow:hidden; margin-top:2rem; }
+        .faq-item { padding:1.5rem 2rem; border-bottom:1px solid var(--border); }
+        .faq-item:last-child { border-bottom:none; }
+        .faq-item h4 { color:#fff; font-weight:700; margin-bottom:0.5rem; }
+        .faq-item p { margin:0; font-size:0.9rem; }
+        .cta { background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); border-radius:22px; padding:3rem; text-align:center; margin:4rem 0 0; }
+        .btn { display:inline-flex; align-items:center; gap:0.5rem; background:var(--primary); color:#000; padding:0.9rem 2rem; border-radius:12px; font-weight:800; text-decoration:none; }
+    </style>
+</head>
+<body>
+<nav>
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+        <a href="/">← Subscription Simulator</a>
+    </div>
+    <a href="/" class="nav-cta">Open Tool →</a>
+</nav>
+<div class="hero">
+    <div class="tag">📈 Subscription Simulator — Guide</div>
+    <h1>How Much Do Subscriptions <span>Really Cost</span> Over 3 Years?</h1>
+    <p class="meta">7 min read · Budget Planning · Financial Transparency</p>
+    <p class="intro">Monthly fees feel negligible. Compounded across 5-10 services over 36 months, they represent massive wealth drain. This guide shows how to model your costs and identify high-impact cancellation targets.</p>
+</div>
+<article>
+<h2>The "Small Monthly Fee" Illusion</h2>
+<p>When Netflix raises prices $1.50/month, users shrug. That's $18/year, $54 over 3 years. Multiply across 8 subscriptions and you're hemorrhaging money on price creep alone.</p>
+<table class="cost-table">
+    <thead><tr><th>Service</th><th>Monthly</th><th>1 Year</th><th>3 Years</th></tr></thead>
+    <tbody>
+        <tr><td>Netflix Premium</td><td>$22.99</td><td>$275.88</td><td class="hi">$827.64</td></tr>
+        <tr><td>Adobe Creative Cloud</td><td>$54.99</td><td>$659.88</td><td class="hi">$1,979.64</td></tr>
+        <tr><td>Spotify Duo</td><td>$16.99</td><td>$203.88</td><td class="hi">$611.64</td></tr>
+        <tr><td>ChatGPT Plus</td><td>$20.00</td><td>$240.00</td><td class="hi">$720.00</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>$114.97</strong></td><td><strong>$1,379.64</strong></td><td class="hi"><strong>$4,138.92</strong></td></tr>
+    </tbody>
+</table>
+<div class="callout">
+    <strong>💡 Opportunity Cost</strong>
+    At 7% annual return, $115/month invested instead of subscribed becomes approximately $4,800 in 3 years. The simulator makes this trade-off visible.
+</div>
+<h2>How to Use the Simulator</h2>
+<ol>
+    <li>Add each subscription: name, monthly price, currency</li>
+    <li>Watch 1yr / 2yr / 3yr totals update instantly</li>
+    <li>The Chart.js curve makes the compounding effect visual</li>
+    <li>Remove services you're willing to cancel and watch the savings materialize</li>
+</ol>
+<h2>High-Impact Cancellation Targets</h2>
+<ul>
+    <li><strong>Unused software:</strong> Haven't opened it in 30 days? Cancel. Adobe at $54.99/mo is $659/year gathering dust.</li>
+    <li><strong>Redundant services:</strong> Spotify AND Apple Music? Disney+ AND Hulu? Pick one per category.</li>
+    <li><strong>Default upgrades:</strong> Check for price jumps from promotional pricing expiring.</li>
+    <li><strong>Annual vs monthly:</strong> Annual plans save 15-20% if you use the service daily.</li>
+</ul>
+<div class="faq">
+    <div class="faq-item"><h4>Does the simulator account for price increases?</h4><p>No — it uses your current price as a fixed rate. Real-world costs will be higher due to annual increases averaging 5-15%.</p></div>
+    <div class="faq-item"><h4>Is my subscription list saved?</h4><p>Yes, in localStorage. It persists across sessions. No server storage occurs — only your device.</p></div>
+    <div class="faq-item"><h4>What currency does it use?</h4><p>Whatever you enter. Add ¥, €, or £ and the same math applies to your local currency values.</p></div>
+</div>
+<div class="cta">
+    <h2>Model Your 3-Year Cost Now</h2>
+    <p style="color:#6ee7b7;margin-bottom:2rem;">Add your subscriptions and watch the true long-term cost reveal itself.</p>
+    <a href="/" class="btn">Open Subscription Simulator →</a>
+</div>
+</article>
+</body>
+</html>

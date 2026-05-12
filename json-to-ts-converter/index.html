@@ -1,878 +1,2568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-314SW70WQP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZCDKWRN6KN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'G-314SW70WQP');
-  </script>
-  <!-- ============================================================
-       META & SEO
-  ============================================================ -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JSON to TypeScript Interface Converter | Free Online Tool</title>
-  <meta name="description" content="Convert JSON to TypeScript interfaces instantly. Free online tool with recursive parsing, nested object support, and automatic type inference. No signup required." />
-  <meta name="keywords" content="JSON to TypeScript, TypeScript interface generator, JSON converter, TypeScript types, online tool" />
-  <meta name="robots" content="index, follow" />
+  gtag('config', 'G-ZCDKWRN6KN');
+</script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wk4ovtb4c9");
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON to TypeScript Converter — Interface & Zod Schema Generator</title>
+<meta name="description" content="Free, 100% private JSON to TypeScript converter. Generate interfaces, Zod schemas, and IO-TS types from nested JSON instantly. No server uploads, secure developer tool.">
+<meta name="keywords" content="JSON to TypeScript, TypeScript interface generator, Zod schema generator, JSON type generator, null safe TypeScript, offline TypeScript generator, IO-TS generator, developer utility, JSON to TS online">
 
-  <!-- OGP / Open Graph -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:title"       content="JSON to TypeScript Interface Converter" />
-  <meta property="og:description" content="Convert JSON to TypeScript interfaces instantly with recursive parsing and automatic type inference." />
-  <meta property="og:url"         content="https://json2ts.example.com/" />
-  <meta property="og:image"       content="https://json2ts.example.com/ogp.png" />
+<!-- PWA Manifest inline -->
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22JSON+to+TypeScript%22%2C%22short_name%22%3A%22JSON2TS%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0c10%22%2C%22theme_color%22%3A%22%230a0c10%22%7D">
+<meta name="theme-color" content="#0a0c10">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="JSON to TypeScript Interface Converter" />
-  <meta name="twitter:description" content="Convert JSON to TypeScript interfaces instantly. Free, fast, recursive." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://json2ts.example.com/" />
+<style>
+/* ════════════════════════════════════════════════════════════
+   DESIGN TOKENS — sleek, premium, modern professional
+════════════════════════════════════════════════════════════ */
+:root {
+  --ff-ui:   'Manrope', system-ui, sans-serif;
+  --ff-code: 'Fira Code', 'Cascadia Code', Consolas, monospace;
 
-  <!-- ============================================================
-       FONTS  —  JetBrains Mono (code) + Syne (UI headings)
-  ============================================================ -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  /* Background layers - deep obsidian and indigo */
+  --bg:      #030305;
+  --bg2:     #08080C;
+  --bg3:     #11111A;
+  --bg4:     #1A1A26;
+  --bg5:     #252536;
 
-  <!-- ============================================================
-       TAILWIND CSS CDN
-  ============================================================ -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            mono:    ['"JetBrains Mono"', 'monospace'],
-            display: ['Syne', 'sans-serif'],
-          },
-          colors: {
-            /* Palette: deep navy + electric cyan accent */
-            base:    { DEFAULT: '#0d1117', 50: '#161b22', 100: '#1c2230', 200: '#21283a' },
-            panel:   { DEFAULT: '#161b22', light: '#1c2230' },
-            border:  { DEFAULT: '#30363d', bright: '#58a6ff' },
-            cyan:    { DEFAULT: '#58d4d4', dark: '#3fb8b8', glow: 'rgba(88,212,212,0.18)' },
-            green:   { DEFAULT: '#4ec994', dark: '#3aaf7c' },
-            amber:   { DEFAULT: '#f0a84a', dark: '#d9913a' },
-            red:     { DEFAULT: '#f47067', dark: '#d95f57' },
-            muted:   '#6e7681',
-            ghost:   '#8b949e',
-          },
-        },
-      },
-    };
-  </script>
+  /* Borders */
+  --line:    rgba(255, 255, 255, 0.06);
+  --line2:   rgba(255, 255, 255, 0.12);
+  --line3:   rgba(255, 255, 255, 0.18);
 
-  <!-- ============================================================
-       CUSTOM STYLES
-  ============================================================ -->
-  <style>
-    /* ── Root resets ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+  /* Text */
+  --t1:      #ffffff;
+  --t2:      #a1a1aa;
+  --t3:      #71717a;
+  --t4:      #52525b;
 
-    body {
-      background-color: #0d1117;
-      font-family: 'JetBrains Mono', monospace;
-      color: #c9d1d9;
-      min-height: 100vh;
-      /* Subtle radial glow at top */
-      background-image:
-        radial-gradient(ellipse 80% 40% at 50% -10%, rgba(88,212,212,0.07) 0%, transparent 70%);
-    }
+  /* Accent: electric violet / neon cyan */
+  --accent:       #6366f1;
+  --accent-hi:    #818cf8;
+  --accent-lo:    rgba(99, 102, 241, 0.15);
+  --accent-glow:  0 0 0 1px rgba(129, 140, 248, 0.5), 0 0 24px rgba(99, 102, 241, 0.4);
+  --accent-ring:  0 0 0 2px rgba(99, 102, 241, 0.5);
 
-    /* ── Scrollbar styling ── */
-    ::-webkit-scrollbar              { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track        { background: #0d1117; }
-    ::-webkit-scrollbar-thumb        { background: #30363d; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover  { background: #58a6ff; }
+  /* Semantic */
+  --green:    #10b981;
+  --green-lo: rgba(16, 185, 129, 0.15);
+  --red:      #f43f5e;
+  --red-lo:   rgba(244, 63, 94, 0.15);
+  --amber:    #f59e0b;
+  --amber-lo: rgba(245, 158, 11, 0.15);
+  --purple:   #d946ef;
+  --purple-lo:rgba(217, 70, 239, 0.15);
 
-    /* ── Textarea / pre resets ── */
-    textarea, pre {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      line-height: 1.7;
-      tab-size: 2;
-    }
-    textarea {
-      resize: none;
-      outline: none;
-      border: none;
-      background: transparent;
-      color: #c9d1d9;
-      width: 100%;
-      height: 100%;
-      padding: 16px;
-      caret-color: #58d4d4;
-    }
-    textarea::selection { background: rgba(88,212,212,0.22); }
-    textarea:focus { outline: none; }
+  /* Pro */
+  --pro:      #fbbf24;
+  --pro-lo:   rgba(251, 191, 36, 0.15);
+  --pro-line: rgba(251, 191, 36, 0.3);
 
-    /* ── Panel glow border on focus-within ── */
-    .panel-wrapper:focus-within .panel-border {
-      border-color: rgba(88,212,212,0.45);
-      box-shadow: 0 0 0 1px rgba(88,212,212,0.12), inset 0 1px 0 rgba(88,212,212,0.06);
-    }
+  --radius-sm: 6px;
+  --radius:    12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
 
-    /* ── Syntax highlighting colours ── */
-    .ts-keyword     { color: #ff7b72; }   /* red   – interface, export  */
-    .ts-type        { color: #79c0ff; }   /* blue  – string, number … */
-    .ts-prop        { color: #c9d1d9; }   /* white – property names    */
-    .ts-brace       { color: #8b949e; }   /* muted – { }               */
-    .ts-comment     { color: #6e7681; font-style: italic; }
-    .ts-name        { color: #58d4d4; }   /* cyan  – interface names    */
-    .ts-optional    { color: #d2a8ff; }   /* purple– ? optional mark    */
+  /* Transitions */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-    /* ── Button hover shimmer ── */
-    .btn-primary {
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
-    }
-    .btn-primary::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%);
-      transform: translateX(-100%);
-      transition: transform 0.4s ease;
-    }
-    .btn-primary:hover::after  { transform: translateX(100%); }
-    .btn-primary:hover         { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(88,212,212,0.25); }
-    .btn-primary:active        { transform: translateY(0); }
+/* ── RESET ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-    .btn-secondary {
-      transition: transform 0.12s ease, background 0.12s ease;
-    }
-    .btn-secondary:hover { transform: translateY(-1px); }
-    .btn-secondary:active { transform: translateY(0); }
+body {
+  font-family: var(--ff-ui);
+  background: var(--bg);
+  color: var(--t1);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
 
-    /* ── Toast notification ── */
-    #toast {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      z-index: 9999;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-size: 13px;
-      background: #1c2230;
-      border: 1px solid #30363d;
-      color: #c9d1d9;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.22s ease, transform 0.22s ease;
-      pointer-events: none;
-    }
-    #toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    #toast.success { border-color: #4ec994; color: #4ec994; }
-    #toast.error   { border-color: #f47067; color: #f47067; }
+/* Subtle grid bg & dynamic gradients */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+}
 
-    /* ── Line numbers ── */
-    .line-numbers {
-      user-select: none;
-      padding: 16px 8px 16px 14px;
-      text-align: right;
-      font-size: 12px;
-      line-height: 1.7;
-      color: #383f47;
-      min-width: 42px;
-      border-right: 1px solid #21283a;
-    }
+body::after {
+  content: '';
+  position: fixed;
+  top: -200px; left: 50%; transform: translateX(-50%);
+  width: 1000px; height: 600px;
+  background: 
+    radial-gradient(circle at 30% 50%, rgba(99, 102, 241, 0.12), transparent 50%),
+    radial-gradient(circle at 70% 50%, rgba(217, 70, 239, 0.08), transparent 50%);
+  pointer-events: none; z-index: 0;
+  filter: blur(60px);
+}
 
-    /* ── Error banner ── */
-    #error-banner {
-      transition: max-height 0.3s ease, opacity 0.3s ease;
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-    }
-    #error-banner.visible {
-      max-height: 80px;
-      opacity: 1;
-    }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--line3); }
 
-    /* ── Output area ── */
-    #output-pre {
-      padding: 16px;
-      font-size: 13px;
-      line-height: 1.7;
-      white-space: pre;
-      overflow: auto;
-      flex: 1;
-      min-height: 0;
-    }
+/* ── TYPOGRAPHY ───────────────────────────────────────────── */
+.label-xs {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--t3);
+}
 
-    /* ── Header glow text ── */
-    .glow-text {
-      text-shadow: 0 0 24px rgba(88,212,212,0.5), 0 0 8px rgba(88,212,212,0.3);
-    }
+/* ── HEADER ───────────────────────────────────────────────── */
+#header {
+  position: sticky; top: 16px; z-index: 80;
+  background: rgba(10, 10, 15, 0.65);
+  backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  margin: 0 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  transition: all 0.3s var(--ease);
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; height: 60px; gap: 12px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 16px; font-weight: 800;
+  color: var(--t1); text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.logo-mark {
+  font-family: var(--ff-code);
+  font-size: 15px; font-weight: 600;
+  display: flex; align-items: center; gap: 0;
+}
+.logo-brace { color: var(--amber); }
+.logo-arr   { color: var(--accent-hi); padding: 0 6px; }
+.logo-ts    { background: linear-gradient(90deg, #818cf8, #d946ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.logo-ver {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 99px;
+  background: var(--accent-lo); border: 1px solid rgba(99, 102, 241, 0.3);
+  color: var(--accent-hi); letter-spacing: 0.05em; margin-left: 6px;
+}
+.h-spacer { flex: 1; }
+.h-actions { display: flex; align-items: center; gap: 10px; }
 
-    /* ── Stats badge ── */
-    .stat-badge {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 20px;
-      background: rgba(88,212,212,0.08);
-      border: 1px solid rgba(88,212,212,0.2);
-      color: #58d4d4;
-    }
+/* ── BUTTONS ──────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: var(--radius);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  border: 1px solid transparent; transition: all 0.2s var(--ease);
+  font-family: var(--ff-ui); letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-    /* ── Ad placeholder ── */
-    .ad-placeholder {
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(255,255,255,0.015) 0px,
-        rgba(255,255,255,0.015) 1px,
-        transparent 1px,
-        transparent 10px
-      );
-      border: 1px dashed #2d3440;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #3d4450;
-      font-size: 12px;
-      letter-spacing: 0.06em;
-    }
+.btn-ghost {
+  background: rgba(255,255,255,0.03); border-color: var(--line); color: var(--t2);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: var(--line2); color: var(--t1); transform: translateY(-1px); }
 
-    /* ── Responsive split ── */
-    @media (max-width: 767px) {
-      #split-container {
-        flex-direction: column !important;
-      }
-      #split-container > * {
-        height: 42vh;
-        min-height: 260px;
-      }
-    }
+.btn-accent {
+  background: linear-gradient(135deg, var(--accent), #8b5cf6); border-color: transparent; color: white; font-weight: 700;
+  box-shadow: 0 4px 14px rgba(99,102,241,0.25);
+}
+.btn-accent:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99,102,241,0.4); filter: brightness(1.1); }
+.btn-accent:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; filter: none; }
 
-    /* ── Cursor blink in empty input ── */
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    .cursor-blink { animation: blink 1.1s step-end infinite; }
+.btn-green { background: var(--green-lo); border-color: rgba(16,185,129,0.3); color: var(--green); }
+.btn-green:hover { background: rgba(16,185,129,0.2); transform: translateY(-1px); }
 
-    /* ── Fade-in on load ── */
-    @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
-    .fade-up { animation: fadeUp 0.5s ease both; }
-    .fade-up-2 { animation: fadeUp 0.5s 0.1s ease both; }
-    .fade-up-3 { animation: fadeUp 0.5s 0.18s ease both; }
-  </style>
+.btn-danger { background: var(--red-lo); border-color: rgba(244,63,94,0.3); color: var(--red); }
+.btn-danger:hover { background: rgba(244,63,94,0.2); transform: translateY(-1px); }
+
+.btn-pro { background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(251,191,36,0.2)); border-color: var(--pro-line); color: var(--pro); box-shadow: 0 4px 12px rgba(251,191,36,0.1); }
+.btn-pro:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(251,191,36,0.2); border-color: var(--pro); }
+
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-icon { padding: 8px; width: 34px; height: 34px; justify-content: center; border-radius: var(--radius-sm); }
+
+/* ── MAIN LAYOUT ──────────────────────────────────────────── */
+#main {
+  max-width: 1200px; margin: 0 auto;
+  padding: 40px 24px 100px;
+  position: relative; z-index: 1;
+}
+
+/* ── HERO ─────────────────────────────────────────────────── */
+#hero {
+  text-align: center;
+  padding: 60px 0 50px;
+  position: relative;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ff-code); font-size: 12px; font-weight: 500;
+  color: var(--accent-hi); letter-spacing: 0.08em;
+  margin-bottom: 24px;
+  padding: 6px 16px; border-radius: 99px;
+  background: var(--accent-lo); border: 1px solid rgba(99,102,241,0.25);
+  box-shadow: 0 4px 12px rgba(99,102,241,0.1);
+}
+.hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-hi); animation: blink 2s ease infinite; box-shadow: 0 0 8px var(--accent-hi); }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+#hero h1 {
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+#hero h1 .hl { background: linear-gradient(135deg, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#hero h1 .arr { color: var(--t3); font-weight: 300; padding: 0 16px; }
+
+.hero-sub {
+  font-size: 18px; color: var(--t2); max-width: 700px; margin: 0 auto 40px;
+  line-height: 1.6;
+}
+.hero-badges { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 60px; }
+.hbadge {
+  padding: 8px 16px; border-radius: 99px; font-size: 12px; font-weight: 700;
+  background: var(--bg3); border: 1px solid var(--line); color: var(--t2);
+  display: flex; align-items: center; gap: 8px;
+}
+.hbadge.hi { border-color: var(--accent-hi); color: var(--accent-hi); }
+.hbadge.bl { border-color: var(--purple); color: var(--purple); }
+
+/* ── SAMPLE CHIPS ─────────────────────────────────────────── */
+#samples-bar {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 16px;
+  backdrop-filter: blur(12px);
+}
+.sbar-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--line);
+}
+.sbar-title { display: flex; align-items: center; gap: 8px; }
+.sbar-chips { padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.schip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: var(--radius);
+  background: var(--bg3); border: 1px solid var(--line);
+  cursor: pointer; transition: all 0.2s var(--ease);
+  font-family: var(--ff-code); font-size: 12px; font-weight: 500;
+  color: var(--t2); letter-spacing: 0.02em;
+}
+.schip-icon {
+  width: 20px; height: 20px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+  background: rgba(255,255,255,0.05);
+  transition: all 0.2s;
+}
+.schip:hover { border-color: var(--accent-hi); color: var(--t1); background: var(--accent-lo); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99,102,241,0.1); }
+.schip:hover .schip-icon { background: transparent; transform: scale(1.1); }
+
+/* ── OPTIONS BAR ──────────────────────────────────────────── */
+#options-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.02); border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+  backdrop-filter: blur(12px);
+}
+.opt-sep { width: 1px; height: 24px; background: var(--line); flex-shrink: 0; }
+
+/* Toggle pills */
+.tpill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 99px; cursor: pointer;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.03em;
+  border: 1px solid var(--line2); background: var(--bg3);
+  color: var(--t3); user-select: none;
+  transition: all 0.2s var(--ease); font-family: var(--ff-ui);
+}
+.tpill input { display: none; }
+.tpill.on { background: var(--accent-lo); border-color: rgba(99,102,241,0.4); color: var(--accent-hi); box-shadow: 0 2px 8px rgba(99,102,241,0.15); }
+.tpill.on .tpill-knob { background: var(--accent-hi); box-shadow: 0 0 8px var(--accent-hi); }
+.tpill-knob { width: 8px; height: 8px; border-radius: 50%; background: var(--t4); transition: all 0.2s; }
+.tpill:hover:not(.on) { border-color: var(--line3); color: var(--t1); background: var(--bg4); }
+
+/* mode tabs */
+.mode-tabs { display: flex; gap: 4px; background: var(--bg3); padding: 4px; border-radius: var(--radius-sm); border: 1px solid var(--line); }
+.mtab {
+  padding: 6px 14px; border-radius: 4px;
+  font-family: var(--ff-code); font-size: 12px; font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase; cursor: pointer;
+  background: transparent; border: none; color: var(--t3);
+  transition: all 0.2s var(--ease);
+}
+.mtab.active { background: var(--accent); color: white; box-shadow: 0 2px 8px rgba(99,102,241,0.3); }
+.mtab.zod.active { background: var(--purple); color: white; box-shadow: 0 2px 8px rgba(217,70,239,0.3); }
+.mtab.iots.active { background: var(--green); color: white; box-shadow: 0 2px 8px rgba(16,185,129,0.3); }
+.mtab:hover:not(.active) { color: var(--t1); background: rgba(255,255,255,0.05); }
+.mtab-pro::after { content:'★'; font-size:10px; color:var(--pro); margin-left:4px; vertical-align:top; }
+
+/* root input */
+.root-in {
+  font-family: var(--ff-code); font-size: 13px; font-weight: 500;
+  background: rgba(0,0,0,0.3); border: 1px solid var(--line2);
+  color: var(--t1); padding: 6px 12px; border-radius: var(--radius-sm);
+  outline: none; width: 120px; letter-spacing: 0.03em;
+  transition: all 0.2s;
+}
+.root-in:focus { border-color: var(--accent); box-shadow: var(--accent-ring); background: rgba(0,0,0,0.5); }
+
+/* pro lock */
+.pro-lock {
+  font-family: var(--ff-code); font-size: 10px; font-weight: 800;
+  padding: 4px 8px; border-radius: 4px; cursor: pointer;
+  background: var(--pro-lo); border: 1px solid var(--pro-line); color: var(--pro);
+  transition: all 0.2s;
+}
+.pro-lock:hover { background: rgba(251,191,36,0.25); transform: scale(1.05); }
+
+/* ── EDITOR GRID ──────────────────────────────────────────── */
+#editor-shell {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 16px;
+  display: flex; flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  backdrop-filter: blur(12px);
+}
+
+#editor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 600px; /* Fixed height for the editor */
+}
+
+/* Pane shared */
+.pane { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+.pane:first-child { border-right: 1px solid var(--line); }
+
+.pane-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--line);
+  min-height: 48px; flex-shrink: 0;
+}
+.pane-label {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--ff-code); font-size: 12px; font-weight: 600;
+  color: var(--t2); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.pane-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 8px currentColor; }
+.dot-json { background: var(--amber); color: var(--amber); }
+.dot-ts   { background: var(--accent-hi); color: var(--accent-hi); }
+.dot-zod  { background: var(--purple); color: var(--purple); }
+.dot-iots { background: var(--green); color: var(--green); }
+.pane-actions { display: flex; align-items: center; gap: 8px; }
+
+/* ── CUSTOM EDITOR (JSON INPUT) ───────────────────────────── */
+.editor-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* Line numbers column */
+.line-nums {
+  width: 48px; flex-shrink: 0;
+  padding: 20px 0;
+  background: rgba(0,0,0,0.2);
+  border-right: 1px solid var(--line);
+  font-family: var(--ff-code); font-size: 13px; line-height: 1.7;
+  color: var(--t4);
+  user-select: none; overflow: hidden;
+  text-align: right;
+}
+.line-nums-inner { padding: 0 12px; }
+.ln {
+  display: block; line-height: 1.7;
+  color: var(--t4); transition: color 0.2s;
+  font-size: 12px;
+}
+.ln.err { color: var(--red); font-weight: 700; text-shadow: 0 0 8px rgba(244,63,94,0.5); }
+.ln.active { color: var(--t2); }
+
+/* Input textarea */
+.editor-textarea {
+  position: absolute;
+  inset: 0;
+  padding: 20px 18px;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--accent-hi);
+  font-family: var(--ff-code); font-size: 14px; line-height: 1.7;
+  border: none; outline: none; resize: none;
+  tab-size: 2; overflow-y: auto; overflow-x: auto;
+  z-index: 2;
+  white-space: pre;
+  word-wrap: normal;
+  margin-left: 48px;
+  width: calc(100% - 48px);
+}
+.editor-textarea::selection { background: rgba(99,102,241,0.3); }
+
+/* Highlight overlay */
+.editor-highlight {
+  position: absolute;
+  left: 48px; top: 0; bottom: 0;
+  width: calc(100% - 48px);
+  padding: 20px 18px;
+  font-family: var(--ff-code); font-size: 14px; line-height: 1.7;
+  pointer-events: none; z-index: 1;
+  overflow: hidden;
+  white-space: pre;
+  word-wrap: normal;
+  color: var(--t1);
+}
+
+/* Error line highlight */
+.err-line-bg {
+  background: linear-gradient(90deg, rgba(244,63,94,0.1), transparent);
+  border-left: 2px solid var(--red);
+  display: block;
+  margin-left: -18px;
+  padding-left: 16px;
+}
+
+/* Syntax colors - premium palette */
+.j-key    { color: #93c5fd; }
+.j-str    { color: #a7f3d0; }
+.j-num    { color: #fde047; }
+.j-kw     { color: #f472b6; }
+.j-punc   { color: #a1a1aa; }
+
+.ts-kw    { color: #f472b6; }
+.ts-type  { color: #fde047; }
+.ts-key   { color: #93c5fd; }
+.ts-str   { color: #a7f3d0; }
+.ts-cmt   { color: #71717a; font-style: italic; }
+.ts-punc  { color: #a1a1aa; }
+.ts-op    { color: #c084fc; }
+.ts-num   { color: #fde047; }
+
+/* Output pre */
+#output-pre {
+  flex: 1;
+  padding: 20px 18px;
+  margin: 0;
+  background: transparent;
+  font-family: var(--ff-code); font-size: 14px; line-height: 1.7;
+  color: var(--t1);
+  overflow: auto;
+  white-space: pre;
+  min-height: 480px;
+}
+
+/* ── ERROR PANE ───────────────────────────────────────────── */
+#error-pane {
+  display: none;
+  align-items: flex-start; gap: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(90deg, rgba(244,63,94,0.15), transparent);
+  border-top: 1px solid rgba(244,63,94,0.3);
+  position: relative; overflow: hidden;
+}
+#error-pane::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: var(--red); box-shadow: 0 0 10px var(--red);
+}
+#error-pane.show { display: flex; animation: slideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes slideIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+.ep-icon { color: var(--red); font-size: 16px; margin-top: 2px; flex-shrink: 0; text-shadow: 0 0 8px rgba(244,63,94,0.5); }
+#error-text { font-family: var(--ff-code); font-size: 13px; color: #fda4af; line-height: 1.6; letter-spacing: 0.02em; }
+.ep-fix { margin-top: 4px; display: block; font-family: var(--ff-ui); font-size: 12px; color: var(--t2); }
+
+/* ── STATUS BAR ───────────────────────────────────────────── */
+#status-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+  padding: 8px 18px;
+  background: rgba(0,0,0,0.4); border-top: 1px solid var(--line);
+}
+.sb-item {
+  font-family: var(--ff-code); font-size: 11px; color: var(--t3);
+  display: flex; align-items: center; gap: 6px;
+}
+.sb-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease infinite; box-shadow: 0 0 8px var(--green); }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+/* ── ACTIONS BAR ──────────────────────────────────────────── */
+#action-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  padding: 14px 18px;
+  background: rgba(0,0,0,0.5); border-top: 1px solid var(--line);
+}
+.dl-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: var(--radius);
+  font-family: var(--ff-code); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  background: linear-gradient(135deg, var(--accent), #8b5cf6); border: none; color: white;
+  cursor: pointer; transition: all 0.2s var(--ease);
+  box-shadow: 0 4px 14px rgba(99,102,241,0.3);
+}
+.dl-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(99,102,241,0.5); filter: brightness(1.1); }
+.dl-btn:active { transform: scale(0.98); }
+.dl-btn svg { width: 14px; height: 14px; }
+
+/* ── BATCH PANEL ──────────────────────────────────────────── */
+#batch-panel {
+  display: none;
+  background: rgba(255,255,255,0.02); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 16px;
+  backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+#batch-panel.show { display: block; animation: fadeUp 0.3s var(--ease); }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+.batch-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 18px; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--line);
+}
+.batch-body { padding: 20px; }
+.drop-zone {
+  border: 2px dashed var(--line2); border-radius: var(--radius);
+  padding: 40px; text-align: center; cursor: pointer;
+  transition: all 0.2s var(--ease); background: rgba(0,0,0,0.2);
+}
+.drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent-hi); background: rgba(99,102,241,0.05); transform: scale(1.01); }
+.dz-title { font-size: 15px; color: var(--t1); margin-bottom: 6px; font-weight: 600; }
+.dz-sub   { font-size: 13px; color: var(--t3); font-family: var(--ff-code); }
+#batch-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.brow {
+  display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+  background: rgba(0,0,0,0.3); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  font-family: var(--ff-code); font-size: 13px;
+}
+.brow-name { flex: 1; color: var(--t1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.brow-sz   { color: var(--t3); font-size: 11px; }
+.brow-st   { font-size: 11px; font-weight: 600; }
+.brow-st.ok  { color: var(--green); text-shadow: 0 0 8px rgba(16,185,129,0.4); }
+.brow-st.err { color: var(--red); text-shadow: 0 0 8px rgba(244,63,94,0.4); }
+.batch-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; align-items: center; }
+.free-note {
+  font-size: 11px; font-family: var(--ff-code); font-weight: 600;
+  color: var(--green); background: var(--green-lo);
+  border: 1px solid rgba(16,185,129,0.3); padding: 4px 10px; border-radius: 99px;
+}
+
+/* ── HISTORY ──────────────────────────────────────────────── */
+#history-wrap {
+  background: rgba(255,255,255,0.02); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 16px;
+  backdrop-filter: blur(12px);
+}
+.hist-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 18px; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--line);
+}
+.hist-body { padding: 16px; display: flex; flex-wrap: wrap; gap: 12px; }
+.hcard {
+  padding: 12px 16px; border-radius: var(--radius);
+  background: rgba(0,0,0,0.3); border: 1px solid var(--line);
+  cursor: pointer; transition: all 0.2s var(--ease); max-width: 220px;
+}
+.hcard:hover { border-color: var(--accent-hi); background: rgba(99,102,241,0.08); transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+.hcard-title {
+  font-family: var(--ff-code); font-size: 13px; font-weight: 600;
+  color: var(--t1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+.hcard-meta { font-family: var(--ff-code); font-size: 10px; color: var(--t3); }
+.hcard-preview {
+  margin-top: 8px; font-family: var(--ff-code); font-size: 11px;
+  color: var(--t3); line-height: 1.5;
+  border-top: 1px solid var(--line); padding-top: 8px;
+  overflow: hidden; max-height: 38px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.hist-empty { font-family: var(--ff-code); font-size: 13px; color: var(--t3); padding: 8px; }
+
+/* ── FREE vs PRO TABLE ────────────────────────────────────── */
+#fp-wrap {
+  background: rgba(255,255,255,0.02); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 32px;
+  backdrop-filter: blur(12px);
+}
+.fp-head {
+  padding: 14px 20px; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--line);
+  font-family: var(--ff-code); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--t1);
+}
+.fp-table { width: 100%; border-collapse: collapse; }
+.fp-table th {
+  font-family: var(--ff-code); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--t3); padding: 12px 20px; text-align: left;
+  border-bottom: 1px solid var(--line); background: rgba(0,0,0,0.1);
+}
+.fp-table th:not(:first-child) { text-align: center; }
+.fp-table td {
+  font-family: var(--ff-code); font-size: 13px; color: var(--t2);
+  padding: 12px 20px; border-bottom: 1px solid var(--line);
+}
+.fp-table tr:hover td { background: rgba(255,255,255,0.01); }
+.fp-table tr:last-child td { border: none; }
+.fp-table td:not(:first-child) { text-align: center; font-size: 15px; font-weight: 600; }
+.fmark { color: var(--green); text-shadow: 0 0 8px rgba(16,185,129,0.3); }
+.pmark { color: var(--pro); text-shadow: 0 0 8px rgba(251,191,36,0.3); }
+.fp-cta {
+  padding: 16px 20px; background: rgba(0,0,0,0.4); border-top: 1px solid var(--line);
+  display: flex; align-items: center; gap: 16px;
+}
+.fp-price {
+  font-family: var(--ff-code); font-size: 13px; color: var(--t3);
+}
+.fp-price strong { color: var(--pro); font-size: 20px; font-weight: 800; }
+
+/* ── MODAL ────────────────────────────────────────────────── */
+.modal-bd {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+  z-index: 200; display: none;
+  align-items: center; justify-content: center; padding: 24px;
+}
+.modal-bd.open { display: flex; animation: fadeIn 0.3s var(--ease); }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.modal {
+  background: rgba(15,15,25,0.9); border: 1px solid var(--line2);
+  border-radius: var(--radius-xl); max-width: 460px; width: 100%;
+  overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  animation: mIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes mIn { from { opacity:0; transform:scale(0.95) translateY(12px); } to { opacity:1; transform:none; } }
+.mtop {
+  background: linear-gradient(135deg, rgba(99,102,241,0.15), transparent);
+  border-bottom: 1px solid var(--line); padding: 32px 32px 24px; text-align: center;
+  position: relative;
+}
+.mprice-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--ff-code); font-size: 11px; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pro); background: var(--pro-lo); border: 1px solid var(--pro-line);
+  padding: 6px 14px; border-radius: 99px; margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(251,191,36,0.15);
+}
+.mtitle { font-size: 28px; font-weight: 900; letter-spacing: -0.03em; color: var(--t1); margin-bottom: 6px; }
+.msub   { font-size: 14px; color: var(--t2); }
+.mprice-row { display: flex; align-items: baseline; gap: 4px; justify-content: center; margin-top: 16px; }
+.mp-sym { font-family: var(--ff-code); font-size: 18px; color: var(--t2); }
+.mp-num { font-family: var(--ff-code); font-size: 48px; font-weight: 800; letter-spacing: -0.05em; color: var(--t1); }
+.mp-per { font-family: var(--ff-code); font-size: 13px; color: var(--t3); }
+.mbody { padding: 24px 32px 32px; }
+.mfeats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+.mfeat {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+  background: rgba(0,0,0,0.3); border: 1px solid var(--line); border-radius: var(--radius);
+  font-family: var(--ff-code); font-size: 11px; font-weight: 500; color: var(--t2);
+}
+.mfc { color: var(--green); font-size: 13px; text-shadow: 0 0 8px rgba(16,185,129,0.3); }
+.mcta {
+  width: 100%; padding: 16px;
+  background: linear-gradient(135deg, var(--accent), #8b5cf6); border: none; border-radius: var(--radius);
+  font-family: var(--ff-code); font-size: 14px; font-weight: 800;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  color: white; cursor: pointer; transition: all 0.2s var(--ease);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-bottom: 12px; box-shadow: 0 8px 24px rgba(99,102,241,0.3);
+}
+.mcta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(99,102,241,0.4); filter: brightness(1.1); }
+.mhr { border: none; border-top: 1px solid var(--line); margin: 16px 0 20px; }
+.mklabel { display: block; font-family: var(--ff-code); font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); margin-bottom: 10px; }
+.mkrow { display: flex; gap: 8px; margin-bottom: 8px; }
+.mk-in {
+  flex: 1; padding: 10px 14px; border-radius: var(--radius);
+  background: rgba(0,0,0,0.4); border: 1px solid var(--line2); color: var(--t1);
+  font-family: var(--ff-code); font-size: 14px; outline: none;
+  transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.mk-in:focus { border-color: var(--accent); box-shadow: var(--accent-ring); background: rgba(0,0,0,0.6); }
+.mk-in.err { border-color: var(--red); box-shadow: 0 0 0 2px rgba(244,63,94,0.3); }
+.mk-in.ok  { border-color: var(--green); box-shadow: 0 0 0 2px rgba(16,185,129,0.3); }
+.mkmsg { font-family: var(--ff-code); font-size: 12px; min-height: 18px; font-weight: 500; }
+.mkmsg.err { color: var(--red); } .mkmsg.ok { color: var(--green); } .mkmsg.info { color: var(--t3); }
+.mcancel {
+  width: 100%; padding: 10px; background: none; border: none;
+  font-family: var(--ff-code); font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--t3); cursor: pointer; margin-top: 8px; transition: color 0.2s;
+}
+.mcancel:hover { color: var(--t1); }
+.pro-active-view { display: none; text-align: center; }
+.pro-active-view.show { display: block; }
+.pa-icon { font-size: 42px; margin-bottom: 16px; filter: drop-shadow(0 0 12px rgba(16,185,129,0.4)); color: var(--green); }
+.pa-title { font-size: 24px; font-weight: 900; color: var(--t1); letter-spacing: -0.02em; margin-bottom: 8px; }
+.pa-sub   { font-family: var(--ff-code); font-size: 12px; color: var(--t3); background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 99px; display: inline-block; }
+.pa-deact { font-family: var(--ff-code); font-size: 11px; color: var(--t3); background: none; border: none; cursor: pointer; text-decoration: underline; margin-top: 20px; transition: color 0.2s; }
+.pa-deact:hover { color: var(--red); }
+
+/* ── TOAST ────────────────────────────────────────────────── */
+#toast-root {
+  position: fixed; bottom: 32px; right: 32px; z-index: 300;
+  display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+}
+.toast {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 20px; border-radius: var(--radius);
+  background: rgba(15,15,25,0.9); border: 1px solid var(--line2);
+  font-family: var(--ff-code); font-size: 13px; font-weight: 500; color: var(--t1);
+  animation: tIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+}
+.toast.ok  { border-color: rgba(16,185,129,0.4); border-left: 3px solid var(--green); }
+.toast.err { border-color: rgba(244,63,94,0.4); border-left: 3px solid var(--red); }
+.toast svg { width: 16px; height: 16px; }
+.toast.ok  svg { color: var(--green); }
+.toast.err svg { color: var(--red); }
+@keyframes tIn { from { opacity:0; transform:translateX(24px) scale(0.95); } to { opacity:1; transform:none; } }
+
+/* ── ARTICLE ──────────────────────────────────────────────── */
+.art-section { margin-top: 80px; padding-top: 60px; border-top: 1px solid var(--line); position: relative; }
+.art-section::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:100px; height:1px; background:var(--accent); box-shadow:0 0 20px var(--accent); }
+.art-ey {
+  font-family: var(--ff-code); font-size: 12px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--accent-hi); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.art-ey::before { content:''; width:32px; height:2px; background:var(--accent-hi); border-radius:2px; }
+.art-section h2 {
+  font-size: clamp(24px, 4vw, 36px); font-weight: 900; letter-spacing: -0.03em;
+  color: var(--t1); margin-bottom: 10px; line-height: 1.2;
+}
+.art-meta { font-family: var(--ff-code); font-size: 12px; color: var(--t3); margin-bottom: 32px; }
+.art-body p { font-size: 16px; color: var(--t2); line-height: 1.8; margin-bottom: 20px; }
+.art-body h3 { font-size: 20px; font-weight: 800; color: var(--t1); margin: 40px 0 16px; letter-spacing: -0.01em; }
+.art-body code {
+  font-family: var(--ff-code); font-size: 0.9em; color: var(--accent-hi); font-weight: 500;
+  background: rgba(99,102,241,0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(99,102,241,0.2);
+}
+.art-body ul { list-style: none; margin-bottom: 20px; }
+.art-body li {
+  font-size: 16px; color: var(--t2); padding: 8px 0 8px 24px;
+  border-bottom: 1px solid var(--line); position: relative; line-height: 1.6;
+}
+.art-body li::before { content:'✦'; position:absolute; left:0; color:var(--accent); font-size:12px; top:10px; text-shadow:0 0 8px var(--accent); }
+.code-block {
+  background: rgba(0,0,0,0.4); border: 1px solid var(--line);
+  border-left: 3px solid var(--accent-hi);
+  border-radius: var(--radius-sm) var(--radius) var(--radius) var(--radius-sm);
+  padding: 20px 24px; margin: 24px 0; overflow-x: auto;
+  font-family: var(--ff-code); font-size: 14px; line-height: 1.7; color: var(--t2);
+  box-shadow: inset 0 4px 20px rgba(0,0,0,0.5);
+}
+.art-hr { border: none; border-top: 1px solid var(--line); margin: 60px 0; }
+
+/* ── FOOTER ───────────────────────────────────────────────── */
+footer {
+  background: rgba(5,5,10,0.8); border-top: 1px solid var(--line);
+  padding: 40px 24px; margin-top: 80px; position: relative; z-index: 1;
+  backdrop-filter: blur(12px);
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+footer p { font-family: var(--ff-code); font-size: 12px; color: var(--t3); letter-spacing: 0.05em; font-weight: 500; }
+footer a { color: var(--t2); text-decoration: none; transition: all 0.2s; font-weight: 600; }
+footer a:hover { color: var(--accent-hi); text-shadow: 0 0 8px var(--accent-hi); }
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #main { padding: 24px 16px 80px; }
+  #editor-grid { grid-template-columns: 1fr; }
+  .pane:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+  .editor-wrap, #output-pre { min-height: 320px; }
+  #hero { padding: 40px 0 30px; }
+  .mfeats { grid-template-columns: 1fr; }
+  .hero-sub { font-size: 15px; }
+  #options-bar { gap: 10px; justify-content: center; }
+  .opt-sep { display: none; }
+}
+</style>
 </head>
+<body>
 
-<body class="flex flex-col min-h-screen">
-
-  <!-- ============================================================
-       AD PLACEHOLDER — TOP
-  ============================================================ -->
-  <div id="ad-top" class="ad-placeholder mx-auto w-full max-w-5xl mt-3 px-4" style="height:60px;">
-    <!-- 広告配置エリア (728×90 / レスポンシブ) -->
-    <span>AD SPACE · 728×90</span>
-  </div>
-
-  <!-- ============================================================
-       HEADER
-  ============================================================ -->
-  <header class="fade-up px-4 pt-6 pb-4 text-center">
-    <!-- Logo / Title -->
-    <div class="flex items-center justify-center gap-3 mb-2">
-      <!-- Terminal icon SVG -->
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="32" height="32" rx="8" fill="rgba(88,212,212,0.1)" stroke="rgba(88,212,212,0.3)" stroke-width="1"/>
-        <path d="M8 11l5 5-5 5" stroke="#58d4d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M16 21h8" stroke="#58d4d4" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <h1 class="font-display text-2xl md:text-3xl font-bold tracking-tight glow-text" style="color:#58d4d4;">
-        JSON<span style="color:#c9d1d9;"> → </span>TypeScript
-      </h1>
-    </div>
-    <p class="text-xs md:text-sm text-gray-500 max-w-lg mx-auto font-mono">
-      Recursive interface generator · Nested objects · Auto type inference · Zero dependencies
-    </p>
-  </header>
-
-  <!-- ============================================================
-       TOOLBAR (Convert + Copy)
-  ============================================================ -->
-  <div class="fade-up-2 flex flex-wrap items-center justify-between gap-3 px-4 pb-3 max-w-7xl mx-auto w-full">
-    <!-- Left: action buttons -->
-    <div class="flex items-center gap-2">
-      <!-- Convert button -->
-      <button id="btn-convert"
-        class="btn-primary flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer"
-        style="background:linear-gradient(135deg,#58d4d4,#3aaf7c);color:#0d1117;"
-        aria-label="Convert JSON to TypeScript">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
-          <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
-        </svg>
-        Convert
-        <span class="text-xs font-mono opacity-60">⌘↵</span>
-      </button>
-
-      <!-- Copy button -->
-      <button id="btn-copy"
-        class="btn-secondary flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium cursor-pointer"
-        style="background:#161b22;border:1px solid #30363d;color:#c9d1d9;"
-        aria-label="Copy TypeScript output to clipboard">
-        <svg id="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-        </svg>
-        Copy
-      </button>
-
-      <!-- Clear button -->
-      <button id="btn-clear"
-        class="btn-secondary flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium cursor-pointer"
-        style="background:#161b22;border:1px solid #30363d;color:#8b949e;"
-        aria-label="Clear input">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/>
-        </svg>
-        Clear
-      </button>
-    </div>
-
-    <!-- Right: stats -->
-    <div id="stats-area" class="flex items-center gap-2 text-xs text-muted opacity-0 transition-opacity duration-300">
-      <span id="stat-ifaces" class="stat-badge">0 interfaces</span>
-      <span id="stat-props"  class="stat-badge">0 properties</span>
-      <span id="stat-time"   class="stat-badge">0ms</span>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       ERROR BANNER
-  ============================================================ -->
-  <div id="error-banner" class="mx-4 max-w-7xl mx-auto w-full px-4" role="alert" aria-live="polite">
-    <div class="flex items-start gap-3 px-4 py-3 rounded-lg mb-2"
-         style="background:rgba(244,112,103,0.08);border:1px solid rgba(244,112,103,0.35);">
-      <svg class="mt-0.5 shrink-0" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f47067" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-      </svg>
-      <span id="error-msg" class="text-sm" style="color:#f47067;font-family:'JetBrains Mono',monospace;"></span>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       MAIN SPLIT PANEL
-  ============================================================ -->
-  <main class="fade-up-3 flex flex-1 gap-4 px-4 pb-4 max-w-7xl mx-auto w-full" style="min-height: 480px;">
-
-    <!-- ── LEFT: JSON INPUT ── -->
-    <div class="flex flex-col flex-1 min-w-0 panel-wrapper" id="split-container">
-
-      <!-- Panel header -->
-      <div class="flex items-center justify-between px-4 py-2 rounded-t-xl"
-           style="background:#161b22;border:1px solid #30363d;border-bottom:none;">
-        <div class="flex items-center gap-2">
-          <!-- Traffic lights (decorative) -->
-          <span class="w-3 h-3 rounded-full inline-block" style="background:#f47067;"></span>
-          <span class="w-3 h-3 rounded-full inline-block" style="background:#f0a84a;"></span>
-          <span class="w-3 h-3 rounded-full inline-block" style="background:#4ec994;"></span>
-          <span class="ml-3 text-xs font-mono" style="color:#6e7681;">input.json</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button id="btn-format"
-            class="text-xs px-3 py-1 rounded cursor-pointer"
-            style="background:#1c2230;border:1px solid #30363d;color:#8b949e;"
-            title="Format / Prettify JSON">
-            Format
-          </button>
-          <button id="btn-sample"
-            class="text-xs px-3 py-1 rounded cursor-pointer"
-            style="background:#1c2230;border:1px solid #30363d;color:#58d4d4;"
-            title="Load sample JSON">
-            Sample ✦
-          </button>
+<!-- MODAL -->
+<div class="modal-bd" id="modal-bd">
+  <div class="modal">
+    <div id="modal-buy">
+      <div class="mtop">
+        <div class="mprice-badge">★ Pro — Lifetime Access</div>
+        <div class="mtitle">Unlock Pro</div>
+        <div class="msub">One-time payment · No subscription · No expiry</div>
+        <div class="mprice-row">
+          <span class="mp-sym">$</span>
+          <span class="mp-num">9</span>
+          <span class="mp-per">/ once · lifetime</span>
         </div>
       </div>
+      <div class="mbody">
+        <div class="mfeats">
+          <div class="mfeat"><span class="mfc">✓</span> Batch JSON → ZIP</div>
+          <div class="mfeat"><span class="mfc">✓</span> io-ts codec export</div>
+          <div class="mfeat"><span class="mfc">✓</span> Enum / union detect</div>
+          <div class="mfeat"><span class="mfc">✓</span> Custom naming</div>
+          <div class="mfeat"><span class="mfc">✓</span> Export .ts file</div>
+          <div class="mfeat"><span class="mfc">✓</span> Priority support</div>
+        </div>
+        <button class="mcta" onclick="gotoGumroad()">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 1l2 4h4l-3.3 2.6 1.3 4L7 9.3 3 11.6l1.3-4L1 5h4z"/></svg>
+          Buy on Gumroad — $9 →
+        </button>
+        <hr class="mhr">
+        <span class="mklabel">Already purchased? Enter license key</span>
+        <div class="mkrow">
+          <input type="text" id="key-in" class="mk-in" placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX" maxlength="39" spellcheck="false" autocomplete="off">
+          <button class="btn btn-accent btn-sm" id="act-btn" onclick="activateLicense()">Activate</button>
+        </div>
+        <div class="mkmsg info" id="key-msg"></div>
+        <button class="mcancel" onclick="closeModal()">Continue with free version</button>
+      </div>
+    </div>
+    <div class="pro-active-view" id="pro-active-view">
+      <div class="mtop" style="border-bottom:none;">
+        <div class="pa-icon">✦</div>
+        <div class="pa-title">Pro Active</div>
+        <div class="pa-sub" id="pa-key-display"></div>
+      </div>
+      <div class="mbody">
+        <div class="mfeats">
+          <div class="mfeat"><span class="mfc">✓</span> Batch JSON → ZIP</div>
+          <div class="mfeat"><span class="mfc">✓</span> io-ts codec export</div>
+          <div class="mfeat"><span class="mfc">✓</span> Enum detection</div>
+          <div class="mfeat"><span class="mfc">✓</span> Custom naming</div>
+        </div>
+        <button class="mcancel" onclick="closeModal()">Close</button>
+        <br><button class="pa-deact" onclick="deactivateLicense()">Deactivate on this device</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-      <!-- Editor body -->
-      <div class="flex flex-1 rounded-b-xl overflow-hidden panel-border"
-           style="background:#0d1117;border:1px solid #30363d;border-top:none;">
-        <!-- Line numbers -->
-        <div id="line-numbers" class="line-numbers select-none" aria-hidden="true">1</div>
-        <!-- Textarea -->
-        <textarea
-          id="json-input"
-          spellcheck="false"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          placeholder='{&#10;  "paste": "your JSON here",&#10;  "or": "click Sample ✦"&#10;}'
-          aria-label="JSON input"
-        ></textarea>
+<!-- TOAST ROOT -->
+<div id="toast-root"></div>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">
+        <span class="logo-brace">{</span>json<span class="logo-brace">}</span>
+        <span class="logo-arr">→</span>
+        <span class="logo-ts">TypeScript</span>
+      </span>
+      <span class="logo-ver">v3.2</span>
+    </a>
+    <div class="h-spacer"></div>
+    <div class="h-actions">
+      <span id="pro-pill" style="display:none;" class="mprice-badge" style="cursor:pointer;" onclick="openModal()">✦ Pro</span>
+      <button class="btn btn-pro" id="pro-nav-btn" onclick="openModal()">★ Pro — $9</button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      TypeScript Interface Generator
+    </div>
+    <h1>
+      JSON<span class="arr">→</span><span class="hl">TypeScript</span>
+    </h1>
+    <div class="hero-sub">
+      Paste any JSON and get clean TypeScript interfaces, Zod schemas, and io-ts codecs instantly. 100% browser-based.
+    </div>
+
+    <!-- Detailed Description -->
+    <div style="max-width:840px;margin:0 auto 60px;text-align:left;background:var(--bg2);padding:40px;border-radius:var(--radius-lg);border:1px solid var(--line);position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.3);backdrop-filter:blur(16px);">
+      <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle at 100% 0%, var(--accent-lo), transparent);pointer-events:none;"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;">
+        <div>
+          <h3 style="font-family:var(--ff-code);font-size:14px;font-weight:700;color:var(--accent-hi);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;">What can you do?</h3>
+          <p style="font-size:15px;color:var(--t2);line-height:1.7;">JSON to TypeScript is a powerful code generator that analyzes raw data to create type-safe definitions. It handles deep nesting, complex arrays, and inconsistent types, converting them into clean interfaces or Zod schemas in milliseconds.</p>
+        </div>
+        <div>
+          <h3 style="font-family:var(--ff-code);font-size:14px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;">Privacy Strength</h3>
+          <p style="font-size:15px;color:var(--t2);line-height:1.7;">Your code is your business. We use a local-first architecture where every conversion happens in your browser memory. We never upload your JSON payloads to a server, making it safe for production data and secret internal APIs.</p>
+        </div>
+      </div>
+      <div style="margin-top:32px;padding-top:32px;border-top:1px solid var(--line);">
+        <h3 style="font-family:var(--ff-code);font-size:14px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;">Best For & Use Cases</h3>
+        <p style="font-size:15px;color:var(--t2);line-height:1.7;">Essential for TypeScript developers building API consumers, mobile engineers using React Native, and anyone tired of manual interface definitions. Perfect for rapid prototyping from API responses or generating validation schemas from legacy data.</p>
       </div>
     </div>
 
-    <!-- ── RIGHT: TS OUTPUT ── -->
-    <div class="flex flex-col flex-1 min-w-0">
+    <div class="hero-badges">
+      <span class="hbadge hi">✓ 100% offline-capable</span>
+      <span class="hbadge hi">✓ Zero server uploads</span>
+      <span class="hbadge bl">Nested objects</span>
+      <span class="hbadge bl">Null-safe types</span>
+      <span class="hbadge bl">Zod schema</span>
+      <span class="hbadge">Free forever</span>
+    </div>
 
-      <!-- Panel header -->
-      <div class="flex items-center justify-between px-4 py-2 rounded-t-xl"
-           style="background:#161b22;border:1px solid #30363d;border-bottom:none;">
-        <div class="flex items-center gap-2">
-          <span class="w-3 h-3 rounded-full inline-block" style="background:#30363d;"></span>
-          <span class="w-3 h-3 rounded-full inline-block" style="background:#30363d;"></span>
-          <span class="w-3 h-3 rounded-full inline-block" style="background:#30363d;"></span>
-          <span class="ml-3 text-xs font-mono" style="color:#6e7681;">output.ts</span>
-        </div>
-        <!-- Optional flag toggle -->
-        <label class="flex items-center gap-2 cursor-pointer select-none" title="Mark all properties as optional">
-          <span class="text-xs font-mono" style="color:#8b949e;">Optional&nbsp;(?)</span>
-          <div class="relative">
-            <input type="checkbox" id="toggle-optional" class="sr-only" />
-            <div id="toggle-track"
-                 class="w-9 h-5 rounded-full transition-colors duration-200"
-                 style="background:#30363d;">
-              <div id="toggle-thumb"
-                   class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full transition-transform duration-200"
-                   style="background:#6e7681;"></div>
-            </div>
+    <!-- HOW TO USE & FAQ -->
+    <div style="max-width:1200px;margin:40px auto 60px;display:grid;grid-template-columns:1fr 1fr;gap:24px;text-align:left;">
+      <!-- How to Use -->
+      <div style="background:var(--bg3);padding:32px;border:1px solid var(--line);border-radius:var(--radius-lg);">
+        <h2 style="font-size:18px;font-weight:900;margin-bottom:24px;color:var(--t1);letter-spacing:-0.01em;">HOW TO USE</h2>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;gap:12px;">
+            <div style="font-weight:800;color:var(--accent-hi);font-family:var(--ff-code);">01</div>
+            <div><strong style="color:var(--t1);">PASTE:</strong> Drop your JSON payload into the editor on the left.</div>
           </div>
-        </label>
+          <div style="display:flex;gap:12px;">
+            <div style="font-weight:800;color:var(--accent-hi);font-family:var(--ff-code);">02</div>
+            <div><strong style="color:var(--t1);">CONFIG:</strong> Choose Interface, Zod, or io-ts and adjust naming.</div>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <div style="font-weight:800;color:var(--accent-hi);font-family:var(--ff-code);">03</div>
+            <div><strong style="color:var(--t1);">GENERATE:</strong> Types are generated in real-time with syntax highlighting.</div>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <div style="font-weight:800;color:var(--accent-hi);font-family:var(--ff-code);">04</div>
+            <div><strong style="color:var(--t1);">COPY:</strong> Click the copy icon or download the .ts file instantly.</div>
+          </div>
+        </div>
       </div>
 
-      <!-- Output body -->
-      <div class="flex flex-1 rounded-b-xl overflow-hidden"
-           style="background:#0d1117;border:1px solid #30363d;border-top:none;">
-        <pre id="output-pre" aria-label="TypeScript output" aria-live="polite">
-<span style="color:#383f47;">// TypeScript interfaces will appear here
-// ────────────────────────────────────
-// 1. Paste your JSON on the left
-// 2. Click Convert (or press ⌘+Enter)
-// 3. Copy the result ✦</span></pre>
+      <!-- FAQ -->
+      <div style="background:var(--bg3);padding:32px;border:1px solid var(--line);border-radius:var(--radius-lg);">
+        <h2 style="font-size:18px;font-weight:900;margin-bottom:24px;color:var(--t1);letter-spacing:-0.01em;">FAQ</h2>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div>
+            <h4 style="font-size:13px;color:var(--amber);margin-bottom:4px;font-weight:700;">How does it handle nulls?</h4>
+            <p style="font-size:12px;color:var(--t2);">You can toggle "Null-Safe" mode to treat uncertain fields as optional (`?`) or explicit unions with `null` / `undefined`.</p>
+          </div>
+          <div>
+            <h4 style="font-size:13px;color:var(--amber);margin-bottom:4px;font-weight:700;">Can I convert multiple files?</h4>
+            <p style="font-size:12px;color:var(--t2);">Yes. Pro users can drag and drop multiple JSON files to convert them all at once into a single ZIP archive.</p>
+          </div>
+          <div>
+            <h4 style="font-size:13px;color:var(--amber);margin-bottom:4px;font-weight:700;">Is this tool free?</h4>
+            <p style="font-size:12px;color:var(--t2);">The core converter is free forever. Pro features like bulk conversion and custom templates are available for a one-time lifetime fee.</p>
+          </div>
+        </div>
       </div>
     </div>
 
-  </main>
+    <!-- Japanese Content Section -->
+    <div style="max-width:1200px;margin:0 auto 60px;text-align:left;line-height:1.8;">
+      <div style="background:var(--bg3);padding:32px;border-radius:var(--radius-lg);border:1px solid var(--line);">
+        <h3 style="font-family:var(--ff-code);font-size:1.6rem;font-weight:900;color:#fff;margin-bottom:16px;">日本語でのTypeScript型生成 (JSON to TS in Japan)</h3>
+        <p style="font-size:14px;color:var(--t2);line-height:1.7;">
+          JSON to TypeScript Converterは、日本の開発者にとっても強力な武器になります。APIレスポンスのJSONから、自動で型定義（Interface）、Zodスキーマ、io-tsコーデックを生成できます。ネストされた複雑なデータ構造も瞬時に解析し、日本語の命名規則（パスカルケース、キャメルケース等）に合わせた変換が可能です。ローカル処理のため、機密性の高い商用プロジェクトのAPI定義にも安心して利用いただけます。
+        </p>
+        <p style="font-size:12px;color:var(--t3);margin-top:16px;font-family:var(--ff-code);">
+          Keywords: JSON TypeScript 変換, インターフェース 生成, Zod スキーマ, TypeScript 型定義, 開発者 ツール
+        </p>
+      </div>
 
-  <!-- ============================================================
-       HOW IT WORKS  (SEO content block)
-  ============================================================ -->
-  <section class="px-4 py-6 max-w-5xl mx-auto w-full text-sm" style="color:#6e7681;">
-    <div class="grid md:grid-cols-3 gap-4">
-      <div class="rounded-xl p-4" style="background:#161b22;border:1px solid #21283a;">
-        <div class="text-cyan-DEFAULT mb-2 font-display font-semibold text-base" style="color:#58d4d4;">⚡ Recursive Parsing</div>
-        <p>Handles deeply nested objects and arrays. Each nested object becomes its own named interface, preserving full type hierarchy.</p>
-      </div>
-      <div class="rounded-xl p-4" style="background:#161b22;border:1px solid #21283a;">
-        <div class="mb-2 font-display font-semibold text-base" style="color:#4ec994;">🎯 Smart Type Inference</div>
-        <p>Automatically detects <code style="color:#79c0ff;">string</code>, <code style="color:#79c0ff;">number</code>, <code style="color:#79c0ff;">boolean</code>, <code style="color:#79c0ff;">null</code>, arrays, and nested objects from your data.</p>
-      </div>
-      <div class="rounded-xl p-4" style="background:#161b22;border:1px solid #21283a;">
-        <div class="mb-2 font-display font-semibold text-base" style="color:#f0a84a;">🔧 Zero Dependencies</div>
-        <p>Runs entirely in your browser. No data is sent to any server. Fast, private, and works offline after first load.</p>
+      <!-- Related Tools -->
+      <div style="margin-top:40px; text-align:center;">
+        <h4 style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1.5rem;">Other Privacy-First Developer Tools</h4>
+        <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+          <a href="https://citation-formatter-browser.pages.dev" target="_blank" rel="noopener" style="padding:0.8rem 1.2rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--t2);font-size:12px;font-weight:600;display:flex;align-items:center;gap:0.5rem;transition:all 0.2s;">
+            <span>📖</span> Citation Formatter
+          </a>
+          <a href="https://svg-to-component-browser.pages.dev" target="_blank" rel="noopener" style="padding:0.8rem 1.2rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--t2);font-size:12px;font-weight:600;display:flex;align-items:center;gap:0.5rem;transition:all 0.2s;">
+            <span>⚡</span> SVG to Component
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ============================================================
-       AD PLACEHOLDER — BOTTOM
-  ============================================================ -->
-  <div id="ad-bottom" class="ad-placeholder mx-auto w-full max-w-5xl mb-4 px-4" style="height:90px;">
-    <!-- 広告配置エリア (728×90) -->
-    <span>AD SPACE · 728×90</span>
+  <!-- SAMPLES -->
+  <div id="samples-bar">
+    <div class="sbar-head">
+      <div class="sbar-title">
+        <span class="label-xs">Sample inputs</span>
+      </div>
+      <span class="label-xs" style="color:var(--t4);">click to load →</span>
+    </div>
+    <div class="sbar-chips" id="samples-chips"></div>
   </div>
 
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
-  <footer class="text-center pb-6 text-xs" style="color:#3d4450;">
-    JSON → TypeScript Converter &nbsp;·&nbsp; Runs 100% in browser &nbsp;·&nbsp; No data stored
-  </footer>
+  <!-- OPTIONS BAR -->
+  <div id="options-bar">
+    <span class="label-xs" style="flex-shrink:0;">opts</span>
+    <label class="tpill on" id="pill-optional" title="Mark nullable fields as optional (?)">
+      <input type="checkbox" id="opt-optional" checked onchange="syncPill(this);run()">
+      <span class="tpill-knob"></span>Optional
+    </label>
+    <div class="opt-sep"></div>
+    <label class="tpill" id="pill-prefix" title="Prefix interface names with I">
+      <input type="checkbox" id="opt-prefix" onchange="syncPill(this);run()">
+      <span class="tpill-knob"></span>I-prefix
+    </label>
+    <div class="opt-sep"></div>
+    <label class="tpill on" id="pill-export" title="Add export keyword">
+      <input type="checkbox" id="opt-export" checked onchange="syncPill(this);run()">
+      <span class="tpill-knob"></span>export
+    </label>
+    <div class="opt-sep"></div>
+    <label class="tpill on" id="pill-semi" title="Use semicolons">
+      <input type="checkbox" id="opt-semi" checked onchange="syncPill(this);run()">
+      <span class="tpill-knob"></span>Semicolons
+    </label>
+    <div class="opt-sep"></div>
+    <label class="tpill on" id="pill-jsdoc" title="Generate JSDoc comments for special field patterns">
+      <input type="checkbox" id="opt-jsdoc" checked onchange="syncPill(this);run()">
+      <span class="tpill-knob"></span>JSDoc
+    </label>
+    <div class="opt-sep"></div>
+    <!-- Naming convention (Pro) -->
+    <div style="display:flex;align-items:center;gap:5px;">
+      <span class="label-xs">naming</span>
+      <select id="opt-naming" class="root-in" style="width:82px;" disabled onchange="run()">
+        <option value="pascal">PascalCase</option>
+        <option value="camel">camelCase</option>
+      </select>
+      <span class="pro-lock" id="naming-lock" onclick="openModal()">PRO</span>
+    </div>
+    <div class="opt-sep"></div>
+    <span class="label-xs" style="flex-shrink:0;">root</span>
+    <input type="text" id="root-name" value="Root" maxlength="40" class="root-in" oninput="run()" aria-label="Root interface name">
+    <div class="opt-sep" style="margin-left:auto;"></div>
+    <div class="mode-tabs">
+      <button class="mtab active" data-mode="interface" onclick="setMode('interface',this)">Interface</button>
+      <button class="mtab zod"    data-mode="zod"       onclick="setMode('zod',this)">Zod</button>
+      <button class="mtab iots mtab-pro" data-mode="iots" onclick="handleProTab('iots',this)">io-ts</button>
+    </div>
+  </div>
 
-  <!-- ============================================================
-       TOAST
-  ============================================================ -->
-  <div id="toast" role="status" aria-live="polite"></div>
+  <!-- EDITOR SHELL -->
+  <div id="editor-shell">
+    <div id="editor-grid">
 
-  <!-- ============================================================
-       JAVASCRIPT  —  Core logic
-  ============================================================ -->
-  <script>
-    /* ================================================================
-       UTILITY: show toast notification
-    ================================================================ */
-    function showToast(msg, type = 'default', durationMs = 2200) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.className = `show${type !== 'default' ? ' ' + type : ''}`;
-      clearTimeout(t._timer);
-      t._timer = setTimeout(() => { t.className = ''; }, durationMs);
-    }
+      <!-- LEFT: JSON INPUT -->
+      <div class="pane" id="pane-left">
+        <div class="pane-head">
+          <span class="pane-label">
+            <span class="pane-dot dot-json"></span>input.json
+          </span>
+          <div class="pane-actions">
+            <button class="btn btn-ghost btn-sm btn-icon" id="format-btn" onclick="formatJSON()" title="Auto-format JSON (Alt+Shift+F)">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 2h10M1 5h7M1 8h4M1 11h8"/></svg>
+            </button>
+            <button class="btn btn-ghost btn-sm" id="clear-btn" onclick="clearInput()">Clear</button>
+            <button class="btn btn-ghost btn-sm" id="save-btn" onclick="saveToHistory()">Save</button>
+          </div>
+        </div>
 
-    /* ================================================================
-       UTILITY: debounce
-    ================================================================ */
-    function debounce(fn, ms) {
-      let timer;
-      return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); };
-    }
+        <!-- Custom editor -->
+        <div class="editor-wrap" id="editor-wrap">
+          <div class="line-nums" id="line-nums">
+            <div class="line-nums-inner" id="line-nums-inner"></div>
+          </div>
+          <div class="editor-highlight" id="editor-highlight"></div>
+          <textarea
+            class="editor-textarea"
+            id="json-input"
+            placeholder="// Paste JSON here or click a sample above&#10;{&#10;  &quot;id&quot;: 1,&#10;  &quot;name&quot;: &quot;Alice&quot;&#10;}"
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          ></textarea>
+        </div>
 
-    /* ================================================================
-       LINE NUMBERS — sync with textarea
-    ================================================================ */
-    const jsonInput   = document.getElementById('json-input');
-    const lineNumbers = document.getElementById('line-numbers');
-    const outputPre   = document.getElementById('output-pre');
+        <div id="error-pane">
+          <span class="ep-icon">⚠</span>
+          <div>
+            <span id="error-text"></span>
+            <span class="ep-fix" id="error-fix"></span>
+          </div>
+        </div>
+      </div>
 
-    function updateLineNumbers() {
-      const lines = jsonInput.value.split('\n').length;
-      lineNumbers.textContent = Array.from({ length: lines }, (_, i) => i + 1).join('\n');
-    }
-    function syncScroll() {
-      lineNumbers.scrollTop = jsonInput.scrollTop;
-    }
-    jsonInput.addEventListener('input',  updateLineNumbers);
-    jsonInput.addEventListener('scroll', syncScroll);
-    updateLineNumbers();
+      <!-- RIGHT: OUTPUT -->
+      <div class="pane" id="pane-right">
+        <div class="pane-head">
+          <span class="pane-label">
+            <span class="pane-dot dot-ts" id="out-dot"></span>
+            <span id="out-fn">output.d.ts</span>
+          </span>
+          <div class="pane-actions">
+            <button class="btn btn-accent btn-sm" id="copy-btn" onclick="copyOutput()">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="8" height="8" rx="1"/><path d="M2 8H1a1 1 0 01-1-1V1a1 1 0 011-1h6a1 1 0 011 1v1"/></svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        <pre id="output-pre">// Paste JSON or click a sample to generate TypeScript</pre>
+      </div>
+    </div>
 
-    /* ================================================================
-       TOGGLE: optional properties (?)
-    ================================================================ */
-    const toggleInput = document.getElementById('toggle-optional');
-    const toggleTrack = document.getElementById('toggle-track');
-    const toggleThumb = document.getElementById('toggle-thumb');
-    let   useOptional = false;
+    <!-- STATUS BAR -->
+    <div id="status-bar">
+      <span class="sb-item">
+        <span class="sb-dot"></span> live
+      </span>
+      <span class="sb-item" id="sb-types">— types</span>
+      <span class="sb-item" id="sb-fields">— fields</span>
+      <span class="sb-item" id="sb-lines">— lines</span>
+      <span class="sb-item" id="sb-mode" style="margin-left:auto;color:var(--accent-hi);">interface mode</span>
+    </div>
 
-    toggleInput.addEventListener('change', () => {
-      useOptional = toggleInput.checked;
-      toggleTrack.style.background = useOptional ? '#58d4d4' : '#30363d';
-      toggleThumb.style.transform  = useOptional ? 'translateX(16px)' : 'none';
-      toggleThumb.style.background = useOptional ? '#0d1117' : '#6e7681';
-      // Re-run conversion if there's output
-      if (outputPre.dataset.hasOutput === 'true') convert();
+    <!-- ACTION BAR -->
+    <div id="action-bar">
+      <button class="dl-btn" id="dl-ts-btn" onclick="downloadTs()">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M4 6l2 2 2-2M1 10h10"/></svg>
+        Download .d.ts
+      </button>
+      <button class="btn btn-ghost" id="dl-zip-btn" onclick="handleBatchToggle()">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 3h10M1 6h10M1 9h10"/></svg>
+        Batch → ZIP <span class="free-note" style="margin-left:3px;">free: 5 files</span>
+      </button>
+      <button class="btn btn-ghost" onclick="exportHistory()">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M4 6l2 2 2-2M1 10h10"/></svg>
+        Export history
+      </button>
+      <span style="font-family:var(--ff-code);font-size:10px;color:var(--t3);margin-left:auto;">⌘+C to copy · Alt+Shift+F to format</span>
+    </div>
+  </div>
+
+  <!-- BATCH PANEL -->
+  <div id="batch-panel">
+    <div class="batch-head">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="label-xs" style="color:var(--pro);">★ Batch JSON → ZIP</span>
+        <span class="free-note" id="batch-free-note">Free: up to 5 files</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="hideBatch()">✕</button>
+    </div>
+    <div class="batch-body">
+      <div class="drop-zone" id="drop-zone" onclick="document.getElementById('batch-file-in').click()">
+        <div class="dz-title">Drop .json files here or click to browse</div>
+        <div class="dz-sub">Each .json → .d.ts · Free: 5 files · Pro: unlimited + ZIP</div>
+        <input type="file" id="batch-file-in" multiple accept=".json" style="display:none" onchange="handleBatchFiles(this.files)">
+      </div>
+      <div id="batch-list"></div>
+      <div class="batch-actions">
+        <button class="dl-btn" id="batch-run-btn" disabled onclick="runBatch()">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M4 6l2 2 2-2M1 10h10"/></svg>
+          Convert & Download ZIP
+        </button>
+        <button class="btn btn-ghost btn-sm" onclick="clearBatch()">Clear files</button>
+        <span id="batch-pro-note" style="display:none;" class="label-xs">Pro: generates index.ts too</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="history-wrap">
+    <div class="hist-head">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="label-xs">Recent conversions</span>
+        <span id="hist-count" style="font-family:var(--ff-code);font-size:9px;color:var(--t3);"></span>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="clearHistory()">Clear all</button>
+    </div>
+    <div class="hist-body" id="hist-body">
+      <span class="hist-empty">No conversions saved yet — click "Save" above.</span>
+    </div>
+  </div>
+
+  <!-- FREE vs PRO -->
+  <div id="fp-wrap">
+    <div class="fp-head">Free vs Pro</div>
+    <table class="fp-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Free</th>
+          <th style="color:var(--pro);">Pro $9</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>TypeScript interface generation</td><td><span class="fmark">✓</span></td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>Zod schema generation</td><td><span class="fmark">✓</span></td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>Nested objects &amp; arrays</td><td><span class="fmark">✓</span></td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>Null-safe optional types</td><td><span class="fmark">✓</span></td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>JSDoc comment generation</td><td><span class="fmark">✓</span></td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>Literal union detection</td><td><span class="fmark">✓</span></td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>Copy &amp; Download .d.ts</td><td><span class="fmark">✓</span></td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>Batch JSON → ZIP (free: 5 files)</td><td>5 files</td><td><span class="pmark">Unlimited</span></td></tr>
+        <tr><td>io-ts codec export</td><td>—</td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>Custom naming (camel/pascal)</td><td>—</td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>Discriminated union detection</td><td>—</td><td><span class="pmark">✓</span></td></tr>
+        <tr><td>index.ts auto-generation</td><td>—</td><td><span class="pmark">✓</span></td></tr>
+      </tbody>
+    </table>
+    <div class="fp-cta">
+      <button class="dl-btn" onclick="openModal()">★ Unlock Pro — $9 Lifetime</button>
+      <span class="fp-price">One-time · <strong>$9</strong> · No subscription</span>
+    </div>
+  </div>
+
+  <!-- ARTICLES -->
+  <section class="art-section">
+    <div class="art-ey">Developer Guide</div>
+    <article>
+      <h2>How to Generate TypeScript Types from Postman JSON Responses</h2>
+      <p class="art-meta">2025 · 5 min read · TypeScript interface generator</p>
+      <div class="art-body">
+        <p>The fastest way to add types to an API integration: copy the JSON response from Postman, paste it here, copy the generated interface. The entire process takes under 10 seconds and produces types that accurately reflect the actual API shape.</p>
+        <h3>Step-by-step</h3>
+        <p>In Postman, send your request and select all of the response body (<code>Ctrl+A</code>). Paste into the JSON input above. Set the root interface name (e.g., <code>UserResponse</code>), toggle options, copy output into your <code>types/</code> folder.</p>
+        <div class="code-block">// Postman response → generated output
+export interface UserResponse {
+  user: User;
+}
+export interface User {
+  id: number;
+  role: string;
+  verified?: string | number | boolean | null; // nullable
+}</div>
+        <h3>Why this beats writing types by hand</h3>
+        <p>A deeply nested response with nullable fields can take 20–30 minutes to type correctly. This tool does it in milliseconds. For large APIs, the time savings compound into hours per sprint.</p>
+        <h3>Using the Zod output</h3>
+        <p>Switch to Zod mode to get a <code>z.object()</code> schema for runtime validation — useful when you don't fully control the backend and the response shape might drift from documentation.</p>
+      </div>
+    </article>
+    <hr class="art-hr">
+    <article>
+      <h2>The Case for Type Safety: Why <code>any</code> is Technical Debt</h2>
+      <p class="art-meta">2025 · 4 min read · TypeScript types from JSON</p>
+      <div class="art-body">
+        <p>Every <code>any</code> is a broken promise to the compiler. It disables type checking entirely — TypeScript provides zero protection when a value's shape changes or is misused.</p>
+        <h3>What type safety prevents</h3>
+        <ul>
+          <li><strong>Refactoring safety</strong> — rename a field and every broken usage becomes a compiler error, not a production crash.</li>
+          <li><strong>Self-documenting code</strong> — interfaces are the most accurate documentation that exists because they're enforced.</li>
+          <li><strong>API contract enforcement</strong> — backend shape changes surface every affected line immediately.</li>
+          <li><strong>Onboarding speed</strong> — a new dev can understand an unfamiliar API by reading its interface in under a minute.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+</div><!-- /#main -->
+
+<!-- Other Tools -->
+<div style="margin-top: 4rem; border-top: 1px solid var(--border); padding-top: 3rem; text-align: left; max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem; margin-bottom: 4rem;">
+  <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 2rem; letter-spacing: -0.02em;">OTHER PRIVATE BROWSER TOOLS</div>
+  <style>
+    .tool-lnk { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); text-decoration: none; transition: all 0.2s ease; }
+    .tool-lnk:hover { border-color: var(--accent-hi); background: rgba(255,255,255,0.05); transform: translateY(-2px); }
+    .tool-lnk-ico { font-size: 1.75rem; }
+    .tool-lnk-t { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.125rem; }
+    .tool-lnk-s { font-size: 0.8rem; color: var(--text-dim); line-height: 1.4; }
+  </style>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+    <a href="https://batch-regex-browser.pages.dev" target="_blank" rel="noopener" class="tool-lnk">
+      <div class="tool-lnk-ico">🔍</div>
+      <div><div class="tool-lnk-t">Batch Regex</div><div class="tool-lnk-s">Bulk text processing, cleaning & data extraction</div></div>
+    </a>
+    <a href="https://svg-to-component-browser.pages.dev" target="_blank" rel="noopener" class="tool-lnk">
+      <div class="tool-lnk-ico">🎨</div>
+      <div><div class="tool-lnk-t">SVG to Component</div><div class="tool-lnk-s">Convert SVG to React/Vue/Svelte components</div></div>
+    </a>
+    <a href="https://citation-formatter-browser.pages.dev" target="_blank" rel="noopener" class="tool-lnk">
+      <div class="tool-lnk-ico">📚</div>
+      <div><div class="tool-lnk-t">Citation Formatter</div><div class="tool-lnk-s">Private APA/MLA/Chicago citation generator</div></div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <p>JSON → TypeScript · 2025 · 100% browser-based · No server uploads</p>
+    <p><a href="#main">↑ Back to top</a> · <a href="https://yhanster206.gumroad.com/l/rouxjph" target="_blank">Pro $9</a></p>
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+// ════════════════════════════════════════════════════════════
+// CONFIG
+// ════════════════════════════════════════════════════════════
+const GUMROAD_PRODUCT_ID = 'rouxjph';
+const GUMROAD_URL = 'https://yhanster206.gumroad.com/l/' + GUMROAD_PRODUCT_ID;
+const LS_PRO  = 'json2ts_pro_v2';
+const LS_HIST = 'json2ts_hist_v2';
+const FREE_BATCH_LIMIT = 5;
+
+// ════════════════════════════════════════════════════════════
+// PRO LICENSE
+// ════════════════════════════════════════════════════════════
+let proActive = false;
+
+function isPro() { return proActive; }
+
+function loadProState() {
+  const k = localStorage.getItem(LS_PRO);
+  if (k) { proActive = true; applyProUI(); }
+}
+
+function applyProUI() {
+  const p = isPro();
+  const btn = document.getElementById('pro-nav-btn');
+  const pill = document.getElementById('pro-pill');
+  if (p) {
+    btn.style.display = 'none';
+    pill.style.display = '';
+    // Enable Pro features
+    document.getElementById('opt-naming').disabled = false;
+    document.getElementById('naming-lock').style.display = 'none';
+    document.getElementById('batch-free-note').style.display = 'none';
+    document.getElementById('batch-pro-note').style.display = '';
+    // io-ts tab
+    const iotsTab = document.querySelector('.mtab.iots');
+    if (iotsTab) { iotsTab.classList.remove('mtab-pro'); }
+  } else {
+    btn.style.display = '';
+    pill.style.display = 'none';
+  }
+}
+
+function openModal() {
+  const bd = document.getElementById('modal-bd');
+  bd.classList.add('open');
+  if (isPro()) {
+    document.getElementById('modal-buy').style.display = 'none';
+    document.getElementById('pro-active-view').classList.add('show');
+    const k = localStorage.getItem(LS_PRO) || '';
+    document.getElementById('pa-key-display').textContent = 'Key: ' + k.slice(0,8) + '•••••••••••••';
+  } else {
+    document.getElementById('modal-buy').style.display = '';
+    document.getElementById('pro-active-view').classList.remove('show');
+  }
+}
+function closeModal() { document.getElementById('modal-bd').classList.remove('open'); }
+function gotoGumroad() { window.open(GUMROAD_URL, '_blank', 'noopener'); }
+
+async function activateLicense() {
+  const inp = document.getElementById('key-in');
+  const btn = document.getElementById('act-btn');
+  const msg = document.getElementById('key-msg');
+  const key = inp.value.trim();
+  if (!key) return;
+
+  btn.disabled = true;
+  msg.textContent = 'Verifying with Gumroad...'; msg.className = 'mkmsg info';
+  inp.classList.remove('err','ok');
+
+  try {
+    const r = await fetch('https://api.gumroad.com/v2/licenses/verify', {
+      method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({ product_id: GUMROAD_PRODUCT_ID, license_key: key.trim(), increment_uses_count:'true' })
     });
-
-    /* ================================================================
-       CORE: JSON → TypeScript converter
-       ─────────────────────────────────
-       Algorithm:
-         1. Parse JSON string → JS value.
-         2. Determine root type. If object/array, enter recursive walk.
-         3. collectInterfaces(name, value, interfaces[]):
-            • For objects: iterate keys, infer each value's TS type,
-              accumulate child interfaces, build interface string.
-            • For arrays:  sample first element to determine item type.
-         4. Emit child interfaces BEFORE parent (bottom-up ordering).
-         5. Wrap output in syntax-highlighted HTML.
-    ================================================================ */
-
-    /**
-     * Capitalise first letter of a string — used to form interface names.
-     * e.g. "user" → "User", "apiResponse" → "ApiResponse"
-     */
-    function capitalise(str) {
-      if (!str) return 'Root';
-      return str.charAt(0).toUpperCase() + str.slice(1);
+    const d = await r.json();
+    if (d.success) {
+      localStorage.setItem(LS_PRO, key.trim().toUpperCase());
+      proActive = true;
+      inp.classList.add('ok');
+      msg.textContent = '✓ Pro activated!'; msg.className = 'mkmsg ok';
+      setTimeout(() => { applyProUI(); closeModal(); showToast('✦ Pro features unlocked!','ok'); run(); }, 1200);
+    } else {
+      inp.classList.add('err');
+      msg.textContent = '✕ ' + (d.message || 'Invalid key'); msg.className = 'mkmsg err';
+      btn.disabled = false;
     }
+  } catch {
+    msg.textContent = '✕ Network error. Online activation required.'; msg.className = 'mkmsg err';
+    btn.disabled = false;
+  }
+}
 
-    /**
-     * Convert camelCase / snake_case / kebab-case key into a PascalCase
-     * interface name.
-     */
-    function toInterfaceName(key) {
-      return key
-        .replace(/[-_](.)/g, (_, c) => c.toUpperCase())  // snake/kebab → camel
-        .replace(/^(.)/, (_, c) => c.toUpperCase());       // capitalise first
-    }
+function deactivateLicense() {
+  if (!confirm('Deactivate Pro on this device?')) return;
+  localStorage.removeItem(LS_PRO);
+  proActive = false;
+  applyProUI(); closeModal();
+  if (currentMode === 'iots') setMode('interface', document.querySelector('.mtab[data-mode="interface"]'));
+  showToast('Pro deactivated','err');
+}
 
-    /**
-     * Infer the TypeScript type string for a value.
-     * Returns either a primitive string ("string", "number", …)
-     * or records a nested interface and returns its name.
-     *
-     * @param {string}   propName    - JSON key name (used to derive interface name)
-     * @param {*}        value       - The actual JS value
-     * @param {Map}      ifaceMap    - Accumulates interface definitions (name → body)
-     * @param {Set}      ifaceOrder  - Insertion-order tracking for emission
-     * @returns {string} TS type string
-     */
-    function inferType(propName, value, ifaceMap, ifaceOrder) {
-      if (value === null)             return 'null';
-      if (value === undefined)        return 'unknown';
-
-      const t = typeof value;
-      if (t === 'string')             return 'string';
-      if (t === 'number')             return Number.isInteger(value) ? 'number' : 'number';
-      if (t === 'boolean')            return 'boolean';
-
-      if (Array.isArray(value)) {
-        if (value.length === 0)       return 'unknown[]';
-        // Sample first element to determine array item type
-        const itemType = inferType(propName + 'Item', value[0], ifaceMap, ifaceOrder);
-        // If the sample element is an object, check all elements for consistency
-        return `${itemType}[]`;
-      }
-
-      if (t === 'object') {
-        // Recursively build a named interface for this nested object
-        const name = toInterfaceName(propName);
-        collectInterface(name, value, ifaceMap, ifaceOrder);
-        return name;
-      }
-
-      return 'unknown';
-    }
-
-    /**
-     * Build an interface definition for a plain object value.
-     * Recurses into nested objects/arrays.
-     *
-     * @param {string}   name        - Interface name
-     * @param {object}   obj         - The plain object to model
-     * @param {Map}      ifaceMap    - Accumulates interface definitions
-     * @param {Set}      ifaceOrder  - Emission order tracking
-     */
-    function collectInterface(name, obj, ifaceMap, ifaceOrder) {
-      // Deduplicate: if we've already built this interface name, skip
-      // (simple strategy — for production you'd merge / diff)
-      if (ifaceMap.has(name)) return;
-
-      // Reserve the name FIRST to avoid infinite recursion on circular-like structures
-      ifaceMap.set(name, null);
-
-      const props = [];
-
-      for (const [key, val] of Object.entries(obj)) {
-        const safeProp = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key)
-          ? key                        // safe identifier → no quotes
-          : `"${key}"`;                // unsafe (e.g. hyphenated) → quoted
-
-        const opt = useOptional ? '?' : '';
-        const typeStr = inferType(key, val, ifaceMap, ifaceOrder);
-        props.push({ safeProp, opt, typeStr });
-      }
-
-      // Build the interface body string (plain text, not HTML yet)
-      const lines = props.map(p => `  ${p.safeProp}${p.opt}: ${p.typeStr};`);
-      const body  = `export interface ${name} {\n${lines.join('\n')}\n}`;
-
-      ifaceMap.set(name, body);
-      ifaceOrder.add(name);
-    }
-
-    /**
-     * Main entry: convert a parsed JSON value into TypeScript interface strings.
-     *
-     * @param {*}      parsed     - JS value from JSON.parse()
-     * @param {string} rootName   - Name for the root interface (default "Root")
-     * @returns {{ interfaces: string[], count: { ifaces:number, props:number } }}
-     */
-    function buildInterfaces(parsed, rootName = 'Root') {
-      const ifaceMap   = new Map();   // name → interface body string
-      const ifaceOrder = new Set();   // ordered names for emission
-
-      // Handle top-level array
-      let target = parsed;
-      if (Array.isArray(parsed)) {
-        target = parsed.length > 0 ? parsed[0] : {};
-      }
-
-      if (typeof target !== 'object' || target === null) {
-        // Primitive root — emit a simple type alias
-        const tsType = inferType('Root', target, ifaceMap, ifaceOrder);
-        return {
-          interfaces: [`export type ${rootName} = ${tsType};`],
-          count: { ifaces: 1, props: 0 }
-        };
-      }
-
-      collectInterface(rootName, target, ifaceMap, ifaceOrder);
-
-      // Emit: child interfaces appear before the parent that references them.
-      // Since Map preserves insertion order and children are inserted before
-      // the parent finishes, reverse() puts deepest children first.
-      const ordered = [...ifaceOrder];
-      // Actually the natural order (children inserted before parent is set) works.
-      // We just need to ensure Root is last.
-      const withoutRoot = ordered.filter(n => n !== rootName);
-      const finalOrder  = [...withoutRoot, rootName];
-
-      const interfaces = finalOrder
-        .map(n => ifaceMap.get(n))
-        .filter(Boolean);
-
-      const propCount = interfaces.reduce((acc, iface) => {
-        const match = iface.match(/^  \w/gm);
-        return acc + (match ? match.length : 0);
-      }, 0);
-
-      return {
-        interfaces,
-        count: { ifaces: interfaces.length, props: propCount }
-      };
-    }
-
-    /* ================================================================
-       SYNTAX HIGHLIGHTER
-       Transforms plain TS interface strings into coloured HTML.
-    ================================================================ */
-    function highlight(tsCode) {
-      // Escape HTML entities first
-      const esc = tsCode
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-
-      return esc
-        // keywords: export, interface, type
-        .replace(/\b(export|interface|type)\b/g, '<span class="ts-keyword">$1</span>')
-        // type names (PascalCase identifiers used as types)
-        .replace(/\b([A-Z][a-zA-Z0-9_]*)\b/g, '<span class="ts-name">$1</span>')
-        // built-in primitive types
-        .replace(/\b(string|number|boolean|null|unknown|any|void|never|undefined)\b/g,
-                 '<span class="ts-type">$1</span>')
-        // optional marker
-        .replace(/(\?)/g, '<span class="ts-optional">$1</span>')
-        // braces
-        .replace(/([{}])/g, '<span class="ts-brace">$1</span>')
-        // inline comments
-        .replace(/(\/\/.*$)/gm, '<span class="ts-comment">$1</span>');
-    }
-
-    /* ================================================================
-       CONVERT — orchestrates parse → build → highlight → render
-    ================================================================ */
-    function convert() {
-      const raw = jsonInput.value.trim();
-
-      // ── Validation ──────────────────────────────────────────────
-      hideError();
-      if (!raw) {
-        showError('Input is empty. Paste your JSON and click Convert.');
-        return;
-      }
-
-      let parsed;
-      const t0 = performance.now();
-      try {
-        parsed = JSON.parse(raw);
-      } catch (err) {
-        // Extract a friendly error message with position hint
-        const msg = err.message || 'Invalid JSON';
-        showError(`JSON parse error: ${msg}`);
-        return;
-      }
-
-      // ── Determine root name from optional context ─────────────
-      const rootName = 'Root';
-
-      // ── Build interfaces ──────────────────────────────────────
-      const { interfaces, count } = buildInterfaces(parsed, rootName);
-      const t1 = performance.now();
-      const elapsedMs = (t1 - t0).toFixed(2);
-
-      // ── Render output ─────────────────────────────────────────
-      const separator = '<span style="color:#21283a;">// ────────────────────────────────────────────────</span>\n';
-      const highlighted = interfaces
-        .map(iface => highlight(iface))
-        .join('\n\n' + separator + '\n');
-
-      const header = `<span class="ts-comment">// Generated by JSON→TypeScript Converter\n// ${new Date().toISOString()}\n</span>\n${separator}\n`;
-      outputPre.innerHTML = header + highlighted;
-      outputPre.dataset.hasOutput = 'true';
-
-      // ── Update stats bar ──────────────────────────────────────
-      document.getElementById('stat-ifaces').textContent = `${count.ifaces} interface${count.ifaces !== 1 ? 's' : ''}`;
-      document.getElementById('stat-props').textContent  = `${count.props} propert${count.props !== 1 ? 'ies' : 'y'}`;
-      document.getElementById('stat-time').textContent   = `${elapsedMs}ms`;
-      document.getElementById('stats-area').style.opacity = '1';
-    }
-
-    /* ================================================================
-       ERROR helpers
-    ================================================================ */
-    function showError(msg) {
-      const banner = document.getElementById('error-banner');
-      document.getElementById('error-msg').textContent = msg;
-      banner.classList.add('visible');
-      // Extra: mark textarea border red
-      jsonInput.parentElement.style.borderColor = 'rgba(244,112,103,0.5)';
-    }
-    function hideError() {
-      document.getElementById('error-banner').classList.remove('visible');
-      jsonInput.parentElement.style.borderColor = '';
-    }
-
-    /* ================================================================
-       FORMAT
-    ================================================================ */
-    function formatInput() {
-      try {
-        const val = jsonInput.value.trim();
-        if (!val) return;
-        jsonInput.value = JSON.stringify(JSON.parse(val), null, 2);
-        updateLineNumbers();
-      } catch (e) {
-        showError('Cannot format: Invalid JSON structure.');
+// ════════════════════════════════════════════════════════════
+// SAMPLES
+// ════════════════════════════════════════════════════════════
+const SAMPLES = [
+  { label:'User profile', icon:'👤',
+    json:`{
+  "id": 1042,
+  "username": "alice_dev",
+  "email": "alice@example.com",
+  "age": 29,
+  "isActive": true,
+  "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+  "role": "admin",
+  "address": {
+    "street": "1-2-3 Shibuya",
+    "city": "Tokyo",
+    "country": "Japan",
+    "postalCode": "150-0002"
+  },
+  "tags": ["typescript", "react", "node"],
+  "createdAt": "2024-01-15T09:30:00Z"
+}` },
+  { label:'API response', icon:'📡',
+    json:`{
+  "success": true,
+  "statusCode": 200,
+  "message": "OK",
+  "data": {
+    "items": [
+      { "id": 1, "name": "Widget A", "price": 9.99, "inStock": true },
+      { "id": 2, "name": "Widget B", "price": 14.99, "inStock": false }
+    ],
+    "total": 2,
+    "page": 1,
+    "perPage": 20
+  },
+  "errors": null,
+  "requestId": "req-abc-123-def-456"
+}` },
+  { label:'E-commerce order', icon:'🛒',
+    json:`{
+  "orderId": "ORD-2025-00123",
+  "status": "shipped",
+  "customerId": 8821,
+  "isPaid": true,
+  "total": 12480,
+  "currency": "JPY",
+  "discount": 0,
+  "shippingAddress": {
+    "name": "Alice Tanaka",
+    "line1": "1-2-3 Shibuya",
+    "line2": "Park Tower 4F",
+    "city": "Tokyo",
+    "zip": "150-0002",
+    "country": "JP"
+  },
+  "items": [
+    { "sku": "TS-BOOK-01", "title": "TypeScript Deep Dive", "qty": 2, "unitPrice": 4990 }
+  ],
+  "tracking": {
+    "carrier": "Yamato",
+    "trackingNumber": "1234-5678-9012",
+    "estimatedDelivery": "2025-04-30"
+  }
+}` },
+  { label:'Nullable fields', icon:'⚠️',
+    json:`{
+  "id": 501,
+  "title": "Draft post",
+  "body": null,
+  "publishedAt": null,
+  "coverImageUrl": null,
+  "authorId": null,
+  "categoryId": null,
+  "tags": [],
+  "metadata": {
+    "seoTitle": null,
+    "seoDescription": null,
+    "canonicalUrl": null
+  },
+  "isDraft": true,
+  "viewCount": 0
+}` },
+  { label:'Nested config', icon:'⚙️',
+    json:`{
+  "app": {
+    "name": "MyApp",
+    "version": "2.1.0",
+    "env": "production",
+    "features": {
+      "darkMode": true,
+      "betaFeatures": false,
+      "analytics": {
+        "enabled": true,
+        "provider": "segment",
+        "writeKey": "sk_prod_abc_123456789"
       }
     }
+  },
+  "database": {
+    "host": "db.example.com",
+    "port": 5432,
+    "name": "myapp_prod",
+    "ssl": true,
+    "poolSize": 10
+  }
+}` },
+  { label:'Array of users', icon:'👥',
+    json:`[
+  { "id": 1, "name": "Alice", "email": "alice@example.com", "role": "admin", "active": true, "score": 98.5 },
+  { "id": 2, "name": "Bob", "email": "bob@example.com", "role": "user", "active": false, "score": 72.0 }
+]` },
+  { label:'Paginated list', icon:'📄',
+    json:`{
+  "data": [
+    {
+      "id": "post_001",
+      "title": "Getting Started with TypeScript",
+      "slug": "getting-started-ts",
+      "publishedAt": "2025-03-01T08:00:00Z",
+      "tags": ["typescript", "beginner"],
+      "viewCount": 4821
+    }
+  ],
+  "pagination": {
+    "currentPage": 2,
+    "perPage": 10,
+    "totalItems": 84,
+    "totalPages": 9,
+    "hasNextPage": true,
+    "hasPrevPage": true
+  }
+}` },
+  { label:'Error response', icon:'❌',
+    json:`{
+  "success": false,
+  "statusCode": 422,
+  "error": {
+    "code": "VALIDATION_FAILED",
+    "message": "Request validation failed",
+    "details": [
+      { "field": "email", "rule": "format", "message": "Must be a valid email", "received": "not-an-email" },
+      { "field": "age", "rule": "min", "message": "Must be at least 18", "received": 12 }
+    ]
+  },
+  "traceId": "trace-7f3a9c-9982-410a",
+  "timestamp": "2025-04-28T10:15:30Z"
+}` },
+  { label:'Auth / JWT', icon:'🔐',
+    json:`{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+  "refreshToken": "def-567-ghi-890-jkl-123",
+  "tokenType": "Bearer",
+  "expiresIn": 3600,
+  "user": {
+    "id": "usr_xk9a2b",
+    "email": "alice@example.com",
+    "displayName": "Alice",
+    "emailVerified": true,
+    "permissions": ["read", "write", "admin"]
+  },
+  "scope": "openid profile email"
+}` },
+  { label:'Dashboard stats', icon:'📊',
+    json:`{
+  "reportedAt": "2025-04-28T00:00:00Z",
+  "period": "last_30_days",
+  "overview": {
+    "totalRevenue": 2847500,
+    "revenueChange": 12.4,
+    "newUsers": 3821,
+    "activeUsers": 18420,
+    "churnRate": 2.1
+  },
+  "alerts": [
+    { "level": "warning", "metric": "churn_rate", "message": "Churn spike detected", "triggeredAt": "2025-04-27T18:00:00Z" }
+  ]
+}` },
+];
 
-    /* ================================================================
-       SAMPLE
-    ================================================================ */
-    function loadSample() {
-      jsonInput.value = JSON.stringify({
-        id: 101,
-        title: "Product Listing",
-        active: true,
-        meta: {
-          tags: ["electronics", "sale"],
-          rating: 4.8
-        },
-        variants: [
-          { sku: "VAR-01", price: 199.99, stock: null },
-          { sku: "VAR-02", price: 210.00, stock: 15 }
-        ]
-      }, null, 2);
-      updateLineNumbers();
-      convert();
-      showToast('Sample JSON loaded', 'default', 1200);
+(function renderSamples() {
+  const c = document.getElementById('samples-chips');
+  SAMPLES.forEach((s,i) => {
+    const b = document.createElement('button');
+    b.className = 'schip';
+    b.innerHTML = `<span class="schip-icon">${s.icon}</span>${s.label}`;
+    b.onclick = () => loadSample(i);
+    c.appendChild(b);
+  });
+})();
+
+function loadSample(i) {
+  const s = SAMPLES[i];
+  try {
+    setInput(JSON.stringify(JSON.parse(s.json), null, 2));
+    showToast('✓ Sample loaded','ok');
+  } catch { setInput(s.json); }
+}
+
+function setInput(val) {
+  const ta = document.getElementById('json-input');
+  ta.value = val;
+  ta.dispatchEvent(new Event('input'));
+}
+
+// ════════════════════════════════════════════════════════════
+// EDITOR — LINE NUMBERS + HIGHLIGHT
+// ════════════════════════════════════════════════════════════
+let errorLine = -1; // 1-indexed
+
+function syncScroll() {
+  const ta = document.getElementById('json-input');
+  const hl = document.getElementById('editor-highlight');
+  const ln = document.getElementById('line-nums');
+  hl.scrollTop = ta.scrollTop;
+  hl.scrollLeft = ta.scrollLeft;
+  ln.scrollTop = ta.scrollTop;
+}
+
+function updateLineNumbers(text, errLine) {
+  const lines = text ? text.split('\n') : [''];
+  const total = lines.length;
+  const inner = document.getElementById('line-nums-inner');
+  let html = '';
+  for (let i = 1; i <= total; i++) {
+    let cls = 'ln';
+    if (i === errLine) cls += ' err';
+    html += `<span class="${cls}">${i}</span>\n`;
+  }
+  inner.innerHTML = html;
+}
+
+// JSON syntax highlighter
+function highlightJSON(text, errLine) {
+  if (!text) return '';
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+    
+  const lines = escaped.split('\n');
+  const result = lines.map((line, i) => {
+    const lineNum = i + 1;
+    let hl = line;
+    
+    // Key highlighting
+    hl = hl.replace(/"([^"\\]*(\\.[^"\\]*)*)"\s*:/g, 
+      '<span class="j-punc">"</span><span class="j-key">$1</span><span class="j-punc">"</span>:');
+    
+    // String value highlighting
+    hl = hl.replace(/:\s*"([^"\\]*(\\.[^"\\]*)*)"/g, 
+      ': <span class="j-str">"$1"</span>');
+    
+    // Numbers
+    hl = hl.replace(/\b(-?\d+\.?\d*(?:[eE][+-]?\d+)?)\b/g, 
+      '<span class="j-num">$1</span>');
+      
+    // Keywords
+    hl = hl.replace(/\b(true|false|null)\b/g, 
+      '<span class="j-kw">$1</span>');
+
+    if (lineNum === errLine) {
+      return `<span class="err-line-bg">${hl}</span>`;
+    }
+    return hl;
+  });
+  return result.join('\n');
+}
+
+function highlightTS(text) {
+  if (!text) return '';
+  // 1. Escape HTML
+  let hl = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // 2. Comments (JSDoc and line)
+  hl = hl.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="ts-cmt">$1</span>');
+  hl = hl.replace(/(\/\/[^\n]*)/g, '<span class="ts-cmt">$1</span>');
+
+  // 3. Keywords (use word boundary and lookahead to avoid tags)
+  const keywords = 'export|import|interface|type|const|let|var|from|extends|implements|class|enum|namespace|declare|readonly|as|is|keyof|typeof|infer|never|unknown|any|void|null|undefined|true|false|return|if|else|for|while|function|async|await|new|this|super';
+  const kwRegex = new RegExp(`\\b(${keywords})\\b`, 'g');
+  hl = hl.replace(kwRegex, '<span class="ts-kw">$1</span>');
+
+  // 4. PascalCase types (avoid matching within tags)
+  hl = hl.replace(/\b([A-Z][a-zA-Z0-9]*)\b(?![^<]*>)/g, '<span class="ts-type">$1</span>');
+
+  // 5. Strings
+  hl = hl.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g, '<span class="ts-str">$1</span>');
+  
+  // 6. Numbers
+  hl = hl.replace(/\b(\d+\.?\d*)\b/g, '<span class="ts-num">$1</span>');
+
+  return hl;
+}
+
+// ════════════════════════════════════════════════════════════
+// EDITOR EVENT HANDLERS
+// ════════════════════════════════════════════════════════════
+const jsonInput = document.getElementById('json-input');
+const editorHL  = document.getElementById('editor-highlight');
+
+jsonInput.addEventListener('input', function() {
+  onInput(this.value);
+});
+
+jsonInput.addEventListener('scroll', syncScroll);
+
+jsonInput.addEventListener('keydown', function(e) {
+  // Tab → insert 2 spaces
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const s = this.selectionStart;
+    const v = this.value;
+    this.value = v.slice(0,s) + '  ' + v.slice(this.selectionEnd);
+    this.selectionStart = this.selectionEnd = s + 2;
+    onInput(this.value);
+    return;
+  }
+  // Alt+Shift+F → format
+  if (e.altKey && e.shiftKey && e.key === 'F') { e.preventDefault(); formatJSON(); }
+  // Cmd/Ctrl+Enter → copy
+  if ((e.metaKey||e.ctrlKey) && e.key==='Enter') { e.preventDefault(); copyOutput(); }
+});
+
+// Auto-closing brackets
+jsonInput.addEventListener('keydown', function(e) {
+  const pairs = { '{':'}', '[':']', '"':'"' };
+  if (pairs[e.key]) {
+    const s = this.selectionStart, en = this.selectionEnd;
+    if (s === en) { // no selection
+      const closing = pairs[e.key];
+      // Don't auto-close " if already has closing
+      if (e.key === '"') return; // let normal behavior handle strings
+      e.preventDefault();
+      const v = this.value;
+      this.value = v.slice(0,s) + e.key + closing + v.slice(en);
+      this.selectionStart = this.selectionEnd = s + 1;
+      onInput(this.value);
+    }
+  }
+});
+
+let inputTimer = null;
+let histTimer  = null;
+
+function onInput(val) {
+  // Immediate highlight + line numbers
+  const errL = getErrorLine(val);
+  errorLine = errL;
+  updateLineNumbers(val, errL);
+  editorHL.innerHTML = highlightJSON(val, errL);
+  syncScroll();
+
+  // Debounce run (80ms)
+  clearTimeout(inputTimer);
+  inputTimer = setTimeout(() => run(), 80);
+}
+
+function getErrorLine(text) {
+  if (!text.trim()) return -1;
+  try { JSON.parse(text); return -1; }
+  catch(e) {
+    const m = e.message.match(/at position (\d+)/);
+    if (m) {
+      const pos = parseInt(m[1]);
+      return text.slice(0,pos).split('\n').length;
+    }
+    return -1;
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// FORMAT JSON
+// ════════════════════════════════════════════════════════════
+function formatJSON() {
+  const ta = document.getElementById('json-input');
+  const raw = ta.value.trim();
+  if (!raw) { showToast('Nothing to format','err'); return; }
+  try {
+    const formatted = JSON.stringify(JSON.parse(raw), null, 2);
+    ta.value = formatted;
+    onInput(formatted);
+    showToast('✓ JSON formatted','ok');
+  } catch(e) {
+    // Friendly error message
+    const line = getErrorLine(raw);
+    const msg = friendlyJsonError(e.message, line);
+    showToast('✕ ' + msg, 'err');
+  }
+}
+
+function friendlyJsonError(msg, line) {
+  const lineStr = line > 0 ? ` (line ${line})` : '';
+  if (msg.includes('Unexpected token')) return `Unexpected character${lineStr} — missing comma, quote, or bracket?`;
+  if (msg.includes('Unexpected end'))   return `Incomplete JSON${lineStr} — unclosed bracket or brace?`;
+  if (msg.includes('Unexpected non-whitespace')) return `Extra character${lineStr} — extra comma or misplaced bracket?`;
+  return msg.split('\n')[0] + lineStr;
+}
+
+// ════════════════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════════════════
+function getOpt(id) { const el = document.getElementById(id); return el && el.checked; }
+function getRoot()  { return toPascal(document.getElementById('root-name').value.trim() || 'Root'); }
+function semi()     { return getOpt('opt-semi') ? ';' : ''; }
+function exp_()     { return getOpt('opt-export') ? 'export ' : ''; }
+function withPrefix(n) { return getOpt('opt-prefix') ? 'I'+n : n; }
+function optMark(isNull) { return getOpt('opt-optional') && isNull ? '?' : ''; }
+
+function toPascal(s) {
+  if (!s) return 'Unknown';
+  return s.replace(/[-_\s]+(.)/g,(_,c)=>c.toUpperCase())
+          .replace(/^(.)/,c=>c.toUpperCase())
+          .replace(/[^a-zA-Z0-9]/g,'') || 'Unknown';
+}
+function toCamel(s) { const p=toPascal(s); return p.charAt(0).toLowerCase()+p.slice(1); }
+function toName(s) {
+  if (isPro() && document.getElementById('opt-naming').value === 'camel') return toCamel(s);
+  return toPascal(s);
+}
+
+// JSDoc generator
+function jsdocFor(key, val) {
+  if (!getOpt('opt-jsdoc')) return '';
+  const comments = [];
+  // ISO date detection
+  if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}(T[\d:.Z+-]+)?$/.test(val)) {
+    comments.push('@format date-time');
+  }
+  // URL detection
+  if (typeof val === 'string' && /^https?:\/\//.test(val)) {
+    comments.push('@format uri');
+  }
+  // Email detection
+  if (typeof val === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+    comments.push('@format email');
+  }
+  // UUID detection
+  if (typeof val === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(val)) {
+    comments.push('@format uuid');
+  }
+  // Nullable hint
+  if (val === null) {
+    comments.push('@nullable');
+  }
+  // Array length hint
+  if (Array.isArray(val) && val.length > 0) {
+    comments.push(`@example [${val.slice(0,1).map(v=>JSON.stringify(v)).join(',')}]`);
+  }
+  // Positive integer IDs
+  if (typeof val === 'number' && Number.isInteger(val) && val > 0 && (key.toLowerCase().includes('id') || key.toLowerCase().endsWith('id'))) {
+    comments.push('@minimum 1');
+  }
+  if (comments.length === 0) return '';
+  return `  /** ${comments.join(' · ')} */\n`;
+}
+
+// ════════════════════════════════════════════════════════════
+// LITERAL UNION DETECTION (enhanced, free)
+// ════════════════════════════════════════════════════════════
+function detectLiteralUnion(arr) {
+  if (!arr.length) return null;
+  // All same primitive type
+  const types = arr.map(v => typeof v);
+  const allSame = types.every(t => t === types[0]);
+  if (!allSame) return null;
+
+  const type = types[0];
+  if (type !== 'string' && type !== 'number') return null;
+
+  const unique = [...new Set(arr)];
+  // Good union: <= 12 unique values, ratio of unique/total >= 0.3 (not too repetitive)
+  if (unique.length <= 12 && unique.length >= 2) {
+    if (type === 'string') {
+      return unique.map(v => `"${v}"`).join(' | ');
+    }
+    return unique.map(v => String(v)).join(' | ');
+  }
+  return null;
+}
+
+// Pro: discriminated union detection
+function detectDiscriminatedUnion(arr) {
+  if (!isPro()) return null;
+  if (!arr.length || typeof arr[0] !== 'object' || arr[0] === null) return null;
+  // Find a field with all-string unique values as discriminant
+  const firstKeys = Object.keys(arr[0]);
+  for (const key of firstKeys) {
+    const vals = arr.map(o => o[key]);
+    const allStrings = vals.every(v => typeof v === 'string');
+    const allUnique = new Set(vals).size === vals.length;
+    if (allStrings && allUnique && vals.length <= 8) {
+      return key; // discriminant field
+    }
+  }
+  return null;
+}
+
+// ════════════════════════════════════════════════════════════
+// TYPESCRIPT GENERATION
+// ════════════════════════════════════════════════════════════
+function inferTSType(value, key, ifaces, nameHint) {
+  if (value === null) return 'null';
+  const t = typeof value;
+  if (t === 'boolean') return 'boolean';
+  if (t === 'number')  return 'number';
+  if (t === 'string')  return 'string';
+
+  if (Array.isArray(value)) {
+    if (!value.length) return 'unknown[]';
+    // Literal union in array
+    const union = detectLiteralUnion(value);
+    if (union) return `(${union})[]`;
+
+    const types = [...new Set(value.map(el => inferTSType(el, key, ifaces, nameHint)))];
+    const base = types.length === 1 ? types[0] : '(' + types.join(' | ') + ')';
+    return base + '[]';
+  }
+
+  if (t === 'object') {
+    const child = toName(nameHint || key || 'Child');
+    buildInterface(value, child, ifaces);
+    return withPrefix(child);
+  }
+  return 'unknown';
+}
+
+function buildInterface(obj, name, ifaces) {
+  const iName = withPrefix(name);
+  if (ifaces.has(iName)) return;
+  // Reserve slot to prevent infinite recursion
+  ifaces.set(iName, '');
+  const lines = [];
+  for (const key of Object.keys(obj)) {
+    const val = obj[key];
+    const isNull = val === null;
+    let type;
+
+    if (Array.isArray(val)) {
+      // Check for literal union first
+      const union = detectLiteralUnion(val);
+      if (union) type = `(${union})[]`;
+      else type = inferTSType(val, key, ifaces, toName(key));
+    } else {
+      type = inferTSType(val, key, ifaces, toName(key));
     }
 
-    /* ================================================================
-       EVENT BINDINGS
-    ================================================================ */
-    document.getElementById('btn-convert').addEventListener('click', convert);
-    document.getElementById('btn-format').addEventListener('click', formatInput);
-    document.getElementById('btn-sample').addEventListener('click', loadSample);
-    document.getElementById('btn-clear').addEventListener('click', () => {
-      jsonInput.value = '';
-      outputPre.innerHTML = '<span style="color:#383f47;">// Output cleared. Paste new JSON.</span>';
-      outputPre.dataset.hasOutput = 'false';
-      document.getElementById('stats-area').style.opacity = '0';
-      hideError();
-      updateLineNumbers();
-    });
+    if (isNull) type = 'string | number | boolean | null';
 
-    document.getElementById('btn-copy').addEventListener('click', () => {
-      if (outputPre.dataset.hasOutput !== 'true') return;
-      const text = outputPre.innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        showToast('Copied to clipboard!', 'success');
-      });
-    });
+    const mark = optMark(isNull);
+    const safeKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
+    const jsdoc = jsdocFor(key, val);
+    lines.push(`${jsdoc}  ${safeKey}${mark}: ${type}${semi()}`);
+  }
+  ifaces.set(iName, `${exp_()}interface ${iName} {\n${lines.join('\n')}\n}`);
+}
 
-    // Keyboard shortcut: cmd/ctrl + enter
-    document.addEventListener('keydown', e => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-        convert();
-      }
-    });
-  </script>
+function convertTS(jsonStr) {
+  const parsed = JSON.parse(jsonStr);
+  const ifaces = new Map();
+  const root = getRoot();
+
+  if (Array.isArray(parsed)) {
+    if (!parsed.length) return `${exp_()}type ${withPrefix(root)} = unknown[]${semi()}`;
+    const sample = parsed[0];
+    if (typeof sample === 'object' && sample !== null && !Array.isArray(sample)) {
+      buildInterface(sample, root, ifaces);
+      const iName = withPrefix(root);
+      return [...ifaces.values()].filter(Boolean).join('\n\n') +
+        `\n\n${exp_()}type ${withPrefix(root + 'List')} = ${iName}[]${semi()}`;
+    }
+    return `${exp_()}type ${withPrefix(root)} = ${inferTSType(sample, root, ifaces, root)}[]${semi()}`;
+  }
+
+  if (typeof parsed === 'object' && parsed !== null) {
+    buildInterface(parsed, root, ifaces);
+    return [...ifaces.values()].filter(Boolean).join('\n\n');
+  }
+
+  return `${exp_()}type ${withPrefix(root)} = ${typeof parsed}${semi()}`;
+}
+
+// ════════════════════════════════════════════════════════════
+// ZOD GENERATION
+// ════════════════════════════════════════════════════════════
+function inferZodType(value, key, schemas, nameHint) {
+  if (value === null) return 'z.null()';
+  const t = typeof value;
+  if (t === 'boolean') return 'z.boolean()';
+  if (t === 'number')  return 'z.number()';
+  if (t === 'string') {
+    // Detect string formats
+    if (/^\d{4}-\d{2}-\d{2}(T[\d:.Z+-]+)?$/.test(value)) return 'z.string().datetime()';
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'z.string().email()';
+    if (/^https?:\/\//.test(value)) return 'z.string().url()';
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) return 'z.string().uuid()';
+    return 'z.string()';
+  }
+  if (Array.isArray(value)) {
+    if (!value.length) return 'z.array(z.unknown())';
+    const union = detectLiteralUnion(value);
+    if (union) {
+      const vals = [...new Set(value)];
+      if (typeof vals[0] === 'string') return `z.array(z.enum([${vals.map(v=>`"${v}"`).join(', ')}]))`;
+    }
+    const types = [...new Set(value.map(el => inferZodType(el, key, schemas, nameHint)))];
+    return 'z.array(' + (types.length === 1 ? types[0] : 'z.union([' + types.join(', ') + '])') + ')';
+  }
+  if (t === 'object') {
+    const child = toName(nameHint || key || 'Child');
+    buildZodSchema(value, child, schemas);
+    return child + 'Schema';
+  }
+  return 'z.unknown()';
+}
+
+function buildZodSchema(obj, name, schemas) {
+  if (schemas.has(name)) return;
+  schemas.set(name, '');
+  const lines = [];
+  for (const key of Object.keys(obj)) {
+    const val = obj[key];
+    const isNull = val === null;
+    let type = inferZodType(val, key, schemas, toName(key));
+    if (isNull) type = 'z.union([z.string(), z.number(), z.boolean(), z.null()])';
+    let field = type;
+    if (isNull && getOpt('opt-optional')) field += '.optional()';
+    const safeKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
+    lines.push(`  ${safeKey}: ${field},`);
+  }
+  schemas.set(name, `${exp_()}const ${name}Schema = z.object({\n${lines.join('\n')}\n})${semi()}\n${exp_()}type ${withPrefix(name)} = z.infer<typeof ${name}Schema>${semi()}`);
+}
+
+function convertZod(jsonStr) {
+  const parsed = JSON.parse(jsonStr);
+  const schemas = new Map();
+  const root = getRoot();
+  const header = `import { z } from "zod";\n\n`;
+
+  if (Array.isArray(parsed)) {
+    if (!parsed.length) return header + `${exp_()}const ${root}Schema = z.array(z.unknown())${semi()}`;
+    const sample = parsed[0];
+    if (typeof sample === 'object' && sample !== null) {
+      buildZodSchema(sample, root, schemas);
+      return header + [...schemas.values()].filter(Boolean).join('\n\n');
+    }
+    return header + `${exp_()}const ${root}Schema = z.array(${inferZodType(sample,'',new Map(),'')})${semi()}`;
+  }
+
+  if (typeof parsed === 'object' && parsed !== null) {
+    buildZodSchema(parsed, root, schemas);
+    return header + [...schemas.values()].filter(Boolean).join('\n\n');
+  }
+
+  return header + `${exp_()}const ${root}Schema = z.${typeof parsed}()${semi()}`;
+}
+
+// ════════════════════════════════════════════════════════════
+// IO-TS GENERATION (Pro)
+// ════════════════════════════════════════════════════════════
+function inferIoTsType(value, key, codecs, nameHint) {
+  if (value === null) return 't.null';
+  const t = typeof value;
+  if (t === 'boolean') return 't.boolean';
+  if (t === 'number')  return 't.number';
+  if (t === 'string')  return 't.string';
+  if (Array.isArray(value)) {
+    if (!value.length) return 't.array(t.unknown)';
+    const types = [...new Set(value.map(el => inferIoTsType(el, key, codecs, nameHint)))];
+    return 't.array(' + (types.length === 1 ? types[0] : 't.union([' + types.join(', ') + '])') + ')';
+  }
+  if (t === 'object') {
+    const child = toName(nameHint || key || 'Child');
+    buildIoTsCodec(value, child, codecs);
+    return child + 'Codec';
+  }
+  return 't.unknown';
+}
+
+function buildIoTsCodec(obj, name, codecs) {
+  if (codecs.has(name)) return;
+  codecs.set(name, '');
+  const lines = [];
+  for (const key of Object.keys(obj)) {
+    const val = obj[key];
+    const isNull = val === null;
+    let type = inferIoTsType(val, key, codecs, toName(key));
+    if (isNull) type = 't.union([t.string, t.number, t.boolean, t.null])';
+    const safeKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
+    lines.push(`  ${safeKey}: ${type},`);
+  }
+  codecs.set(name, `${exp_()}const ${name}Codec = t.type({\n${lines.join('\n')}\n})${semi()}\n${exp_()}type ${withPrefix(name)} = t.TypeOf<typeof ${name}Codec>${semi()}`);
+}
+
+function convertIoTs(jsonStr) {
+  const parsed = JSON.parse(jsonStr);
+  const codecs = new Map();
+  const root = getRoot();
+  const header = `import * as t from "io-ts";\n\n`;
+
+  if (Array.isArray(parsed)) {
+    if (!parsed.length) return header + `${exp_()}const ${root}Codec = t.array(t.unknown)${semi()}`;
+    const sample = parsed[0];
+    if (typeof sample === 'object' && sample !== null) {
+      buildIoTsCodec(sample, root, codecs);
+      return header + [...codecs.values()].filter(Boolean).join('\n\n');
+    }
+    return header + `${exp_()}const ${root}Codec = t.array(${inferIoTsType(sample,'',new Map(),'')})${semi()}`;
+  }
+
+  if (typeof parsed === 'object' && parsed !== null) {
+    buildIoTsCodec(parsed, root, codecs);
+    return header + [...codecs.values()].filter(Boolean).join('\n\n');
+  }
+
+  return header + `${exp_()}const ${root}Codec = t.${typeof parsed}${semi()}`;
+}
+
+// ════════════════════════════════════════════════════════════
+// MAIN RUN
+// ════════════════════════════════════════════════════════════
+let currentMode = 'interface';
+let currentOutput = '';
+
+function setMode(mode, btn) {
+  currentMode = mode;
+  document.querySelectorAll('.mtab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const outDot = document.getElementById('out-dot');
+  const outFn  = document.getElementById('out-fn');
+  const sbMode = document.getElementById('sb-mode');
+
+  if (mode === 'zod') {
+    outDot.className = 'pane-dot dot-zod';
+    outFn.textContent = 'schema.ts (Zod)';
+    sbMode.textContent = 'zod mode'; sbMode.style.color = 'var(--purple)';
+  } else if (mode === 'iots') {
+    outDot.className = 'pane-dot dot-iots';
+    outFn.textContent = 'codec.ts (io-ts)';
+    sbMode.textContent = 'io-ts mode'; sbMode.style.color = 'var(--green)';
+  } else {
+    outDot.className = 'pane-dot dot-ts';
+    outFn.textContent = 'output.d.ts';
+    sbMode.textContent = 'interface mode'; sbMode.style.color = 'var(--accent-hi)';
+  }
+  run();
+}
+
+function handleProTab(mode, btn) {
+  if (!isPro()) { openModal(); return; }
+  setMode(mode, btn);
+}
+
+function run() {
+  const raw = document.getElementById('json-input').value.trim();
+  const errPane = document.getElementById('error-pane');
+  const outPre  = document.getElementById('output-pre');
+  errPane.classList.remove('show');
+
+  if (!raw) {
+    outPre.innerHTML = '// Paste JSON or click a sample to generate TypeScript';
+    currentOutput = '';
+    clearStats();
+    return;
+  }
+
+  try {
+    let result;
+    if (currentMode === 'zod')  result = convertZod(raw);
+    else if (currentMode === 'iots') result = convertIoTs(raw);
+    else result = convertTS(raw);
+
+    currentOutput = result;
+    outPre.innerHTML = highlightTS(result);
+    updateStats(result);
+    document.getElementById('error-pane').classList.remove('show');
+    errorLine = -1;
+    updateLineNumbers(document.getElementById('json-input').value, -1);
+    editorHL.innerHTML = highlightJSON(document.getElementById('json-input').value, -1);
+  } catch(e) {
+    const raw2 = document.getElementById('json-input').value;
+    const line = getErrorLine(raw2);
+    errorLine = line;
+    updateLineNumbers(raw2, line);
+    editorHL.innerHTML = highlightJSON(raw2, line);
+
+    const msg = friendlyJsonError(e.message, line);
+    const fix = getFixSuggestion(e.message);
+    document.getElementById('error-text').textContent = msg;
+    document.getElementById('error-fix').textContent = fix;
+    errPane.classList.add('show');
+    currentOutput = '';
+    clearStats();
+    outPre.innerHTML = '// Fix JSON errors to generate output';
+  }
+}
+
+function getFixSuggestion(msg) {
+  if (msg.includes('Unexpected token') || msg.includes('Unexpected non-whitespace'))
+    return '→ Suggestion: Check for missing commas between fields, unclosed quotes, or trailing commas.';
+  if (msg.includes('Unexpected end'))
+    return '→ Suggestion: Check for unclosed { } or [ ] brackets.';
+  return '';
+}
+
+function updateStats(out) {
+  const ic = (out.match(/\binterface\s+\w+|\bSchema\s*=|\bCodec\s*=/g)||[]).length;
+  const fc = (out.match(/^\s{2}\S/gm)||[]).length;
+  const lc = out.split('\n').length;
+  document.getElementById('sb-types').textContent = ic + ' type' + (ic!==1?'s':'');
+  document.getElementById('sb-fields').textContent = fc + ' field' + (fc!==1?'s':'');
+  document.getElementById('sb-lines').textContent = lc + ' line' + (lc!==1?'s':'');
+}
+
+function clearStats() {
+  document.getElementById('sb-types').textContent = '— types';
+  document.getElementById('sb-fields').textContent = '— fields';
+  document.getElementById('sb-lines').textContent = '— lines';
+}
+
+// ════════════════════════════════════════════════════════════
+// COPY / DOWNLOAD
+// ════════════════════════════════════════════════════════════
+async function copyOutput() {
+  if (!currentOutput) { showToast('Nothing to copy yet','err'); return; }
+  await navigator.clipboard.writeText(currentOutput);
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = '✓ Copied!';
+  btn.classList.add('btn-green'); btn.classList.remove('btn-accent');
+  showToast('✓ Copied to clipboard','ok');
+  setTimeout(() => {
+    btn.innerHTML = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="8" height="8" rx="1"/><path d="M2 8H1a1 1 0 01-1-1V1a1 1 0 011-1h6a1 1 0 011 1v1"/></svg> Copy';
+    btn.classList.remove('btn-green'); btn.classList.add('btn-accent');
+  }, 2000);
+}
+
+function downloadTs() {
+  if (!currentOutput) { showToast('Nothing to download','err'); return; }
+  const ext = currentMode === 'zod' ? 'ts' : currentMode === 'iots' ? 'ts' : 'd.ts';
+  const blob = new Blob([currentOutput], {type:'text/plain'});
+  dlBlob(blob, `types.${ext}`);
+  showToast('✓ File downloaded','ok');
+}
+
+function dlBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ════════════════════════════════════════════════════════════
+// CLEAR
+// ════════════════════════════════════════════════════════════
+function clearInput() {
+  const ta = document.getElementById('json-input');
+  ta.value = '';
+  onInput('');
+  run();
+  ta.focus();
+}
+
+// ════════════════════════════════════════════════════════════
+// HISTORY
+// ════════════════════════════════════════════════════════════
+function getHist() { try { return JSON.parse(localStorage.getItem(LS_HIST)||'[]'); } catch { return []; } }
+function setHist(h) { try { localStorage.setItem(LS_HIST, JSON.stringify(h)); } catch {} }
+
+function saveToHistory() {
+  const raw = document.getElementById('json-input').value.trim();
+  if (!raw) { showToast('Nothing to save','err'); return; }
+  try {
+    const parsed = JSON.parse(raw);
+    const rootKey = Array.isArray(parsed) ? 'Array' : Object.keys(parsed)[0] || 'Root';
+    const label = toPascal(rootKey) + ' · ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    const lines = currentOutput.split('\n').length;
+    let h = getHist();
+    h = h.filter(x => x.json !== raw);
+    h.unshift({ label, json: raw, lines, ts: Date.now(), preview: currentOutput.slice(0,120) });
+    if (h.length > 12) h = h.slice(0,12);
+    setHist(h);
+    renderHistory();
+    showToast('✓ Saved to history','ok');
+  } catch { showToast('Fix JSON errors before saving','err'); }
+}
+
+function clearHistory() {
+  if (!confirm('Clear all saved conversions?')) return;
+  setHist([]);
+  renderHistory();
+  showToast('History cleared','ok');
+}
+
+function loadHistItem(i) {
+  const h = getHist()[i];
+  if (!h) return;
+  setInput(h.json);
+  showToast('✓ Loaded: ' + h.label,'ok');
+}
+
+function timeAgo(ts) {
+  const d = Date.now()-ts;
+  if (d < 60000)   return 'just now';
+  if (d < 3600000) return Math.floor(d/60000)+'m ago';
+  if (d < 86400000) return Math.floor(d/3600000)+'h ago';
+  return Math.floor(d/86400000)+'d ago';
+}
+
+function renderHistory() {
+  const h = getHist();
+  const body = document.getElementById('hist-body');
+  const cnt  = document.getElementById('hist-count');
+  cnt.textContent = h.length ? '('+h.length+')' : '';
+  if (!h.length) {
+    body.innerHTML = '<span class="hist-empty">No conversions saved yet — click "Save" above.</span>';
+    return;
+  }
+  body.innerHTML = h.map((item,i) => `
+    <div class="hcard" onclick="loadHistItem(${i})">
+      <div class="hcard-title">${escHtml(item.label)}</div>
+      <div class="hcard-meta">${timeAgo(item.ts)} · ${item.lines} lines</div>
+      <div class="hcard-preview">${escHtml((item.preview||'').replace(/\s+/g,' '))}</div>
+    </div>
+  `).join('');
+}
+
+function exportHistory() {
+  const h = getHist();
+  if (!h.length) { showToast('No history to export','err'); return; }
+  const blob = new Blob([JSON.stringify(h, null, 2)], {type:'application/json'});
+  dlBlob(blob, 'json2ts-history.json');
+  showToast('History exported','ok');
+}
+
+// ════════════════════════════════════════════════════════════
+// BATCH CONVERSION
+// ════════════════════════════════════════════════════════════
+let batchFiles = [];
+
+function handleBatchToggle() {
+  const p = document.getElementById('batch-panel');
+  p.classList.toggle('show');
+}
+function hideBatch() { document.getElementById('batch-panel').classList.remove('show'); }
+function clearBatch() { batchFiles = []; renderBatchList(); document.getElementById('batch-run-btn').disabled = true; }
+
+function handleBatchFiles(files) {
+  const jsonFiles = Array.from(files).filter(f => f.name.endsWith('.json'));
+  if (!jsonFiles.length) { showToast('Please select .json files','err'); return; }
+
+  const limit = isPro() ? Infinity : FREE_BATCH_LIMIT;
+  if (jsonFiles.length > limit) {
+    showToast(`Free tier: up to ${FREE_BATCH_LIMIT} files. Upgrade to Pro for unlimited.`,'err');
+    return;
+  }
+
+  batchFiles = jsonFiles;
+  renderBatchList();
+  document.getElementById('batch-run-btn').disabled = false;
+}
+
+function renderBatchList() {
+  const list = document.getElementById('batch-list');
+  list.innerHTML = batchFiles.map((f,i) => `
+    <div class="brow">
+      <span class="brow-name">${escHtml(f.name)}</span>
+      <span class="brow-sz">${(f.size/1024).toFixed(1)}KB</span>
+      <span class="brow-st" id="bst-${i}">ready</span>
+    </div>
+  `).join('');
+}
+
+async function runBatch() {
+  if (!batchFiles.length) return;
+  document.getElementById('batch-run-btn').disabled = true;
+  const results = [];
+
+  for (let i = 0; i < batchFiles.length; i++) {
+    const f = batchFiles[i];
+    const st = document.getElementById('bst-'+i);
+    if (st) { st.textContent = 'converting…'; st.className = 'brow-st'; }
+    try {
+      const text = await f.text();
+      const out = convertTS(text);
+      results.push({ name: f.name.replace('.json', '.d.ts'), content: out });
+      if (st) { st.textContent = '✓'; st.className = 'brow-st ok'; }
+    } catch {
+      if (st) { st.textContent = '✕ invalid'; st.className = 'brow-st err'; }
+    }
+  }
+
+  if (!results.length) { document.getElementById('batch-run-btn').disabled = false; return; }
+
+  // Build ZIP manually
+  const zip = buildZip(results);
+  const blob = new Blob([zip], {type:'application/zip'});
+  dlBlob(blob, 'types-batch.zip');
+  showToast(`✓ ZIP: ${results.length} files exported`,'ok');
+  document.getElementById('batch-run-btn').disabled = false;
+}
+
+function buildZip(files) {
+  const enc = new TextEncoder();
+  const lhs = [], cds = [];
+  let off = 0;
+  for (const f of files) {
+    const nb = enc.encode(f.name), db = enc.encode(f.content);
+    const crc = crc32(db);
+    const lh = new Uint8Array(30+nb.length);
+    const lv = new DataView(lh.buffer);
+    lv.setUint32(0,0x04034b50,true); lv.setUint16(4,20,true);
+    lv.setUint16(6,0,true); lv.setUint16(8,0,true);
+    lv.setUint32(14,crc,true); lv.setUint32(18,db.length,true);
+    lv.setUint32(22,db.length,true); lv.setUint16(26,nb.length,true);
+    lh.set(nb,30);
+    const cd = new Uint8Array(46+nb.length);
+    const cv = new DataView(cd.buffer);
+    cv.setUint32(0,0x02014b50,true); cv.setUint16(4,20,true); cv.setUint16(6,20,true);
+    cv.setUint32(16,crc,true); cv.setUint32(20,db.length,true); cv.setUint32(24,db.length,true);
+    cv.setUint16(28,nb.length,true); cv.setUint32(42,off,true);
+    cd.set(nb,46);
+    lhs.push(lh,db); cds.push(cd);
+    off += lh.length+db.length;
+  }
+  const cdStart=off, cdSize=cds.reduce((a,b)=>a+b.length,0);
+  const eocd=new Uint8Array(22); const ev=new DataView(eocd.buffer);
+  ev.setUint32(0,0x06054b50,true); ev.setUint16(8,files.length,true);
+  ev.setUint16(10,files.length,true); ev.setUint32(12,cdSize,true); ev.setUint32(16,cdStart,true);
+  const parts=[...lhs,...cds,eocd];
+  const total=parts.reduce((a,b)=>a+b.length,0);
+  const out=new Uint8Array(total); let p=0;
+  for(const pt of parts){out.set(pt,p);p+=pt.length;}
+  return out;
+}
+
+function crc32(data) {
+  let crc=0xFFFFFFFF;
+  for(let i=0;i<data.length;i++){crc^=data[i];for(let j=0;j<8;j++)crc=(crc&1)?(crc>>>1)^0xEDB88320:crc>>>1;}
+  return(crc^0xFFFFFFFF)>>>0;
+}
+
+// Drag & drop for batch
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('drag-over');
+  handleBatchFiles(e.dataTransfer.files);
+});
+
+// ════════════════════════════════════════════════════════════
+// TOGGLE PILLS SYNC
+// ════════════════════════════════════════════════════════════
+function syncPill(cb) {
+  const pill = cb.closest('.tpill');
+  if (pill) pill.classList.toggle('on', cb.checked);
+}
+
+document.querySelectorAll('.tpill').forEach(pill => {
+  const cb = pill.querySelector('input');
+  if (!cb) return;
+  pill.classList.toggle('on', cb.checked);
+});
+
+// ════════════════════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════════════════════
+function showToast(msg, type='ok') {
+  const c = document.getElementById('toast-root');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  const ico = type==='ok'
+    ? '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6l3 3 5-5"/></svg>'
+    : '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2v5M6 9v1"/></svg>';
+  t.innerHTML = ico + escHtml(msg);
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3200);
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ════════════════════════════════════════════════════════════
+// MODAL EVENTS
+// ════════════════════════════════════════════════════════════
+document.getElementById('modal-bd').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-bd')) closeModal();
+});
+document.getElementById('key-in').addEventListener('keydown', e => {
+  if (e.key === 'Enter') activateLicense();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// Options bar changes
+['opt-optional','opt-prefix','opt-export','opt-semi','opt-jsdoc','root-name','opt-naming']
+  .forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => run());
+  });
+
+// ════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════
+loadProState();
+renderHistory();
+
+// Initial line numbers (empty)
+updateLineNumbers('', -1);
+
+// PWA Service Worker (inline, minimal)
+if ('serviceWorker' in navigator) {
+  const swCode = `
+const CACHE = 'json2ts-v1';
+const URLS = [self.location.href];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(URLS)));
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
+  self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match(e.request))));
+});
+  `;
+  const blob = new Blob([swCode], {type:'application/javascript'});
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
+
+</script>
 </body>
 </html>

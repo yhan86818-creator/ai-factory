@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Error Handling Patterns — Result, Either & Union Types Guide | Error Response Types</title>
+    <meta name="description" content="Master TypeScript error handling with Result types, Either patterns, and discriminated union error codes. Learn how to build robust, type-safe API error handling for React, tRPC, and Node.js apps.">
+    <meta name="keywords" content="typescript error handling, result type typescript, either type, discriminated union errors, api error types, type safe errors, typescript error patterns, validation error typescript">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0505;
+            --bg2: #150808;
+            --border: #2a1010;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --text: #fef2f2;
+            --muted: #6b7280;
+            --mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.7; }
+
+        .topbar {
+            background: rgba(13,5,5,0.95); border-bottom: 1px solid var(--border);
+            padding: 0.75rem 2rem; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);
+        }
+        .topbar a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+        .topbar a:hover { color: var(--text); }
+        .topbar-cta { background: var(--error); color: #fff !important; padding: 0.4rem 1rem; border-radius: 8px; font-weight: 700; font-size: 0.8rem; }
+
+        .hero { max-width: 860px; margin: 5rem auto 4rem; padding: 0 2rem; }
+        .hero-tag { display: inline-block; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--error); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.35rem 0.9rem; border-radius: 20px; margin-bottom: 1.5rem; }
+        h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.5rem; color: #fff; }
+        h1 span { color: var(--error); }
+        .hero-meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; font-family: var(--mono); }
+        .hero-intro { font-size: 1.1rem; color: #fca5a5; line-height: 1.8; }
+
+        article { max-width: 860px; margin: 0 auto; padding: 0 2rem 8rem; }
+        h2 { font-size: 1.65rem; font-weight: 800; color: #fff; margin: 3.5rem 0 1rem; letter-spacing: -0.02em; }
+        h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin: 2rem 0 0.75rem; }
+        p { color: #fca5a5; margin-bottom: 1.25rem; font-size: 0.975rem; }
+        strong { color: #fff; }
+
+        .callout { background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.18); border-left: 3px solid var(--error); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+        .callout.tip { border-left-color: var(--success); background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.2); }
+        .callout strong { color: var(--error); display: block; margin-bottom: 0.5rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; }
+        .callout.tip strong { color: var(--success); }
+
+        pre { background: #070202; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; overflow-x: auto; margin: 1.5rem 0; font-family: var(--mono); font-size: 0.85rem; line-height: 1.8; }
+        code { font-family: var(--mono); font-size: 0.85em; background: rgba(239,68,68,0.08); padding: 0.15em 0.4em; border-radius: 4px; color: #f87171; }
+        pre code { background: none; padding: 0; color: #fecaca; }
+        .kw { color: #c084fc; } .ty { color: #38bdf8; } .st { color: #4ade80; } .cm { color: #3d1515; font-style: italic; } .fn { color: #fbbf24; } .er { color: #f87171; }
+
+        .pattern-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+        .pattern-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
+        .pattern-card h4 { color: #fff; margin-bottom: 0.75rem; font-size: 1rem; }
+        .pattern-card p { font-size: 0.85rem; margin: 0; }
+        .pattern-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.75rem; }
+        .badge-good { background: rgba(16,185,129,0.12); color: var(--success); }
+        .badge-bad { background: rgba(239,68,68,0.12); color: var(--error); }
+
+        .faq { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin: 2rem 0; }
+        .faq-item { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item h4 { color: #fff; font-size: 1rem; margin-bottom: 0.6rem; }
+        .faq-item p { margin: 0; font-size: 0.9rem; }
+
+        .cta-box { background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.2); border-radius: 24px; padding: 3rem; text-align: center; margin: 4rem 0 0; }
+        .cta-box h2 { margin: 0 0 1rem; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--error); color: #fff; padding: 0.9rem 2rem; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 1rem; transition: opacity 0.2s; }
+        .btn-primary:hover { opacity: 0.85; }
+    </style>
+</head>
+<body>
+<nav class="topbar">
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+        <a href="/">← Error Response Types</a>
+        <a href="https://local-dev-tools.pages.dev/" style="color:#374151">DevHub Portal</a>
+    </div>
+    <a href="/" class="topbar-cta">Open Tool →</a>
+</nav>
+
+<div class="hero">
+    <div class="hero-tag">⚠ Error Handling Guide</div>
+    <h1>TypeScript <span>Error Handling</span> Patterns That Actually Work</h1>
+    <p class="hero-meta">7 min read · TypeScript · API Design · React · tRPC</p>
+    <p class="hero-intro">Most frontend apps handle errors as afterthoughts. This guide shows you how to use Result types, Either patterns, and discriminated union error codes to make error handling explicit, type-safe, and exhaustive.</p>
+</div>
+
+<article>
+
+<h2>Why try/catch is Not Enough</h2>
+<p>The traditional JavaScript pattern for error handling is <code>try/catch</code>. The problem? TypeScript has <strong>no way to type what errors are thrown</strong>. The caught error is always typed as <code>unknown</code>, meaning you lose type safety the moment something goes wrong.</p>
+
+<div class="pattern-grid">
+    <div class="pattern-card">
+        <div class="pattern-badge badge-bad">❌ Untyped</div>
+        <h4>try/catch approach</h4>
+        <p>The error could be anything — a string, an Error object, a network failure. No type information means no autocompletion, no exhaustive checks.</p>
+    </div>
+    <div class="pattern-card">
+        <div class="pattern-badge badge-good">✓ Type-safe</div>
+        <h4>Result / Either pattern</h4>
+        <p>Errors become first-class return values. TypeScript can verify you've handled every possible failure case at compile time.</p>
+    </div>
+</div>
+
+<h2>Pattern 1: The Result Type</h2>
+<p>The <strong>Result pattern</strong> represents the outcome of an operation that can either succeed or fail. It eliminates the need for try/catch in most cases:</p>
+
+<pre><code><span class="kw">export type</span> <span class="ty">ApiErrorCode</span> =
+  | <span class="st">'NOT_FOUND'</span>
+  | <span class="st">'UNAUTHORIZED'</span>
+  | <span class="st">'FORBIDDEN'</span>
+  | <span class="st">'INTERNAL_ERROR'</span>;
+
+<span class="kw">export type</span> <span class="ty">ActionResult</span>&lt;T&gt; =
+  | { success: <span class="kw">true</span>; data: T }
+  | { success: <span class="kw">false</span>; error: {
+      code: <span class="ty">ApiErrorCode</span>;
+      message: <span class="ty">string</span>;
+    }};
+
+<span class="cm">// Usage — TypeScript enforces you handle both branches:</span>
+<span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">fetchUser</span>(id);
+
+<span class="kw">if</span> (!result.success) {
+  <span class="cm">// result.error.code is strongly typed → 'NOT_FOUND' | 'UNAUTHORIZED' | ...</span>
+  <span class="kw">switch</span> (result.error.code) {
+    <span class="kw">case</span> <span class="st">'NOT_FOUND'</span>: <span class="kw">return</span> <span class="fn">show404</span>();
+    <span class="kw">case</span> <span class="st">'UNAUTHORIZED'</span>: <span class="kw">return</span> <span class="fn">redirectToLogin</span>();
+    <span class="kw">default</span>: <span class="kw">return</span> <span class="fn">showGenericError</span>();
+  }
+}
+
+<span class="cm">// result.data is guaranteed to exist here</span>
+<span class="fn">renderUser</span>(result.data);</code></pre>
+
+<h2>Pattern 2: The Either Type (Functional Style)</h2>
+<p>Inspired by functional programming languages like Haskell and Scala, <strong>Either</strong> represents a value that is one of two possible types — conventionally <code>Left</code> (failure) and <code>Right</code> (success):</p>
+
+<pre><code><span class="kw">export type</span> <span class="ty">Either</span>&lt;E, T&gt; =
+  | { _tag: <span class="st">'Left'</span>; error: E }
+  | { _tag: <span class="st">'Right'</span>; value: T };
+
+<span class="cm">// Type guard helper (auto-generated by the tool)</span>
+<span class="kw">export const</span> <span class="fn">isLeft</span> = &lt;E, T&gt;(e: <span class="ty">Either</span>&lt;E, T&gt;): e <span class="kw">is</span> { _tag: <span class="st">'Left'</span>; error: E } =&gt;
+  e._tag === <span class="st">'Left'</span>;
+
+<span class="cm">// Usage:</span>
+<span class="kw">const</span> result: <span class="ty">Either</span>&lt;<span class="ty">ApiError</span>, <span class="ty">User</span>&gt; = <span class="kw">await</span> <span class="fn">getUser</span>(id);
+
+<span class="kw">if</span> (<span class="fn">isLeft</span>(result)) {
+  console.error(result.error); <span class="cm">// typed as ApiError</span>
+} <span class="kw">else</span> {
+  console.log(result.value);  <span class="cm">// typed as User</span>
+}</code></pre>
+
+<h2>Pattern 3: Validation Error Types</h2>
+<p>Form validation errors need a different structure — a <strong>field-keyed map</strong> of error messages that your UI components can consume directly:</p>
+
+<pre><code><span class="kw">export type</span> <span class="ty">ValidationErrorCode</span> = <span class="st">'VALIDATION_FAILED'</span> | <span class="st">'INVALID_INPUT'</span>;
+
+<span class="kw">export interface</span> <span class="ty">ValidationError</span> {
+  code: <span class="ty">ValidationErrorCode</span>;
+  message: <span class="ty">string</span>;
+  errors: <span class="ty">Record</span>&lt;<span class="ty">string</span>, <span class="ty">string</span>[]&gt;; <span class="cm">// { "email": ["Invalid format", "Required"] }</span>
+}
+
+<span class="cm">// React usage:</span>
+<span class="kw">if</span> (!result.success && result.error.code === <span class="st">'VALIDATION_FAILED'</span>) {
+  <span class="kw">const</span> { errors } = result.error;
+  setFieldError(<span class="st">'email'</span>, errors.email?.[0]);
+  setFieldError(<span class="st">'password'</span>, errors.password?.[0]);
+}</code></pre>
+
+<div class="callout tip">
+    <strong>✓ Works with React Hook Form + Zod</strong>
+    Combine this pattern with <code>@hookform/resolvers/zod</code> and the Zod Schema Generator to get end-to-end type safety from form input to API response and back.
+</div>
+
+<h2>When to Use Which Pattern</h2>
+<ul style="color:#fca5a5;padding-left:1.5rem;display:grid;gap:0.75rem;margin-bottom:1.5rem;font-size:0.975rem;">
+    <li><strong style="color:#fff;">Result Type</strong> — Best for async operations (API calls, file reads). Simple, intuitive, works with React Query's error states.</li>
+    <li><strong style="color:#fff;">Either Type</strong> — Best for functional pipelines and composing multiple fallible operations without nested if-statements.</li>
+    <li><strong style="color:#fff;">Validation Error</strong> — Best for form submission responses where field-level granularity is required.</li>
+    <li><strong style="color:#fff;">Auth Error Type</strong> — Best for authentication middleware that needs expiry timestamps and realm information.</li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<div class="faq">
+    <div class="faq-item">
+        <h4>Is this compatible with tRPC?</h4>
+        <p>Yes. tRPC uses Zod for input validation and throws <code>TRPCError</code> for server-side errors. You can wrap tRPC calls in a Result type on the client side using a thin adapter function.</p>
+    </div>
+    <div class="faq-item">
+        <h4>How do I integrate with React Query?</h4>
+        <p>Use <code>useQuery</code>'s <code>onError</code> callback or the <code>error</code> property. Cast the error to your typed error union using a type guard generated by this tool.</p>
+    </div>
+    <div class="faq-item">
+        <h4>Can I generate error types from an OpenAPI spec?</h4>
+        <p>Not directly, but you can copy the error response schemas from your OpenAPI JSON into the JSON-to-TS converter to bootstrap your type definitions quickly.</p>
+    </div>
+    <div class="faq-item">
+        <h4>What is a discriminated union?</h4>
+        <p>A discriminated union is a TypeScript union type where each member has a common property (the "discriminant") with a unique literal value — like <code>_tag: 'Left' | 'Right'</code> or <code>success: true | false</code>. This lets TypeScript narrow the type automatically based on that field.</p>
+    </div>
+</div>
+
+<div class="cta-box">
+    <h2>Generate Your Error Types Now</h2>
+    <p style="color:#fca5a5;margin-bottom:2rem;">Select a preset, customize your error codes, and copy production-ready TypeScript in seconds.</p>
+    <a href="/" class="btn-primary">Open Error Response Types →</a>
+</div>
+
+</article>
+</body>
+</html>

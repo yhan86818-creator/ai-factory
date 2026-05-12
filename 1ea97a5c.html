@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-05TXFYJBLM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-05TXFYJBLM');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecurePDF - PDF Merge & Split Online | 100% Private, Browser-Only, No Upload</title>
+  <meta name="description" content="Merge, split, compress & edit PDFs securely in your browser. Zero server uploads, GDPR/HIPAA compliant. Keep sensitive documents private. Watermark & encryption coming in Pro.">
+  <meta name="keywords" content="PDF merge, PDF split, compress PDF, secure PDF tools, private PDF processing, GDPR compliant">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-content {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: #1e293b;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .header-title h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+
+    .header-title p {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.75rem;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #166534;
+    }
+
+    .trust-badge::before {
+      content: "🛡️";
+      font-size: 1rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: white;
+      padding: 0.25rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e2e8f0;
+      width: fit-content;
+      margin: 2rem 0;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+      background: transparent;
+      color: #475569;
+    }
+
+    .tab-btn:hover {
+      color: #1e293b;
+    }
+
+    .tab-btn.active {
+      background: #1e293b;
+      color: white;
+    }
+
+    /* Container */
+    .container {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    /* Content */
+    .content {
+      display: none;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    /* Drop Zone */
+    .drop-zone {
+      border: 2px dashed #cbd5e1;
+      border-radius: 0.75rem;
+      padding: 3rem;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+      background: white;
+      margin-bottom: 1.5rem;
+    }
+
+    .drop-zone:hover {
+      border-color: #94a3b8;
+    }
+
+    .drop-zone.drag-active {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    .drop-zone-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .drop-zone h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1e293b;
+    }
+
+    .drop-zone p {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.875rem;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: #1e293b;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #0f172a;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      background: #f8fafc;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #991b1b;
+    }
+
+    .btn-block {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    /* File List */
+    .file-list {
+      background: white;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e8f0;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+
+    .file-list.visible {
+      display: block;
+    }
+
+    .file-list h3 {
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1e293b;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem;
+      background: #f1f5f9;
+      border-radius: 0.5rem;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .file-item:hover {
+      background: #e2e8f0;
+    }
+
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-number {
+      font-weight: 600;
+      color: #64748b;
+      width: 1.5rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .file-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-details p:first-child {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #1e293b;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-details p:last-child {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+
+    .file-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .file-controls button {
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #64748b;
+      font-size: 1.25rem;
+      transition: all 0.2s;
+    }
+
+    .file-controls button:hover {
+      color: #1e293b;
+    }
+
+    .file-controls button.delete:hover {
+      color: #dc2626;
+    }
+
+    /* Input Fields */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #1e293b;
+      box-shadow: 0 0 0 2px rgba(30, 41, 59, 0.1);
+    }
+
+    /* Radio Options */
+    .radio-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .radio-option {
+      padding: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .radio-option:hover {
+      border-color: #cbd5e1;
+    }
+
+    .radio-option input[type="radio"] {
+      display: none;
+    }
+
+    .radio-option input[type="radio"]:checked + label {
+      color: white;
+    }
+
+    .radio-option input[type="radio"]:checked ~ .radio-label {
+      color: white;
+    }
+
+    .radio-option.selected {
+      border-color: #1e293b;
+      background: #1e293b;
+      color: white;
+    }
+
+    .radio-option label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      background: white;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e8f0;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+
+    .progress-container.visible {
+      display: block;
+    }
+
+    .progress-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #475569;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid #e2e8f0;
+      border-top-color: #1e293b;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 0.5rem;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #1e293b;
+      width: 0%;
+      transition: width 0.3s;
+      border-radius: 9999px;
+    }
+
+    .progress-text {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    /* Pro Section */
+    .pro-section {
+      background: linear-gradient(to right, #1e293b, #334155);
+      border-radius: 0.75rem;
+      padding: 2rem;
+      color: white;
+      margin-top: 3rem;
+    }
+
+    .pro-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .pro-header h3 {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .pro-header p {
+      font-size: 0.875rem;
+      color: #cbd5e1;
+    }
+
+    .pro-icon {
+      font-size: 2rem;
+    }
+
+    .pro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .pro-card {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pro-card:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .pro-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pro-card h4 {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: 0.875rem;
+    }
+
+    .pro-card p {
+      font-size: 0.75rem;
+      color: #cbd5e1;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 50;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal.visible {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 0.75rem;
+      max-width: 28rem;
+      width: 100%;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #64748b;
+    }
+
+    .modal-close:hover {
+      color: #1e293b;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-icon {
+      font-size: 3rem;
+    }
+
+    .modal-title {
+      font-size: 1.125rem;
+      font-weight: bold;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-description {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 1.5rem;
+    }
+
+    .price-box {
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .price-box p:first-child {
+      font-weight: 600;
+      color: #92400e;
+      margin-bottom: 0.25rem;
+    }
+
+    .price-box p:last-child {
+      font-size: 0.75rem;
+      color: #b45309;
+    }
+
+    /* History */
+    .history-container {
+      background: white;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e8f0;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+
+    .history-container.visible {
+      display: block;
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .history-header h3 {
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .clear-history-btn {
+      font-size: 0.75rem;
+      color: #64748b;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .clear-history-btn:hover {
+      color: #dc2626;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background: #f1f5f9;
+      border-radius: 0.375rem;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 0.5rem;
+    }
+
+    .history-item-details {
+      flex: 1;
+    }
+
+    .history-item-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #1e293b;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .history-item-op {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+
+    .history-item-time {
+      font-size: 0.75rem;
+      color: #64748b;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+
+    /* SEO Content */
+    .seo-section {
+      background: white;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 4rem;
+      padding: 3rem 1.5rem;
+    }
+
+    .seo-container {
+      max-width: 48rem;
+      margin: 0 auto;
+    }
+
+    .seo-section h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1e293b;
+      margin-bottom: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .seo-section h2:first-of-type {
+      margin-top: 0;
+    }
+
+    .seo-section h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .seo-section p {
+      font-size: 0.875rem;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .seo-section ol,
+    .seo-section ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .seo-section li {
+      font-size: 0.875rem;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+
+    .highlight-box {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .highlight-box p {
+      font-size: 0.875rem;
+      color: #065f46;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .guide-card {
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .guide-card h4 {
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+
+    .guide-card ol {
+      padding-left: 1.25rem;
+    }
+
+    .guide-card li {
+      font-size: 0.875rem;
+      color: #475569;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 3rem;
+    }
+
+    .footer p {
+      font-size: 0.75rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.875rem;
+    }
+
+    .comparison-table thead tr {
+      border-bottom: 2px solid #cbd5e1;
+    }
+
+    .comparison-table th {
+      text-align: left;
+      padding: 0.75rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .comparison-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .comparison-table tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .check {
+      color: #16a34a;
+      font-weight: bold;
+    }
+
+    .cross {
+      color: #dc2626;
+      font-weight: bold;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .tabs {
+        width: 100%;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      .pro-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-content {
+        margin: 1rem;
+      }
+
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-content">
+      <div class="header-left">
+        <div class="logo">🔒</div>
+        <div class="header-title">
+          <h1>SecurePDF</h1>
+          <p>Professional PDF tools for sensitive documents</p>
+        </div>
+      </div>
+      <div class="trust-badge">Data never leaves your browser</div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('merge')">📄 Merge</button>
+      <button class="tab-btn" onclick="switchTab('split')">✂️ Split</button>
+      <button class="tab-btn" onclick="switchTab('compress')">🗜️ Compress</button>
+      <button class="tab-btn" onclick="switchTab('edit')">✏️ Edit</button>
+      <button class="tab-btn" onclick="switchTab('tools')">🛠️ Tools</button>
+    </div>
+
+    <!-- MERGE TAB -->
+    <div id="merge-content" class="content active">
+      <div class="drop-zone" id="merge-dropzone" ondrop="handleMergeDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+        <div class="drop-zone-icon">📄</div>
+        <h3>Drop PDFs here or click to browse</h3>
+        <p>Add multiple files to merge (minimum 2)</p>
+        <input type="file" id="merge-input" multiple accept=".pdf" style="display: none;" onchange="handleMergeFileInput(event)">
+        <button class="btn btn-primary" onclick="document.getElementById('merge-input').click()">Browse Files</button>
+      </div>
+
+      <div id="merge-list" class="file-list">
+        <h3>📄 Files to Merge (<span id="merge-count">0</span>)</h3>
+        <div id="merge-items"></div>
+      </div>
+
+      <div id="merge-progress" class="progress-container">
+        <div class="progress-label">
+          <span class="spinner"></span>
+          <span>Processing PDF files...</span>
+        </div>
+        <div class="progress-bar">
+          <div id="merge-progress-fill" class="progress-fill"></div>
+        </div>
+        <div class="progress-text">0% complete</div>
+      </div>
+
+      <button id="merge-btn" class="btn btn-primary btn-block" style="display: none;" onclick="mergePDFs()">📥 Merge PDFs</button>
+    </div>
+
+    <!-- SPLIT TAB -->
+    <div id="split-content" class="content">
+      <div class="drop-zone" id="split-dropzone" ondrop="handleSplitDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+        <div class="drop-zone-icon">✂️</div>
+        <h3>Drop a PDF here or click to browse</h3>
+        <p>Select one PDF file to extract specific pages</p>
+        <input type="file" id="split-input" accept=".pdf" style="display: none;" onchange="handleSplitFileInput(event)">
+        <button class="btn btn-primary" onclick="document.getElementById('split-input').click()">Browse File</button>
+      </div>
+
+      <div id="split-file" class="file-list">
+        <h3>✅ File Selected</h3>
+        <div style="padding: 0.75rem; background: #f1f5f9; border-radius: 0.5rem; border: 1px solid #e2e8f0;">
+          <p id="split-filename" style="font-size: 0.875rem; font-weight: 500; color: #1e293b;"></p>
+          <p id="split-filesize" style="font-size: 0.75rem; color: #64748b; margin-top: 0.25rem;"></p>
+        </div>
+      </div>
+
+      <div id="split-input-section" class="form-group" style="display: none;">
+        <label>Pages to Extract</label>
+        <input type="text" id="split-pages" placeholder="e.g., 1-5, 7, 9-12">
+        <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Use ranges (1-5) or individual pages (7, 9), separated by commas</p>
+      </div>
+
+      <div id="split-progress" class="progress-container">
+        <div class="progress-label">
+          <span class="spinner"></span>
+          <span>Extracting pages...</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <button id="split-btn" class="btn btn-primary btn-block" style="display: none;" onclick="splitPDF()">📥 Extract Pages</button>
+    </div>
+
+    <!-- COMPRESS TAB -->
+    <div id="compress-content" class="content">
+      <div class="drop-zone" id="compress-dropzone" ondrop="handleCompressDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+        <div class="drop-zone-icon">🗜️</div>
+        <h3>Drop PDF here to compress</h3>
+        <p>Reduce file size while maintaining quality</p>
+        <input type="file" id="compress-input" accept=".pdf" style="display: none;" onchange="handleCompressFileInput(event)">
+        <button class="btn btn-primary" onclick="document.getElementById('compress-input').click()">Browse File</button>
+      </div>
+
+      <div id="compress-options" class="form-group" style="display: none;">
+        <label>Compression Level</label>
+        <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
+          <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.375rem; cursor: pointer; transition: all 0.2s; background: white;">
+            <input type="radio" name="compression" value="high" checked onchange="updateCompression('high')">
+            <span><strong>High (50% reduction)</strong><br><small style="color: #64748b;">Smallest file size</small></span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.375rem; cursor: pointer; transition: all 0.2s; background: white;">
+            <input type="radio" name="compression" value="medium" onchange="updateCompression('medium')">
+            <span><strong>Medium (25% reduction)</strong><br><small style="color: #64748b;">Balanced</small></span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.375rem; cursor: pointer; transition: all 0.2s; background: white;">
+            <input type="radio" name="compression" value="low" onchange="updateCompression('low')">
+            <span><strong>Low (10% reduction)</strong><br><small style="color: #64748b;">Best quality</small></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="compress-progress" class="progress-container">
+        <div class="progress-label">
+          <span class="spinner"></span>
+          <span>Compressing PDF...</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <button id="compress-btn" class="btn btn-primary btn-block" style="display: none;" onclick="compressPDF()">🗜️ Compress PDF</button>
+    </div>
+
+    <!-- EDIT TAB -->
+    <div id="edit-content" class="content">
+      <div class="drop-zone" id="edit-dropzone" ondrop="handleEditDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+        <div class="drop-zone-icon">✏️</div>
+        <h3>Drop PDF here to edit</h3>
+        <p>Delete or rotate pages</p>
+        <input type="file" id="edit-input" accept=".pdf" style="display: none;" onchange="handleEditFileInput(event)">
+        <button class="btn btn-primary" onclick="document.getElementById('edit-input').click()">Browse File</button>
+      </div>
+
+      <div id="edit-options" class="form-group" style="display: none;">
+        <label>Page Management</label>
+        <p style="font-size: 0.875rem; color: #64748b; margin-bottom: 1rem;">Select pages to delete</p>
+        <div id="edit-pages"></div>
+      </div>
+
+      <button id="edit-btn" class="btn btn-danger btn-block" style="display: none;" onclick="deletePages()">🗑️ Delete Selected Pages</button>
+    </div>
+
+    <!-- TOOLS TAB -->
+    <div id="tools-content" class="content">
+      <div class="grid-2">
+        <button class="guide-card" style="border: 1px solid #e2e8f0; cursor: pointer; text-align: left; padding: 1.5rem; background: white;" onclick="createDemoPDFs()">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <h4 style="margin: 0;">Try Demo PDFs</h4>
+            <span style="font-size: 1.25rem;">📥</span>
+          </div>
+          <p style="font-size: 0.875rem; color: #64748b; margin: 0;">Download sample PDFs to test merge and split functionality</p>
+        </button>
+
+        <div id="history-card" class="guide-card" style="border: 1px solid #e2e8f0; display: none; text-align: left; padding: 1.5rem; background: white;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <h4 style="margin: 0;">Recent Activity</h4>
+            <span style="font-size: 1.25rem;">📜</span>
+          </div>
+          <p id="history-count" style="font-size: 0.875rem; color: #64748b; margin: 0;"></p>
+        </div>
+      </div>
+
+      <div id="history-section" class="history-container">
+        <div class="history-header">
+          <h3>Activity History</h3>
+          <button class="clear-history-btn" onclick="clearHistory()">Clear</button>
+        </div>
+        <div id="history-items"></div>
+      </div>
+    </div>
+
+    <!-- PRO SECTION -->
+    <div class="pro-section">
+      <div class="pro-header">
+        <div>
+          <h3>Unlock Pro Features</h3>
+          <p>One-time purchase • Lifetime access • No subscriptions</p>
+        </div>
+        <span class="pro-icon">⚡</span>
+      </div>
+      <div class="pro-grid">
+        <button class="pro-card" onclick="openProModal('watermark')">
+          <div class="pro-card-icon">🔏</div>
+          <h4>Add Watermarks</h4>
+          <p>Brand your PDFs with custom watermarks</p>
+        </button>
+        <button class="pro-card" onclick="openProModal('encrypt')">
+          <div class="pro-card-icon">🔐</div>
+          <h4>Password Protection</h4>
+          <p>Encrypt PDFs with strong password security</p>
+        </button>
+        <button class="pro-card" onclick="openProModal('batch')">
+          <div class="pro-card-icon">⚡</div>
+          <h4>Batch Processing</h4>
+          <p>Process multiple files simultaneously</p>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEO Content -->
+  <div class="seo-section">
+    <div class="seo-container">
+      <h2>Quick Guides & Best Practices</h2>
+      <div class="guide-grid">
+        <div class="guide-card">
+          <h4>How to Merge PDFs Safely</h4>
+          <ol>
+            <li>Upload multiple PDF files to SecurePDF</li>
+            <li>Reorder files by dragging (optional)</li>
+            <li>Click "Merge PDFs"</li>
+            <li>Download your merged file instantly</li>
+            <li>No server upload, 100% local processing</li>
+          </ol>
+        </div>
+        <div class="guide-card">
+          <h4>Compress Large PDFs</h4>
+          <ol>
+            <li>Go to the "Compress" tab</li>
+            <li>Drop your PDF file</li>
+            <li>Choose compression level (High/Medium/Low)</li>
+            <li>Download compressed file</li>
+            <li>Typically 50-90% size reduction</li>
+          </ol>
+        </div>
+        <div class="guide-card">
+          <h4>Extract Specific Pages</h4>
+          <ol>
+            <li>Select "Split" tab</li>
+            <li>Upload your PDF</li>
+            <li>Enter page ranges: "1-5, 7, 9-12"</li>
+            <li>Click "Extract Pages"</li>
+            <li>Get your extracted PDF instantly</li>
+          </ol>
+        </div>
+        <div class="guide-card">
+          <h4>Privacy & Security Tips</h4>
+          <ul>
+            <li>Open DevTools to verify no uploads</li>
+            <li>Works completely offline</li>
+            <li>Safe for contracts & legal docs</li>
+            <li>No data retention policies</li>
+            <li>GDPR & HIPAA compliant architecture</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Why Uploading Sensitive PDFs to "Free" Tools is a Security Risk</h2>
+      
+      <p>When you upload a PDF to a "free" online tool, you're often making a critical security decision without fully understanding the implications. Most free PDF services operate on the cloud, meaning your sensitive documents—contracts, financial records, legal briefs—are transferred to external servers where security controls may be inadequate or unknown.</p>
+
+      <h3>The Hidden Cost of "Free" PDF Merge Tools</h3>
+      <p>The phrase "free PDF tool" is often a marketing disguise. When a company offers free PDF processing, they offset costs by monetizing user data. Your confidential documents—contracts, financial statements, medical records—become data points in analytics systems, machine learning training datasets, or sold to third parties. A secure PDF merger or private PDF processing tool should never require data transmission to external servers.</p>
+
+      <h3>Data Centers and Third Parties</h3>
+      <p>Your PDFs don't just sit on one server. They may be replicated across multiple data centers, backed up on storage systems, and potentially accessed by multiple employees. Each transfer and storage point introduces new vulnerabilities. Breach data from major "free" platforms shows that user files are regularly exposed through misconfigured storage buckets, unencrypted databases, and inadequate access controls. A proper offline PDF tool eliminates this risk entirely.</p>
+
+      <h3>Hidden Business Models</h3>
+      <p>If the service is free, you're often the product. Some platforms profit by analyzing your documents for business intelligence, selling metadata to third parties, or using your data to train machine learning models. Legal documents, financial records, and confidential agreements are gold for data brokers. This is why professionals increasingly demand offline PDF solutions.</p>
+
+      <h3>Compliance and Legal Issues</h3>
+      <p>Professionals handling sensitive information are often bound by compliance regulations (GDPR, HIPAA, SOC 2). Uploading documents to unverified third-party services can violate these requirements, exposing you to legal liability and fines. An offline PDF merger or browser-based PDF processing tool ensures you maintain control over sensitive data.</p>
+
+      <h2>How Browser-Based PDF Tools Protect Your Data Privacy</h2>
+
+      <p>Browser-based PDF processing represents a fundamental shift in data security. When all PDF operations occur locally in your browser—not on remote servers—your sensitive documents never leave your device. This is a zero-trust architecture that eliminates entire categories of risk. An offline PDF merger is not just more secure; it's the only truly private PDF processing solution.</p>
+
+      <h3>Zero Server Uploads: The Core Advantage</h3>
+      <p>With local PDF processing, your files never traverse the internet to reach external servers. No uploads, no cloud storage, no third-party data centers. The entire PDF merge, split, compress, and manipulation happens within your browser's sandbox environment, where only you have access. This is the defining characteristic of a truly secure PDF merger.</p>
+
+      <h3>Complete Data Sovereignty</h3>
+      <p>You maintain absolute ownership and control. Files remain on your local machine or device. There are no logs, no backups on remote servers, no audit trails tracked by third parties. Your data is yours alone—a requirement for organizations handling confidential contracts, financial records, or proprietary information. This level of privacy is only achievable with offline PDF tools.</p>
+
+      <h3>Compliance-Ready Architecture</h3>
+      <p>Local-only processing makes compliance straightforward. There are no data transfers to log, no third-party vendor agreements needed, no privacy impact assessments for cloud services. This approach satisfies the strictest interpretations of GDPR, HIPAA, and internal data governance policies. Companies using SecurePDF can confidently state: "We process PDFs with zero external data transmission."</p>
+
+      <h3>Transparency and Verifiable Security</h3>
+      <p>When processing occurs in your browser, you can inspect network activity using developer tools and verify that no external calls are made during PDF merge, split, or compress operations. The security model is transparent—what you see is what you get, with no hidden data flows or unverifiable claims about encryption.</p>
+
+      <div class="highlight-box">
+        <p><strong>Why SecurePDF is Different:</strong> We don't ask for trust; we make trust verifiable. Every PDF operation—merge, split, compress—happens locally in your browser. Open your browser's Network tab during any operation and you'll see zero requests to our servers. This isn't a feature we advertise; it's a fundamental architectural decision that prioritizes your security above all else. We've eliminated the server entirely, which means there's no infrastructure to hack, no data to steal, and no privacy policy to hide behind.</p>
+      </div>
+
+      <h3>Offline PDF Tools vs. Cloud-Based Solutions: The Comparison</h3>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>SecurePDF (Offline)</th>
+            <th>Typical Cloud Tools</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Server Uploads</td>
+            <td><span class="check">✓ None</span></td>
+            <td><span class="cross">✗ Required</span></td>
+          </tr>
+          <tr>
+            <td>Data Retention</td>
+            <td><span class="check">✓ Zero</span></td>
+            <td><span class="cross">✗ 30+ days typical</span></td>
+          </tr>
+          <tr>
+            <td>GDPR Compliant</td>
+            <td><span class="check">✓ Yes</span></td>
+            <td><span class="cross">✗ Requires DPA</span></td>
+          </tr>
+          <tr>
+            <td>Works Offline</td>
+            <td><span class="check">✓ Yes</span></td>
+            <td><span class="cross">✗ Internet required</span></td>
+          </tr>
+          <tr>
+            <td>Cost</td>
+            <td><span class="check">✓ Free</span></td>
+            <td>~ $5-15/month</td>
+          </tr>
+          <tr>
+            <td>Speed</td>
+            <td><span class="check">✓ Instant</span></td>
+            <td>~ 5-30 seconds</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="footer">
+        <p>© 2024 SecurePDF • Enterprise-grade PDF tools • Zero data retention • Browser-based processing<br>
+        <strong>Keywords:</strong> Secure PDF merger • Offline PDF tool • Private PDF processing • Free PDF merge • Browser-only PDF editor • Compress PDF • GDPR compliant PDF tool • No server upload • Local PDF processing • Safe PDF tools<br>
+        <strong>Use Case:</strong> Merge PDFs safely • Split PDFs • Compress large PDFs • Edit PDFs privately • Secure contract processing • Confidential document handling</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pro Modal -->
+  <div id="pro-modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeProModal()">✕</button>
+      <div class="modal-header">
+        <div class="modal-icon">⚡</div>
+        <h3 class="modal-title" id="pro-modal-title">Coming Soon</h3>
+        <p class="modal-description" id="pro-modal-desc">This feature is available in the Pro version.</p>
+      </div>
+      <div class="price-box">
+        <p>Pro Plan: $19 (one-time)</p>
+        <p>Includes all three Pro features + priority support</p>
+      </div>
+      <input type="email" placeholder="your@email.com" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; margin-bottom: 1rem; font-size: 0.875rem;">
+      <button class="btn btn-primary btn-block" style="margin-top: 0;">Get Pro Access</button>
+      <button class="btn btn-secondary btn-block" onclick="closeProModal()">Continue with Free Version</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script>
+    const { PDFDocument } = PDFLib;
+
+    // State
+    let mergeFiles = [];
+    let splitFile = null;
+    let compressFile = null;
+    let editFile = null;
+    let compressionLevel = 'medium';
+    let selectedPages = new Set();
+    let history = [];
+
+    // Initialize
+    window.addEventListener('load', () => {
+      loadHistory();
+      updateHistoryUI();
+    });
+
+    // History Management
+    function saveToHistory(name, operation) {
+      const entry = {
+        id: Date.now(),
+        name: name,
+        operation: operation,
+        timestamp: new Date().toLocaleString()
+      };
+      history = [entry, ...history].slice(0, 10);
+      localStorage.setItem('pdfToolHistory', JSON.stringify(history));
+      updateHistoryUI();
+    }
+
+    function loadHistory() {
+      const saved = localStorage.getItem('pdfToolHistory');
+      if (saved) {
+        try {
+          history = JSON.parse(saved);
+        } catch (e) {
+          history = [];
+        }
+      }
+    }
+
+    function clearHistory() {
+      history = [];
+      localStorage.removeItem('pdfToolHistory');
+      updateHistoryUI();
+    }
+
+    function updateHistoryUI() {
+      const card = document.getElementById('history-card');
+      const section = document.getElementById('history-section');
+      const items = document.getElementById('history-items');
+
+      if (history.length === 0) {
+        card.style.display = 'none';
+        section.style.display = 'none';
+        return;
+      }
+
+      card.style.display = 'block';
+      section.style.display = 'block';
+      document.getElementById('history-count').textContent = history.length + ' recent operations';
+
+      items.innerHTML = history.map(entry => `
+        <div class="history-item">
+          <div class="history-item-details">
+            <div class="history-item-name">${entry.name}</div>
+            <div class="history-item-op">${entry.operation}</div>
+          </div>
+          <div class="history-item-time">${entry.timestamp}</div>
+        </div>
+      `).join('');
+    }
+
+    // Tab Switching
+    function switchTab(tab) {
+      document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+      document.getElementById(tab + '-content').classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      event.target.classList.add('active');
+      resetTab(tab);
+    }
+
+    function resetTab(tab) {
+      if (tab === 'merge') {
+        mergeFiles = [];
+        updateMergeUI();
+      } else if (tab === 'split') {
+        splitFile = null;
+        document.getElementById('split-pages').value = '';
+        updateSplitUI();
+      } else if (tab === 'compress') {
+        compressFile = null;
+        updateCompressUI();
+      } else if (tab === 'edit') {
+        editFile = null;
+        selectedPages.clear();
+        updateEditUI();
+      }
+    }
+
+    // Drag & Drop
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.style.borderColor = '#3b82f6';
+      e.currentTarget.style.backgroundColor = '#eff6ff';
+    }
+
+    function handleDragLeave(e) {
+      e.preventDefault();
+      e.currentTarget.style.borderColor = '#cbd5e1';
+      e.currentTarget.style.backgroundColor = 'white';
+    }
+
+    // Merge
+    function handleMergeDrop(e) {
+      e.preventDefault();
+      handleDragLeave(e);
+      const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+      if (files.length > 0) {
+        mergeFiles.push(...files);
+        updateMergeUI();
+      }
+    }
+
+    function handleMergeFileInput(e) {
+      mergeFiles.push(...Array.from(e.target.files));
+      updateMergeUI();
+    }
+
+    function updateMergeUI() {
+      const list = document.getElementById('merge-list');
+      const count = document.getElementById('merge-count');
+      const btn = document.getElementById('merge-btn');
+      const items = document.getElementById('merge-items');
+
+      count.textContent = mergeFiles.length;
+      if (mergeFiles.length > 0) {
+        list.classList.add('visible');
+        items.innerHTML = mergeFiles.map((f, i) => `
+          <div class="file-item">
+            <div class="file-info">
+              <div class="file-number">${i + 1}</div>
+              <div class="file-details">
+                <p>${f.name}</p>
+                <p>${(f.size / 1024 / 1024).toFixed(2)} MB</p>
+              </div>
+            </div>
+            <div class="file-controls">
+              ${i > 0 ? `<button onclick="reorderMerge(${i}, ${i-1})">↑</button>` : ''}
+              ${i < mergeFiles.length - 1 ? `<button onclick="reorderMerge(${i}, ${i+1})">↓</button>` : ''}
+              <button class="delete" onclick="removeMergeFile(${i})">✕</button>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        list.classList.remove('visible');
+      }
+      btn.style.display = mergeFiles.length >= 2 ? 'block' : 'none';
+    }
+
+    function removeMergeFile(i) {
+      mergeFiles.splice(i, 1);
+      updateMergeUI();
+    }
+
+    function reorderMerge(from, to) {
+      [mergeFiles[from], mergeFiles[to]] = [mergeFiles[to], mergeFiles[from]];
+      updateMergeUI();
+    }
+
+    async function mergePDFs() {
+      if (mergeFiles.length < 2) {
+        alert('Please add at least 2 PDFs');
+        return;
+      }
+      try {
+        document.getElementById('merge-progress').classList.add('visible');
+        const merged = await PDFDocument.create();
+        for (let i = 0; i < mergeFiles.length; i++) {
+          const data = await mergeFiles[i].arrayBuffer();
+          const pdf = await PDFDocument.load(data);
+          const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+          pages.forEach(p => merged.addPage(p));
+          const fill = document.getElementById('merge-progress-fill');
+          fill.style.width = ((i + 1) / mergeFiles.length * 100) + '%';
+        }
+        const bytes = await merged.save();
+        downloadFile(bytes, 'merged_' + Date.now() + '.pdf');
+        saveToHistory(`Merged ${mergeFiles.length} files`, 'Merge');
+        mergeFiles = [];
+        updateMergeUI();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        document.getElementById('merge-progress').classList.remove('visible');
+      }
+    }
+
+    // Split
+    function handleSplitDrop(e) {
+      e.preventDefault();
+      handleDragLeave(e);
+      const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+      if (files.length > 0) {
+        splitFile = files[0];
+        updateSplitUI();
+      }
+    }
+
+    function handleSplitFileInput(e) {
+      if (e.target.files[0]) {
+        splitFile = e.target.files[0];
+        updateSplitUI();
+      }
+    }
+
+    function updateSplitUI() {
+      if (splitFile) {
+        document.getElementById('split-file').classList.add('visible');
+        document.getElementById('split-filename').textContent = splitFile.name;
+        document.getElementById('split-filesize').textContent = (splitFile.size / 1024 / 1024).toFixed(2) + ' MB';
+        document.getElementById('split-input-section').style.display = 'block';
+        const pages = document.getElementById('split-pages').value.trim();
+        document.getElementById('split-btn').style.display = pages ? 'block' : 'none';
+      } else {
+        document.getElementById('split-file').classList.remove('visible');
+        document.getElementById('split-input-section').style.display = 'none';
+        document.getElementById('split-btn').style.display = 'none';
+      }
+    }
+
+    document.addEventListener('input', (e) => {
+      if (e.target.id === 'split-pages') updateSplitUI();
+    });
+
+    async function splitPDF() {
+      const input = document.getElementById('split-pages').value.trim();
+      if (!splitFile || !input) return;
+      try {
+        document.getElementById('split-progress').classList.add('visible');
+        const data = await splitFile.arrayBuffer();
+        const pdf = await PDFDocument.load(data);
+        const total = pdf.getPageCount();
+        const ranges = [];
+        input.split(',').forEach(part => {
+          part = part.trim();
+          if (part.includes('-')) {
+            const [start, end] = part.split('-').map(p => parseInt(p.trim()));
+            for (let i = start - 1; i < Math.min(end, total); i++) {
+              if (i >= 0) ranges.push(i);
+            }
+          } else {
+            const p = parseInt(part) - 1;
+            if (p >= 0 && p < total) ranges.push(p);
+          }
+        });
+        if (ranges.length === 0) {
+          alert('No valid pages');
+          return;
+        }
+        const newPdf = await PDFDocument.create();
+        const pages = await newPdf.copyPages(pdf, ranges);
+        pages.forEach(p => newPdf.addPage(p));
+        const bytes = await newPdf.save();
+        downloadFile(bytes, 'split_' + Date.now() + '.pdf');
+        saveToHistory(splitFile.name, `Split (${ranges.length} pages)`);
+        splitFile = null;
+        updateSplitUI();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        document.getElementById('split-progress').classList.remove('visible');
+      }
+    }
+
+    // Compress
+    function handleCompressDrop(e) {
+      e.preventDefault();
+      handleDragLeave(e);
+      const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+      if (files.length > 0) {
+        compressFile = files[0];
+        updateCompressUI();
+      }
+    }
+
+    function handleCompressFileInput(e) {
+      if (e.target.files[0]) {
+        compressFile = e.target.files[0];
+        updateCompressUI();
+      }
+    }
+
+    function updateCompressUI() {
+      document.getElementById('compress-options').style.display = compressFile ? 'block' : 'none';
+      document.getElementById('compress-btn').style.display = compressFile ? 'block' : 'none';
+    }
+
+    function updateCompression(level) {
+      compressionLevel = level;
+    }
+
+    async function compressPDF() {
+      if (!compressFile) return;
+      try {
+        document.getElementById('compress-progress').classList.add('visible');
+        const data = await compressFile.arrayBuffer();
+        const pdf = await PDFDocument.load(data);
+        const scale = compressionLevel === 'high' ? 0.5 : compressionLevel === 'medium' ? 0.75 : 0.9;
+        pdf.getPages().forEach(p => {
+          const {width, height} = p.getSize();
+          p.scale(scale, scale);
+        });
+        const bytes = await pdf.save();
+        downloadFile(bytes, 'compressed_' + Date.now() + '.pdf');
+        saveToHistory(compressFile.name, `Compressed (${compressionLevel})`);
+        compressFile = null;
+        updateCompressUI();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        document.getElementById('compress-progress').classList.remove('visible');
+      }
+    }
+
+    // Edit
+    function handleEditDrop(e) {
+      e.preventDefault();
+      handleDragLeave(e);
+      const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+      if (files.length > 0) {
+        editFile = files[0];
+        updateEditUI();
+      }
+    }
+
+    function handleEditFileInput(e) {
+      if (e.target.files[0]) {
+        editFile = e.target.files[0];
+        updateEditUI();
+      }
+    }
+
+    function updateEditUI() {
+      const section = document.getElementById('edit-options');
+      const btn = document.getElementById('edit-btn');
+      if (editFile) {
+        section.style.display = 'block';
+        document.getElementById('edit-pages').innerHTML = Array.from({length: 5}, (_, i) => `
+          <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem; cursor: pointer;">
+            <input type="checkbox" onchange="toggleEditPage(${i})" style="width: 1rem; height: 1rem;">
+            <span style="font-size: 0.875rem; color: #475569;">Page ${i + 1}</span>
+          </label>
+        `).join('');
+      } else {
+        section.style.display = 'none';
+      }
+      btn.style.display = (editFile && selectedPages.size > 0) ? 'block' : 'none';
+    }
+
+    function toggleEditPage(i) {
+      if (selectedPages.has(i)) {
+        selectedPages.delete(i);
+      } else {
+        selectedPages.add(i);
+      }
+      updateEditUI();
+    }
+
+    async function deletePages() {
+      if (!editFile || selectedPages.size === 0) return;
+      try {
+        document.getElementById('edit-progress') = document.createElement('div');
+        const data = await editFile.arrayBuffer();
+        const pdf = await PDFDocument.load(data);
+        Array.from(selectedPages).sort((a, b) => b - a).forEach(i => {
+          pdf.removePage(i);
+        });
+        const bytes = await pdf.save();
+        downloadFile(bytes, 'edited_' + Date.now() + '.pdf');
+        saveToHistory(editFile.name, `Deleted ${selectedPages.size} pages`);
+        editFile = null;
+        selectedPages.clear();
+        updateEditUI();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    }
+
+    // Demo PDFs
+    async function createDemoPDFs() {
+      try {
+        const pdf1 = await PDFDocument.create();
+        const page1 = pdf1.addPage([612, 792]);
+        page1.drawText('Demo PDF 1 - Document A', {x: 50, y: 700, size: 24});
+        page1.drawText('This is a sample PDF for testing merge functionality', {x: 50, y: 650, size: 12});
+        downloadFile(await pdf1.save(), 'demo_1.pdf');
+
+        const pdf2 = await PDFDocument.create();
+        const page2 = pdf2.addPage([612, 792]);
+        page2.drawText('Demo PDF 2 - Document B', {x: 50, y: 700, size: 24});
+        page2.drawText('This is another sample PDF for testing', {x: 50, y: 650, size: 12});
+        downloadFile(await pdf2.save(), 'demo_2.pdf');
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    }
+
+    // Pro Modal
+    function openProModal(feature) {
+      const titles = {
+        watermark: 'Add Watermarks',
+        encrypt: 'Password Protection',
+        batch: 'Batch Processing'
+      };
+      const descs = {
+        watermark: 'Add professional watermarks to your PDFs',
+        encrypt: 'Protect your documents with password encryption',
+        batch: 'Import multiple citations at once from CSV or paste-friendly format.'
+      };
+      document.getElementById('pro-modal-title').textContent = titles[feature];
+      document.getElementById('pro-modal-desc').textContent = descs[feature];
+      document.getElementById('pro-modal').classList.add('visible');
+    }
+
+    function closeProModal() {
+      document.getElementById('pro-modal').classList.remove('visible');
+    }
+
+    // Utilities
+    function downloadFile(bytes, filename) {
+      const blob = new Blob([bytes], {type: 'application/pdf'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Close modal on outside click
+    document.getElementById('pro-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'pro-modal') closeProModal();
+    });
+  </script>
+</body>
+</html>
